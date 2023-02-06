@@ -1,0 +1,64 @@
+{
+  "name": "chatgpt-google-summary-extension",
+  "author": "givebest",
+  "scripts": {
+    "build": "node build.mjs",
+    "lint": "eslint --ext .js,.mjs,.jsx .",
+    "lint:fix": "eslint --ext .js,.mjs,.jsx . --fix",
+    "prepare": "husky install",
+    "watch": "chokidar src -c 'npm run build'"
+  },
+  "dependencies": {
+    "@geist-ui/core": "^2.3.8",
+    "@primer/octicons-react": "^17.9.0",
+    "eventsource-parser": "^0.0.5",
+    "expiry-map": "^2.0.0",
+    "github-markdown-css": "^5.1.0",
+    "inter-ui": "^3.19.3",
+    "lodash-es": "^4.17.21",
+    "preact": "^10.11.3",
+    "prop-types": "^15.8.1",
+    "punycode": "^2.1.1",
+    "react": "npm:@preact/compat@^17.1.2",
+    "react-dom": "npm:@preact/compat@^17.1.2",
+    "react-markdown": "^8.0.4",
+    "rehype-highlight": "^6.0.0",
+    "swr": "^2.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/lodash-es": "^4.17.6",
+    "@types/uuid": "^9.0.0",
+    "@types/webextension-polyfill": "^0.9.2",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "archiver": "^5.3.1",
+    "autoprefixer": "^10.4.13",
+    "chokidar-cli": "^3.0.0",
+    "dotenv": "^16.0.3",
+    "esbuild": "^0.17.4",
+    "esbuild-style-plugin": "^1.6.1",
+    "eslint": "^8.30.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "fs-extra": "^11.1.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0",
+    "postcss": "^8.4.20",
+    "postcss-scss": "^4.0.6",
+    "prettier": "^2.8.0",
+    "prettier-plugin-organize-imports": "^3.2.1",
+    "sass": "^1.57.1",
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.9.4",
+    "webextension-polyfill": "^0.10.0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,mjs}": [
+      "npx prettier --write",
+      "npx eslint --fix"
+    ]
+  }
+}
