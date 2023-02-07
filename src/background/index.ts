@@ -43,7 +43,7 @@ Browser.runtime.onConnect.addListener((port) => {
     try {
       await generateAnswers(port, msg.question)
     } catch (err: any) {
-      console.error(err)
+      // console.error(err)
       port.postMessage({ error: err.message })
     }
   })

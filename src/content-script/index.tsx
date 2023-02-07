@@ -123,7 +123,7 @@ Current date: ${year}/${month}/${day}
 
 Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.
 Query: ${searchInput.value}
-Reply in ${userConfig.language}`
+${userConfig.language === Language.Auto ? '' : 'Reply in ' + userConfig.language}`
 
     console.log('searchList', searchList)
     console.log('queryText', queryText)
