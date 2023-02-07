@@ -66,7 +66,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
             Changelog
           </a> */}
           <a
-            href="https://github.com/givebest/chatgpt-google-summary-extension/issues"
+            href="https://github.com/sparticleinc/chatgpt-google-summary-extension/issues"
             target="_blank"
             rel="noreferrer"
           >
@@ -76,7 +76,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
             Twitter
           </a> */}
           <a
-            href="https://github.com/givebest/chatgpt-google-summary-extension"
+            href="https://github.com/sparticleinc/chatgpt-google-summary-extension"
             target="_blank"
             rel="noreferrer"
           >
