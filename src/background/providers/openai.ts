@@ -52,7 +52,7 @@ export class OpenAIProvider implements Provider {
             },
           })
         } catch (err) {
-          console.error(err)
+          // console.error(err)
           return
         }
       },

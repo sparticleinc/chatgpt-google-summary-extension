@@ -88,14 +88,35 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
 }
 
 function ProviderSelect() {
+  // const query = useSWR('provider-configs', async () => {
+  //   const [config, models] = await Promise.all([getProviderConfigs(), loadModels()])
+  //   console.log('loaded', config, models)
+  //   return { config, models }
+  // })
+
   const query = useSWR('provider-configs', async () => {
-    const [config, models] = await Promise.all([getProviderConfigs(), loadModels()])
-    return { config, models }
+    const [config] = await Promise.all([getProviderConfigs()])
+
+    return { config }
   })
+
+  const models = [
+    'text-davinci-003',
+    'text-curie-001',
+    'text-babbage-001',
+    'text-ada-001',
+    'text-chat-davinci-002-20221122',
+  ]
+
+  // if (query.isLoading) {
+  //   return <Spinner />
+  // }
+  // return <ConfigPanel config={query.data!.config} models={query.data!.models} />
+
   if (query.isLoading) {
     return <Spinner />
   }
-  return <ConfigPanel config={query.data!.config} models={query.data!.models} />
+  return <ConfigPanel config={query.data!.config} models={models} />
 }
 
 export default ProviderSelect
