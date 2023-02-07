@@ -31,7 +31,7 @@ function ChatGPTQuery(props: Props) {
   useEffect(() => {
     const port = Browser.runtime.connect()
     const listener = (msg: any) => {
-      console.log('error', msg)
+      console.log('result', msg)
 
       if (msg.text) {
         setAnswer(msg)
@@ -147,6 +147,15 @@ function ChatGPTQuery(props: Props) {
       <p>
         Failed to load response from ChatGPT:
         <span className="break-all block">{error}</span>
+        <a
+          href="javascript:void(0)"
+          onclick={() => {
+            setError('')
+            setRetry((r) => r + 1)
+          }}
+        >
+          Retry
+        </a>
       </p>
     )
   }
