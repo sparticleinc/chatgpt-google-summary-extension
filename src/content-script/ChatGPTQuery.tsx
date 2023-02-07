@@ -31,6 +31,8 @@ function ChatGPTQuery(props: Props) {
   useEffect(() => {
     const port = Browser.runtime.connect()
     const listener = (msg: any) => {
+      console.log('error', msg)
+
       if (msg.text) {
         setAnswer(msg)
         setStatus('success')

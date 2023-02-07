@@ -98,12 +98,13 @@ async function run() {
           title.insertAdjacentHTML('afterbegin', `<span style="color:red">[${index}] </span> `)
         }
 
-        if (text && url) {
+        if (text && url && index <= 5) {
           searchList =
             searchList +
             `
-          [${index}] ${text}
-          URL: ${url}
+[${index}] ${text}
+URL: ${url}
+
           `
         }
       })
@@ -123,6 +124,10 @@ Current date: ${year}/${month}/${day}
 Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.
 Query: ${searchInput.value}
 Reply in ${userConfig.language}`
+
+    console.log('searchList', searchList)
+    console.log('queryText', queryText)
+    console.log('siteConfig', siteConfig)
 
     searchList && mount(queryText, siteConfig)
   }
