@@ -2,6 +2,7 @@ export interface SearchEngine {
   inputQuery: string[]
   sidebarContainerQuery: string[]
   appendContainerQuery: string[]
+  extabarContainerQuery?: string[]
   watchRouteChange?: (callback: () => void) => void
 }
 
@@ -10,6 +11,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['#rhs'],
     appendContainerQuery: ['#rcnt'],
+    extabarContainerQuery: ['#extabar'],
   },
   bing: {
     inputQuery: ["[name='q']"],
