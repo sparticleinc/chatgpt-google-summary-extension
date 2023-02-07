@@ -1,4 +1,4 @@
-# Google Summary with ChatGPT(AD-Free)
+# Summary for Google with ChatGPT (AD-Free)
 
 A browser extension to display ChatGPT Summary search results alongside Google results
 
@@ -37,7 +37,7 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 
 ## Credit
 
-This project is inspired by [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension)
+This project is inspired by [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension) & [qunash/chatgpt-advanced](https://github.com/qunash/chatgpt-advanced)
 
 ## License
 

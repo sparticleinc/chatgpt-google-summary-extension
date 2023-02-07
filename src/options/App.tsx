@@ -58,7 +58,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
         <div className="flex flex-row items-center gap-2">
           <img src={logo} className="w-10 h-10 rounded-lg" />
           <span className="font-semibold">
-            Google Summary with ChatGPT(AD-Free) (v{getExtensionVersion()})
+            Summary for Google with ChatGPT (AD-Free) (v{getExtensionVersion()})
           </span>
         </div>
         <div className="flex flex-row gap-3">
