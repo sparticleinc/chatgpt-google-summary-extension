@@ -25,11 +25,11 @@ async function mount(question: string, siteConfig: SearchEngine) {
   }
 
   const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
-  const extabarContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery || [])
-
-  if (extabarContainer) {
-    extabarContainer.appendChild(container)
-  } else if (siderbarContainer) {
+  // const extabarContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery || [])
+  // if (extabarContainer) {
+  //   extabarContainer.appendChild(container)
+  // } else
+  if (siderbarContainer) {
     siderbarContainer.prepend(container)
   } else {
     container.classList.add('sidebar-free')
