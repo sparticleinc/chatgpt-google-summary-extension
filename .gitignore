@@ -2,5 +2,4 @@ node_modules/
 build/
 background.js
 .DS_Store
-*.zip
 .env
