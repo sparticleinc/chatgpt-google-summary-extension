@@ -1,4 +1,4 @@
-# Glarity
+# Glarity - Summary for Google with ChatGPT
 
 A browser extension to display ChatGPT Summary search results alongside Google results
 
@@ -9,6 +9,10 @@ Google
 ## Screenshot
 
 ![Screenshot](screenshots/extension.png?raw=true)
+
+## Installation
+
+[Install from Chrome Web Store](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
 
 ## Features
 
