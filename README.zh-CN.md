@@ -1,6 +1,6 @@
 # Glarity - Summary for Google with ChatGPT
 
-一个浏览器扩展实现在 Google 搜索结果旁边展示 ChatGPT 摘要。
+一个 Chrome 浏览器扩展实现在 Google 搜索结果旁边展示 ChatGPT 摘要。
 
 ## 支持搜索引擎
 
