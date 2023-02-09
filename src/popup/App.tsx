@@ -31,7 +31,7 @@ function App() {
     <div className="flex flex-col h-full">
       <div className="mb-2 flex flex-row items-center px-1">
         <img src={logo} className="w-5 h-5 rounded-sm" />
-        <p className="text-sm font-semibold m-0 ml-1">Summary for Google with ChatGPT (AD-Free)</p>
+        <p className="text-sm font-semibold m-0 ml-1">Glarity</p>
         <div className="grow"></div>
         <span className="cursor-pointer leading-[0]" onClick={openOptionsPage}>
           <GearIcon size={16} />

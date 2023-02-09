@@ -1,4 +1,4 @@
-# Summary for Google with ChatGPT (AD-Free)
+# Glarity
 
 A browser extension to display ChatGPT Summary search results alongside Google results
 
