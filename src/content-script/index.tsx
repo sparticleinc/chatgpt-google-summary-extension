@@ -6,6 +6,7 @@ import ChatGPTContainer from './ChatGPTContainer'
 import { config, SearchEngine } from './search-engine-configs'
 import './styles.scss'
 import { getPossibleElementByQuerySelector } from './utils'
+import xss from 'xss'
 
 async function mount(question: string, siteConfig: SearchEngine) {
   const container = document.createElement('div')
@@ -101,10 +102,11 @@ async function run() {
         console.log(title, text, url)
 
         if (title) {
-          title.insertAdjacentHTML('afterbegin', `<span style="color:red">[${index}] </span> `)
+          const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)
+          title.insertAdjacentHTML('afterbegin', html)
         }
 
-        if (text && url && index <= 5) {
+        if (text && url && index <= 6) {
           searchList =
             searchList +
             `

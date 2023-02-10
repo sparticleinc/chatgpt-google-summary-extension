@@ -81,6 +81,10 @@ async function build() {
     { src: 'build/popup/index.js', dst: 'popup.js' },
     { src: 'build/popup/index.css', dst: 'popup.css' },
     { src: 'src/popup/index.html', dst: 'popup.html' },
+    { src: 'src/logo-16.png', dst: 'logo-16.png' },
+    { src: 'src/logo-32.png', dst: 'logo-32.png' },
+    { src: 'src/logo-48.png', dst: 'logo-48.png' },
+    { src: 'src/logo-128.png', dst: 'logo-128.png' },
     { src: 'src/logo.png', dst: 'logo.png' },
     { src: 'src/_locales', dst: '_locales' },
   ]
