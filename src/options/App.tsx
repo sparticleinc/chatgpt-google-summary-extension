@@ -126,7 +126,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
         >
           {Object.entries(Language).map(([k, v]) => (
             <Select.Option key={k} value={v}>
-              {capitalize(v)}
+              {capitalize(k)}
             </Select.Option>
           ))}
         </Select>

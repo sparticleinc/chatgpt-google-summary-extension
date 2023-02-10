@@ -27,14 +27,15 @@ export enum Theme {
 
 export enum Language {
   Auto = 'auto',
-  English = 'english',
-  Chinese = 'chinese',
-  Spanish = 'spanish',
-  French = 'french',
-  Korean = 'korean',
-  Japanese = 'japanese',
-  German = 'german',
-  Portuguese = 'portuguese',
+  English = 'en-US',
+  Chinese = 'zh-CN',
+  Spanish = 'es-ES',
+  French = 'fr-FR',
+  Korean = 'ko-KR',
+  Japanese = 'ja-JP',
+  German = 'de-DE',
+  Portuguese = 'pt-PT',
+  Russian = 'ru-RU',
 }
 
 const userConfigWithDefaultValue = {
