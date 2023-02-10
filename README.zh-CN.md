@@ -14,6 +14,8 @@ Google
 
 [Chrome 应用市场](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
 
+[Firefox Add-ons 市场](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
+
 ## 功能
 
 - 支持 Google
