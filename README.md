@@ -41,6 +41,11 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 3. `npm run build`
 4. Load `build/chromium/` or `build/firefox/` directory to your browser
 
+### Packages
+
+- [Chromium](packages/Summary%20for%20Google%20with%20ChatGPT-chromium.zip)
+- [Firefox](packages/Summary%20for%20Google%20with%20ChatGPT-firefox.zip)
+
 ## Credit
 
 This project is inspired by [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension) & [qunash/chatgpt-advanced](https://github.com/qunash/chatgpt-advanced)

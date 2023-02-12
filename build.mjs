@@ -10,6 +10,8 @@ import tailwindcss from 'tailwindcss'
 dotenv.config()
 
 const outdir = 'build'
+const packagesDir = 'packages'
+const appName = 'Summary for Google with ChatGPT-'
 
 async function deleteOldDir() {
   await fs.remove(outdir)
@@ -96,6 +98,15 @@ async function build() {
   )
 
   await zipFolder(`./${outdir}/chromium`)
+  await copyFiles(
+    [
+      {
+        src: `${outdir}/chromium.zip`,
+        dst: `${appName}chromium.zip`,
+      },
+    ],
+    `./${packagesDir}`,
+  )
 
   // firefox
   await copyFiles(
@@ -104,6 +115,15 @@ async function build() {
   )
 
   await zipFolder(`./${outdir}/firefox`)
+  await copyFiles(
+    [
+      {
+        src: `${outdir}/firefox.zip`,
+        dst: `${appName}firefox.zip`,
+      },
+    ],
+    `./${packagesDir}`,
+  )
 
   console.log('Build success.')
 }
