@@ -7,8 +7,10 @@
   flex-grow: 1;
   z-index: 1;
   box-sizing: border-box;
-  max-width: calc(100% - 20px);
-  background-color: #f1f3f4;
+  // max-width: calc(100% - 20px);
+  max-width: 100%;
+  width: var(--rhs-width);
+  // background-color: #f1f3f4;
 
   .chat-gpt-card {
     border: 1px solid;
@@ -16,7 +18,7 @@
     padding: 15px;
     line-height: 1.5;
     word-wrap:break-word; 
-    word-break:break-all;
+    // word-break:break-all;
   }
 
   &.sidebar-free {
