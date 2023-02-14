@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from 'uuid'
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
 
-async function request(token: string, method: string, path: string, data: unknown) {
+async function request(token: string, method: string, path: string, data?: unknown) {
   return fetch(`https://chat.openai.com/backend-api${path}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(data),
+    body: data === undefined ? undefined : JSON.stringify(data),
   })
 }
 
@@ -47,20 +47,28 @@ export async function getChatGPTAccessToken(): Promise<string> {
   return data.accessToken
 }
 
-async function fetchModelName() {
-  // try {
-  //   const configs = await fetchExtensionConfigs()
-  //   return configs.chatgpt_webapp_model_name
-  // } catch (err) {
-  //   console.error(err)
-  //   return null
-  // }
-}
-
 export class ChatGPTProvider implements Provider {
   constructor(private token: string) {
     this.token = token
   }
+
+  private async fetchModels(): Promise<
+    { slug: string; title: string; description: string; max_tokens: number }[]
+  > {
+    const resp = await request(this.token, 'GET', '/models').then((r) => r.json())
+    return resp.models
+  }
+
+  private async getModelName(): Promise<string> {
+    try {
+      const models = await this.fetchModels()
+      return models[0].slug
+    } catch (err) {
+      console.error(err)
+      return 'text-davinci-002-render'
+    }
+  }
+
   async generateAnswer(params: GenerateAnswerParams) {
     let conversationId: string | undefined
 
@@ -69,6 +77,8 @@ export class ChatGPTProvider implements Provider {
         setConversationProperty(this.token, conversationId, { is_visible: false })
       }
     }
+
+    const modelName = await this.getModelName()
 
     await fetchSSE('https://chat.openai.com/backend-api/conversation', {
       method: 'POST',
@@ -89,7 +99,7 @@ export class ChatGPTProvider implements Provider {
             },
           },
         ],
-        model: (await fetchModelName()) || 'text-davinci-002-render',
+        model: modelName,
         parent_message_id: uuidv4(),
       }),
       onMessage(message: string) {
