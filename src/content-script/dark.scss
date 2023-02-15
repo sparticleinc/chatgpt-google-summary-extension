@@ -7,8 +7,12 @@
 
   .glarity--header,
   .glarity--main__header a,
-  .glarity--header__logo {
+  a.glarity--header__logo {
     color: #fff;
+
+    &:visited {
+      color: #fff;
+    }
   }
 
   .glarity--main {

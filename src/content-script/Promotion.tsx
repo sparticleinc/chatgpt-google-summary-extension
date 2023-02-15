@@ -1,5 +1,3 @@
-import { useCallback } from 'react'
-// import { captureEvent } from '../analytics'
 import type { PromotionResponse } from '../api'
 
 interface Props {
@@ -7,18 +5,8 @@ interface Props {
 }
 
 function Promotion({ data }: Props) {
-  const capturePromotionClick = useCallback(() => {
-    // captureEvent('click_promotion', { link: data.url })
-  }, [data.url])
-
   return (
-    <a
-      href={data.url}
-      target="_blank"
-      rel="noreferrer"
-      // onClick={capturePromotionClick}
-      className="gpt-promotion-link"
-    >
+    <a href={data.url} target="_blank" rel="noreferrer" className="gpt-promotion-link">
       <div className="chat-gpt-card flex flex-row gap-2 mt-5 gpt-promotion">
         {!!data.image && (
           <img
@@ -40,7 +28,6 @@ function Promotion({ data }: Props) {
                 target="_blank"
                 rel="noreferrer"
                 className="text-xs rounded-sm border border-solid px-[2px] text-inherit"
-                // onClick={capturePromotionClick}
               >
                 {data.label.text}
               </a>

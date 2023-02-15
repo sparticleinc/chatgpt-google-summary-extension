@@ -29,6 +29,7 @@
   "content_scripts": [
     {
       "matches": [
+        "https://www.youtube.com/*",
         "https://www.google.com/search*",
         "https://www.google.ad/search*",
         "https://www.google.ae/search*",

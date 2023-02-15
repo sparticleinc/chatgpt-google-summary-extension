@@ -126,12 +126,16 @@
   cursor: pointer;
 }
 
-.glarity--header__logo {
+a.glarity--header__logo {
   margin-right: 6px;
   height: 20px;
   color: #000;
   text-decoration: none;
   line-height: 20px;
+
+  &:visited {
+    color: #000;
+  }
 
   img {
     margin-right: 5px;
@@ -203,7 +207,12 @@
 
   .subtitle--time {
     padding-right: 10px;
-    font-weight: bold;
+    color: var(--yt-spec-call-to-action);
+    background-color: var(--yt-spec-suggested-action);
+    padding: 0 4px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.8rem;
   }
   .subtitle--text {
     padding-left: 10px;

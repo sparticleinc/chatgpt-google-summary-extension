@@ -1,8 +1,10 @@
+import { getSearchParam } from './utils'
 export interface SearchEngine {
   inputQuery: string[]
   sidebarContainerQuery: string[]
   appendContainerQuery: string[]
   extabarContainerQuery?: string[]
+  name?: string
   watchRouteChange?: (callback: () => void) => void
 }
 
@@ -12,6 +14,7 @@ export const config: Record<string, SearchEngine> = {
     sidebarContainerQuery: ['#rhs'],
     appendContainerQuery: ['#rcnt'],
     extabarContainerQuery: ['#extabar'],
+    name: 'gogole',
   },
   bing: {
     inputQuery: ["[name='q']"],
@@ -73,5 +76,23 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['#sidebar_results'],
     appendContainerQuery: [],
+  },
+  youtube: {
+    inputQuery: ["input[name='q']"],
+    sidebarContainerQuery: ['#rhs'],
+    appendContainerQuery: ['#rcnt'],
+    extabarContainerQuery: ['#extabar'],
+    name: 'youtube',
+    watchRouteChange(callback) {
+      let currentUrl = window.location.href
+
+      setInterval(() => {
+        const videoId = getSearchParam(window.location.href)?.v
+        if (window.location.href !== currentUrl && videoId) {
+          callback()
+          currentUrl = window.location.href
+        }
+      }, 3000)
+    },
   },
 }
