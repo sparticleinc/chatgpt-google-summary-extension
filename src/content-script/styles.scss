@@ -1,27 +1,30 @@
 @import 'light.scss';
 @import 'dark.scss';
 
-.chat-gpt-container {
+.glarity--container {
   margin-bottom: 30px;
   flex-basis: 0;
   flex-grow: 1;
   z-index: 1;
   box-sizing: border-box;
-  // max-width: calc(100% - 20px);
   max-width: 100%;
   width: var(--rhs-width);
-  // background-color: #f1f3f4;
 
-  .chat-gpt-card {
+  &.glarity--chatgpt--youtube {
+    width: var(--ytd-watch-flexy-sidebar-width);
+    min-width: var(--ytd-watch-flexy-sidebar-min-width);
+  }
+
+  .glarity--chatgpt {
     border: 1px solid;
     border-radius: 8px;
-    padding: 15px;
+    padding: 6px 10px 0;
     line-height: 1.5;
-    word-wrap:break-word; 
+    word-wrap: break-word;
     // word-break:break-all;
   }
 
-  &.sidebar-free {
+  &.sidebar--free {
     margin-left: 30px;
     height: fit-content;
   }
@@ -83,22 +86,26 @@
     }
   }
 
-  .gpt-header {
+  .glarity--chatgpt--header {
+    margin-top: -42px !important;
+    margin-left: 50%;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 10px;
+
     gap: 5px;
 
-    .gpt-feedback {
+    .gpt--feedback {
       margin-left: auto;
       display: flex;
       gap: 6px;
       cursor: pointer;
     }
 
-    .gpt-feedback-selected {
+    .gpt--feedback--selected {
       color: #ff6347;
     }
   }
@@ -106,4 +113,100 @@
 
 .glarity--summary--highlight {
   color: red;
+}
+.glarity--header {
+  // position: relative;
+  // z-index: 10;
+  display: flex;
+  padding: 2px 0 10px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.glarity--header__logo {
+  margin-right: 6px;
+  height: 20px;
+  color: #000;
+  text-decoration: none;
+  line-height: 20px;
+
+  img {
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+}
+
+.glarity--main {
+  position: relative;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding: 0 12px;
+  border-top: 1px solid rgb(221, 221, 221);
+}
+.glarity--main__header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid rgb(221, 221, 223);
+
+  a {
+    color: #333;
+  }
+}
+.glarity--main__header--title {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.glarity--main__header--icon {
+  cursor: pointer;
+}
+
+.glarity--main__header--action {
+  a {
+    display: inline-block;
+    margin-left: 5px;
+  }
+}
+
+.glarity--main__container {
+  position: relative;
+  z-index: 30;
+  padding: 10px 0 10px;
+  font-size: 14px;
+  color: #444;
+
+  &.glarity--main__container--subtitle {
+    height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+}
+
+.glarity--subtitle {
+  display: flex;
+  justify-content: left;
+  align-items: baseline;
+  grid-template-columns: auto auto;
+  gap: 0px;
+  margin: 0px 0px 16px;
+
+  .subtitle--time {
+    padding-right: 10px;
+    font-weight: bold;
+  }
+  .subtitle--text {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }

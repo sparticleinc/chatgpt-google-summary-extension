@@ -10,7 +10,7 @@ import xss from 'xss'
 
 async function mount(question: string, siteConfig: SearchEngine) {
   const container = document.createElement('div')
-  container.className = 'chat-gpt-container'
+  container.className = 'glarity--container'
 
   const userConfig = await getUserConfig()
   let theme: Theme
@@ -20,9 +20,9 @@ async function mount(question: string, siteConfig: SearchEngine) {
     theme = userConfig.theme
   }
   if (theme === Theme.Dark) {
-    container.classList.add('gpt-dark')
+    container.classList.add('gpt--dark')
   } else {
-    container.classList.add('gpt-light')
+    container.classList.add('gpt--light')
   }
 
   const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
@@ -33,7 +33,7 @@ async function mount(question: string, siteConfig: SearchEngine) {
   if (siderbarContainer) {
     siderbarContainer.prepend(container)
   } else {
-    container.classList.add('sidebar-free')
+    container.classList.add('sidebar--free')
     const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
     if (appendContainer) {
       appendContainer.appendChild(container)

@@ -82,11 +82,7 @@ function ChatGPTQuery(props: Props) {
   if (answer) {
     return (
       <div className="markdown-body gpt-markdown" id="gpt-answer" dir="auto">
-        <div className="gpt-header">
-          <span className="font-bold">Glarity Summary</span>
-          <span className="cursor-pointer leading-[0]" onClick={openOptionsPage}>
-            <GearIcon size={14} />
-          </span>
+        <div className="glarity--chatgpt--header">
           <ChatGPTFeedback
             messageId={answer.messageId}
             conversationId={answer.conversationId}
