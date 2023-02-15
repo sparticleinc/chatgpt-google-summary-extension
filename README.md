@@ -1,10 +1,11 @@
 # Glarity - Summary for Google with ChatGPT
 
-A browser extension to display ChatGPT Summary search results alongside Google results
+Chrome extension to display ChatGPT summaries alongside Google search results and Youtube videos.
 
-## Supported Search Engines
+## Supported Websites
 
 Google
+Youtube
 
 ## Screenshot
 
@@ -19,6 +20,7 @@ Google
 ## Features
 
 - Supports google search
+- Supports youtube
 - Supports the official OpenAI API
 - Markdown rendering
 - Code highlights
@@ -48,7 +50,7 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 
 ## Credit
 
-This project is inspired by [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension) & [qunash/chatgpt-advanced](https://github.com/qunash/chatgpt-advanced)
+This project is inspired by [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension) & [qunash/chatgpt-advanced](https://github.com/qunash/chatgpt-advanced) & [YouTube Summary with ChatGPT](https://github.com/kazuki-sf/YouTube_Summary_with_ChatGPT)
 
 ## License
 
