@@ -1,15 +1,21 @@
-# Glarity - Summary for Google with ChatGPT
+# Glarity - Summary for Google Search /YouTube Videos with ChatGPT
 
-Chrome extension to display ChatGPT summaries alongside Google search results and Youtube videos.
+Chrome extension to display ChatGPT summaries alongside Google search results and YouTube videos.
 
 ## Supported Websites
 
 Google
-Youtube
+YouTube
 
 ## Screenshot
 
-![Screenshot](screenshots/extension.png?raw=true)
+### Google
+
+![Screenshot](screenshots/extension-google.png?raw=true)
+
+### YouTube
+
+![Screenshot](screenshots/extension-youtube.jpeg?raw=true)
 
 ## Installation
 
@@ -19,12 +25,14 @@ Youtube
 
 ## Features
 
-- Supports google search
-- Supports youtube
+- Supports Google search
+- Supports YouTube
 - Supports the official OpenAI API
+- Supports ChatGPT Plus
 - Markdown rendering
 - Code highlights
 - Dark mode
+- Provide feedback to improve ChatGPT
 - Copy to clipboard
 - Switch languages
 
@@ -41,12 +49,24 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 1. Clone the repo
 2. Install dependencies with `npm`
 3. `npm run build`
-4. Load `build/chromium/` or `build/firefox/` directory to your browser
 
 ### Packages
 
-- [Chromium](packages/Summary%20for%20Google%20with%20ChatGPT-chromium.zip)
-- [Firefox](packages/Summary%20for%20Google%20with%20ChatGPT-firefox.zip)
+- [Chromium](packages/Glarity-chromium.zip)
+- [Firefox](packages/Glarity-firefox.zip)
+
+### Chrome
+
+1. Go to `chrome://extensions/`.
+2. At the top right, turn on `Developer mode`.
+3. Click `Load unpacked`.
+4. Find and select extension folder(`build/chromium/`).
+
+### Firefox
+
+1. Go to `about:debugging#/runtime/this-firefox`.
+2. Click `Load Temporary Add-on`.
+3. Find and select the extension file(`build/firefox.zip`).
 
 ## Credit
 
