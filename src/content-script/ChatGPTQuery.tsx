@@ -1,4 +1,3 @@
-import { GearIcon } from '@primer/octicons-react'
 import { useEffect, useState } from 'preact/hooks'
 import { memo, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'

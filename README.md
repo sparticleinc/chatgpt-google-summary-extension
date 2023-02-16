@@ -11,6 +11,7 @@ YouTube
 
 ### Google
 
+![Screenshot](screenshots/google-vs-chatgpt.png?raw=true)
 ![Screenshot](screenshots/extension-google.png?raw=true)
 
 ### YouTube

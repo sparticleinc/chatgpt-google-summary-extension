@@ -12,6 +12,7 @@ YouTube
 ### Google
 
 ![Screenshot](screenshots/extension-google-zh-CN.png?raw=true)
+![Screenshot](screenshots/google-vs-chatgpt.png?raw=true)
 
 ### YouTube
 

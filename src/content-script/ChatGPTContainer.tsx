@@ -29,7 +29,7 @@ function ChatGPTContainer(props: Props) {
   const [subtitleShow, setSubtitleShow] = useState(false)
 
   const copytSubtitle = () => {
-    const videoId = getSearchParam(window.location.href).v
+    const videoId = getSearchParam(window.location.href)?.v
     copyTranscript(videoId, subtitle)
     setCopied(true)
   }
