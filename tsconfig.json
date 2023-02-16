@@ -9,6 +9,7 @@
     "noEmit": true,
     "skipLibCheck": true,
     "strict": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "noImplicitAny":false
   }
 }

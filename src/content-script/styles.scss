@@ -7,8 +7,9 @@
   flex-grow: 1;
   z-index: 1;
   box-sizing: border-box;
-  max-width: 100%;
   width: var(--rhs-width);
+  min-width: var(--rhs-width);
+  max-width: 100%;
 
   &.glarity--chatgpt--youtube {
     width: var(--ytd-watch-flexy-sidebar-width);

@@ -1,6 +1,5 @@
 import ExpiryMap from 'expiry-map'
 import { v4 as uuidv4 } from 'uuid'
-// import { fetchExtensionConfigs } from '../../api'
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
 

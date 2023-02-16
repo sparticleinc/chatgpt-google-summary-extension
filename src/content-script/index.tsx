@@ -1,7 +1,7 @@
 import { render } from 'preact'
 import '../base.css'
 import { getUserConfig, Language, Theme } from '../config'
-import { detectSystemColorScheme, removeHtmlTags } from '../utils'
+import { detectSystemColorScheme } from '../utils'
 import ChatGPTContainer from './ChatGPTContainer'
 import { config, SearchEngine } from './search-engine-configs'
 import {

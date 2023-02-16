@@ -1,17 +1,11 @@
 import { Button, Input, Select, Spinner, Tabs, useInput, useToasts } from '@geist-ui/core'
 import { FC, useCallback, useState } from 'react'
 import useSWR from 'swr'
-import { fetchExtensionConfigs } from '../api'
 import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '../config'
 
 interface ConfigProps {
   config: ProviderConfigs
   models: string[]
-}
-
-async function loadModels(): Promise<string[]> {
-  const configs = await fetchExtensionConfigs()
-  return configs.openai_model_names
 }
 
 const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {

@@ -138,7 +138,7 @@ function ChatGPTQuery(props: Props) {
         <span className="break-all block">{error}</span>
         <a
           href="javascript:void(0)"
-          onclick={() => {
+          onClick={() => {
             setError('')
             setRetry((r) => r + 1)
           }}
