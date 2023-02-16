@@ -1,4 +1,4 @@
-# Glarity - Summary for Google Search /YouTube Videos with ChatGPT
+# Glarity - Summary for Google/YouTube with ChatGPT
 
 Chrome extension to display ChatGPT summaries alongside Google search results and YouTube videos.
 

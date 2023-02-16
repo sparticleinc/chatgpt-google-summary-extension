@@ -1,4 +1,4 @@
-# Glarity - Summary for Google Search /YouTube Videos with ChatGPT
+# # Glarity - Summary for Google/YouTube with ChatGPT
 
 Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展示 ChatGPT 摘要。
 
