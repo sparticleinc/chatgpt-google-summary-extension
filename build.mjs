@@ -11,7 +11,7 @@ dotenv.config()
 
 const outdir = 'build'
 const packagesDir = 'packages'
-const appName = 'Summary for Google with ChatGPT-'
+const appName = 'Glarity-'
 
 async function deleteOldDir() {
   await fs.remove(outdir)

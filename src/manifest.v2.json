@@ -2,7 +2,7 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "manifest_version": 2,
   "icons": {
     "16": "logo-16.png",
@@ -29,6 +29,7 @@
   "content_scripts": [
     {
       "matches": [
+        "https://www.youtube.com/*",
         "https://www.google.com/search*",
         "https://www.google.ad/search*",
         "https://www.google.ae/search*",
@@ -218,23 +219,7 @@
         "https://www.google.co.za/search*",
         "https://www.google.co.zm/search*",
         "https://www.google.co.zw/search*",
-        "https://www.google.cat/search*",
-        "https://kagi.com/search*",
-        "https://www.bing.com/search*",
-        "https://cn.bing.com/search*",
-        "https://search.yahoo.com/search*",
-        "https://search.yahoo.co.jp/search*",
-        "https://search.naver.com/search*",
-        "https://search.brave.com/search*",
-        "https://duckduckgo.com/*",
-        "https://www.baidu.com/*",
-        "https://*.yandex.com/search*",
-        "https://*.yandex.ru/search*",
-        "https://*.yandex.com.tr/search*",
-        "https://*.yandex.uz/search*",
-        "https://*.yandex.kz/search*",
-        "https://*.yandex.by/search*",
-        "https://searx.be/search*"
+        "https://www.google.cat/search*"
       ],
       "js": [
         "content-script.js"

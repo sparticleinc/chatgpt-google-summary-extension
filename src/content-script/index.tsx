@@ -1,16 +1,31 @@
 import { render } from 'preact'
 import '../base.css'
 import { getUserConfig, Language, Theme } from '../config'
-import { detectSystemColorScheme, removeHtmlTags } from '../utils'
+import { detectSystemColorScheme } from '../utils'
 import ChatGPTContainer from './ChatGPTContainer'
 import { config, SearchEngine } from './search-engine-configs'
-import './styles.scss'
-import { getPossibleElementByQuerySelector } from './utils'
+import {
+  getPossibleElementByQuerySelector,
+  getSearchParam,
+  getLangOptionsWithLink,
+  getTranscriptHTML,
+  getRawTranscript,
+  waitForElm,
+} from './utils'
 import xss from 'xss'
+import './styles.scss'
 
-async function mount(question: string, siteConfig: SearchEngine) {
+const siteRegex = new RegExp(Object.keys(config).join('|'))
+const siteName = location.hostname.match(siteRegex)![0]
+const siteConfig = config[siteName]
+
+async function mount(question: string, siteConfig: SearchEngine, subtitle?: any) {
+  if (document.querySelector('div.glarity--container')) {
+    document.querySelector('div.glarity--container')?.remove()
+  }
+
   const container = document.createElement('div')
-  container.className = 'chat-gpt-container'
+  container.className = 'glarity--container'
 
   const userConfig = await getUserConfig()
   let theme: Theme
@@ -20,43 +35,88 @@ async function mount(question: string, siteConfig: SearchEngine) {
     theme = userConfig.theme
   }
   if (theme === Theme.Dark) {
-    container.classList.add('gpt-dark')
+    container.classList.add('gpt--dark')
   } else {
-    container.classList.add('gpt-light')
+    container.classList.add('gpt--light')
   }
 
-  const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
-  // const extabarContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery || [])
-  // if (extabarContainer) {
-  //   extabarContainer.appendChild(container)
-  // } else
-  if (siderbarContainer) {
-    siderbarContainer.prepend(container)
+  if (siteName === 'youtube') {
+    container.classList.add('glarity--chatgpt--youtube')
+    waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
+      document.querySelector('#secondary.style-scope.ytd-watch-flexy')?.prepend(container)
+    })
   } else {
-    container.classList.add('sidebar-free')
-    const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
-    if (appendContainer) {
-      appendContainer.appendChild(container)
+    const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
+    if (siderbarContainer) {
+      siderbarContainer.prepend(container)
+    } else {
+      container.classList.add('sidebar--free')
+      const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
+      if (appendContainer) {
+        appendContainer.appendChild(container)
+      }
     }
   }
 
   render(
-    <ChatGPTContainer question={question} triggerMode={userConfig.triggerMode || 'always'} />,
+    <ChatGPTContainer
+      question={question}
+      subtitle={subtitle}
+      siteConfig={siteConfig}
+      triggerMode={userConfig.triggerMode || 'always'}
+    />,
     container,
   )
 }
 
-const siteRegex = new RegExp(Object.keys(config).join('|'))
-const siteName = location.hostname.match(siteRegex)![0]
-const siteConfig = config[siteName]
-
 async function run() {
   const language = window.navigator.language
+  const userConfig = await getUserConfig()
+  console.debug('Mount ChatGPT on', siteName)
 
+  // Youtube
+  if (siteName === 'youtube') {
+    const videoId = getSearchParam(window.location.href)?.v
+
+    if (!videoId) {
+      return
+    }
+
+    // Get Transcript Language Options & Create Language Select Btns
+    const langOptionsWithLink = await getLangOptionsWithLink(videoId)
+
+    const rawTranscript = !langOptionsWithLink
+      ? []
+      : await getRawTranscript(langOptionsWithLink[0].link)
+    console.log('rawTranscript', rawTranscript)
+
+    const subtitleList = !langOptionsWithLink ? [] : await getTranscriptHTML(rawTranscript, videoId)
+    console.log('subtitleList', subtitleList)
+
+    const subtitle =
+      subtitleList.map((v) => {
+        return `(${v.time}):${v.text}`
+      }) || []
+
+    let suttitleText = subtitle.join('. \r\n ')
+
+    suttitleText = suttitleText.length > 3800 ? suttitleText.substring(0, 3800) : suttitleText
+
+    const queryText = `Video transcript:
+
+${suttitleText}
+
+Instructions: Use the transcript information above to summarise the highlights of this video.
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    mount(subtitle.length > 0 ? queryText : '', siteConfig, subtitleList)
+    return
+  }
+
+  // Google
   const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
   if (searchInput && searchInput.value) {
-    console.debug('Mount ChatGPT on', siteName)
-    const userConfig = await getUserConfig()
     const searchValueWithLanguageOption =
       userConfig.language === Language.Auto
         ? searchInput.value
@@ -137,7 +197,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     console.log('queryText', queryText)
     console.log('siteConfig', siteConfig)
 
-    searchList && mount(queryText, siteConfig)
+    mount(searchList ? queryText : '', siteConfig, '')
   }
 }
 

@@ -11,10 +11,12 @@
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
     "@primer/octicons-react": "^17.9.0",
+    "copy-to-clipboard": "^3.3.3",
     "eventsource-parser": "^0.0.5",
     "expiry-map": "^2.0.0",
     "github-markdown-css": "^5.1.0",
     "inter-ui": "^3.19.3",
+    "jquery": "^3.6.3",
     "lodash-es": "^4.17.21",
     "preact": "^10.11.3",
     "prop-types": "^15.8.1",

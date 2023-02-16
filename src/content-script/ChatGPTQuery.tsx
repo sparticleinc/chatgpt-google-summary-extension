@@ -1,10 +1,8 @@
-import { GearIcon } from '@primer/octicons-react'
 import { useEffect, useState } from 'preact/hooks'
 import { memo, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
-// import { captureEvent } from '../analytics'
 import { Answer } from '../messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
@@ -69,12 +67,6 @@ function ChatGPTQuery(props: Props) {
     shouldShowRatingTip().then((show) => setShowTip(show))
   }, [])
 
-  // useEffect(() => {
-  //   if (status === 'success') {
-  //     captureEvent('show_answer', { host: location.host, language: navigator.language })
-  //   }
-  // }, [props.question, status])
-
   const openOptionsPage = useCallback(() => {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
@@ -82,11 +74,7 @@ function ChatGPTQuery(props: Props) {
   if (answer) {
     return (
       <div className="markdown-body gpt-markdown" id="gpt-answer" dir="auto">
-        <div className="gpt-header">
-          <span className="font-bold">Glarity Summary</span>
-          <span className="cursor-pointer leading-[0]" onClick={openOptionsPage}>
-            <GearIcon size={14} />
-          </span>
+        <div className="glarity--chatgpt--header">
           <ChatGPTFeedback
             messageId={answer.messageId}
             conversationId={answer.conversationId}
@@ -149,7 +137,7 @@ function ChatGPTQuery(props: Props) {
         <span className="break-all block">{error}</span>
         <a
           href="javascript:void(0)"
-          onclick={() => {
+          onClick={() => {
             setError('')
             setRetry((r) => r + 1)
           }}

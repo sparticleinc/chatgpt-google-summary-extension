@@ -1,14 +1,22 @@
-# Glarity - Summary for Google with ChatGPT
+# # Glarity - Summary for Google/YouTube with ChatGPT
 
-一个 Chrome 浏览器扩展实现在 Google 搜索结果旁边展示 ChatGPT 摘要。
+Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展示 ChatGPT 摘要。
 
-## 支持搜索引擎
+## 支持网站
 
 Google
+YouTube
 
 ## 截图
 
-![Screenshot](screenshots/extension-zh-CN.png?raw=true)
+### Google
+
+![Screenshot](screenshots/extension-google-zh-CN.png?raw=true)
+![Screenshot](screenshots/google-vs-chatgpt.png?raw=true)
+
+### YouTube
+
+![Screenshot](screenshots/extension-youtube-zh-CN.jpeg?raw=true)
 
 ## 安装
 
@@ -18,11 +26,14 @@ Google
 
 ## 功能
 
-- 支持 Google
+- 支持 Google 搜索
+- 支持 YouTube 总结
 - 支持 OpenAI 官方 API
+- 支持 ChatGPT Plus
 - Markdown 格式渲染
 - 代码高亮
 - 暗色模式
+- 支持 ChatGPT 反馈
 - 复制结果
 - 切换语言
 
@@ -40,6 +51,11 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 2. `npm i`
 3. `npm run build`
 
+### 扩展包
+
+- [Chromium](packages/Glarity-chromium.zip)
+- [Firefox](packages/Glarity-firefox.zip)
+
 ### Chrome
 
 1. 打开扩展管理窗口，chrome://extensions
@@ -50,11 +66,11 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 
 1. 打开 `about:debugging#/runtime/this-firefox`
 2. 临时载入附加组件
-3. 载入 `build/firefox/`
+3. 载入 `build/firefox.zip`
 
 ## Credit
 
-项目灵感： [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension) & [qunash/chatgpt-advanced](https://github.com/qunash/chatgpt-advanced)
+项目灵感： [wong2/chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension) & [qunash/chatgpt-advanced](https://github.com/qunash/chatgpt-advanced) & [YouTube Summary with ChatGPT](https://github.com/kazuki-sf/YouTube_Summary_with_ChatGPT)
 
 ## License
 
