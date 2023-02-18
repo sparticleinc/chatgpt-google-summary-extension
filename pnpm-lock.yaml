@@ -23,6 +23,7 @@ specifiers:
   eventsource-parser: ^0.0.5
   expiry-map: ^2.0.0
   fs-extra: ^11.1.0
+  gb-url: ^1.1.6
   github-markdown-css: ^5.1.0
   husky: ^8.0.0
   inter-ui: ^3.19.3
@@ -54,6 +55,7 @@ dependencies:
   copy-to-clipboard: 3.3.3
   eventsource-parser: 0.0.5
   expiry-map: 2.0.0
+  gb-url: 1.1.6
   github-markdown-css: 5.1.0
   inter-ui: 3.19.3
   jquery: 3.6.3
@@ -1627,6 +1629,10 @@ packages:
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
+
+  /gb-url/1.1.6:
+    resolution: {integrity: sha512-8v/Sq4bGWLvo40aWbNofzFHJ8rkV2noF2Wp149Tj6RnrxTs7E6CueNu5DvPhLp+0zdBjcQW1pgD+muLU048/tw==}
+    dev: false
 
   /generic-names/4.0.0:
     resolution: {integrity: sha512-ySFolZQfw9FoDb3ed9d80Cm9f0+r7qj+HJkWjeD9RBfpxEVTlVhol+gvaQB/78WbwYfbnNh8nWHHBSlg072y6A==}

@@ -14,6 +14,7 @@
     "copy-to-clipboard": "^3.3.3",
     "eventsource-parser": "^0.0.5",
     "expiry-map": "^2.0.0",
+    "gb-url": "^1.1.6",
     "github-markdown-css": "^5.1.0",
     "inter-ui": "^3.19.3",
     "jquery": "^3.6.3",

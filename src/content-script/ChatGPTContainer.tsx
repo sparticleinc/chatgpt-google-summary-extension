@@ -5,7 +5,7 @@ import { SearchEngine } from './search-engine-configs'
 import { TriggerMode } from '../config'
 import ChatGPTCard from './ChatGPTCard'
 import { QueryStatus } from './ChatGPTQuery'
-import { getSearchParam, copyTranscript } from './utils'
+import { getSearchParam, copyTranscript, getConverTranscript } from './utils'
 import {
   GearIcon,
   CheckIcon,
@@ -14,23 +14,44 @@ import {
   ChevronUpIcon,
   AlertIcon,
 } from '@primer/octicons-react'
+import { queryParam } from 'gb-url'
 
 interface Props {
   question: string
-  subtitle: any
+  transcript?: any
   triggerMode: TriggerMode
   siteConfig: SearchEngine
+  langOptionsWithLink?: any
 }
 
 function ChatGPTContainer(props: Props) {
   const [queryStatus, setQueryStatus] = useState<QueryStatus>()
-  const { question, subtitle, triggerMode, siteConfig } = props
+  const { question, transcript, triggerMode, siteConfig, langOptionsWithLink } = props
   const [copied, setCopied] = useState(false)
-  const [subtitleShow, setSubtitleShow] = useState(false)
+  const [transcriptShow, setTranscriptShow] = useState(false)
+  const [currentTranscript, setCurrentTranscript] = useState(transcript)
+  const [selectedOption, setSelectedOption] = useState(0)
+
+  const handleChange = async (event) => {
+    const val = event.target.value || ''
+    const videoId = queryParam('v', window.location.href || '')
+
+    if (val < 0 || !videoId) {
+      return
+    }
+
+    setSelectedOption(val)
+
+    const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: val })
+
+    setTranscriptShow(true)
+
+    setCurrentTranscript(transcriptList)
+  }
 
   const copytSubtitle = () => {
     const videoId = getSearchParam(window.location.href)?.v
-    copyTranscript(videoId, subtitle)
+    copyTranscript(videoId, currentTranscript)
     setCopied(true)
   }
 
@@ -47,8 +68,8 @@ function ChatGPTContainer(props: Props) {
     }
   }, [copied])
 
-  const switchSubtitleShow = () => {
-    setSubtitleShow((state) => !state)
+  const switchtranscriptShow = () => {
+    setTranscriptShow((state) => !state)
   }
 
   return (
@@ -79,11 +100,13 @@ function ChatGPTContainer(props: Props) {
         <div className="glarity--main">
           <div className="glarity--main__container">
             {question ? (
-              <ChatGPTCard
-                question={question}
-                triggerMode={triggerMode}
-                onStatusChange={setQueryStatus}
-              />
+              <>
+                <ChatGPTCard
+                  question={question}
+                  triggerMode={triggerMode}
+                  onStatusChange={setQueryStatus}
+                />
+              </>
             ) : siteConfig?.name === 'youtube' ? (
               <>
                 <p>No Transcription Available... </p>
@@ -107,29 +130,40 @@ function ChatGPTContainer(props: Props) {
           </div>
         </div>
 
-        {question && subtitle && (
+        {question && currentTranscript && (
           <div className="glarity--main">
             <div className="glarity--main__header">
-              <div className="glarity--main__header--title" onClick={switchSubtitleShow}>
-                Transcript
+              <div className="glarity--main__header--title">
+                Transcript{' '}
+                <select className="glarity--select" value={selectedOption} onChange={handleChange}>
+                  {langOptionsWithLink &&
+                    Array.from(langOptionsWithLink).map((v, i) => {
+                      return (
+                        <option key={i} value={i}>
+                          {v.language}
+                        </option>
+                      )
+                    })}
+                </select>
               </div>
               <div className="glarity--main__header--action">
                 <a href="javascript:;" onClick={copytSubtitle}>
                   {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
                 </a>
 
-                <a href="javascript:;" onClick={switchSubtitleShow}>
-                  {subtitleShow ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
+                <a href="javascript:;" onClick={switchtranscriptShow}>
+                  {transcriptShow ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
                 </a>
               </div>
             </div>
+
             <div
               className="glarity--main__container glarity--main__container--subtitle"
               style={{
-                display: subtitleShow ? 'block' : 'none',
+                display: transcriptShow ? 'block' : 'none',
               }}
             >
-              {subtitle.map((v, i) => {
+              {currentTranscript.map((v, i) => {
                 const { time, text } = v
 
                 return (

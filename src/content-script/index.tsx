@@ -11,7 +11,9 @@ import {
   getTranscriptHTML,
   getRawTranscript,
   waitForElm,
+  getConverTranscript,
 } from './utils'
+import { getSummaryPrompt } from './prompt'
 import xss from 'xss'
 import './styles.scss'
 
@@ -19,7 +21,12 @@ const siteRegex = new RegExp(Object.keys(config).join('|'))
 const siteName = location.hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
-async function mount(question: string, siteConfig: SearchEngine, subtitle?: any) {
+async function mount(
+  question: string,
+  siteConfig: SearchEngine,
+  transcript?: any,
+  langOptionsWithLink?: any,
+) {
   if (document.querySelector('div.glarity--container')) {
     document.querySelector('div.glarity--container')?.remove()
   }
@@ -61,8 +68,9 @@ async function mount(question: string, siteConfig: SearchEngine, subtitle?: any)
   render(
     <ChatGPTContainer
       question={question}
-      subtitle={subtitle}
+      transcript={transcript}
       siteConfig={siteConfig}
+      langOptionsWithLink={langOptionsWithLink}
       triggerMode={userConfig.triggerMode || 'always'}
     />,
     container,
@@ -85,32 +93,57 @@ async function run() {
     // Get Transcript Language Options & Create Language Select Btns
     const langOptionsWithLink = await getLangOptionsWithLink(videoId)
 
-    const rawTranscript = !langOptionsWithLink
-      ? []
-      : await getRawTranscript(langOptionsWithLink[0].link)
-    console.log('rawTranscript', rawTranscript)
+    console.log('langOptionsWithLink', langOptionsWithLink)
 
-    const subtitleList = !langOptionsWithLink ? [] : await getTranscriptHTML(rawTranscript, videoId)
-    console.log('subtitleList', subtitleList)
+    const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: 0 })
 
-    const subtitle =
-      subtitleList.map((v) => {
-        return `(${v.time}):${v.text}`
+    // const transcript =
+    //   transcriptList.map((v) => {
+    //     return `(${v.time}):${v.text}`
+    //   }) || []
+
+    // let transcriptText = transcript.join('. \r\n ')
+
+    // transcriptText =
+    //   transcriptText.length > 3700 ? transcriptText.substring(0, 3700) : transcriptText
+
+    const videoTitle = document.title
+    const videoUrl = window.location.href
+
+    const transcript = (
+      transcriptList.map((v) => {
+        return `${v.text}`
       }) || []
+    ).join('')
 
-    let suttitleText = subtitle.join('. \r\n ')
+    //     const queryText = `Video transcript:
 
-    suttitleText = suttitleText.length > 3800 ? suttitleText.substring(0, 3800) : suttitleText
+    // ${suttitleText}
 
-    const queryText = `Video transcript:
+    // Instructions: Use the transcript information above to summarise the highlights of this video.
 
-${suttitleText}
+    // Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 
-Instructions: Use the transcript information above to summarise the highlights of this video.
+    const queryText = `Title: ${videoTitle}
+URL: ${videoUrl}
+
+Transcript:${getSummaryPrompt(transcript)}
+
+Instructions: The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title. Please provide a brief explanation for your rating. and give a most accurate title according to the transcript and summarize the highlights of the video.
+reply format:
+**Clickbait score**: 10/10 \r\n
+**Explanation**: 
+xxx \r\n
+**More accurate**:
+title:xxx \r\n
+**Summary**: 
+xxx \r\n
 
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 
-    mount(subtitle.length > 0 ? queryText : '', siteConfig, subtitleList)
+    console.log('youtube queryText', queryText)
+
+    mount(transcript.length > 0 ? queryText : '', siteConfig, transcriptList, langOptionsWithLink)
     return
   }
 
@@ -166,7 +199,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
           title.insertAdjacentHTML('afterbegin', html)
         }
 
-        if (text && url && index <= 6) {
+        if (text && url && index <= 5) {
           searchList =
             searchList +
             `
@@ -197,7 +230,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     console.log('queryText', queryText)
     console.log('siteConfig', siteConfig)
 
-    mount(searchList ? queryText : '', siteConfig, '')
+    mount(searchList ? queryText : '', siteConfig, '', '')
   }
 }
 

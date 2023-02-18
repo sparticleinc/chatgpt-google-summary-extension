@@ -261,3 +261,15 @@ export function waitForElm(selector) {
     })
   })
 }
+
+export async function getConverTranscript({ langOptionsWithLink, videoId, index }) {
+  const rawTranscript = !langOptionsWithLink
+    ? []
+    : await getRawTranscript(langOptionsWithLink[index ? index : 0].link)
+  console.log('rawTranscript', rawTranscript)
+
+  const transcriptList = !langOptionsWithLink ? [] : await getTranscriptHTML(rawTranscript, videoId)
+  console.log('transcriptList', transcriptList)
+
+  return transcriptList
+}
