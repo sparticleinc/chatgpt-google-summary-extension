@@ -147,7 +147,7 @@ async function run() {
 
     const Instructions = userConfig.prompt
       ? `${userConfig.prompt}`
-      : `Summarize video highlights with titles and transcript.`
+      : `Summarize the above content highlights.`
 
     const queryText = `
 Title: ${videoTitle}

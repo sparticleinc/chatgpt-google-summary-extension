@@ -36,9 +36,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
-  const [prompt, setPrompt] = useState<string>(
-    `Summarize video highlights with titles and transcript.`,
-  )
+  const [prompt, setPrompt] = useState<string>(`Summarize the above content highlights.`)
 
   useEffect(() => {
     getUserConfig().then((config) => {
