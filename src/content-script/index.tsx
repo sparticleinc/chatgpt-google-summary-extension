@@ -129,15 +129,19 @@ URL: ${videoUrl}
 
 Transcript:${getSummaryPrompt(transcript)}
 
-Instructions: The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title. Please provide a brief explanation for your rating. and give a most accurate title according to the transcript and summarize the highlights of the video.
-reply format:
-**Clickbait score**: 10/10 \r\n
-**Explanation**: 
-xxx \r\n
-**More accurate**:
-title:xxx \r\n
+Instructions: The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score(Full score of 10) of the title. Please provide a brief explanation for your rating. and give a most accurate title according to the transcript and summarize the highlights of the video.
+
+
+Reply format:
+"Reply in the following format:"
 **Summary**: 
 xxx \r\n
+**Clickbait score**: x/10 \r\n
+**Explanation**: 
+xxx \r\n
+**Most accurate title**:
+xxx \r\n
+
 
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 

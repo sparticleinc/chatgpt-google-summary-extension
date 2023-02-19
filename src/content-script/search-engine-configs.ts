@@ -1,4 +1,4 @@
-import { getSearchParam } from './utils'
+import { getSearchParam, waitForElm } from './utils'
 export interface SearchEngine {
   inputQuery: string[]
   sidebarContainerQuery: string[]
@@ -89,10 +89,16 @@ export const config: Record<string, SearchEngine> = {
       setInterval(() => {
         const videoId = getSearchParam(window.location.href)?.v
         if (window.location.href !== currentUrl && videoId) {
+          waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
+            if (document.querySelector('div.glarity--container')) {
+              document.querySelector('div.glarity--container')?.remove()
+            }
+          })
+
           callback()
           currentUrl = window.location.href
         }
-      }, 3000)
+      }, 1000)
     },
   },
 }

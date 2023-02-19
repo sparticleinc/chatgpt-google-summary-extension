@@ -134,17 +134,26 @@ function ChatGPTContainer(props: Props) {
           <div className="glarity--main">
             <div className="glarity--main__header">
               <div className="glarity--main__header--title">
-                Transcript{' '}
-                <select className="glarity--select" value={selectedOption} onChange={handleChange}>
-                  {langOptionsWithLink &&
-                    Array.from(langOptionsWithLink).map((v, i) => {
-                      return (
-                        <option key={i} value={i}>
-                          {v.language}
-                        </option>
-                      )
-                    })}
-                </select>
+                Transcript
+                {langOptionsWithLink.length > 1 && (
+                  <>
+                    {' '}
+                    <select
+                      className="glarity--select"
+                      value={selectedOption}
+                      onChange={handleChange}
+                    >
+                      {langOptionsWithLink &&
+                        Array.from(langOptionsWithLink).map((v, i) => {
+                          return (
+                            <option key={i} value={i}>
+                              {v.language}
+                            </option>
+                          )
+                        })}
+                    </select>
+                  </>
+                )}
               </div>
               <div className="glarity--main__header--action">
                 <a href="javascript:;" onClick={copytSubtitle}>
