@@ -54,13 +54,34 @@ async function mount(
     })
   } else {
     const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
+
+    console.log(
+      'siderbarContainer',
+      siderbarContainer,
+      document.querySelector('#center_col')?.nextSibling,
+    )
+
     if (siderbarContainer) {
       siderbarContainer.prepend(container)
     } else {
-      container.classList.add('sidebar--free')
-      const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
-      if (appendContainer) {
-        appendContainer.appendChild(container)
+      // container.classList.add('sidebar--free')
+      // const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
+      // if (appendContainer) {
+      //   appendContainer.appendChild(container)
+      // }
+
+      if (siteConfig.extabarContainerQuery && document.querySelector('#center_col')?.nextSibling) {
+        container.classList.add('glarity--full-container')
+        const appendContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery)
+        if (appendContainer) {
+          appendContainer.appendChild(container)
+        }
+      } else {
+        container.classList.add('sidebar--free')
+        const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
+        if (appendContainer) {
+          appendContainer.appendChild(container)
+        }
       }
     }
   }

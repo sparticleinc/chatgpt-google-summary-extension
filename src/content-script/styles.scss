@@ -16,6 +16,12 @@
     min-width: var(--ytd-watch-flexy-sidebar-min-width);
   }
 
+  &.glarity--full-container {
+    min-width: calc(100% - var(--rhs-margin));
+    margin-right: var(--rhs-margin);
+    margin-bottom: 10px;
+  }
+
   .glarity--chatgpt {
     border: 1px solid;
     border-radius: 8px;
