@@ -22,6 +22,7 @@ import {
   TRIGGER_MODE_TEXT,
   updateUserConfig,
 } from '../config'
+import { defaultPrompt } from '../utils'
 import logo from '../logo.png'
 import { detectSystemColorScheme, getExtensionVersion } from '../utils'
 import ProviderSelect from './ProviderSelect'
@@ -36,12 +37,14 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
-  const [prompt, setPrompt] = useState<string>(`Summarize the above content highlights.`)
+  const [prompt, setPrompt] = useState<string>('')
 
   useEffect(() => {
     getUserConfig().then((config) => {
       setTriggerMode(config.triggerMode)
       setLanguage(config.language)
+
+      setPrompt(config.prompt ? config.prompt : defaultPrompt)
     })
   }, [])
 

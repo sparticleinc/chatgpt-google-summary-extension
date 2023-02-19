@@ -15,6 +15,7 @@ import {
 } from './utils'
 import { getSummaryPrompt } from './prompt'
 import xss from 'xss'
+import { defaultPrompt } from '../utils'
 import './styles.scss'
 
 const siteRegex = new RegExp(Object.keys(config).join('|'))
@@ -145,9 +146,7 @@ async function run() {
 
     // Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 
-    const Instructions = userConfig.prompt
-      ? `${userConfig.prompt}`
-      : `Summarize the above content highlights.`
+    const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
     const queryText = `
 Title: ${videoTitle}

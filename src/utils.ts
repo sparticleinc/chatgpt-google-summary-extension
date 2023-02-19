@@ -11,3 +11,5 @@ export function detectSystemColorScheme() {
 export function getExtensionVersion() {
   return Browser.runtime.getManifest().version
 }
+
+export const defaultPrompt = 'Summarize the above content highlights.'
