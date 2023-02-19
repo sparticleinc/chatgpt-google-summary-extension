@@ -42,6 +42,7 @@ const userConfigWithDefaultValue = {
   triggerMode: TriggerMode.Always,
   theme: Theme.Auto,
   language: Language.Auto,
+  prompt: '',
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

@@ -1,4 +1,16 @@
-import { CssBaseline, GeistProvider, Radio, Select, Text, Toggle, useToasts } from '@geist-ui/core'
+import {
+  CssBaseline,
+  GeistProvider,
+  Radio,
+  Select,
+  Text,
+  Toggle,
+  useToasts,
+  Code,
+  Textarea,
+  Card,
+  Divider,
+} from '@geist-ui/core'
 import { capitalize } from 'lodash-es'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
 import '../base.css'
@@ -13,11 +25,20 @@ import {
 import logo from '../logo.png'
 import { detectSystemColorScheme, getExtensionVersion } from '../utils'
 import ProviderSelect from './ProviderSelect'
+import './styles.scss'
+
+function CustomizePrompt() {
+  return `Title: "{{Title}}"
+Transcript: "{{Transcript}}"`
+}
 
 function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
+  const [prompt, setPrompt] = useState<string>(
+    `Summarize video highlights with titles and transcript.`,
+  )
 
   useEffect(() => {
     getUserConfig().then((config) => {
@@ -51,6 +72,12 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     },
     [setToast],
   )
+
+  const onPromptChange = useCallback((e) => {
+    const prompt = e.target.value || ''
+    setPrompt(prompt)
+    updateUserConfig({ prompt })
+  })
 
   return (
     <div className="container mx-auto">
@@ -133,6 +160,26 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
             </Select.Option>
           ))}
         </Select>
+
+        <Text h3 className="mt-5 mb-0">
+          Customize Prompt for Summary(YouTube)
+        </Text>
+        <Card className="glarity--card">
+          <Text className="my-1">
+            <Code block my={0}>
+              <CustomizePrompt />
+            </Code>
+          </Text>
+          <Textarea placeholder="Please enter a Prompt." value={prompt} onChange={onPromptChange} />
+          {/* <Divider /> */}
+        </Card>
+        <Text className="my-1">Example Prompts: </Text>
+        <ul>
+          <li>Summarize the above in 3 bullet points.</li>
+          <li>What's key takeaways from the above?</li>
+          <li>Extract the gist of the above.</li>
+        </ul>
+
         <Text h3 className="mt-5 mb-0">
           AI Provider
         </Text>
