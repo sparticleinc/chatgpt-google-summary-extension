@@ -30,9 +30,9 @@ function ChatGPTCard(props: Props) {
     return <ChatGPTQuery question={props.question} onStatusChange={props.onStatusChange} />
   }
   return (
-    <p className="icon-and-text cursor-pointer" onClick={() => setTriggered(true)}>
+    <a href="javascript:;" onClick={() => setTriggered(true)}>
       <SearchIcon size="small" /> Ask ChatGPT for this query
-    </p>
+    </a>
   )
 }
 

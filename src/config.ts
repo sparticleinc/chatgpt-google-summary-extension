@@ -9,10 +9,10 @@ export enum TriggerMode {
 
 export const TRIGGER_MODE_TEXT = {
   [TriggerMode.Always]: { title: 'Always', desc: 'ChatGPT is queried on every search' },
-  [TriggerMode.QuestionMark]: {
-    title: 'Question Mark',
-    desc: 'When your query ends with a question mark (?)',
-  },
+  // [TriggerMode.QuestionMark]: {
+  //   title: 'Question Mark',
+  //   desc: 'When your query ends with a question mark (?)',
+  // },
   [TriggerMode.Manually]: {
     title: 'Manually',
     desc: 'ChatGPT is queried when you manually click a button',
