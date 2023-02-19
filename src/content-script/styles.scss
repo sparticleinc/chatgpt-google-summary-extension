@@ -89,7 +89,7 @@
 
   .glarity--chatgpt--header {
     margin-top: -42px !important;
-    margin-left: 50%;
+    margin-left: calc(100% - 70px);
     margin-bottom: 10px;
     padding-bottom: 6px;
     display: flex;
