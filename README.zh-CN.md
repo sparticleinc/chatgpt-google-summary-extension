@@ -7,6 +7,12 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 Google
 YouTube
 
+## 安装
+
+[Chrome 应用市场](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
+
+[Firefox Add-ons 市场](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
+
 ## 截图
 
 ### Google
@@ -17,12 +23,6 @@ YouTube
 ### YouTube
 
 ![Screenshot](screenshots/extension-youtube-zh-CN.jpeg?raw=true)
-
-## 安装
-
-[Chrome 应用市场](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
-
-[Firefox Add-ons 市场](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
 
 ## 功能
 

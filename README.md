@@ -7,6 +7,12 @@ Chrome extension to display ChatGPT summaries alongside Google search results an
 Google
 YouTube
 
+## Installation
+
+[Install from Chrome Web Store](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
+
+[Install from Mozilla Add-on Store](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
+
 ## Screenshot
 
 ### Google
@@ -17,12 +23,6 @@ YouTube
 ### YouTube
 
 ![Screenshot](screenshots/extension-youtube.jpeg?raw=true)
-
-## Installation
-
-[Install from Chrome Web Store](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
-
-[Install from Mozilla Add-on Store](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
 
 ## Features
 
