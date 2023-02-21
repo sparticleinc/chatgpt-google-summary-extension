@@ -9,9 +9,9 @@ YouTube
 
 ## Installation
 
-[Install from Chrome Web Store](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
+[Add from Chrome Web Store](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
 
-[Install from Mozilla Add-on Store](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
+[Add from Mozilla Add-on Store](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
 
 ## Screenshot
 
