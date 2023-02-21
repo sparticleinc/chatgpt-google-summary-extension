@@ -265,7 +265,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     console.log('queryText', queryText)
     console.log('siteConfig', siteConfig)
 
-    mount(searchList ? queryText : '', siteConfig, '', '')
+    mount(searchList ? queryText : searchValueWithLanguageOption, siteConfig, '', '')
   }
 }
 
