@@ -15,7 +15,7 @@ export function getExtensionVersion() {
 // export const defaultPrompt = 'Summarize the above content highlights.'
 export const defaultPrompt = `Your output should use the following template:
 ### Summary
-### Facts
+### Highlights
 - [Emoji] Bulletpoint
 
 Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.
