@@ -10,6 +10,7 @@ import {
   Textarea,
   Card,
   Divider,
+  Button,
 } from '@geist-ui/core'
 import { capitalize } from 'lodash-es'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
@@ -78,7 +79,11 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     const prompt = e.target.value || ''
     setPrompt(prompt)
     updateUserConfig({ prompt })
-  })
+  }, [])
+
+  const onSetPrompt = useCallback(() => {
+    setPrompt(defaultPrompt)
+  }, [])
 
   return (
     <div className="container mx-auto">
@@ -172,10 +177,14 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
             </Code>
           </Text>
           <Textarea placeholder="Please enter a Prompt." value={prompt} onChange={onPromptChange} />
-          {/* <Divider /> */}
+          <Divider />
+          <Button type="secondary" ghost scale={1 / 3} onClick={onSetPrompt}>
+            Use default
+          </Button>
         </Card>
         <Text className="my-1">Example Prompts: </Text>
         <ul>
+          <li>Summarize the above content highlights.</li>
           <li>Summarize the above in 3 bullet points.</li>
           <li>What's key takeaways from the above?</li>
           <li>Extract the gist of the above.</li>
