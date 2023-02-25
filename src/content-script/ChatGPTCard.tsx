@@ -31,7 +31,7 @@ function ChatGPTCard(props: Props) {
   }
   return (
     <a href="javascript:;" onClick={() => setTriggered(true)}>
-      <SearchIcon size="small" /> Ask ChatGPT for this query
+      <SearchIcon size="small" /> Ask ChatGPT to summarize
     </a>
   )
 }
