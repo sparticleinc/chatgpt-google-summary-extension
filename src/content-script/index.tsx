@@ -126,7 +126,7 @@ async function run() {
     const queryText = `
 Title: ${articleTitle}
 URL: ${articleUrl}
-Content:${articleText}
+Content:${getSummaryPrompt(articleText)}
 
 Instructions: Please summarize the highlights of this article based on the above.
 
