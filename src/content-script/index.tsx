@@ -18,8 +18,9 @@ import xss from 'xss'
 import { defaultPrompt } from '../utils'
 import './styles.scss'
 
+const hostname = location.hostname
 const siteRegex = new RegExp(Object.keys(config).join('|'))
-const siteName = location.hostname.match(siteRegex)![0]
+const siteName = hostname === 'news.yahoo.co.jp' ? 'yahooJpNews' : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
 async function mount(
@@ -48,7 +49,11 @@ async function mount(
     container.classList.add('gpt--light')
   }
 
-  if (siteName === 'youtube') {
+  if (siteName === 'yahooJpNews') {
+    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
+    container.classList.add('glarity--chatgpt--yahoonews')
+    document.querySelector(eleSideBar)?.prepend(container)
+  } else if (siteName === 'youtube') {
     container.classList.add('glarity--chatgpt--youtube')
     waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
       document.querySelector('#secondary.style-scope.ytd-watch-flexy')?.prepend(container)
@@ -103,6 +108,33 @@ async function run() {
   const language = window.navigator.language
   const userConfig = await getUserConfig()
   console.debug('Mount ChatGPT on', siteName)
+
+  // Yahoo Japan News
+  if (siteName === 'yahooJpNews') {
+    if (!/\/articles\//g.test(location.href)) {
+      return
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = document.querySelector('div.article_body')?.textContent
+
+    if (!articleText) {
+      return
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:${articleText}
+
+Instructions: Please summarize the highlights of this article based on the above.
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    mount(queryText, siteConfig, '', '')
+    return
+  }
 
   // Youtube
   if (siteName === 'youtube') {
@@ -257,7 +289,7 @@ ${searchList}
 
 Current date: ${year}/${month}/${day}
 
-Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.
+Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.
 Query: ${searchInput.value}
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}`
 

@@ -21,11 +21,11 @@ export const config: Record<string, SearchEngine> = {
     sidebarContainerQuery: ['#b_context'],
     appendContainerQuery: [],
   },
-  yahoo: {
-    inputQuery: ["input[name='p']"],
-    sidebarContainerQuery: ['#right', '.Contents__inner.Contents__inner--sub'],
-    appendContainerQuery: ['#cols', '#contents__wrap'],
-  },
+  // yahoo: {
+  //   inputQuery: ["input[name='p']"],
+  //   sidebarContainerQuery: ['#right', '.Contents__inner.Contents__inner--sub'],
+  //   appendContainerQuery: ['#cols', '#contents__wrap'],
+  // },
   duckduckgo: {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['.results--sidebar.js-results-sidebar'],
@@ -100,5 +100,12 @@ export const config: Record<string, SearchEngine> = {
         }
       }, 1000)
     },
+  },
+  yahooJpNews: {
+    inputQuery: ["input[name='q']"],
+    sidebarContainerQuery: ['#rhs'],
+    appendContainerQuery: ['#rcnt'],
+    extabarContainerQuery: ['#yjnFixableArea.sc-feJyhm'],
+    name: 'yahooJpNews',
   },
 }
