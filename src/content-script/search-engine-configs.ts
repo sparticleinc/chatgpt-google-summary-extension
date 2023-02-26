@@ -108,4 +108,12 @@ export const config: Record<string, SearchEngine> = {
     extabarContainerQuery: ['#yjnFixableArea.sc-feJyhm'],
     name: 'yahooJpNews',
   },
+  pubmed: {
+    inputQuery: ["input[name='q']"],
+    sidebarContainerQuery: ['#rhs'],
+    appendContainerQuery: ['#rcnt'],
+    // extabarContainerQuery: ['aside.page-sidebar > div.inner-wrap'],
+    extabarContainerQuery: ['aside.page-sidebar'],
+    name: 'pubmed',
+  },
 }

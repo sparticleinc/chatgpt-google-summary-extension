@@ -20,7 +20,12 @@ import './styles.scss'
 
 const hostname = location.hostname
 const siteRegex = new RegExp(Object.keys(config).join('|'))
-const siteName = hostname === 'news.yahoo.co.jp' ? 'yahooJpNews' : hostname.match(siteRegex)![0]
+const siteName =
+  hostname === 'news.yahoo.co.jp'
+    ? 'yahooJpNews'
+    : hostname === 'pubmed.ncbi.nlm.nih.gov'
+    ? 'pubmed'
+    : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
 async function mount(
@@ -49,7 +54,11 @@ async function mount(
     container.classList.add('gpt--light')
   }
 
-  if (siteName === 'yahooJpNews') {
+  if (siteName === 'pubmed') {
+    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
+    container.classList.add('glarity--chatgpt--pubmed')
+    document.querySelector(eleSideBar)?.prepend(container)
+  } else if (siteName === 'yahooJpNews') {
     const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
     container.classList.add('glarity--chatgpt--yahoonews')
     document.querySelector(eleSideBar)?.prepend(container)
@@ -109,6 +118,39 @@ async function run() {
   const userConfig = await getUserConfig()
   console.debug('Mount ChatGPT on', siteName)
 
+  // PubMed
+  if (siteName === 'pubmed') {
+    if (!/pubmed\.ncbi\.nlm\.nih.gov\/\d{8,}/.test(location.href)) {
+      return
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = document.querySelector('div#abstract')?.textContent
+
+    if (!articleText) {
+      return
+    }
+
+    const content = getSummaryPrompt(articleText)
+
+    console.log('content', content)
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:  ${content}
+
+Instructions: Please summarize the highlights of this article based on the above.
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    console.log('Yahoo Japan News queryText', queryText)
+
+    mount(queryText, siteConfig, '', '')
+    return
+  }
+
   // Yahoo Japan News
   if (siteName === 'yahooJpNews') {
     if (!/\/articles\//g.test(location.href)) {
@@ -131,6 +173,8 @@ Content:${getSummaryPrompt(articleText)}
 Instructions: Please summarize the highlights of this article based on the above.
 
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    console.log('Yahoo Japan News queryText', queryText)
 
     mount(queryText, siteConfig, '', '')
     return
