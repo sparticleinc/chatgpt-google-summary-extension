@@ -10,16 +10,17 @@ interface Props {
   onStatusChange?: (status: QueryStatus) => void
   run: (isRefresh?: boolean) => Promise<void>
   isRefresh?: boolean
+  currentTime?: number
 }
 
 function ChatGPTCard(props: Props) {
-  const { isRefresh, triggerMode, question, onStatusChange, run } = props
+  const { isRefresh, triggerMode, question, onStatusChange, run, currentTime } = props
 
   const [triggered, setTriggered] = useState(false)
 
   console.log('ChatGPTCard props', props)
 
-  if (triggerMode === TriggerMode.Always || isRefresh) {
+  if (triggerMode === TriggerMode.Always) {
     return (
       <ChatGPTQuery isRefresh={isRefresh} question={question} onStatusChange={onStatusChange} />
     )
@@ -38,11 +39,22 @@ function ChatGPTCard(props: Props) {
   }
   if (triggered) {
     return (
-      <ChatGPTQuery isRefresh={isRefresh} question={question} onStatusChange={onStatusChange} />
+      <ChatGPTQuery
+        currentTime={currentTime}
+        isRefresh={isRefresh}
+        question={question}
+        onStatusChange={onStatusChange}
+      />
     )
   }
   return (
-    <a href="javascript:;" onClick={() => run(true)}>
+    <a
+      href="javascript:;"
+      onClick={() => {
+        setTriggered(true)
+        run(true)
+      }}
+    >
       <SearchIcon size="small" /> Ask ChatGPT to summarize
     </a>
   )

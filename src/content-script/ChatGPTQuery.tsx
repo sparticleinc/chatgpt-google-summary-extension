@@ -13,10 +13,11 @@ interface Props {
   question: string
   onStatusChange?: (status: QueryStatus) => void
   isRefresh?: boolean
+  currentTime?: number
 }
 
 function ChatGPTQuery(props: Props) {
-  const { isRefresh, onStatusChange } = props
+  const { isRefresh, onStatusChange, currentTime } = props
 
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
@@ -34,6 +35,11 @@ function ChatGPTQuery(props: Props) {
 
     console.log('status', status)
   }, [isRefresh, onStatusChange, props, status])
+
+  useEffect(() => {
+    setError('')
+    setRetry((r) => r + 1)
+  }, [currentTime])
 
   useEffect(() => {
     const port = Browser.runtime.connect()
@@ -77,10 +83,6 @@ function ChatGPTQuery(props: Props) {
 
   useEffect(() => {
     shouldShowRatingTip().then((show) => setShowTip(show))
-  }, [])
-
-  const openOptionsPage = useCallback(() => {
-    Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
   if (answer) {

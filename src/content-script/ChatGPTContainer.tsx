@@ -37,6 +37,7 @@ function ChatGPTContainer(props: Props) {
   const [currentTranscript, setCurrentTranscript] = useState(transcript)
   const [selectedOption, setSelectedOption] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [currentTime, setCurrentTime] = useState<number>(0)
 
   const handleChange = async (event) => {
     const val = event.target.value || ''
@@ -69,6 +70,7 @@ function ChatGPTContainer(props: Props) {
     setQueryStatus(undefined)
     setLoading(true)
     run(true)
+    setCurrentTime(Date.now())
   }, [run])
 
   useEffect(() => {
@@ -130,6 +132,7 @@ function ChatGPTContainer(props: Props) {
                   onStatusChange={setQueryStatus}
                   isRefresh={isRefresh}
                   run={run}
+                  currentTime={currentTime}
                 />
               </>
             ) : siteConfig?.name === 'youtube' ? (
