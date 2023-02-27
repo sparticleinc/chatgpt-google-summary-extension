@@ -11,6 +11,8 @@ import {
   Card,
   Divider,
   Button,
+  Snippet,
+  Spacer,
 } from '@geist-ui/core'
 import { capitalize } from 'lodash-es'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
@@ -33,6 +35,21 @@ function CustomizePrompt() {
   return `Title: "{{Title}}"
 Transcript: "{{Transcript}}"`
 }
+
+const customizePrompt1 = `Your output should use the following template:
+#### Summary
+#### Highlights
+- [Emoji] Bulletpoint
+
+Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.
+`
+
+const customizePromptClickbait = `The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title.
+
+reply format:
+#### Clickbait score
+
+#### Explanation`
 
 function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
@@ -78,12 +95,20 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
   const onPromptChange = useCallback((e) => {
     const prompt = e.target.value || ''
     setPrompt(prompt)
-    updateUserConfig({ prompt })
   }, [])
+
+  const onSavePrompt = useCallback(() => {
+    updateUserConfig({ prompt })
+    setToast({ text: 'Changes saved', type: 'success' })
+  }, [setToast, prompt])
 
   const onSetPrompt = useCallback(() => {
     setPrompt(defaultPrompt)
-  }, [])
+    updateUserConfig({ prompt: defaultPrompt })
+    setToast({ text: 'Changes saved', type: 'success' })
+  }, [setToast])
+
+  CustomizePrompt
 
   return (
     <div className="container mx-auto">
@@ -106,9 +131,9 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           >
             Feedback
           </a>
-          {/* <a href="https://twitter.com/chatgpt4google" target="_blank" rel="noreferrer">
+          <a href="https://twitter.com/Glarity_summary" target="_blank" rel="noreferrer">
             Twitter
-          </a> */}
+          </a>
           <a
             href="https://github.com/sparticleinc/chatgpt-google-summary-extension"
             target="_blank"
@@ -178,16 +203,45 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           </Text>
           <Textarea placeholder="Please enter a Prompt." value={prompt} onChange={onPromptChange} />
           <Divider />
-          <Button type="secondary" ghost scale={1 / 3} onClick={onSetPrompt}>
+          <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
+            Save
+          </Button>{' '}
+          <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
             Use default
           </Button>
         </Card>
         <Text className="my-1">Example Prompts: </Text>
         <ul>
-          <li>Summarize the above content highlights.</li>
-          <li>Summarize the above in 3 bullet points.</li>
-          <li>What's key takeaways from the above?</li>
-          <li>Extract the gist of the above.</li>
+          <li>
+            <Snippet symbol="" type="secondary">
+              Summarize the above content highlights.{' '}
+            </Snippet>
+          </li>
+          <li>
+            {' '}
+            <Snippet symbol="" type="secondary">
+              Summarize the above in 3 bullet points.{' '}
+            </Snippet>
+          </li>
+          <li>
+            {' '}
+            <Snippet symbol="" type="secondary">
+              What's key takeaways from the above?{' '}
+            </Snippet>
+          </li>
+          <li>
+            <Snippet type="secondary">Extract the gist of the above.</Snippet>
+          </li>
+          <li>
+            <Snippet symbol="" type="secondary">
+              {customizePrompt1}
+            </Snippet>
+          </li>
+          <li>
+            <Snippet symbol="" type="success">
+              {customizePromptClickbait}
+            </Snippet>
+          </li>
         </ul>
 
         <Text h3 className="mt-5 mb-0">

@@ -18,22 +18,39 @@ import xss from 'xss'
 import { defaultPrompt } from '../utils'
 import './styles.scss'
 
+interface MountProps {
+  question: string
+  siteConfig: SearchEngine
+  transcript?: any
+  langOptionsWithLink?: any
+  isRefresh?: boolean
+}
+
+const hostname = location.hostname
 const siteRegex = new RegExp(Object.keys(config).join('|'))
-const siteName = location.hostname.match(siteRegex)![0]
+const siteName =
+  hostname === 'news.yahoo.co.jp'
+    ? 'yahooJpNews'
+    : hostname === 'pubmed.ncbi.nlm.nih.gov'
+    ? 'pubmed'
+    : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
-async function mount(
-  question: string,
-  siteConfig: SearchEngine,
-  transcript?: any,
-  langOptionsWithLink?: any,
-) {
-  if (document.querySelector('div.glarity--container')) {
-    document.querySelector('div.glarity--container')?.remove()
-  }
+async function mount(props: MountProps) {
+  const { question, siteConfig, transcript, langOptionsWithLink, isRefresh } = props
 
-  const container = document.createElement('div')
-  container.className = 'glarity--container'
+  let container
+
+  if (!isRefresh) {
+    if (document.querySelector('div.glarity--container')) {
+      document.querySelector('div.glarity--container')?.remove()
+    }
+
+    container = document.createElement('div')
+    container.className = 'glarity--container'
+  } else {
+    container = document.querySelector('div.glarity--container')
+  }
 
   const userConfig = await getUserConfig()
   let theme: Theme
@@ -48,7 +65,15 @@ async function mount(
     container.classList.add('gpt--light')
   }
 
-  if (siteName === 'youtube') {
+  if (siteName === 'pubmed') {
+    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
+    container.classList.add('glarity--chatgpt--pubmed')
+    document.querySelector(eleSideBar)?.prepend(container)
+  } else if (siteName === 'yahooJpNews') {
+    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
+    container.classList.add('glarity--chatgpt--yahoonews')
+    document.querySelector(eleSideBar)?.prepend(container)
+  } else if (siteName === 'youtube') {
     container.classList.add('glarity--chatgpt--youtube')
     waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
       document.querySelector('#secondary.style-scope.ytd-watch-flexy')?.prepend(container)
@@ -94,15 +119,80 @@ async function mount(
       siteConfig={siteConfig}
       langOptionsWithLink={langOptionsWithLink}
       triggerMode={userConfig.triggerMode || 'always'}
+      run={run}
+      isRefresh={isRefresh}
     />,
     container,
   )
 }
 
-async function run() {
+async function run(isRefresh?: boolean | undefined) {
+  console.debug('run isRefresh', isRefresh)
   const language = window.navigator.language
   const userConfig = await getUserConfig()
   console.debug('Mount ChatGPT on', siteName)
+
+  // PubMed
+  if (siteName === 'pubmed') {
+    if (!/pubmed\.ncbi\.nlm\.nih.gov\/\d{8,}/.test(location.href)) {
+      return
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = document.querySelector('div#abstract')?.textContent
+
+    if (!articleText) {
+      return
+    }
+
+    const content = getSummaryPrompt(articleText)
+
+    console.log('content', content)
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:  ${content}
+
+Instructions: Please use the above to summarize the highlights.
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    console.log('Yahoo Japan News queryText', queryText)
+
+    mount({ question: queryText, siteConfig, isRefresh })
+    return
+  }
+
+  // Yahoo Japan News
+  if (siteName === 'yahooJpNews') {
+    if (!/\/articles\//g.test(location.href)) {
+      return
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = document.querySelector('div.article_body')?.textContent
+
+    if (!articleText) {
+      return
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:${getSummaryPrompt(articleText)}
+
+Instructions: Please use the above to summarize the highlights.
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    console.log('Yahoo Japan News queryText', queryText)
+
+    mount({ question: queryText, siteConfig, isRefresh })
+    return
+  }
 
   // Youtube
   if (siteName === 'youtube') {
@@ -178,7 +268,13 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     console.log('youtube queryText', queryText)
 
-    mount(transcript.length > 0 ? queryText : '', siteConfig, transcriptList, langOptionsWithLink)
+    mount({
+      question: transcript.length > 0 ? queryText : '',
+      siteConfig,
+      transcript: transcriptList,
+      langOptionsWithLink,
+      isRefresh,
+    })
     return
   }
 
@@ -191,7 +287,6 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
         : `${searchInput.value}(in ${userConfig.language})`
 
     console.log('searchValueWithLanguageOption', searchValueWithLanguageOption)
-    // mount(searchValueWithLanguageOption, siteConfig)
 
     let searchList = ''
 
@@ -234,7 +329,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
           title.insertAdjacentHTML('afterbegin', html)
         }
 
-        if (text && url && index <= 5) {
+        if (text && url && index <= 6) {
           searchList =
             searchList +
             `
@@ -253,11 +348,11 @@ URL: ${url}
 
     const queryText = `Web search results:
 
-${searchList}
+${getSummaryPrompt(searchList)}
 
 Current date: ${year}/${month}/${day}
 
-Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.
+Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.
 Query: ${searchInput.value}
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}`
 
@@ -265,7 +360,11 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     console.log('queryText', queryText)
     console.log('siteConfig', siteConfig)
 
-    mount(searchList ? queryText : searchValueWithLanguageOption, siteConfig, '', '')
+    mount({
+      question: searchList ? queryText : searchValueWithLanguageOption,
+      siteConfig,
+      isRefresh,
+    })
   }
 }
 

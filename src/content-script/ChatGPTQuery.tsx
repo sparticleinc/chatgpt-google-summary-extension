@@ -12,9 +12,12 @@ export type QueryStatus = 'success' | 'error' | undefined
 interface Props {
   question: string
   onStatusChange?: (status: QueryStatus) => void
+  isRefresh?: boolean
 }
 
 function ChatGPTQuery(props: Props) {
+  const { isRefresh, onStatusChange } = props
+
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
   const [retry, setRetry] = useState(0)
@@ -23,8 +26,14 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
 
   useEffect(() => {
-    props.onStatusChange?.(status)
-  }, [props, status])
+    if (isRefresh) {
+      setAnswer(null)
+    }
+
+    onStatusChange?.(status)
+
+    console.log('status', status)
+  }, [isRefresh, onStatusChange, props, status])
 
   useEffect(() => {
     const port = Browser.runtime.connect()
@@ -32,7 +41,10 @@ function ChatGPTQuery(props: Props) {
       console.log('result', msg)
 
       if (msg.text) {
-        setAnswer(msg)
+        let text = msg.text || ''
+        text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
+
+        setAnswer(Object.assign(msg, { text }))
         setStatus('success')
       } else if (msg.error) {
         setError(msg.error)

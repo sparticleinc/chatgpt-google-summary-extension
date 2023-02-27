@@ -21,6 +21,10 @@
     margin-right: var(--rhs-margin);
     margin-bottom: 10px;
   }
+  &.glarity--chatgpt--pubmed {
+    width: calc(100% + 80px);
+    max-width: calc(100% + 80px);
+  }
 
   .glarity--chatgpt {
     border: 1px solid;
@@ -231,4 +235,10 @@ a.glarity--header__logo {
   width: 70px;
   border: 1px solid #bbb;
   border-radius: 4px;
+}
+
+.glarity--icon--loading {
+  display: inline-block !important;
+  vertical-align: middle;
+  transform: scale(0.7);
 }
