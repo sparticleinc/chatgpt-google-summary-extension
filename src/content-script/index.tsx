@@ -96,7 +96,11 @@ async function mount(props: MountProps) {
       //   appendContainer.appendChild(container)
       // }
 
-      if (siteConfig.extabarContainerQuery && document.querySelector('#center_col')?.nextSibling) {
+      if (
+        siteConfig.extabarContainerQuery &&
+        document.querySelector('#center_col')?.nextSibling &&
+        !isRefresh
+      ) {
         container.classList.add('glarity--full-container')
         const appendContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery)
         if (appendContainer) {
@@ -324,7 +328,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
         console.log(title, text, url)
 
-        if (title) {
+        if (title && !isRefresh) {
           const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)
           title.insertAdjacentHTML('afterbegin', html)
         }
