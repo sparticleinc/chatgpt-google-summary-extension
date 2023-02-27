@@ -32,7 +32,10 @@ function ChatGPTQuery(props: Props) {
       console.log('result', msg)
 
       if (msg.text) {
-        setAnswer(msg)
+        let text = msg.text || ''
+        text = text.replace(/^(\s|:\n\n)+|(\s|:\n\n)+|(:)+|(:\s)$/g, '')
+
+        setAnswer(Object.assign(msg, { text }))
         setStatus('success')
       } else if (msg.error) {
         setError(msg.error)
