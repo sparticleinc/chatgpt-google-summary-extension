@@ -125,6 +125,7 @@ async function mount(props: MountProps) {
       triggerMode={userConfig.triggerMode || 'always'}
       run={run}
       isRefresh={isRefresh}
+      currentTime={Date.now()}
     />,
     container,
   )

@@ -27,18 +27,26 @@ interface Props {
   langOptionsWithLink?: any
   run: (isRefresh?: boolean) => Promise<void>
   isRefresh?: boolean
+  currentTime?: number
 }
 
 function ChatGPTContainer(props: Props) {
   const [queryStatus, setQueryStatus] = useState<QueryStatus>()
-  const { question, transcript, triggerMode, siteConfig, langOptionsWithLink, run, isRefresh } =
-    props
+  const {
+    question,
+    transcript,
+    triggerMode,
+    siteConfig,
+    langOptionsWithLink,
+    run,
+    isRefresh,
+    currentTime,
+  } = props
   const [copied, setCopied] = useState(false)
   const [transcriptShow, setTranscriptShow] = useState(false)
   const [currentTranscript, setCurrentTranscript] = useState(transcript)
   const [selectedOption, setSelectedOption] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [currentTime, setCurrentTime] = useState<number>(0)
   const [theme, setTheme] = useState(Theme.Auto)
 
   const themeType = useMemo(() => {
@@ -76,11 +84,14 @@ function ChatGPTContainer(props: Props) {
   }, [])
 
   const onRefresh = useCallback(() => {
+    if (loading) {
+      return
+    }
+
     setQueryStatus(undefined)
     setLoading(true)
     run(true)
-    setCurrentTime(Date.now())
-  }, [run])
+  }, [run, loading])
 
   useEffect(() => {
     if (copied) {

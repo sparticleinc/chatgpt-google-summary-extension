@@ -39,6 +39,8 @@ function ChatGPTQuery(props: Props) {
   useEffect(() => {
     setError('')
     setRetry((r) => r + 1)
+
+    console.log('currentTime', currentTime)
   }, [currentTime])
 
   useEffect(() => {
