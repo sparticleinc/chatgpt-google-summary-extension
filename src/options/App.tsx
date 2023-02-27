@@ -37,19 +37,19 @@ Transcript: "{{Transcript}}"`
 }
 
 const customizePrompt1 = `Your output should use the following template:
-### Summary
-### Highlights
+#### Summary
+#### Highlights
 - [Emoji] Bulletpoint
 
 Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.
 `
 
-const customizePromptClickbait = `The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title，The higher the score, the better the video quality. 
-reply format:
-**Clickbait score**: {{score}}/10 
+const customizePromptClickbait = `The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title.
 
-**Explanation**: 
-{{explanation}}`
+reply format:
+#### Clickbait score
+
+#### Explanation`
 
 function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
@@ -233,15 +233,15 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
             <Snippet type="secondary">Extract the gist of the above.</Snippet>
           </li>
           <li>
-            <Snippet symbol="" type="success">
+            <Snippet symbol="" type="secondary">
               {customizePrompt1}
             </Snippet>
           </li>
-          {/* <li>
+          <li>
             <Snippet symbol="" type="success">
               {customizePromptClickbait}
             </Snippet>
-          </li> */}
+          </li>
         </ul>
 
         <Text h3 className="mt-5 mb-0">

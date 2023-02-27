@@ -18,6 +18,14 @@ import xss from 'xss'
 import { defaultPrompt } from '../utils'
 import './styles.scss'
 
+interface MountProps {
+  question: string
+  siteConfig: SearchEngine
+  transcript?: any
+  langOptionsWithLink?: any
+  isRefresh?: boolean
+}
+
 const hostname = location.hostname
 const siteRegex = new RegExp(Object.keys(config).join('|'))
 const siteName =
@@ -28,18 +36,21 @@ const siteName =
     : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
-async function mount(
-  question: string,
-  siteConfig: SearchEngine,
-  transcript?: any,
-  langOptionsWithLink?: any,
-) {
-  if (document.querySelector('div.glarity--container')) {
-    document.querySelector('div.glarity--container')?.remove()
-  }
+async function mount(props: MountProps) {
+  const { question, siteConfig, transcript, langOptionsWithLink, isRefresh } = props
 
-  const container = document.createElement('div')
-  container.className = 'glarity--container'
+  let container
+
+  if (!isRefresh) {
+    if (document.querySelector('div.glarity--container')) {
+      document.querySelector('div.glarity--container')?.remove()
+    }
+
+    container = document.createElement('div')
+    container.className = 'glarity--container'
+  } else {
+    container = document.querySelector('div.glarity--container')
+  }
 
   const userConfig = await getUserConfig()
   let theme: Theme
@@ -108,12 +119,15 @@ async function mount(
       siteConfig={siteConfig}
       langOptionsWithLink={langOptionsWithLink}
       triggerMode={userConfig.triggerMode || 'always'}
+      run={run}
+      isRefresh={isRefresh}
     />,
     container,
   )
 }
 
-async function run() {
+async function run(isRefresh?: boolean | undefined) {
+  console.debug('run isRefresh', isRefresh)
   const language = window.navigator.language
   const userConfig = await getUserConfig()
   console.debug('Mount ChatGPT on', siteName)
@@ -147,7 +161,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     console.log('Yahoo Japan News queryText', queryText)
 
-    mount(queryText, siteConfig, '', '')
+    mount({ question: queryText, siteConfig, isRefresh })
     return
   }
 
@@ -176,7 +190,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     console.log('Yahoo Japan News queryText', queryText)
 
-    mount(queryText, siteConfig, '', '')
+    mount({ question: queryText, siteConfig, isRefresh })
     return
   }
 
@@ -254,7 +268,13 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     console.log('youtube queryText', queryText)
 
-    mount(transcript.length > 0 ? queryText : '', siteConfig, transcriptList, langOptionsWithLink)
+    mount({
+      question: transcript.length > 0 ? queryText : '',
+      siteConfig,
+      transcript: transcriptList,
+      langOptionsWithLink,
+      isRefresh,
+    })
     return
   }
 
@@ -267,7 +287,6 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
         : `${searchInput.value}(in ${userConfig.language})`
 
     console.log('searchValueWithLanguageOption', searchValueWithLanguageOption)
-    // mount(searchValueWithLanguageOption, siteConfig)
 
     let searchList = ''
 
@@ -341,7 +360,11 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     console.log('queryText', queryText)
     console.log('siteConfig', siteConfig)
 
-    mount(searchList ? queryText : searchValueWithLanguageOption, siteConfig, '', '')
+    mount({
+      question: searchList ? queryText : searchValueWithLanguageOption,
+      siteConfig,
+      isRefresh,
+    })
   }
 }
 

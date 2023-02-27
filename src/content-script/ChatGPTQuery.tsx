@@ -12,9 +12,12 @@ export type QueryStatus = 'success' | 'error' | undefined
 interface Props {
   question: string
   onStatusChange?: (status: QueryStatus) => void
+  isRefresh?: boolean
 }
 
 function ChatGPTQuery(props: Props) {
+  const { isRefresh, onStatusChange } = props
+
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
   const [retry, setRetry] = useState(0)
@@ -23,8 +26,14 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
 
   useEffect(() => {
-    props.onStatusChange?.(status)
-  }, [props, status])
+    if (isRefresh) {
+      setAnswer(null)
+    }
+
+    onStatusChange?.(status)
+
+    console.log('status', status)
+  }, [isRefresh, onStatusChange, props, status])
 
   useEffect(() => {
     const port = Browser.runtime.connect()

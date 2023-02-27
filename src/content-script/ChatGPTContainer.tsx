@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { Spinner } from '@geist-ui/core'
 import Browser from 'webextension-polyfill'
 // import useSWRImmutable from 'swr/immutable'
 import { SearchEngine } from './search-engine-configs'
@@ -13,6 +14,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   AlertIcon,
+  SyncIcon,
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
 
@@ -22,15 +24,19 @@ interface Props {
   triggerMode: TriggerMode
   siteConfig: SearchEngine
   langOptionsWithLink?: any
+  run: (isRefresh?: boolean) => Promise<void>
+  isRefresh?: boolean
 }
 
 function ChatGPTContainer(props: Props) {
   const [queryStatus, setQueryStatus] = useState<QueryStatus>()
-  const { question, transcript, triggerMode, siteConfig, langOptionsWithLink } = props
+  const { question, transcript, triggerMode, siteConfig, langOptionsWithLink, run, isRefresh } =
+    props
   const [copied, setCopied] = useState(false)
   const [transcriptShow, setTranscriptShow] = useState(false)
   const [currentTranscript, setCurrentTranscript] = useState(transcript)
   const [selectedOption, setSelectedOption] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   const handleChange = async (event) => {
     const val = event.target.value || ''
@@ -59,6 +65,12 @@ function ChatGPTContainer(props: Props) {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
+  const onRefresh = useCallback(() => {
+    setQueryStatus(undefined)
+    setLoading(true)
+    run(true)
+  }, [run])
+
   useEffect(() => {
     if (copied) {
       const timer = setTimeout(() => {
@@ -67,6 +79,13 @@ function ChatGPTContainer(props: Props) {
       return () => clearTimeout(timer)
     }
   }, [copied])
+
+  useEffect(() => {
+    console.log('queryStatus', queryStatus)
+    if (queryStatus) {
+      setLoading(false)
+    }
+  }, [queryStatus])
 
   const switchtranscriptShow = () => {
     setTranscriptShow((state) => !state)
@@ -92,6 +111,10 @@ function ChatGPTContainer(props: Props) {
             <a href="javascript:;" className="glarity--header__logo" onClick={openOptionsPage}>
               <GearIcon size={14} />
             </a>
+
+            <a href="javascript:;" className="glarity--header__logo" onClick={onRefresh}>
+              {loading ? <Spinner className="glarity--icon--loading" /> : <SyncIcon size={14} />}
+            </a>
           </div>
 
           <div className="glarity--chatgpt__action"></div>
@@ -105,6 +128,8 @@ function ChatGPTContainer(props: Props) {
                   question={question}
                   triggerMode={triggerMode}
                   onStatusChange={setQueryStatus}
+                  isRefresh={isRefresh}
+                  run={run}
                 />
               </>
             ) : siteConfig?.name === 'youtube' ? (
