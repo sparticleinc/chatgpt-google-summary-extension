@@ -74,7 +74,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
           </div>
         </Tabs.Item>
       </Tabs>
-      <Button scale={2 / 3} ghost style={{ width: 20 }} type="success" onClick={save}>
+      <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={save}>
         Save
       </Button>
     </div>

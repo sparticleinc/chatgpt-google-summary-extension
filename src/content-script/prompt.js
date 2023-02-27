@@ -3,7 +3,7 @@ export function getSummaryPrompt(transcript) {
 }
 
 // Seems like 15,000 bytes is the limit for the prompt
-const limit = 4000 // 1000 is a buffer
+const limit = 14000 // 1000 is a buffer
 
 export function getChunckedTranscripts(textData, textDataOriginal) {
   // [Thought Process]

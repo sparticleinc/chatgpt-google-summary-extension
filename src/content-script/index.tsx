@@ -141,7 +141,7 @@ Title: ${articleTitle}
 URL: ${articleUrl}
 Content:  ${content}
 
-Instructions: Please summarize the highlights of this article based on the above.
+Instructions: Please use the above to summarize the highlights.
 
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 
@@ -170,7 +170,7 @@ Title: ${articleTitle}
 URL: ${articleUrl}
 Content:${getSummaryPrompt(articleText)}
 
-Instructions: Please summarize the highlights of this article based on the above.
+Instructions: Please use the above to summarize the highlights.
 
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 
@@ -310,7 +310,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
           title.insertAdjacentHTML('afterbegin', html)
         }
 
-        if (text && url && index <= 5) {
+        if (text && url && index <= 6) {
           searchList =
             searchList +
             `
@@ -329,7 +329,7 @@ URL: ${url}
 
     const queryText = `Web search results:
 
-${searchList}
+${getSummaryPrompt(searchList)}
 
 Current date: ${year}/${month}/${day}
 
