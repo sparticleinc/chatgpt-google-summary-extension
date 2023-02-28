@@ -156,6 +156,7 @@ function ChatGPTContainer(props: Props) {
               <a href="javascript:;" className="glarity--header__logo" onClick={openOptionsPage}>
                 <GearIcon size={14} />
               </a>
+
               {loading ? (
                 <span className="glarity--header__logo">
                   <Spinner className="glarity--icon--loading" />

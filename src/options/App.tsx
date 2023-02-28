@@ -51,7 +51,14 @@ reply format:
 
 #### Explanation`
 
-const customizePromptClickbait = `What is the clickbait probability of the title and transcript for this video? Please provide a rating and brief explanation for your rating.`
+const customizePromptClickbait = `What is the clickbait probability of the title and transcript for this video? Please provide a rating and brief explanation for your rating, Clickbait rating is up to 10,If Clickbait rating is less than 5, then answer: 👍A low Clickbait score, otherwise answer: 👎A high Clickbait score.
+
+reply format:
+
+#### Clickbait rating
+
+#### Explanation
+`
 
 function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
