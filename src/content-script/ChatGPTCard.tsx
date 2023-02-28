@@ -8,30 +8,31 @@ interface Props {
   question: string
   triggerMode: TriggerMode
   onStatusChange?: (status: QueryStatus) => void
-  run: (isRefresh?: boolean) => Promise<void>
-  isRefresh?: boolean
   currentTime?: number
 }
 
 function ChatGPTCard(props: Props) {
-  const { isRefresh, triggerMode, question, onStatusChange, run, currentTime } = props
+  const { triggerMode, question, onStatusChange, currentTime: propCurrentTime } = props
 
   const [triggered, setTriggered] = useState(false)
+  const [currentTime, setCurrentTime] = useState(propCurrentTime)
 
   useEffect(() => {
-    if (isRefresh && currentTime) setTriggered(true)
-  }, [currentTime, isRefresh])
+    console.log('ChatGPTCard props', props)
+  }, [props])
 
-  if (triggerMode === TriggerMode.Always) {
+  if (triggerMode === TriggerMode.Always || propCurrentTime) {
     return (
-      <ChatGPTQuery isRefresh={isRefresh} question={question} onStatusChange={onStatusChange} />
+      <ChatGPTQuery
+        currentTime={propCurrentTime}
+        question={question}
+        onStatusChange={onStatusChange}
+      />
     )
   }
   if (triggerMode === TriggerMode.QuestionMark) {
     if (endsWithQuestionMark(question.trim())) {
-      return (
-        <ChatGPTQuery isRefresh={isRefresh} question={question} onStatusChange={onStatusChange} />
-      )
+      return <ChatGPTQuery question={question} onStatusChange={onStatusChange} />
     }
     return (
       <p className="icon-and-text">
@@ -43,8 +44,7 @@ function ChatGPTCard(props: Props) {
     return (
       <>
         <ChatGPTQuery
-          currentTime={currentTime}
-          isRefresh={isRefresh}
+          currentTime={propCurrentTime}
           question={question}
           onStatusChange={onStatusChange}
         />
@@ -54,9 +54,8 @@ function ChatGPTCard(props: Props) {
   return (
     <a
       href="javascript:;"
-      onClick={() => {
+      onClick={async () => {
         setTriggered(true)
-        run(true)
       }}
     >
       <SearchIcon size="small" /> Ask ChatGPT to summarize

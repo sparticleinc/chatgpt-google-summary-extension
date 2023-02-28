@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { Spinner, GeistProvider } from '@geist-ui/core'
+import { SearchIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
 // import useSWRImmutable from 'swr/immutable'
 import { SearchEngine } from './search-engine-configs'
@@ -18,6 +19,7 @@ import {
   SyncIcon,
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
+import { getQuestion } from '.'
 
 interface Props {
   question: string
@@ -25,29 +27,20 @@ interface Props {
   triggerMode: TriggerMode
   siteConfig: SearchEngine
   langOptionsWithLink?: any
-  run: (isRefresh?: boolean) => Promise<void>
-  isRefresh?: boolean
   currentTime?: number
 }
 
 function ChatGPTContainer(props: Props) {
   const [queryStatus, setQueryStatus] = useState<QueryStatus>()
-  const {
-    question,
-    transcript,
-    triggerMode,
-    siteConfig,
-    langOptionsWithLink,
-    run,
-    isRefresh,
-    currentTime,
-  } = props
   const [copied, setCopied] = useState(false)
   const [transcriptShow, setTranscriptShow] = useState(false)
-  const [currentTranscript, setCurrentTranscript] = useState(transcript)
   const [selectedOption, setSelectedOption] = useState(0)
   const [loading, setLoading] = useState(false)
   const [theme, setTheme] = useState(Theme.Auto)
+  const [questionProps, setQuestionProps] = useState<Props>({ ...props })
+  const [currentTranscript, setCurrentTranscript] = useState(props.transcript)
+
+  const { triggerMode } = props
 
   const themeType = useMemo(() => {
     if (theme === Theme.Auto) {
@@ -66,7 +59,11 @@ function ChatGPTContainer(props: Props) {
 
     setSelectedOption(val)
 
-    const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: val })
+    const transcriptList = await getConverTranscript({
+      langOptionsWithLink: questionProps.langOptionsWithLink,
+      videoId,
+      index: val,
+    })
 
     setTranscriptShow(true)
 
@@ -83,15 +80,26 @@ function ChatGPTContainer(props: Props) {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     if (loading) {
       return
     }
 
-    setQueryStatus(undefined)
     setLoading(true)
-    run(true)
-  }, [run, loading])
+
+    let questionData = (await getQuestion()) as Props
+    console.log('getQuestion', questionData, props)
+
+    if (!questionData) {
+      setLoading(false)
+      return
+    }
+    questionData = Object.assign(questionData, { currentTime: Date.now() })
+
+    setQuestionProps({ ...props, ...questionData })
+
+    setQueryStatus(undefined)
+  }, [props])
 
   useEffect(() => {
     if (copied) {
@@ -101,6 +109,16 @@ function ChatGPTContainer(props: Props) {
       return () => clearTimeout(timer)
     }
   }, [copied])
+
+  useEffect(() => {
+    console.log('ChatGPTContainer props', props)
+    setQuestionProps({ ...props })
+    setCurrentTranscript([...props.transcript])
+  }, [props])
+
+  useEffect(() => {
+    console.log('ChatGPTContainer questionProps', questionProps)
+  }, [questionProps])
 
   useEffect(() => {
     console.log('queryStatus', queryStatus)
@@ -149,18 +167,27 @@ function ChatGPTContainer(props: Props) {
 
           <div className="glarity--main">
             <div className="glarity--main__container">
-              {question ? (
+              {questionProps.question ? (
                 <>
-                  <ChatGPTCard
-                    question={question}
-                    triggerMode={triggerMode}
-                    onStatusChange={setQueryStatus}
-                    isRefresh={isRefresh}
-                    run={run}
-                    currentTime={currentTime}
-                  />
+                  {triggerMode === TriggerMode.Manually && !questionProps.currentTime ? (
+                    <a
+                      href="javascript:;"
+                      onClick={() => {
+                        onRefresh()
+                      }}
+                    >
+                      <SearchIcon size="small" /> Ask ChatGPT to summarize
+                    </a>
+                  ) : (
+                    <ChatGPTCard
+                      question={questionProps.question}
+                      triggerMode={questionProps.triggerMode}
+                      onStatusChange={setQueryStatus}
+                      currentTime={questionProps.currentTime}
+                    />
+                  )}
                 </>
-              ) : siteConfig?.name === 'youtube' ? (
+              ) : questionProps.siteConfig?.name === 'youtube' ? (
                 <>
                   <p>No Transcription Available... </p>
                   <p>
@@ -183,12 +210,12 @@ function ChatGPTContainer(props: Props) {
             </div>
           </div>
 
-          {question && currentTranscript && (
+          {questionProps.question && currentTranscript && (
             <div className="glarity--main">
               <div className="glarity--main__header">
                 <div className="glarity--main__header--title">
                   Transcript
-                  {langOptionsWithLink.length > 1 && (
+                  {questionProps.langOptionsWithLink.length > 1 && (
                     <>
                       {' '}
                       <select
@@ -196,8 +223,8 @@ function ChatGPTContainer(props: Props) {
                         value={selectedOption}
                         onChange={handleChange}
                       >
-                        {langOptionsWithLink &&
-                          Array.from(langOptionsWithLink).map((v, i) => {
+                        {questionProps.langOptionsWithLink &&
+                          Array.from(questionProps.langOptionsWithLink).map((v, i) => {
                             return (
                               <option key={i} value={i}>
                                 {v.language}
