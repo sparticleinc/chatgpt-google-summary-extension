@@ -81,7 +81,7 @@ function ChatGPTContainer(props: Props) {
   }, [])
 
   const onRefresh = useCallback(async () => {
-    if (loading) {
+    if (loading || queryStatus === 'success') {
       return
     }
 
@@ -99,7 +99,7 @@ function ChatGPTContainer(props: Props) {
     setQuestionProps({ ...props, ...questionData })
 
     setQueryStatus(undefined)
-  }, [props])
+  }, [props, loading])
 
   useEffect(() => {
     if (copied) {
@@ -156,10 +156,18 @@ function ChatGPTContainer(props: Props) {
               <a href="javascript:;" className="glarity--header__logo" onClick={openOptionsPage}>
                 <GearIcon size={14} />
               </a>
-
-              <a href="javascript:;" className="glarity--header__logo" onClick={onRefresh}>
-                {loading ? <Spinner className="glarity--icon--loading" /> : <SyncIcon size={14} />}
-              </a>
+              <span className="glarity--header__logo">
+                <Spinner className="glarity--icon--loading" />
+              </span>
+              {loading ? (
+                <span className="glarity--header__logo">
+                  <Spinner className="glarity--icon--loading" />
+                </span>
+              ) : (
+                <a href="javascript:;" className="glarity--header__logo" onClick={onRefresh}>
+                  <SyncIcon size={14} />
+                </a>
+              )}
             </div>
 
             <div className="glarity--chatgpt__action"></div>

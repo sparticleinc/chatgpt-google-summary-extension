@@ -7,7 +7,7 @@ import { Answer } from '../messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
 
-export type QueryStatus = 'success' | 'error' | undefined
+export type QueryStatus = 'success' | 'error' | 'done' | undefined
 
 interface Props {
   question: string
@@ -61,7 +61,7 @@ function ChatGPTQuery(props: Props) {
         setStatus('error')
       } else if (msg.event === 'DONE') {
         setDone(true)
-        setStatus('success')
+        setStatus('done')
       }
     }
     port.onMessage.addListener(listener)

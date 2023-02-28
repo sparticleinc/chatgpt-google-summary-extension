@@ -137,7 +137,8 @@
   cursor: pointer;
 }
 
-a.glarity--header__logo {
+a.glarity--header__logo,
+span.glarity--header__logo {
   margin-right: 6px;
   height: 20px;
   color: #000;
@@ -154,6 +155,10 @@ a.glarity--header__logo {
     height: 20px;
     vertical-align: middle;
   }
+}
+
+span.glarity--header__logo {
+  cursor: default;
 }
 
 .glarity--main {
