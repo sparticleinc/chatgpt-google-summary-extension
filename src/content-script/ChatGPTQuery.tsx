@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'preact/hooks'
-import { memo, useCallback } from 'react'
+import { memo, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
 import { Answer } from '../messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
+import { debounce } from 'lodash-es'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
@@ -16,7 +17,7 @@ interface Props {
 }
 
 function ChatGPTQuery(props: Props) {
-  const { onStatusChange, currentTime } = props
+  const { onStatusChange, currentTime, question } = props
 
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
@@ -24,6 +25,41 @@ function ChatGPTQuery(props: Props) {
   const [done, setDone] = useState(false)
   const [showTip, setShowTip] = useState(false)
   const [status, setStatus] = useState<QueryStatus>()
+
+  const requestGpt = useMemo(() => {
+    return debounce(() => {
+      console.log('Request ChatGPT')
+      setStatus(undefined)
+      // setError('error')
+      // setStatus('error')
+      // return
+
+      const port = Browser.runtime.connect()
+      const listener = (msg: any) => {
+        console.log('result', msg)
+
+        if (msg.text) {
+          let text = msg.text || ''
+          text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
+
+          setAnswer({ ...msg, ...{ text } })
+          setStatus('success')
+        } else if (msg.error) {
+          setError(msg.error)
+          setStatus('error')
+        } else if (msg.event === 'DONE') {
+          setDone(true)
+          setStatus('done')
+        }
+      }
+      port.onMessage.addListener(listener)
+      port.postMessage({ question: props.question })
+      return () => {
+        port.onMessage.removeListener(listener)
+        port.disconnect()
+      }
+    }, 1000)
+  }, [])
 
   useEffect(() => {
     console.log('ChatGPTQuery props', props)
@@ -34,43 +70,8 @@ function ChatGPTQuery(props: Props) {
   }, [onStatusChange, status])
 
   useEffect(() => {
-    if (!currentTime) {
-      return
-    }
-
-    onStatusChange?.(undefined)
-    setError('')
-    setAnswer(null)
-    setRetry((r) => r + 1)
-  }, [currentTime, onStatusChange])
-
-  useEffect(() => {
-    setStatus(undefined)
-    const port = Browser.runtime.connect()
-    const listener = (msg: any) => {
-      console.log('result', msg)
-
-      if (msg.text) {
-        let text = msg.text || ''
-        text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
-
-        setAnswer({ ...msg, ...{ text } })
-        setStatus('success')
-      } else if (msg.error) {
-        setError(msg.error)
-        setStatus('error')
-      } else if (msg.event === 'DONE') {
-        setDone(true)
-        setStatus('done')
-      }
-    }
-    port.onMessage.addListener(listener)
-    port.postMessage({ question: props.question })
-    return () => {
-      port.onMessage.removeListener(listener)
-      port.disconnect()
-    }
-  }, [props.question, retry])
+    requestGpt()
+  }, [question, retry, currentTime, requestGpt])
 
   // retry error on focus
   useEffect(() => {
