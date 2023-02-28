@@ -81,7 +81,7 @@ function ChatGPTContainer(props: Props) {
   }, [])
 
   const onRefresh = useCallback(async () => {
-    if (loading || queryStatus === 'success') {
+    if (loading) {
       return
     }
 
@@ -156,9 +156,6 @@ function ChatGPTContainer(props: Props) {
               <a href="javascript:;" className="glarity--header__logo" onClick={openOptionsPage}>
                 <GearIcon size={14} />
               </a>
-              <span className="glarity--header__logo">
-                <Spinner className="glarity--icon--loading" />
-              </span>
               {loading ? (
                 <span className="glarity--header__logo">
                   <Spinner className="glarity--icon--loading" />

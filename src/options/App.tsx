@@ -51,12 +51,7 @@ reply format:
 
 #### Explanation`
 
-const customizePromptClickbait = `What is the clickbait probability of the title and transcript for this video? Please provide a rating and brief explanation for your rating.
-
-reply format:
-#### Rating
-
-#### Explanation`
+const customizePromptClickbait = `What is the clickbait probability of the title and transcript for this video? Please provide a rating and brief explanation for your rating.`
 
 function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
