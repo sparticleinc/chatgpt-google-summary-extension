@@ -207,6 +207,13 @@ a.glarity--header__logo {
     overflow-y: auto;
   }
 }
+.glarity--main__loading {
+  position: absolute;
+  z-index: 99;
+  width: 100%;
+  height: calc(100% - 16px);
+  background-color: rgb(249, 249, 249);
+}
 
 .glarity--subtitle {
   display: flex;

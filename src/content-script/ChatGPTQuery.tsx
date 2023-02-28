@@ -41,9 +41,10 @@ function ChatGPTQuery(props: Props) {
     onStatusChange?.(undefined)
     setError('')
     setRetry((r) => r + 1)
-  }, [currentTime])
+  }, [currentTime, onStatusChange])
 
   useEffect(() => {
+    setStatus(undefined)
     const port = Browser.runtime.connect()
     const listener = (msg: any) => {
       console.log('result', msg)
@@ -59,6 +60,7 @@ function ChatGPTQuery(props: Props) {
         setStatus('error')
       } else if (msg.event === 'DONE') {
         setDone(true)
+        setStatus('success')
       }
     }
     port.onMessage.addListener(listener)

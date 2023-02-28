@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
-import { Spinner, GeistProvider } from '@geist-ui/core'
+import { Spinner, GeistProvider, Loading, Divider } from '@geist-ui/core'
 import { SearchIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
 // import useSWRImmutable from 'swr/immutable'
@@ -179,12 +179,19 @@ function ChatGPTContainer(props: Props) {
                       <SearchIcon size="small" /> Ask ChatGPT to summarize
                     </a>
                   ) : (
-                    <ChatGPTCard
-                      question={questionProps.question}
-                      triggerMode={questionProps.triggerMode}
-                      onStatusChange={setQueryStatus}
-                      currentTime={questionProps.currentTime}
-                    />
+                    <>
+                      {loading && (
+                        <div className="glarity--main__loading">
+                          <Loading />
+                        </div>
+                      )}
+                      <ChatGPTCard
+                        question={questionProps.question}
+                        triggerMode={questionProps.triggerMode}
+                        onStatusChange={setQueryStatus}
+                        currentTime={questionProps.currentTime}
+                      />
+                    </>
                   )}
                 </>
               ) : questionProps.siteConfig?.name === 'youtube' ? (
