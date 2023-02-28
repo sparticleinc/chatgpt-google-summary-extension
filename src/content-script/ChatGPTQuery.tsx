@@ -40,6 +40,7 @@ function ChatGPTQuery(props: Props) {
 
     onStatusChange?.(undefined)
     setError('')
+    setAnswer(null)
     setRetry((r) => r + 1)
   }, [currentTime, onStatusChange])
 
@@ -53,7 +54,7 @@ function ChatGPTQuery(props: Props) {
         let text = msg.text || ''
         text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
 
-        setAnswer(Object.assign(msg, { text }))
+        setAnswer({ ...msg, ...{ text } })
         setStatus('success')
       } else if (msg.error) {
         setError(msg.error)
