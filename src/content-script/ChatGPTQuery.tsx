@@ -7,16 +7,16 @@ import { Answer } from '../messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
 
-export type QueryStatus = 'success' | 'error' | undefined
+export type QueryStatus = 'success' | 'error' | 'done' | undefined
 
 interface Props {
   question: string
   onStatusChange?: (status: QueryStatus) => void
-  isRefresh?: boolean
+  currentTime?: number
 }
 
 function ChatGPTQuery(props: Props) {
-  const { isRefresh, onStatusChange } = props
+  const { onStatusChange, currentTime } = props
 
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
@@ -26,16 +26,26 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
 
   useEffect(() => {
-    if (isRefresh) {
-      setAnswer(null)
-    }
-
-    onStatusChange?.(status)
-
-    console.log('status', status)
-  }, [isRefresh, onStatusChange, props, status])
+    console.log('ChatGPTQuery props', props)
+  }, [props])
 
   useEffect(() => {
+    onStatusChange?.(status)
+  }, [onStatusChange, status])
+
+  useEffect(() => {
+    if (!currentTime) {
+      return
+    }
+
+    onStatusChange?.(undefined)
+    setError('')
+    setAnswer(null)
+    setRetry((r) => r + 1)
+  }, [currentTime, onStatusChange])
+
+  useEffect(() => {
+    setStatus(undefined)
     const port = Browser.runtime.connect()
     const listener = (msg: any) => {
       console.log('result', msg)
@@ -44,13 +54,14 @@ function ChatGPTQuery(props: Props) {
         let text = msg.text || ''
         text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
 
-        setAnswer(Object.assign(msg, { text }))
+        setAnswer({ ...msg, ...{ text } })
         setStatus('success')
       } else if (msg.error) {
         setError(msg.error)
         setStatus('error')
       } else if (msg.event === 'DONE') {
         setDone(true)
+        setStatus('done')
       }
     }
     port.onMessage.addListener(listener)
@@ -77,10 +88,6 @@ function ChatGPTQuery(props: Props) {
 
   useEffect(() => {
     shouldShowRatingTip().then((show) => setShowTip(show))
-  }, [])
-
-  const openOptionsPage = useCallback(() => {
-    Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
   if (answer) {

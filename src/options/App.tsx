@@ -44,12 +44,14 @@ const customizePrompt1 = `Your output should use the following template:
 Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.
 `
 
-const customizePromptClickbait = `The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title.
+const customizePromptClickbait_bak = `The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title.
 
 reply format:
 #### Clickbait score
 
 #### Explanation`
+
+const customizePromptClickbait = `What is the clickbait probability of the title and transcript for this video? Please provide a rating and brief explanation for your rating.`
 
 function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)

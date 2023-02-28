@@ -4,8 +4,10 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 
 ## 支持网站
 
-Google
-YouTube
+- Google
+- YouTube
+- Yahoo! 日本新闻
+- PubMed
 
 ## 安装
 
@@ -24,10 +26,20 @@ YouTube
 
 ![Screenshot](screenshots/extension-youtube-zh-CN.jpeg?raw=true)
 
+### Yahoo! JAPAN 新闻
+
+![Screenshot](screenshots/yahoo-japan.jpg?raw=true)
+
+### PubMed
+
+![Screenshot](screenshots/pubmed.jpg?raw=true)
+
 ## 功能
 
 - 支持 Google 搜索
 - 支持 YouTube 总结
+- 支持 Yahoo! JAPAN 新闻总结
+- 支持 PubMed 总结
 - 支持 OpenAI 官方 API
 - 支持 ChatGPT Plus
 - Markdown 格式渲染

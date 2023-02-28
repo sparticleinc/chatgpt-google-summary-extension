@@ -1,5 +1,5 @@
 import { LightBulbIcon, SearchIcon } from '@primer/octicons-react'
-import { useState } from 'preact/hooks'
+import { useState, useEffect } from 'preact/hooks'
 import { TriggerMode } from '../config'
 import ChatGPTQuery, { QueryStatus } from './ChatGPTQuery'
 import { endsWithQuestionMark } from './utils.js'
@@ -8,27 +8,31 @@ interface Props {
   question: string
   triggerMode: TriggerMode
   onStatusChange?: (status: QueryStatus) => void
-  run: (isRefresh?: boolean) => Promise<void>
-  isRefresh?: boolean
+  currentTime?: number
 }
 
 function ChatGPTCard(props: Props) {
-  const { isRefresh, triggerMode, question, onStatusChange, run } = props
+  const { triggerMode, question, onStatusChange, currentTime: propCurrentTime } = props
 
   const [triggered, setTriggered] = useState(false)
+  const [currentTime, setCurrentTime] = useState(propCurrentTime)
 
-  console.log('ChatGPTCard props', props)
+  useEffect(() => {
+    console.log('ChatGPTCard props', props)
+  }, [props])
 
-  if (triggerMode === TriggerMode.Always || isRefresh) {
+  if (triggerMode === TriggerMode.Always || propCurrentTime) {
     return (
-      <ChatGPTQuery isRefresh={isRefresh} question={question} onStatusChange={onStatusChange} />
+      <ChatGPTQuery
+        currentTime={propCurrentTime}
+        question={question}
+        onStatusChange={onStatusChange}
+      />
     )
   }
   if (triggerMode === TriggerMode.QuestionMark) {
     if (endsWithQuestionMark(question.trim())) {
-      return (
-        <ChatGPTQuery isRefresh={isRefresh} question={question} onStatusChange={onStatusChange} />
-      )
+      return <ChatGPTQuery question={question} onStatusChange={onStatusChange} />
     }
     return (
       <p className="icon-and-text">
@@ -38,11 +42,22 @@ function ChatGPTCard(props: Props) {
   }
   if (triggered) {
     return (
-      <ChatGPTQuery isRefresh={isRefresh} question={question} onStatusChange={onStatusChange} />
+      <>
+        <ChatGPTQuery
+          currentTime={propCurrentTime}
+          question={question}
+          onStatusChange={onStatusChange}
+        />
+      </>
     )
   }
   return (
-    <a href="javascript:;" onClick={() => run(true)}>
+    <a
+      href="javascript:;"
+      onClick={async () => {
+        setTriggered(true)
+      }}
+    >
       <SearchIcon size="small" /> Ask ChatGPT to summarize
     </a>
   )

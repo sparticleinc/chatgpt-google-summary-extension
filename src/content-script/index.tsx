@@ -96,7 +96,11 @@ async function mount(props: MountProps) {
       //   appendContainer.appendChild(container)
       // }
 
-      if (siteConfig.extabarContainerQuery && document.querySelector('#center_col')?.nextSibling) {
+      if (
+        siteConfig.extabarContainerQuery &&
+        document.querySelector('#center_col')?.nextSibling &&
+        !isRefresh
+      ) {
         container.classList.add('glarity--full-container')
         const appendContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery)
         if (appendContainer) {
@@ -119,23 +123,24 @@ async function mount(props: MountProps) {
       siteConfig={siteConfig}
       langOptionsWithLink={langOptionsWithLink}
       triggerMode={userConfig.triggerMode || 'always'}
-      run={run}
-      isRefresh={isRefresh}
     />,
     container,
   )
 }
 
-async function run(isRefresh?: boolean | undefined) {
-  console.debug('run isRefresh', isRefresh)
+async function run() {
+  const questionData = await getQuestion()
+  if (questionData) mount(questionData)
+}
+
+export async function getQuestion() {
   const language = window.navigator.language
   const userConfig = await getUserConfig()
-  console.debug('Mount ChatGPT on', siteName)
 
   // PubMed
   if (siteName === 'pubmed') {
     if (!/pubmed\.ncbi\.nlm\.nih.gov\/\d{8,}/.test(location.href)) {
-      return
+      return null
     }
 
     const articleTitle = document.title || ''
@@ -143,7 +148,7 @@ async function run(isRefresh?: boolean | undefined) {
     const articleText = document.querySelector('div#abstract')?.textContent
 
     if (!articleText) {
-      return
+      return null
     }
 
     const content = getSummaryPrompt(articleText)
@@ -161,14 +166,13 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     console.log('Yahoo Japan News queryText', queryText)
 
-    mount({ question: queryText, siteConfig, isRefresh })
-    return
+    return { question: queryText, siteConfig }
   }
 
   // Yahoo Japan News
   if (siteName === 'yahooJpNews') {
     if (!/\/articles\//g.test(location.href)) {
-      return
+      return null
     }
 
     const articleTitle = document.title || ''
@@ -176,7 +180,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     const articleText = document.querySelector('div.article_body')?.textContent
 
     if (!articleText) {
-      return
+      return null
     }
 
     const queryText = `
@@ -190,8 +194,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     console.log('Yahoo Japan News queryText', queryText)
 
-    mount({ question: queryText, siteConfig, isRefresh })
-    return
+    return { question: queryText, siteConfig }
   }
 
   // Youtube
@@ -199,7 +202,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     const videoId = getSearchParam(window.location.href)?.v
 
     if (!videoId) {
-      return
+      return ''
     }
 
     // Get Transcript Language Options & Create Language Select Btns
@@ -209,16 +212,6 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: 0 })
 
-    // const transcript =
-    //   transcriptList.map((v) => {
-    //     return `(${v.time}):${v.text}`
-    //   }) || []
-
-    // let transcriptText = transcript.join('. \r\n ')
-
-    // transcriptText =
-    //   transcriptText.length > 3700 ? transcriptText.substring(0, 3700) : transcriptText
-
     const videoTitle = document.title
     const videoUrl = window.location.href
 
@@ -227,14 +220,6 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
         return `${v.text}`
       }) || []
     ).join('')
-
-    //     const queryText = `Video transcript:
-
-    // ${suttitleText}
-
-    // Instructions: Use the transcript information above to summarise the highlights of this video.
-
-    // Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
@@ -247,35 +232,14 @@ Instructions: ${Instructions}
 
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
 
-    //     const queryText = `Title: ${videoTitle}
-    // URL: ${videoUrl}
-
-    // Transcript:${getSummaryPrompt(transcript)}
-
-    // Instructions: The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score(Full score of 10) of the title. Please provide a brief explanation for your rating. and give a most accurate title according to the transcript and summarize the highlights of the video.
-
-    // Reply format:
-    // "Reply in the following format:"
-    // **Summary**:
-    // xxx \r\n
-    // **Clickbait score**: x/10 \r\n
-    // **Explanation**:
-    // xxx \r\n
-    // **Most accurate title**:
-    // xxx \r\n
-
-    // Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
-
     console.log('youtube queryText', queryText)
 
-    mount({
+    return {
       question: transcript.length > 0 ? queryText : '',
       siteConfig,
       transcript: transcriptList,
       langOptionsWithLink,
-      isRefresh,
-    })
-    return
+    }
   }
 
   // Google
@@ -324,7 +288,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
         console.log(title, text, url)
 
-        if (title) {
+        if (title && !isRefresh) {
           const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)
           title.insertAdjacentHTML('afterbegin', html)
         }
@@ -360,11 +324,10 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     console.log('queryText', queryText)
     console.log('siteConfig', siteConfig)
 
-    mount({
+    return {
       question: searchList ? queryText : searchValueWithLanguageOption,
       siteConfig,
-      isRefresh,
-    })
+    }
   }
 }
 
