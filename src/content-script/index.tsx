@@ -23,7 +23,6 @@ interface MountProps {
   siteConfig: SearchEngine
   transcript?: any
   langOptionsWithLink?: any
-  isRefresh?: boolean
 }
 
 const hostname = location.hostname
@@ -37,20 +36,14 @@ const siteName =
 const siteConfig = config[siteName]
 
 async function mount(props: MountProps) {
-  const { question, siteConfig, transcript, langOptionsWithLink, isRefresh } = props
+  const { question, siteConfig, transcript, langOptionsWithLink } = props
 
-  let container
-
-  if (!isRefresh) {
-    if (document.querySelector('div.glarity--container')) {
-      document.querySelector('div.glarity--container')?.remove()
-    }
-
-    container = document.createElement('div')
-    container.className = 'glarity--container'
-  } else {
-    container = document.querySelector('div.glarity--container')
+  if (document.querySelector('div.glarity--container')) {
+    document.querySelector('div.glarity--container')?.remove()
   }
+
+  const container = document.createElement('div')
+  container.className = 'glarity--container'
 
   const userConfig = await getUserConfig()
   let theme: Theme
@@ -96,11 +89,7 @@ async function mount(props: MountProps) {
       //   appendContainer.appendChild(container)
       // }
 
-      if (
-        siteConfig.extabarContainerQuery &&
-        document.querySelector('#center_col')?.nextSibling &&
-        !isRefresh
-      ) {
+      if (siteConfig.extabarContainerQuery && document.querySelector('#center_col')?.nextSibling) {
         container.classList.add('glarity--full-container')
         const appendContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery)
         if (appendContainer) {
@@ -129,11 +118,11 @@ async function mount(props: MountProps) {
 }
 
 async function run() {
-  const questionData = await getQuestion()
+  const questionData = await getQuestion(true)
   if (questionData) mount(questionData)
 }
 
-export async function getQuestion() {
+export async function getQuestion(loadInit?: boolean) {
   const language = window.navigator.language
   const userConfig = await getUserConfig()
 
@@ -288,7 +277,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
         console.log(title, text, url)
 
-        if (title && !isRefresh) {
+        if (title && loadInit) {
           const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)
           title.insertAdjacentHTML('afterbegin', html)
         }
