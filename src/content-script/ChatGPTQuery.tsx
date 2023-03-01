@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'preact/hooks'
 import { memo, useMemo } from 'react'
+import { Loading } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
@@ -168,7 +169,7 @@ function ChatGPTQuery(props: Props) {
     )
   }
 
-  return <p className="text-[#b6b8ba] animate-pulse">Waiting for ChatGPT response...</p>
+  return <Loading />
 }
 
 export default memo(ChatGPTQuery)
