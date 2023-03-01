@@ -51,13 +51,14 @@ reply format:
 
 #### Explanation`
 
-const customizePromptClickbait = `What is the clickbait probability of the title and transcript for this video? Please provide a rating and brief explanation for your rating, Clickbait rating is up to 10,If Clickbait rating is less than 5, then answer: 👍A low Clickbait score, otherwise answer: 👎A high Clickbait score.
+const customizePromptClickbait = `What is the clickbait likelihood of the title and transcript for this video? Please provide a score and a brief explanation for your score, the clickbait score is up to 10, if the clickbait score is less than 5 then answer: 👍 Clickbait Score : Low, otherwise answer: 👎 Clickbait Score : High.
 
-reply format:
-
-#### Clickbait rating
-
-#### Explanation
+Example response:
+> The lower the Clickbait score, the better.
+#### Clickbait Score:
+👍 Clickbait Score : Low or 👎 Clickbait Score : High
+#### Explanation:
+The title is a bit exaggerated.
 `
 
 function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
@@ -205,41 +206,48 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           Customize Prompt for Summary(YouTube)
         </Text>
         <Card className="glarity--card">
+          <Textarea
+            placeholder="Please enter a Prompt."
+            value={prompt}
+            resize={'vertical'}
+            onChange={onPromptChange}
+          />
           <Text className="my-1">
             <Code block my={0}>
               <CustomizePrompt />
             </Code>
           </Text>
-          <Textarea placeholder="Please enter a Prompt." value={prompt} onChange={onPromptChange} />
-          <Divider />
-          <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
-            Save
-          </Button>{' '}
-          <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
-            Use default
-          </Button>
+          {/* <Divider /> */}
+          <Card.Footer>
+            <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
+              Save
+            </Button>{' '}
+            <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
+              Use default
+            </Button>
+          </Card.Footer>
         </Card>
         <Text className="my-1">Example Prompts: </Text>
         <ul>
           <li>
             <Snippet symbol="" type="secondary">
-              Summarize the above content highlights.{' '}
+              Summarize the following content highlights.{' '}
             </Snippet>
           </li>
           <li>
             {' '}
             <Snippet symbol="" type="secondary">
-              Summarize the above in 3 bullet points.{' '}
+              Summarize the following in 3 bullet points.{' '}
             </Snippet>
           </li>
           <li>
             {' '}
             <Snippet symbol="" type="secondary">
-              What's key takeaways from the above?{' '}
+              What's key takeaways from the following?{' '}
             </Snippet>
           </li>
           <li>
-            <Snippet type="secondary">Extract the gist of the above.</Snippet>
+            <Snippet type="secondary">Extract the gist of the following.</Snippet>
           </li>
           <li>
             <Snippet symbol="" type="secondary">

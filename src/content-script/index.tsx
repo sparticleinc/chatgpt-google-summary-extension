@@ -212,14 +212,12 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
-    const queryText = `
+    const queryText = `Instructions: ${Instructions}
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.
+
 Title: ${videoTitle}
-URL: ${videoUrl}
-Transcript:${getSummaryPrompt(transcript)}
-
-Instructions: ${Instructions}
-
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+Transcript:${getSummaryPrompt(transcript)}`
 
     console.log('youtube queryText', queryText)
 
