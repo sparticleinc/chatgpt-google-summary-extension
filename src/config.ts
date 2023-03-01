@@ -28,7 +28,8 @@ export enum Theme {
 export enum Language {
   Auto = 'auto',
   English = 'en-US',
-  Chinese = 'zh-CN',
+  ChineseSimplified = 'zh-Hans',
+  ChineseTraditional = 'zh-Hant',
   Spanish = 'es-ES',
   French = 'fr-FR',
   Korean = 'ko-KR',

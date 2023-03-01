@@ -85,6 +85,14 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     setPrompt(defaultPrompt)
   }, [])
 
+  const getSplitString = (str: string) => {
+    if (str.includes('Chinese')) {
+      return `Chinese (${str.split('Chinese')[1] || ''})`
+    }
+
+    return str
+  }
+
   return (
     <div className="container mx-auto">
       <nav className="flex flex-row justify-between items-center mt-5 px-2">
@@ -162,7 +170,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
         >
           {Object.entries(Language).map(([k, v]) => (
             <Select.Option key={k} value={v}>
-              {capitalize(k)}
+              {capitalize(getSplitString(k))}
             </Select.Option>
           ))}
         </Select>
