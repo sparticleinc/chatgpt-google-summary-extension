@@ -18,16 +18,26 @@ import xss from 'xss'
 import { defaultPrompt } from '../utils'
 import './styles.scss'
 
+interface MountProps {
+  question: string
+  siteConfig: SearchEngine
+  transcript?: any
+  langOptionsWithLink?: any
+}
+
+const hostname = location.hostname
 const siteRegex = new RegExp(Object.keys(config).join('|'))
-const siteName = location.hostname.match(siteRegex)![0]
+const siteName =
+  hostname === 'news.yahoo.co.jp'
+    ? 'yahooJpNews'
+    : hostname === 'pubmed.ncbi.nlm.nih.gov'
+    ? 'pubmed'
+    : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
-async function mount(
-  question: string,
-  siteConfig: SearchEngine,
-  transcript?: any,
-  langOptionsWithLink?: any,
-) {
+async function mount(props: MountProps) {
+  const { question, siteConfig, transcript, langOptionsWithLink } = props
+
   if (document.querySelector('div.glarity--container')) {
     document.querySelector('div.glarity--container')?.remove()
   }
@@ -48,7 +58,15 @@ async function mount(
     container.classList.add('gpt--light')
   }
 
-  if (siteName === 'youtube') {
+  if (siteName === 'pubmed') {
+    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
+    container.classList.add('glarity--chatgpt--pubmed')
+    document.querySelector(eleSideBar)?.prepend(container)
+  } else if (siteName === 'yahooJpNews') {
+    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
+    container.classList.add('glarity--chatgpt--yahoonews')
+    document.querySelector(eleSideBar)?.prepend(container)
+  } else if (siteName === 'youtube') {
     container.classList.add('glarity--chatgpt--youtube')
     waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
       document.querySelector('#secondary.style-scope.ytd-watch-flexy')?.prepend(container)
@@ -100,16 +118,80 @@ async function mount(
 }
 
 async function run() {
+  const questionData = await getQuestion(true)
+  if (questionData) mount(questionData)
+}
+
+export async function getQuestion(loadInit?: boolean) {
   const language = window.navigator.language
   const userConfig = await getUserConfig()
-  console.debug('Mount ChatGPT on', siteName)
+
+  // PubMed
+  if (siteName === 'pubmed') {
+    if (!/pubmed\.ncbi\.nlm\.nih.gov\/\d{8,}/.test(location.href)) {
+      return null
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = document.querySelector('div#abstract')?.textContent
+
+    if (!articleText) {
+      return null
+    }
+
+    const content = getSummaryPrompt(articleText)
+
+    console.log('content', content)
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:  ${content}
+
+Instructions: Please use the above to summarize the highlights.
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    console.log('Yahoo Japan News queryText', queryText)
+
+    return { question: queryText, siteConfig }
+  }
+
+  // Yahoo Japan News
+  if (siteName === 'yahooJpNews') {
+    if (!/\/articles\//g.test(location.href)) {
+      return null
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = document.querySelector('div.article_body')?.textContent
+
+    if (!articleText) {
+      return null
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:${getSummaryPrompt(articleText)}
+
+Instructions: Please use the above to summarize the highlights.
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+
+    console.log('Yahoo Japan News queryText', queryText)
+
+    return { question: queryText, siteConfig }
+  }
 
   // Youtube
   if (siteName === 'youtube') {
     const videoId = getSearchParam(window.location.href)?.v
 
     if (!videoId) {
-      return
+      return ''
     }
 
     // Get Transcript Language Options & Create Language Select Btns
@@ -118,16 +200,6 @@ async function run() {
     console.log('langOptionsWithLink', langOptionsWithLink)
 
     const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: 0 })
-
-    // const transcript =
-    //   transcriptList.map((v) => {
-    //     return `(${v.time}):${v.text}`
-    //   }) || []
-
-    // let transcriptText = transcript.join('. \r\n ')
-
-    // transcriptText =
-    //   transcriptText.length > 3700 ? transcriptText.substring(0, 3700) : transcriptText
 
     const videoTitle = document.title
     const videoUrl = window.location.href
@@ -138,48 +210,23 @@ async function run() {
       }) || []
     ).join('')
 
-    //     const queryText = `Video transcript:
-
-    // ${suttitleText}
-
-    // Instructions: Use the transcript information above to summarise the highlights of this video.
-
-    // Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
-
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
-    const queryText = `
+    const queryText = `Instructions: ${Instructions}
+
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.
+
 Title: ${videoTitle}
-URL: ${videoUrl}
-Transcript:${getSummaryPrompt(transcript)}
-
-Instructions: ${Instructions}
-
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
-
-    //     const queryText = `Title: ${videoTitle}
-    // URL: ${videoUrl}
-
-    // Transcript:${getSummaryPrompt(transcript)}
-
-    // Instructions: The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score(Full score of 10) of the title. Please provide a brief explanation for your rating. and give a most accurate title according to the transcript and summarize the highlights of the video.
-
-    // Reply format:
-    // "Reply in the following format:"
-    // **Summary**:
-    // xxx \r\n
-    // **Clickbait score**: x/10 \r\n
-    // **Explanation**:
-    // xxx \r\n
-    // **Most accurate title**:
-    // xxx \r\n
-
-    // Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+Transcript:${getSummaryPrompt(transcript)}`
 
     console.log('youtube queryText', queryText)
 
-    mount(transcript.length > 0 ? queryText : '', siteConfig, transcriptList, langOptionsWithLink)
-    return
+    return {
+      question: transcript.length > 0 ? queryText : '',
+      siteConfig,
+      transcript: transcriptList,
+      langOptionsWithLink,
+    }
   }
 
   // Google
@@ -191,7 +238,6 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
         : `${searchInput.value}(in ${userConfig.language})`
 
     console.log('searchValueWithLanguageOption', searchValueWithLanguageOption)
-    // mount(searchValueWithLanguageOption, siteConfig)
 
     let searchList = ''
 
@@ -229,12 +275,12 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
         console.log(title, text, url)
 
-        if (title) {
+        if (title && loadInit) {
           const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)
           title.insertAdjacentHTML('afterbegin', html)
         }
 
-        if (text && url && index <= 5) {
+        if (text && url && index <= 6) {
           searchList =
             searchList +
             `
@@ -253,11 +299,11 @@ URL: ${url}
 
     const queryText = `Web search results:
 
-${searchList}
+${getSummaryPrompt(searchList)}
 
 Current date: ${year}/${month}/${day}
 
-Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.
+Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.
 Query: ${searchInput.value}
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}`
 
@@ -265,7 +311,10 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     console.log('queryText', queryText)
     console.log('siteConfig', siteConfig)
 
-    mount(searchList ? queryText : searchValueWithLanguageOption, siteConfig, '', '')
+    return {
+      question: searchList ? queryText : searchValueWithLanguageOption,
+      siteConfig,
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 import { LightBulbIcon, SearchIcon } from '@primer/octicons-react'
-import { useState } from 'preact/hooks'
+import { useState, useEffect } from 'preact/hooks'
 import { TriggerMode } from '../config'
 import ChatGPTQuery, { QueryStatus } from './ChatGPTQuery'
 import { endsWithQuestionMark } from './utils.js'
@@ -8,17 +8,31 @@ interface Props {
   question: string
   triggerMode: TriggerMode
   onStatusChange?: (status: QueryStatus) => void
+  currentTime?: number
 }
 
 function ChatGPTCard(props: Props) {
-  const [triggered, setTriggered] = useState(false)
+  const { triggerMode, question, onStatusChange, currentTime: propCurrentTime } = props
 
-  if (props.triggerMode === TriggerMode.Always) {
-    return <ChatGPTQuery question={props.question} onStatusChange={props.onStatusChange} />
+  const [triggered, setTriggered] = useState(false)
+  const [currentTime, setCurrentTime] = useState(propCurrentTime)
+
+  useEffect(() => {
+    console.log('ChatGPTCard props', props)
+  }, [props])
+
+  if (triggerMode === TriggerMode.Always || propCurrentTime) {
+    return (
+      <ChatGPTQuery
+        currentTime={propCurrentTime}
+        question={question}
+        onStatusChange={onStatusChange}
+      />
+    )
   }
-  if (props.triggerMode === TriggerMode.QuestionMark) {
-    if (endsWithQuestionMark(props.question.trim())) {
-      return <ChatGPTQuery question={props.question} onStatusChange={props.onStatusChange} />
+  if (triggerMode === TriggerMode.QuestionMark) {
+    if (endsWithQuestionMark(question.trim())) {
+      return <ChatGPTQuery question={question} onStatusChange={onStatusChange} />
     }
     return (
       <p className="icon-and-text">
@@ -27,11 +41,24 @@ function ChatGPTCard(props: Props) {
     )
   }
   if (triggered) {
-    return <ChatGPTQuery question={props.question} onStatusChange={props.onStatusChange} />
+    return (
+      <>
+        <ChatGPTQuery
+          currentTime={propCurrentTime}
+          question={question}
+          onStatusChange={onStatusChange}
+        />
+      </>
+    )
   }
   return (
-    <a href="javascript:;" onClick={() => setTriggered(true)}>
-      <SearchIcon size="small" /> Ask ChatGPT for this query
+    <a
+      href="javascript:;"
+      onClick={async () => {
+        setTriggered(true)
+      }}
+    >
+      <SearchIcon size="small" /> Ask ChatGPT to summarize
     </a>
   )
 }

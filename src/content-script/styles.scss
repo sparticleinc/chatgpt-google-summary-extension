@@ -21,6 +21,10 @@
     margin-right: var(--rhs-margin);
     margin-bottom: 10px;
   }
+  &.glarity--chatgpt--pubmed {
+    width: calc(100% + 80px);
+    max-width: calc(100% + 80px);
+  }
 
   .glarity--chatgpt {
     border: 1px solid;
@@ -95,7 +99,7 @@
 
   .glarity--chatgpt--header {
     margin-top: -42px !important;
-    margin-left: calc(100% - 70px);
+    margin-left: calc(100% - 58px);
     margin-bottom: 10px;
     padding-bottom: 6px;
     display: flex;
@@ -133,7 +137,8 @@
   cursor: pointer;
 }
 
-a.glarity--header__logo {
+a.glarity--header__logo,
+span.glarity--header__logo {
   margin-right: 6px;
   height: 20px;
   color: #000;
@@ -150,6 +155,10 @@ a.glarity--header__logo {
     height: 20px;
     vertical-align: middle;
   }
+}
+
+span.glarity--header__logo {
+  cursor: default;
 }
 
 .glarity--main {
@@ -203,6 +212,13 @@ a.glarity--header__logo {
     overflow-y: auto;
   }
 }
+.glarity--main__loading {
+  position: absolute;
+  z-index: 99;
+  width: 100%;
+  height: calc(100% - 16px);
+  background-color: rgb(249, 249, 249);
+}
 
 .glarity--subtitle {
   display: flex;
@@ -231,4 +247,10 @@ a.glarity--header__logo {
   width: 70px;
   border: 1px solid #bbb;
   border-radius: 4px;
+}
+
+.glarity--icon--loading {
+  display: inline-block !important;
+  vertical-align: middle;
+  transform: scale(0.7);
 }

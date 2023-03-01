@@ -4,8 +4,10 @@ Chrome extension to display ChatGPT summaries alongside Google search results an
 
 ## Supported Websites
 
-Google
-YouTube
+- Google
+- YouTube
+- Yahoo! JAPAN ニュース
+- PubMed
 
 ## Installation
 
@@ -24,10 +26,20 @@ YouTube
 
 ![Screenshot](screenshots/extension-youtube.jpeg?raw=true)
 
+### Yahoo! JAPAN ニュース
+
+![Screenshot](screenshots/yahoo-japan.jpg?raw=true)
+
+### PubMed
+
+![Screenshot](screenshots/pubmed.jpg?raw=true)
+
 ## Features
 
 - Supports Google search
 - Supports YouTube
+- Supports Yahoo! JAPAN ニュース
+- Supports PubMed
 - Supports the official OpenAI API
 - Supports ChatGPT Plus
 - Markdown rendering
