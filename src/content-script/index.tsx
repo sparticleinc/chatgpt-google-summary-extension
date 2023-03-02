@@ -1,6 +1,6 @@
 import { render } from 'preact'
 import '../base.css'
-import { getUserConfig, Language, Theme } from '../config'
+import { getUserConfig, Language, Theme, getProviderConfigs, ProviderType } from '../config'
 import { detectSystemColorScheme } from '../utils'
 import ChatGPTContainer from './ChatGPTContainer'
 import { config, SearchEngine } from './search-engine-configs'
@@ -126,6 +126,8 @@ export async function getQuestion(loadInit?: boolean) {
   const language = window.navigator.language
   const userConfig = await getUserConfig()
 
+  const providerConfigs = await getProviderConfigs()
+
   // PubMed
   if (siteName === 'pubmed') {
     if (!/pubmed\.ncbi\.nlm\.nih.gov\/\d{8,}/.test(location.href)) {
@@ -217,7 +219,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.
 
 Title: ${videoTitle}
-Transcript:${getSummaryPrompt(transcript)}`
+Transcript:${getSummaryPrompt(transcript, providerConfigs.provider)}`
 
     console.log('youtube queryText', queryText)
 

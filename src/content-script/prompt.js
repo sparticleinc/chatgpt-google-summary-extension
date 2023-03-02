@@ -1,7 +1,9 @@
-export function getSummaryPrompt(transcript = '') {
+import { getProviderConfigs, ProviderType } from '../config'
+
+export function getSummaryPrompt(transcript = '', providerConfigs) {
   const text = transcript.replace(/(\s{2,})/g, ' ').replace(/^(\s)+|(\s)$/g, '')
 
-  return truncateTranscript(text)
+  return truncateTranscript(text, providerConfigs)
 }
 
 // Seems like 15,000 bytes is the limit for the prompt
@@ -73,10 +75,13 @@ export function getChunckedTranscripts(textData, textDataOriginal) {
   return result == '' ? originalText : result // Just in case the result is empty
 }
 
-function truncateTranscript(str) {
+function truncateTranscript(str, providerConfigs) {
+  console.log('providerConfigs', providerConfigs)
+  const tokenLimit = providerConfigs === ProviderType.GPT3 ? 7000 : limit
+
   const bytes = textToBinaryString(str).length
-  if (bytes > limit) {
-    const ratio = limit / bytes
+  if (bytes > tokenLimit) {
+    const ratio = tokenLimit / bytes
     const newStr = str.substring(0, str.length * ratio)
     return newStr
   }
