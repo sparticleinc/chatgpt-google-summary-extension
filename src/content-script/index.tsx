@@ -156,7 +156,7 @@ Content:  ${content}
 
 Instructions: Please use the above to summarize the highlights.
 
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}.`
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
     console.log('Yahoo Japan News queryText', queryText)
 
@@ -184,7 +184,7 @@ Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
 
 Instructions: Please use the above to summarize the highlights.
 
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}.`
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
     console.log('Yahoo Japan News queryText', queryText)
 
@@ -221,7 +221,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 Transcript: ${getSummaryPrompt(transcript, providerConfigs.provider)}
 
 Instructions: ${Instructions}
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}.
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
 `
 
     console.log('youtube queryText', queryText)
@@ -310,7 +310,7 @@ Current date: ${year}/${month}/${day}
 
 Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.
 Query: ${searchInput.value}
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}`
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
     console.log('searchList', searchList)
     console.log('queryText', queryText)

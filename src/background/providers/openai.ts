@@ -28,6 +28,7 @@ export class OpenAIProvider implements Provider {
         prompt: this.buildPrompt(params.prompt),
         stream: true,
         max_tokens: 800,
+        // temperature: 0.5,
       }),
       onMessage(message) {
         console.debug('sse message', message)
