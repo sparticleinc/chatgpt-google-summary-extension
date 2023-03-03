@@ -14,9 +14,14 @@ export class OpenAIProvider implements Provider {
     return prompt
   }
 
+  private buildMessages(prompt: string) {
+    return [{ role: 'user', content: prompt }]
+  }
+
   async generateAnswer(params: GenerateAnswerParams) {
     let result = ''
-    await fetchSSE('https://api.openai.com/v1/completions', {
+    // await fetchSSE('https://api.openai.com/v1/completions', {
+    await fetchSSE('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       signal: params.signal,
       headers: {
@@ -25,7 +30,8 @@ export class OpenAIProvider implements Provider {
       },
       body: JSON.stringify({
         model: this.model,
-        prompt: this.buildPrompt(params.prompt),
+        // prompt: this.buildPrompt(params.prompt),
+        messages: this.buildMessages(params.prompt),
         stream: true,
         max_tokens: 800,
         // temperature: 0.5,
@@ -39,8 +45,10 @@ export class OpenAIProvider implements Provider {
         let data
         try {
           data = JSON.parse(message)
-          const text = data.choices[0].text
-          if (text === '<|im_end|>' || text === '<|im_sep|>') {
+          // const text = data.choices[0].text
+          // if (text === '<|im_end|>' || text === '<|im_sep|>') {
+          const text = data.choices[0].delta.content
+          if (text === undefined || text === '<|im_end|>' || text === '<|im_sep|>') {
             return
           }
           result += text
