@@ -33,6 +33,8 @@ const siteName =
     ? 'yahooJpNews'
     : hostname === 'pubmed.ncbi.nlm.nih.gov'
     ? 'pubmed'
+    : hostname === 'newspicks.com'
+    ? 'newspicks'
     : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
@@ -66,6 +68,10 @@ async function mount(props: MountProps) {
   } else if (siteName === 'yahooJpNews') {
     const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
     container.classList.add('glarity--chatgpt--yahoonews')
+    document.querySelector(eleSideBar)?.prepend(container)
+  } else if (siteName === 'newspicks') {
+    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
+    container.classList.add('glarity--chatgpt--newspicks')
     document.querySelector(eleSideBar)?.prepend(container)
   } else if (siteName === 'youtube') {
     container.classList.add('glarity--chatgpt--youtube')
@@ -139,7 +145,7 @@ export async function getQuestion(loadInit?: boolean) {
 
     const articleTitle = document.title || ''
     const articleUrl = location.href
-    const articleText = document.querySelector('div#abstract')?.textContent
+    const articleText = document.querySelector(siteConfig.contentContainerQuery || '')?.textContent
 
     if (!articleText) {
       return null
@@ -171,7 +177,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
     const articleTitle = document.title || ''
     const articleUrl = location.href
-    const articleText = document.querySelector('div.article_body')?.textContent
+    const articleText = document.querySelector(siteConfig.contentContainerQuery || '')?.textContent
 
     if (!articleText) {
       return null
@@ -187,6 +193,36 @@ Instructions: Please use the above to summarize the highlights.
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
     console.log('Yahoo Japan News queryText', queryText)
+
+    return { question: queryText, siteConfig }
+  }
+
+  // newspicks
+  if (siteName === 'newspicks') {
+    if (!/\/news\/\d+\/body\//g.test(location.href)) {
+      return null
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = document.querySelector(siteConfig.contentContainerQuery || '')?.textContent
+
+    console.log('newspiii', document.querySelector(siteConfig.contentContainerQuery || ''))
+
+    if (!articleText) {
+      return null
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+
+Instructions: Please use the above to summarize the highlights.
+
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
+
+    console.log('newspicks queryText', queryText)
 
     return { question: queryText, siteConfig }
   }

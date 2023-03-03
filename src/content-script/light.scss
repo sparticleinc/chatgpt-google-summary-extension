@@ -5,6 +5,18 @@
     background-color: #f9f9f9;
   }
 
+  &.glarity--chatgpt--newspicks {
+    .glarity--chatgpt {
+      color: black;
+      border-color: #fff;
+      background-color: #fff;
+    }
+
+    .glarity--main {
+      border-top-color: #eee;
+    }
+  }
+
   pre code.hljs {
     display: block;
     overflow-x: auto;

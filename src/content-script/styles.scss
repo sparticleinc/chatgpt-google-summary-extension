@@ -254,3 +254,28 @@ span.glarity--header__logo {
   vertical-align: middle;
   transform: scale(0.7);
 }
+
+// newspicks
+.glarity--chatgpt--newspicks {
+  margin-bottom: 32px;
+  background-color: #fff;
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 1px 4px #ddd;
+
+  .glarity--chatgpt {
+    border: none;
+    background: #fff;
+    border-radius: 0;
+
+    .glarity--main__container {
+      a {
+        color: #337ab7;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
