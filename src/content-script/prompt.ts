@@ -1,13 +1,19 @@
 import { getProviderConfigs, ProviderType } from '../config'
+import GPT3Tokenizer from 'gpt3-tokenizer'
+const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 
-export function getSummaryPrompt(transcript = '', providerConfigs) {
-  const text = transcript.replace(/(\s{2,})/g, ' ').replace(/^(\s)+|(\s)$/g, '')
+export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType) {
+  const text = transcript
+    .replace(/\r\n/g, ' ')
+    .replace(/(\s{2,})/g, ' ')
+    .replace(/^(\s)+|(\s)$/g, '')
 
   return truncateTranscript(text, providerConfigs)
 }
 
 // Seems like 15,000 bytes is the limit for the prompt
 const limit = 12000 // 1000 is a buffer
+const apiLimit = 2900
 
 export function getChunckedTranscripts(textData, textDataOriginal) {
   // [Thought Process]
@@ -77,21 +83,34 @@ export function getChunckedTranscripts(textData, textDataOriginal) {
 
 function truncateTranscript(str, providerConfigs) {
   console.log('providerConfigs', providerConfigs)
-  const tokenLimit = providerConfigs === ProviderType.GPT3 ? 7000 : limit
+  const tokenLimit = providerConfigs === ProviderType.GPT3 ? apiLimit : limit
 
-  const bytes = textToBinaryString(str).length
+  const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(str)
+  // const decoded = tokenizer.decode(encoded.bpe)
+  const bytes = encoded.bpe.length
+
   if (bytes > tokenLimit) {
     const ratio = tokenLimit / bytes
     const newStr = str.substring(0, str.length * ratio)
+
     return newStr
   }
+
   return str
+
+  // const bytes = textToBinaryString(str).length
+  // if (bytes > tokenLimit) {
+  //   const ratio = tokenLimit / bytes
+  //   const newStr = str.substring(0, str.length * ratio)
+  //   return newStr
+  // }
+  // return str
 }
 
-function textToBinaryString(str) {
-  let escstr = decodeURIComponent(encodeURIComponent(escape(str)))
-  let binstr = escstr.replace(/%([0-9A-F]{2})/gi, function (match, hex) {
-    let i = parseInt(hex, 16)
+export function textToBinaryString(str) {
+  const escstr = decodeURIComponent(encodeURIComponent(escape(str)))
+  const binstr = escstr.replace(/%([0-9A-F]{2})/gi, function (match, hex) {
+    const i = parseInt(hex, 16)
     return String.fromCharCode(i)
   })
   return binstr

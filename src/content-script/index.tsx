@@ -16,6 +16,7 @@ import {
 import { getSummaryPrompt } from './prompt'
 import xss from 'xss'
 import { defaultPrompt } from '../utils'
+
 import './styles.scss'
 
 interface MountProps {
@@ -142,7 +143,7 @@ export async function getQuestion(loadInit?: boolean) {
       return null
     }
 
-    const content = getSummaryPrompt(articleText)
+    const content = getSummaryPrompt(articleText, providerConfigs.provider)
 
     console.log('content', content)
 
@@ -177,7 +178,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     const queryText = `
 Title: ${articleTitle}
 URL: ${articleUrl}
-Content:${getSummaryPrompt(articleText)}
+Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
 
 Instructions: Please use the above to summarize the highlights.
 
@@ -301,7 +302,7 @@ URL: ${url}
 
     const queryText = `Web search results:
 
-${getSummaryPrompt(searchList)}
+${getSummaryPrompt(searchList, providerConfigs.provider)}
 
 Current date: ${year}/${month}/${day}
 

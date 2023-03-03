@@ -27,7 +27,7 @@ export class OpenAIProvider implements Provider {
         model: this.model,
         prompt: this.buildPrompt(params.prompt),
         stream: true,
-        max_tokens: 2048,
+        max_tokens: 600,
       }),
       onMessage(message) {
         console.debug('sse message', message)
