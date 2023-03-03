@@ -12,7 +12,7 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
 }
 
 // Seems like 15,000 bytes is the limit for the prompt
-const limit = 12000 // 1000 is a buffer
+const limit = 1100 // 1000 is a buffer
 const apiLimit = 2900
 
 export function getChunckedTranscripts(textData, textDataOriginal) {
@@ -83,10 +83,11 @@ export function getChunckedTranscripts(textData, textDataOriginal) {
 
 function truncateTranscript(str, providerConfigs) {
   console.log('providerConfigs', providerConfigs)
+
   const tokenLimit = providerConfigs === ProviderType.GPT3 ? apiLimit : limit
 
+  // if (providerConfigs === ProviderType.GPT3) {
   const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(str)
-  // const decoded = tokenizer.decode(encoded.bpe)
   const bytes = encoded.bpe.length
 
   if (bytes > tokenLimit) {
@@ -97,14 +98,15 @@ function truncateTranscript(str, providerConfigs) {
   }
 
   return str
-
-  // const bytes = textToBinaryString(str).length
-  // if (bytes > tokenLimit) {
-  //   const ratio = tokenLimit / bytes
-  //   const newStr = str.substring(0, str.length * ratio)
-  //   return newStr
+  // } else {
+  //   const bytes = textToBinaryString(str).length
+  //   if (bytes > tokenLimit) {
+  //     const ratio = tokenLimit / bytes
+  //     const newStr = str.substring(0, str.length * ratio)
+  //     return newStr
+  //   }
+  //   return str
   // }
-  // return str
 }
 
 export function textToBinaryString(str) {

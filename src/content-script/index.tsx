@@ -154,7 +154,7 @@ Content:  ${content}
 
 Instructions: Please use the above to summarize the highlights.
 
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}.`
 
     console.log('Yahoo Japan News queryText', queryText)
 
@@ -182,7 +182,7 @@ Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
 
 Instructions: Please use the above to summarize the highlights.
 
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.`
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}.`
 
     console.log('Yahoo Japan News queryText', queryText)
 
@@ -215,12 +215,13 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
-    const queryText = `Instructions: ${Instructions}
+    const queryText = `Title: ${videoTitle}
+Transcript:${getSummaryPrompt(transcript, providerConfigs.provider)}
 
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language} Language.
+Instructions: ${Instructions}
 
-Title: ${videoTitle}
-Transcript:${getSummaryPrompt(transcript, providerConfigs.provider)}`
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}.
+`
 
     console.log('youtube queryText', queryText)
 

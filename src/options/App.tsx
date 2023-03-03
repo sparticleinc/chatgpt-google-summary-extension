@@ -214,17 +214,18 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           Customize Prompt for Summary(YouTube)
         </Text>
         <Card className="glarity--card">
+          <Text className="my-1">
+            <Code block my={0}>
+              <CustomizePrompt />
+            </Code>
+          </Text>
+
           <Textarea
             placeholder="Please enter a Prompt."
             value={prompt}
             resize={'vertical'}
             onChange={onPromptChange}
           />
-          <Text className="my-1">
-            <Code block my={0}>
-              <CustomizePrompt />
-            </Code>
-          </Text>
           {/* <Divider /> */}
           <Card.Footer>
             <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
@@ -239,23 +240,23 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
         <ul>
           <li>
             <Snippet symbol="" type="secondary">
-              Summarize the following content highlights.{' '}
+              Summarize the above content highlights.{' '}
             </Snippet>
           </li>
           <li>
             {' '}
             <Snippet symbol="" type="secondary">
-              Summarize the following in 3 bullet points.{' '}
+              Summarize the above in 3 bullet points.{' '}
             </Snippet>
           </li>
           <li>
             {' '}
             <Snippet symbol="" type="secondary">
-              What's key takeaways from the following?{' '}
+              What's key takeaways from the above?{' '}
             </Snippet>
           </li>
           <li>
-            <Snippet type="secondary">Extract the gist of the following.</Snippet>
+            <Snippet type="secondary">Extract the gist of the above.</Snippet>
           </li>
           <li>
             <Snippet symbol="" type="secondary">
