@@ -1,4 +1,4 @@
-import { getProviderConfigs, ProviderType } from '../config'
+import { ProviderType } from '../config'
 import GPT3Tokenizer from 'gpt3-tokenizer'
 const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 
@@ -13,7 +13,7 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
 
 // Seems like 15,000 bytes is the limit for the prompt
 const limit = 1100 // 1000 is a buffer
-const apiLimit = 2900
+const apiLimit = 2200
 
 export function getChunckedTranscripts(textData, textDataOriginal) {
   // [Thought Process]

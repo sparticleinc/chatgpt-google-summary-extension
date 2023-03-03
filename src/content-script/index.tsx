@@ -129,6 +129,8 @@ export async function getQuestion(loadInit?: boolean) {
 
   const providerConfigs = await getProviderConfigs()
 
+  console.log('providerConfigs', providerConfigs)
+
   // PubMed
   if (siteName === 'pubmed') {
     if (!/pubmed\.ncbi\.nlm\.nih.gov\/\d{8,}/.test(location.href)) {
@@ -216,10 +218,9 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
     const queryText = `Title: ${videoTitle}
-Transcript:${getSummaryPrompt(transcript, providerConfigs.provider)}
+Transcript: ${getSummaryPrompt(transcript, providerConfigs.provider)}
 
 Instructions: ${Instructions}
-
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}.
 `
 
