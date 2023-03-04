@@ -108,6 +108,16 @@ async function build() {
     `./${packagesDir}`,
   )
 
+  await copyFiles(
+    [
+      {
+        src: `${outdir}/chromium`,
+        dst: `./chromium`,
+      },
+    ],
+    `./${packagesDir}`,
+  )
+
   // firefox
   await copyFiles(
     [...commonFiles, { src: 'src/manifest.v2.json', dst: 'manifest.json' }],
