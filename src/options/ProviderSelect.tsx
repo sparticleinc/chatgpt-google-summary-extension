@@ -46,7 +46,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
               OpenAI official API, more stable,{' '}
               <span className="font-semibold">charge by usage</span>
             </span>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 glarity--geist--select">
               <Select
                 scale={2 / 3}
                 value={model}
@@ -82,15 +82,8 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
 }
 
 function ProviderSelect() {
-  // const query = useSWR('provider-configs', async () => {
-  //   const [config, models] = await Promise.all([getProviderConfigs(), loadModels()])
-  //   console.log('loaded', config, models)
-  //   return { config, models }
-  // })
-
   const query = useSWR('provider-configs', async () => {
     const [config] = await Promise.all([getProviderConfigs()])
-
     return { config }
   })
 
@@ -102,11 +95,6 @@ function ProviderSelect() {
     // 'text-ada-001',
     // 'text-chat-davinci-002-20221122',
   ]
-
-  // if (query.isLoading) {
-  //   return <Spinner />
-  // }
-  // return <ConfigPanel config={query.data!.config} models={query.data!.models} />
 
   if (query.isLoading) {
     return <Spinner />

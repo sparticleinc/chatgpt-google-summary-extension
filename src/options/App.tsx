@@ -9,12 +9,9 @@ import {
   Code,
   Textarea,
   Card,
-  Divider,
   Button,
   Snippet,
-  Spacer,
 } from '@geist-ui/core'
-import { capitalize } from 'lodash-es'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
 import '../base.css'
 import {
@@ -121,11 +118,11 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
   CustomizePrompt
 
   const getSplitString = (str: string) => {
-    if (str.includes('Chinese')) {
+    if (str && str.includes('Chinese')) {
       return `Chinese (${str.split('Chinese')[1] || ''})`
     }
 
-    return str
+    return str ?? ''
   }
 
   return (
@@ -205,10 +202,15 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
         >
           {Object.entries(Language).map(([k, v]) => (
             <Select.Option key={k} value={v}>
-              {capitalize(getSplitString(k))}
+              {getSplitString(String(k))}
             </Select.Option>
           ))}
         </Select>
+
+        <Text h3 className="mt-5 mb-0">
+          AI Provider
+        </Text>
+        <ProviderSelect />
 
         <Text h3 className="mt-5 mb-0">
           Customize Prompt for Summary(YouTube)
@@ -270,10 +272,6 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           </li>
         </ul>
 
-        <Text h3 className="mt-5 mb-0">
-          AI Provider
-        </Text>
-        <ProviderSelect />
         <Text h3 className="mt-8">
           Misc
         </Text>
