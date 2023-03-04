@@ -37,6 +37,8 @@ const siteName =
     ? 'newspicks'
     : hostname.includes('nikkei.com')
     ? 'nikkei'
+    : hostname.includes('github.com')
+    ? 'github'
     : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
@@ -88,6 +90,12 @@ async function mount(props: MountProps) {
     appendContainer?.prepend(container)
   } else if (siteName === 'nikkei') {
     container.classList.add('glarity--chatgpt--nikkei')
+    const appendContainer = getPossibleElementByQuerySelector(
+      siteConfig.extabarContainerQuery || [],
+    )
+    appendContainer?.prepend(container)
+  } else if (siteName === 'github') {
+    container.classList.add('glarity--chatgpt--github')
     const appendContainer = getPossibleElementByQuerySelector(
       siteConfig.extabarContainerQuery || [],
     )
@@ -307,7 +315,36 @@ Instructions: Please use the above to summarize the highlights.
 
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
-    console.log('newspicks queryText', queryText)
+    console.log('nikkei queryText', queryText)
+
+    return { question: queryText, siteConfig }
+  }
+
+  // github
+  if (siteName === 'github') {
+    if (!/github\.com\/\w+\/\w+/g.test(location.href)) {
+      return null
+    }
+
+    const articleTitle = document.title || ''
+    // const articleUrl = location.href
+    const articleText = getPossibleElementByQuerySelector(
+      siteConfig.contentContainerQuery || [],
+    )?.textContent
+
+    if (!articleText) {
+      return null
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+
+Instructions: Please use the above to summarize the highlights.
+
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
+
+    console.log('github queryText', queryText)
 
     return { question: queryText, siteConfig }
   }
