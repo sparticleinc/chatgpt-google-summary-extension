@@ -9,6 +9,8 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 - Yahoo! 日本新闻
 - PubMed
 - NewsPicks
+- Github project
+- Nikkei
 
 ## 安装
 
@@ -46,6 +48,8 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 - 支持 Yahoo! JAPAN 新闻总结
 - 支持 PubMed 总结
 - 支持 NewsPicks 总结
+- 支持 Nikkei 总结
+- 支持 Github 总结
 - 支持 OpenAI 官方 API（GPT-3.5-turbo）
 - 支持 ChatGPT Plus
 - Markdown 格式渲染

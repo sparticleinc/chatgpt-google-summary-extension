@@ -135,4 +135,12 @@ export const config: Record<string, SearchEngine> = {
     contentContainerQuery: ['section.container_c1suc6un'],
     name: 'nikkei',
   },
+  github: {
+    inputQuery: ["input[name='q']"],
+    sidebarContainerQuery: ['#rhs'],
+    appendContainerQuery: ['#rcnt'],
+    extabarContainerQuery: ['div.Layout-sidebar'],
+    contentContainerQuery: ['div.Box-body'],
+    name: 'nikkei',
+  },
 }
