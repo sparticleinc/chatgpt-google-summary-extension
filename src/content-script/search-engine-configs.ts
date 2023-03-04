@@ -5,7 +5,7 @@ export interface SearchEngine {
   appendContainerQuery: string[]
   extabarContainerQuery?: string[]
   name?: string
-  contentContainerQuery?: string
+  contentContainerQuery?: string[]
   watchRouteChange?: (callback: () => void) => void
 }
 
@@ -107,7 +107,7 @@ export const config: Record<string, SearchEngine> = {
     sidebarContainerQuery: ['#rhs'],
     appendContainerQuery: ['#rcnt'],
     extabarContainerQuery: ['#yjnFixableArea.sc-feJyhm'],
-    contentContainerQuery: 'div.article_body',
+    contentContainerQuery: ['div.article_body'],
     name: 'yahooJpNews',
   },
   pubmed: {
@@ -115,8 +115,8 @@ export const config: Record<string, SearchEngine> = {
     sidebarContainerQuery: ['#rhs'],
     appendContainerQuery: ['#rcnt'],
     // extabarContainerQuery: ['aside.page-sidebar > div.inner-wrap'],
-    extabarContainerQuery: ['aside.page-sidebar'],
-    contentContainerQuery: 'div#abstract',
+    extabarContainerQuery: ['aside.page-sidebar', 'aside.pmc-sidebar'],
+    contentContainerQuery: ['div#abstract'],
     name: 'pubmed',
   },
   newspicks: {
@@ -124,7 +124,15 @@ export const config: Record<string, SearchEngine> = {
     sidebarContainerQuery: ['#rhs'],
     appendContainerQuery: ['#rcnt'],
     extabarContainerQuery: ['div.right-container'],
-    contentContainerQuery: 'div#body div.article-body',
+    contentContainerQuery: ['div#body div.article-body'],
     name: 'newspicks',
+  },
+  nikkei: {
+    inputQuery: ["input[name='q']"],
+    sidebarContainerQuery: ['#rhs'],
+    appendContainerQuery: ['#rcnt'],
+    extabarContainerQuery: ['aside.aside_au9xyxw'],
+    contentContainerQuery: ['section.container_c1suc6un'],
+    name: 'nikkei',
   },
 }

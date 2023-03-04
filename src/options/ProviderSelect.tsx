@@ -52,6 +52,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                 value={model}
                 onChange={(v) => setModel(v as string)}
                 placeholder="model"
+                disabled
               >
                 {models.map((m) => (
                   <Select.Option key={m} value={m}>
@@ -84,6 +85,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
 function ProviderSelect() {
   const query = useSWR('provider-configs', async () => {
     const [config] = await Promise.all([getProviderConfigs()])
+    console.log('ProviderSelect config', config)
     return { config }
   })
 

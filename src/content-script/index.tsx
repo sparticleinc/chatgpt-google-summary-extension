@@ -31,10 +31,12 @@ const siteRegex = new RegExp(Object.keys(config).join('|'))
 const siteName =
   hostname === 'news.yahoo.co.jp'
     ? 'yahooJpNews'
-    : hostname === 'pubmed.ncbi.nlm.nih.gov'
+    : hostname.includes('ncbi.nlm.nih.gov')
     ? 'pubmed'
     : hostname === 'newspicks.com'
     ? 'newspicks'
+    : hostname.includes('nikkei.com')
+    ? 'nikkei'
     : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
@@ -62,17 +64,34 @@ async function mount(props: MountProps) {
   }
 
   if (siteName === 'pubmed') {
-    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
     container.classList.add('glarity--chatgpt--pubmed')
-    document.querySelector(eleSideBar)?.prepend(container)
+
+    const appendContainer = getPossibleElementByQuerySelector(
+      siteConfig.extabarContainerQuery || [],
+    )
+
+    console.log('appendContainer', appendContainer)
+
+    appendContainer?.prepend(container)
   } else if (siteName === 'yahooJpNews') {
-    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
     container.classList.add('glarity--chatgpt--yahoonews')
-    document.querySelector(eleSideBar)?.prepend(container)
+
+    const appendContainer = getPossibleElementByQuerySelector(
+      siteConfig.extabarContainerQuery || [],
+    )
+    appendContainer?.prepend(container)
   } else if (siteName === 'newspicks') {
-    const eleSideBar = siteConfig.extabarContainerQuery ? siteConfig.extabarContainerQuery[0] : ''
     container.classList.add('glarity--chatgpt--newspicks')
-    document.querySelector(eleSideBar)?.prepend(container)
+    const appendContainer = getPossibleElementByQuerySelector(
+      siteConfig.extabarContainerQuery || [],
+    )
+    appendContainer?.prepend(container)
+  } else if (siteName === 'nikkei') {
+    container.classList.add('glarity--chatgpt--nikkei')
+    const appendContainer = getPossibleElementByQuerySelector(
+      siteConfig.extabarContainerQuery || [],
+    )
+    appendContainer?.prepend(container)
   } else if (siteName === 'youtube') {
     container.classList.add('glarity--chatgpt--youtube')
     waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
@@ -139,13 +158,47 @@ export async function getQuestion(loadInit?: boolean) {
 
   // PubMed
   if (siteName === 'pubmed') {
-    if (!/pubmed\.ncbi\.nlm\.nih.gov\/\d{8,}/.test(location.href)) {
+    if (
+      !/(pubmed\.ncbi\.nlm\.nih.gov\/\d{8,})|(ncbi\.nlm\.nih\.gov\/pmc\/articles\/\w+)/.test(
+        location.href,
+      )
+    ) {
       return null
     }
 
     const articleTitle = document.title || ''
     const articleUrl = location.href
-    const articleText = document.querySelector(siteConfig.contentContainerQuery || '')?.textContent
+    const contentElement = getPossibleElementByQuerySelector(siteConfig.contentContainerQuery || [])
+
+    document.querySelector('div#abstract-1 + #body-1')
+    let articleText
+    if (contentElement) {
+      articleText = contentElement?.textContent
+    } else {
+      const eles = [
+        'div#abstract-1',
+        '#body-1',
+        'div#sec2',
+        'div#sec3',
+        'div#sec4',
+        'div#sec5',
+        'div#sec6',
+        'div#sec7',
+        'div#sec8',
+        'div#sec9',
+        'div#sec10',
+      ]
+
+      for (let index = 0; index < eles.length; index++) {
+        const text = document.querySelector(eles[index])?.textContent
+
+        if (text) {
+          articleText = articleText + ' ' + text
+        }
+      }
+    }
+
+    console.log('articleText', articleText)
 
     if (!articleText) {
       return null
@@ -164,7 +217,7 @@ Instructions: Please use the above to summarize the highlights.
 
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
-    console.log('Yahoo Japan News queryText', queryText)
+    console.log('PubMed', queryText)
 
     return { question: queryText, siteConfig }
   }
@@ -177,7 +230,9 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
     const articleTitle = document.title || ''
     const articleUrl = location.href
-    const articleText = document.querySelector(siteConfig.contentContainerQuery || '')?.textContent
+    const articleText = getPossibleElementByQuerySelector(
+      siteConfig.contentContainerQuery || [],
+    )?.textContent
 
     if (!articleText) {
       return null
@@ -205,9 +260,39 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
     const articleTitle = document.title || ''
     const articleUrl = location.href
-    const articleText = document.querySelector(siteConfig.contentContainerQuery || '')?.textContent
+    const articleText = getPossibleElementByQuerySelector(
+      siteConfig.contentContainerQuery || [],
+    )?.textContent
 
-    console.log('newspiii', document.querySelector(siteConfig.contentContainerQuery || ''))
+    if (!articleText) {
+      return null
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+
+Instructions: Please use the above to summarize the highlights.
+
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
+
+    console.log('newspicks queryText', queryText)
+
+    return { question: queryText, siteConfig }
+  }
+
+  // nikkei
+  if (siteName === 'nikkei') {
+    if (!/nikkei\.com\/article\/\w+/g.test(location.href)) {
+      return null
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = getPossibleElementByQuerySelector(
+      siteConfig.contentContainerQuery || [],
+    )?.textContent
 
     if (!articleText) {
       return null
