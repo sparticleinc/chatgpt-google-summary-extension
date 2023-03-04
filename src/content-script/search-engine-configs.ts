@@ -127,4 +127,12 @@ export const config: Record<string, SearchEngine> = {
     contentContainerQuery: ['div#body div.article-body'],
     name: 'newspicks',
   },
+  nikkei: {
+    inputQuery: ["input[name='q']"],
+    sidebarContainerQuery: ['#rhs'],
+    appendContainerQuery: ['#rcnt'],
+    extabarContainerQuery: ['aside.aside_au9xyxw'],
+    contentContainerQuery: ['section.container_c1suc6un'],
+    name: 'nikkei',
+  },
 }

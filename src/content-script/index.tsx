@@ -35,6 +35,8 @@ const siteName =
     ? 'pubmed'
     : hostname === 'newspicks.com'
     ? 'newspicks'
+    : hostname.includes('nikkei.com')
+    ? 'nikkei'
     : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
@@ -80,6 +82,12 @@ async function mount(props: MountProps) {
     appendContainer?.prepend(container)
   } else if (siteName === 'newspicks') {
     container.classList.add('glarity--chatgpt--newspicks')
+    const appendContainer = getPossibleElementByQuerySelector(
+      siteConfig.extabarContainerQuery || [],
+    )
+    appendContainer?.prepend(container)
+  } else if (siteName === 'nikkei') {
+    container.classList.add('glarity--chatgpt--nikkei')
     const appendContainer = getPossibleElementByQuerySelector(
       siteConfig.extabarContainerQuery || [],
     )
@@ -247,6 +255,36 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
   // newspicks
   if (siteName === 'newspicks') {
     if (!/\/news\/\d+\/body\//g.test(location.href)) {
+      return null
+    }
+
+    const articleTitle = document.title || ''
+    const articleUrl = location.href
+    const articleText = getPossibleElementByQuerySelector(
+      siteConfig.contentContainerQuery || [],
+    )?.textContent
+
+    if (!articleText) {
+      return null
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+URL: ${articleUrl}
+Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+
+Instructions: Please use the above to summarize the highlights.
+
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
+
+    console.log('newspicks queryText', queryText)
+
+    return { question: queryText, siteConfig }
+  }
+
+  // nikkei
+  if (siteName === 'nikkei') {
+    if (!/nikkei\.com\/article\/\w+/g.test(location.href)) {
       return null
     }
 
