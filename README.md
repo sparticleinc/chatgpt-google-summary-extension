@@ -8,6 +8,7 @@ Chrome extension to display ChatGPT summaries alongside Google search results an
 - YouTube
 - Yahoo! JAPAN ニュース
 - PubMed
+- NewsPicks
 
 ## Installation
 
@@ -34,13 +35,18 @@ Chrome extension to display ChatGPT summaries alongside Google search results an
 
 ![Screenshot](screenshots/pubmed.jpg?raw=true)
 
+### NewsPicks
+
+![Screenshot](screenshots/newspicks-jp.jpg?raw=true)
+
 ## Features
 
 - Supports Google search
 - Supports YouTube
 - Supports Yahoo! JAPAN ニュース
 - Supports PubMed
-- Supports the official OpenAI API
+- Supports NewsPicks
+- Supports the official OpenAI API (GPT-3.5-turbo)
 - Supports ChatGPT Plus
 - Markdown rendering
 - Code highlights

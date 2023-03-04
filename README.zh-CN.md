@@ -8,6 +8,7 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 - YouTube
 - Yahoo! 日本新闻
 - PubMed
+- NewsPicks
 
 ## 安装
 
@@ -34,13 +35,18 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 
 ![Screenshot](screenshots/pubmed.jpg?raw=true)
 
+### NewsPicks
+
+![Screenshot](screenshots/newspicks-zh.jpg?raw=true)
+
 ## 功能
 
 - 支持 Google 搜索
 - 支持 YouTube 总结
 - 支持 Yahoo! JAPAN 新闻总结
 - 支持 PubMed 总结
-- 支持 OpenAI 官方 API
+- 支持 NewsPicks 总结
+- 支持 OpenAI 官方 API（GPT-3.5-turbo）
 - 支持 ChatGPT Plus
 - Markdown 格式渲染
 - 代码高亮
