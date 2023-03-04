@@ -116,7 +116,7 @@ export const config: Record<string, SearchEngine> = {
     appendContainerQuery: ['#rcnt'],
     // extabarContainerQuery: ['aside.page-sidebar > div.inner-wrap'],
     extabarContainerQuery: ['aside.page-sidebar', 'aside.pmc-sidebar'],
-    contentContainerQuery: ['div#abstract', 'div.jig-ncbiinpagenav'],
+    contentContainerQuery: ['div#abstract'],
     name: 'pubmed',
   },
   newspicks: {

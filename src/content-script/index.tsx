@@ -160,9 +160,35 @@ export async function getQuestion(loadInit?: boolean) {
 
     const articleTitle = document.title || ''
     const articleUrl = location.href
-    const articleText = getPossibleElementByQuerySelector(
-      siteConfig.contentContainerQuery || [],
-    )?.textContent
+    const contentElement = getPossibleElementByQuerySelector(siteConfig.contentContainerQuery || [])
+
+    document.querySelector('div#abstract-1 + #body-1')
+    let articleText
+    if (contentElement) {
+      articleText = contentElement?.textContent
+    } else {
+      const eles = [
+        'div#abstract-1',
+        '#body-1',
+        'div#sec2',
+        'div#sec3',
+        'div#sec4',
+        'div#sec5',
+        'div#sec6',
+        'div#sec7',
+        'div#sec8',
+        'div#sec9',
+        'div#sec10',
+      ]
+
+      for (let index = 0; index < eles.length; index++) {
+        const text = document.querySelector(eles[index])?.textContent
+
+        if (text) {
+          articleText = articleText + ' ' + text
+        }
+      }
+    }
 
     console.log('articleText', articleText)
 
