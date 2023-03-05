@@ -444,6 +444,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
         }
 
         if (text && url && index <= 6) {
+          url = url.replace(/https?:/, '')
           searchList =
             searchList +
             `
