@@ -392,6 +392,66 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     }
   }
 
+  if (siteName === 'bing') {
+    const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
+    if (!searchInput) return null
+    const searchValueWithLanguageOption =
+      userConfig.language === Language.Auto
+        ? searchInput.value
+        : `${searchInput.value}(in ${userConfig.language})`
+
+    console.log('searchValueWithLanguageOption', searchValueWithLanguageOption)
+
+    let searchList = ''
+
+    //  Result list
+    const resultList = document.querySelectorAll('main>ol>li.b_algo')
+    if (resultList.length > 0) {
+      for (let i = 0; i < resultList.length; i++) {
+        const v = resultList[i]
+        const text = v.querySelector('.b_lineclamp2')?.textContent
+        const index = i + 1
+        const url = v.querySelector('cite')?.textContent
+
+        if (text && url && index <= 6) {
+          searchList =
+            searchList +
+            `
+  [${index}] ${text}
+  URL: ${url}
+  
+            `
+        } else {
+          break
+        }
+      }
+    }
+
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+
+    const queryText = `Web search results:
+
+${getSummaryPrompt(searchList)}
+
+Current date: ${year}/${month}/${day}
+
+Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.
+Query: ${searchInput.value}
+Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}`
+
+    console.log('searchList', searchList)
+    console.log('queryText', queryText)
+    console.log('siteConfig', siteConfig)
+
+    return {
+      question: searchList ? queryText : searchValueWithLanguageOption,
+      siteConfig,
+    }
+  }
+
   // Google
   const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
   if (searchInput && searchInput.value) {
