@@ -405,15 +405,16 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     let searchList = ''
 
     //  Result list
-    const resultList = document.querySelectorAll('main>ol>li.b_algo')
+    const resultList = document.querySelectorAll('main > ol > li.b_algo')
     if (resultList.length > 0) {
       for (let i = 0; i < resultList.length; i++) {
         const v = resultList[i]
         const text = v.querySelector('.b_lineclamp2')?.textContent
         const index = i + 1
-        const url = v.querySelector('cite')?.textContent
+        let url = v.querySelector('a.sh_favicon')?.href
 
         if (text && url && index <= 6) {
+          url = url.replace(/https?:/, '')
           searchList =
             searchList +
             `
@@ -498,10 +499,10 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
 
         console.log(title, text, url)
 
-        if (title && loadInit) {
-          const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)
-          title.insertAdjacentHTML('afterbegin', html)
-        }
+        // if (title && loadInit) {
+        //   const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)
+        //   title.insertAdjacentHTML('afterbegin', html)
+        // }
 
         if (text && url && index <= 6) {
           url = url.replace(/https?:/, '')
