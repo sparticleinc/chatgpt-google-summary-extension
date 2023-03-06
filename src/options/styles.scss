@@ -5,3 +5,17 @@
     max-width: 100% !important;
   }
 }
+
+.glarity--support__sites {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.glarity--support__sites--item {
+  display: inline-flex;
+  margin: 0 0 10px !important;
+  width: 200px;
+  min-width: 200px;
+  justify-content: start !important;
+}

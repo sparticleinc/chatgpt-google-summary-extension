@@ -44,6 +44,7 @@ const userConfigWithDefaultValue = {
   theme: Theme.Auto,
   language: Language.Auto,
   prompt: '',
+  enableSites: null,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
