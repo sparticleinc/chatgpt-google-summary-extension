@@ -12,11 +12,11 @@ import {
   getRawTranscript,
   waitForElm,
   getConverTranscript,
+  matchSites,
 } from './utils'
 import { getSummaryPrompt } from './prompt'
 import xss from 'xss'
 import { defaultPrompt } from '../utils'
-
 import './styles.scss'
 
 interface MountProps {
@@ -44,6 +44,29 @@ const siteConfig = config[siteName]
 
 async function mount(props: MountProps) {
   const { question, siteConfig, transcript, langOptionsWithLink } = props
+  const userConfig = await getUserConfig()
+
+  const sites = Object.values(config).map((site) => {
+    return site.siteValue
+  })
+
+  const enableSites = userConfig.enableSites ? userConfig.enableSites : sites
+
+  const regexList = []
+  Object.values(enableSites).map((v) => {
+    const item = config[v]
+    regexList.push(item.regex)
+  })
+
+  if (regexList.length <= 0) {
+    return
+  }
+  const sitesRegex = new RegExp(regexList.join('|'))
+  console.log('sitesRegex', sitesRegex)
+
+  if (!sitesRegex.test(hostname)) {
+    return
+  }
 
   if (document.querySelector('div.glarity--container')) {
     document.querySelector('div.glarity--container')?.remove()
@@ -52,7 +75,6 @@ async function mount(props: MountProps) {
   const container = document.createElement('div')
   container.className = 'glarity--container'
 
-  const userConfig = await getUserConfig()
   let theme: Theme
   if (userConfig.theme === Theme.Auto) {
     theme = detectSystemColorScheme()

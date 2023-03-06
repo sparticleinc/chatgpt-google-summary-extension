@@ -4,9 +4,12 @@ export interface SearchEngine {
   sidebarContainerQuery: string[]
   appendContainerQuery: string[]
   extabarContainerQuery?: string[]
-  name?: string
   contentContainerQuery?: string[]
   watchRouteChange?: (callback: () => void) => void
+  name?: string
+  siteName: string
+  siteValue: string
+  regex: string
 }
 
 export const config: Record<string, SearchEngine> = {
@@ -16,21 +19,33 @@ export const config: Record<string, SearchEngine> = {
     appendContainerQuery: ['#rcnt'],
     extabarContainerQuery: ['#extabar'],
     name: 'gogole',
+    siteName: 'Google',
+    siteValue: 'google',
+    regex: '(^(www.)?google.)',
   },
   bing: {
     inputQuery: ["[name='q']"],
     sidebarContainerQuery: ['#b_context'],
     appendContainerQuery: [],
+    siteName: 'Bing',
+    siteValue: 'bing',
+    regex: '(^(www|cn).?bing.com)',
   },
   yahoo: {
     inputQuery: ["input[name='p']"],
     sidebarContainerQuery: ['#right', '.Contents__inner.Contents__inner--sub'],
     appendContainerQuery: ['#cols', '#contents__wrap'],
+    siteName: 'Yahoo!',
+    siteValue: 'yahoo',
+    regex: '(^(search.)?yahoo.)',
   },
   duckduckgo: {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['.results--sidebar.js-results-sidebar'],
     appendContainerQuery: ['#links_wrapper'],
+    siteName: 'DuckDuckGo',
+    siteValue: 'duckduckgo',
+    regex: '(^(www.)?duckduckgo.com)',
   },
   baidu: {
     inputQuery: ["input[name='wd']"],
@@ -52,31 +67,49 @@ export const config: Record<string, SearchEngine> = {
       })
       observer.observe(targetNode, { childList: true })
     },
+    siteName: 'Baidu',
+    siteValue: 'baidu',
+    regex: '(^(www.)?baidu.com)',
   },
   kagi: {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['.right-content-box._0_right_sidebar'],
     appendContainerQuery: ['#_0_app_content'],
+    siteName: 'kagi',
+    siteValue: 'kagi',
+    regex: '(^(www.)?kagi.com)',
   },
   yandex: {
     inputQuery: ["input[name='text']"],
     sidebarContainerQuery: ['#search-result-aside'],
     appendContainerQuery: [],
+    siteName: 'Yandex',
+    siteValue: 'yandex',
+    regex: '(^(w+.)?yandex.)',
   },
   naver: {
     inputQuery: ["input[name='query']"],
     sidebarContainerQuery: ['#sub_pack'],
     appendContainerQuery: ['#content'],
+    siteName: 'NAVER',
+    siteValue: 'naver',
+    regex: '(^(search.)?naver.com)',
   },
   brave: {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['#side-right'],
     appendContainerQuery: [],
+    siteName: 'Brave',
+    siteValue: 'brave',
+    regex: `(^(search.)?brave.com)`,
   },
   searx: {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['#sidebar_results'],
     appendContainerQuery: [],
+    siteName: 'searX',
+    siteValue: 'searx',
+    regex: '(^(www.)?searx.be)',
   },
   youtube: {
     inputQuery: ["input[name='q']"],
@@ -101,6 +134,9 @@ export const config: Record<string, SearchEngine> = {
         }
       }, 1000)
     },
+    siteName: 'YouTube',
+    siteValue: 'youtube',
+    regex: '(^(www.)?youtube.com)',
   },
   yahooJpNews: {
     inputQuery: ["input[name='q']"],
@@ -109,6 +145,9 @@ export const config: Record<string, SearchEngine> = {
     extabarContainerQuery: ['#yjnFixableArea.sc-feJyhm'],
     contentContainerQuery: ['div.article_body'],
     name: 'yahooJpNews',
+    siteName: 'Yahoo! JAPAN ニュース',
+    siteValue: 'yahooJapanNews',
+    regex: '(^news.yahoo.co.jp)',
   },
   pubmed: {
     inputQuery: ["input[name='q']"],
@@ -118,6 +157,9 @@ export const config: Record<string, SearchEngine> = {
     extabarContainerQuery: ['aside.page-sidebar', 'aside.pmc-sidebar'],
     contentContainerQuery: ['div#abstract'],
     name: 'pubmed',
+    siteName: 'PubMed',
+    siteValue: 'pubmed',
+    regex: '(^(w+.)?ncbi.nlm.nih.gov)',
   },
   newspicks: {
     inputQuery: ["input[name='q']"],
@@ -126,6 +168,9 @@ export const config: Record<string, SearchEngine> = {
     extabarContainerQuery: ['div.right-container'],
     contentContainerQuery: ['div#body div.article-body'],
     name: 'newspicks',
+    siteName: 'NewsPicks',
+    siteValue: 'newspicks',
+    regex: '(^(www.)?newspicks.com)',
   },
   nikkei: {
     inputQuery: ["input[name='q']"],
@@ -134,6 +179,9 @@ export const config: Record<string, SearchEngine> = {
     extabarContainerQuery: ['aside.aside_au9xyxw'],
     contentContainerQuery: ['section.container_c1suc6un'],
     name: 'nikkei',
+    siteName: 'Nikkei',
+    siteValue: 'nikkei',
+    regex: '(^(www.)?nikkei.com)',
   },
   github: {
     inputQuery: ["input[name='q']"],
@@ -141,6 +189,9 @@ export const config: Record<string, SearchEngine> = {
     appendContainerQuery: ['#rcnt'],
     extabarContainerQuery: ['div.Layout-sidebar'],
     contentContainerQuery: ['div.Box-body'],
-    name: 'nikkei',
+    name: 'github',
+    siteName: 'GitHub',
+    siteValue: 'github',
+    regex: '(^(www.)?github.com)',
   },
 }

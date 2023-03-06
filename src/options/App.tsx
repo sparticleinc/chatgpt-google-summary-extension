@@ -11,6 +11,11 @@ import {
   Card,
   Button,
   Snippet,
+  Divider,
+  Checkbox,
+  Grid,
+  Spacer,
+  Note,
 } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
 import '../base.css'
@@ -26,6 +31,7 @@ import { defaultPrompt } from '../utils'
 import logo from '../logo.png'
 import { detectSystemColorScheme, getExtensionVersion } from '../utils'
 import ProviderSelect from './ProviderSelect'
+import { config as supportSites } from '../content-script/search-engine-configs'
 import './styles.scss'
 
 function CustomizePrompt() {
@@ -63,15 +69,9 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
   const [prompt, setPrompt] = useState<string>('')
-
-  useEffect(() => {
-    getUserConfig().then((config) => {
-      setTriggerMode(config.triggerMode)
-      setLanguage(config.language)
-
-      setPrompt(config.prompt ? config.prompt : defaultPrompt)
-    })
-  }, [])
+  const [allSites, setAllSites] = useState([])
+  const [enableSites, setEnableSites] = useState([])
+  const [allSelect, setAllSelect] = useState(true)
 
   const onTriggerModeChange = useCallback(
     (mode: TriggerMode) => {
@@ -125,6 +125,52 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     return str ?? ''
   }
 
+  const onSaveSelect = useCallback(() => {
+    updateUserConfig({ enableSites })
+    setToast({ text: 'Changes saved', type: 'success' })
+  }, [setToast, enableSites])
+
+  const onChangeSites = (value) => {
+    console.log(value)
+    setEnableSites(value)
+  }
+
+  const onChangeSelectAll = (e) => {
+    console.log(e)
+
+    if (e.target.checked) {
+      setEnableSites(allSites)
+    } else {
+      setEnableSites([])
+    }
+  }
+
+  useEffect(() => {
+    getUserConfig().then((config) => {
+      setTriggerMode(config.triggerMode)
+      setLanguage(config.language)
+
+      setPrompt(config.prompt ? config.prompt : defaultPrompt)
+
+      const sites =
+        Object.values(supportSites).map((site) => {
+          return site.siteValue
+        }) || []
+
+      console.log('sites', sites)
+      setAllSites(sites)
+      setEnableSites(config.enableSites ? config.enableSites : sites)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (enableSites.length === allSites.length) {
+      setAllSelect(true)
+    } else {
+      setAllSelect(false)
+    }
+  }, [enableSites, allSites])
+
   return (
     <div className="container mx-auto">
       <nav className="flex flex-row justify-between items-center mt-5 px-2">
@@ -158,7 +204,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           </a>
         </div>
       </nav>
-      <main className="w-[500px] mx-auto mt-14">
+      <main className="w-[900px] mx-auto mt-14">
         <Text h2>Options</Text>
         <Text h3 className="mt-5">
           Trigger Mode
@@ -271,6 +317,42 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
             </Snippet>
           </li>
         </ul>
+
+        <Text h3 className="mt-5">
+          Enable/Disable Glarity
+          <Text font="12px" my={0}>
+            You can enable/disable the Glarity Summary on the following website.
+          </Text>
+        </Text>
+
+        <Card>
+          {/* <Card.Content py={0}></Card.Content>
+          <Divider /> */}
+          <Card.Content>
+            <Checkbox.Group
+              value={enableSites}
+              onChange={onChangeSites}
+              className="glarity--support__sites"
+            >
+              {Object.entries(supportSites).map(([k, v]) => {
+                return (
+                  <Checkbox key={k} value={v.siteValue} className="glarity--support__sites--item">
+                    {v.siteName}
+                  </Checkbox>
+                )
+              })}
+            </Checkbox.Group>
+          </Card.Content>
+          <Card.Footer>
+            <Checkbox checked={allSelect} value="selectAll" onChange={onChangeSelectAll}>
+              Select All / Reverse
+            </Checkbox>
+            <Spacer w={2} />
+            <Button type="secondary" auto scale={1 / 3} onClick={onSaveSelect}>
+              Save
+            </Button>
+          </Card.Footer>
+        </Card>
 
         <Text h3 className="mt-8">
           Misc
