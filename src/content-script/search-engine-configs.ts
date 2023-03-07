@@ -146,7 +146,7 @@ export const config: Record<string, SearchEngine> = {
     contentContainerQuery: ['div.article_body'],
     name: 'yahooJpNews',
     siteName: 'Yahoo! JAPAN ニュース',
-    siteValue: 'yahooJapanNews',
+    siteValue: 'yahooJpNews',
     regex: '(^news.yahoo.co.jp)',
   },
   pubmed: {
