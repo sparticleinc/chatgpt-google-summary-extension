@@ -195,7 +195,7 @@ export async function getTranscriptHTML(rawTranscript, videoId) {
 }
 
 function convertIntToHms(num) {
-  const h = num < 3600 ? 14 : 12
+  const h = num < 3600 ? 14 : 11
   return new Date(num * 1000).toISOString().substring(h, 19).toString()
 }
 
@@ -266,10 +266,8 @@ export async function getConverTranscript({ langOptionsWithLink, videoId, index 
   const rawTranscript = !langOptionsWithLink
     ? []
     : await getRawTranscript(langOptionsWithLink[index ? index : 0].link)
-  console.log('rawTranscript', rawTranscript)
 
   const transcriptList = !langOptionsWithLink ? [] : await getTranscriptHTML(rawTranscript, videoId)
-  console.log('transcriptList', transcriptList)
 
   return transcriptList
 }

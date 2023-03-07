@@ -15,11 +15,11 @@ function ChatGPTCard(props: Props) {
   const { triggerMode, question, onStatusChange, currentTime: propCurrentTime } = props
 
   const [triggered, setTriggered] = useState(false)
-  const [currentTime, setCurrentTime] = useState(propCurrentTime)
+  // const [currentTime, setCurrentTime] = useState(propCurrentTime)
 
-  useEffect(() => {
-    console.log('ChatGPTCard props', props)
-  }, [props])
+  // useEffect(() => {
+  //   console.log('ChatGPTCard props', props)
+  // }, [props])
 
   if (triggerMode === TriggerMode.Always || propCurrentTime) {
     return (

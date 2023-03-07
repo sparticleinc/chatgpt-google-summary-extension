@@ -58,7 +58,6 @@ async function mount(props: MountProps) {
   Object.values(enableSites).map((v) => {
     const item = config[v]
 
-    console.log('item', item, item.regex)
     if (item.regex) {
       regexList.push(item.regex)
     }
@@ -68,7 +67,6 @@ async function mount(props: MountProps) {
     return
   }
   const sitesRegex = new RegExp(regexList.join('|'))
-  console.log('sitesRegex', sitesRegex)
 
   if (!sitesRegex.test(hostname)) {
     return
@@ -150,12 +148,6 @@ async function mount(props: MountProps) {
     })
   } else {
     const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
-
-    console.log(
-      'siderbarContainer',
-      siderbarContainer,
-      document.querySelector('#center_col')?.nextSibling,
-    )
 
     if (siderbarContainer) {
       siderbarContainer.prepend(container)
@@ -441,7 +433,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: 0 })
 
     const videoTitle = document.title
-    const videoUrl = window.location.href
+    // const videoUrl = window.location.href
 
     const transcript = (
       transcriptList.map((v) => {
@@ -453,7 +445,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
     const queryText = `Title: ${videoTitle}
 Transcript: ${getSummaryPrompt(transcript, providerConfigs.provider)}
-
 Instructions: ${Instructions}
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
 `
@@ -468,6 +459,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     }
   }
 
+  // bing
   if (siteName === 'bing') {
     const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
     if (!searchInput) return null
