@@ -215,5 +215,24 @@ export const config: Record<string, SearchEngine> = {
     siteName: 'Google Patents',
     siteValue: 'googlePatents',
     regex: '(^(patents).google.com)',
+    watchRouteChange(callback) {
+      let currentUrl = window.location.href
+
+      setInterval(() => {
+        if (
+          window.location.href !== currentUrl &&
+          /patents.google.com\/patent\/\w+/g.test(location.href)
+        ) {
+          waitForElm(config.googlePatents.extabarContainerQuery[0]).then(() => {
+            if (document.querySelector('div.glarity--container')) {
+              document.querySelector('div.glarity--container')?.remove()
+            }
+          })
+
+          callback()
+          currentUrl = window.location.href
+        }
+      }, 1000)
+    },
   },
 }
