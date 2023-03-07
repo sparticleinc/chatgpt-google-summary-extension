@@ -39,6 +39,8 @@ const siteName =
     ? 'nikkei'
     : hostname.includes('github.com')
     ? 'github'
+    : hostname.includes('patents.google.com')
+    ? 'googlePatents'
     : hostname.match(siteRegex)![0]
 const siteConfig = config[siteName]
 
@@ -126,6 +128,21 @@ async function mount(props: MountProps) {
       siteConfig.extabarContainerQuery || [],
     )
     appendContainer?.prepend(container)
+  } else if (siteName === 'googlePatents') {
+    const appendContainer = getPossibleElementByQuerySelector(
+      siteConfig.extabarContainerQuery || [],
+    )
+
+    console.log('googlePatents appendContainer', appendContainer)
+    waitForElm(siteConfig.extabarContainerQuery[0]).then(() => {
+      container.classList.add('glarity--chatgpt--googlePatents')
+      const appendContainer = getPossibleElementByQuerySelector(
+        siteConfig.extabarContainerQuery || [],
+      )
+
+      console.log('googlePatents appendContainer', appendContainer)
+      appendContainer?.prepend(container)
+    })
   } else if (siteName === 'youtube') {
     container.classList.add('glarity--chatgpt--youtube')
     waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
@@ -188,7 +205,7 @@ export async function getQuestion(loadInit?: boolean) {
 
   const providerConfigs = await getProviderConfigs()
 
-  console.log('providerConfigs', providerConfigs)
+  console.log('providerConfigs', providerConfigs, siteName)
 
   // PubMed
   if (siteName === 'pubmed') {
@@ -371,6 +388,39 @@ Instructions: Please use the above to summarize the highlights.
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
     console.log('github queryText', queryText)
+
+    return { question: queryText, siteConfig }
+  }
+
+  // Google Patents
+  if (siteName === 'googlePatents') {
+    if (!/patents.google.com\/patent\/\w+/g.test(location.href)) {
+      return null
+    }
+
+    console.log('siteConfig', siteConfig)
+
+    const contentContainer = await waitForElm(siteConfig.contentContainerQuery[0])
+    const contentDesc = await waitForElm('div.description.patent-text')
+    const articleTitle = document.title || ''
+    // const articleUrl = location.href
+    const articleText = contentDesc?.textContent
+
+    console.log('googlePatents articleText', articleText)
+
+    if (!articleText) {
+      return null
+    }
+
+    const queryText = `
+Title: ${articleTitle}
+Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+
+Instructions: Please summarize the highlights of the above article in easy-to-understand terms.
+
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
+
+    console.log('Google Patents queryText', queryText)
 
     return { question: queryText, siteConfig }
   }

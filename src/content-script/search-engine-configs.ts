@@ -4,7 +4,7 @@ export interface SearchEngine {
   sidebarContainerQuery: string[]
   appendContainerQuery: string[]
   extabarContainerQuery?: string[]
-  contentContainerQuery?: string[]
+  contentContainerQuery: string[]
   watchRouteChange?: (callback: () => void) => void
   name?: string
   siteName: string
@@ -18,6 +18,7 @@ export const config: Record<string, SearchEngine> = {
     sidebarContainerQuery: ['#rhs'],
     appendContainerQuery: ['#rcnt'],
     extabarContainerQuery: ['#extabar'],
+    contentContainerQuery: [],
     name: 'gogole',
     siteName: 'Google',
     siteValue: 'google',
@@ -27,6 +28,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["[name='q']"],
     sidebarContainerQuery: ['#b_context'],
     appendContainerQuery: [],
+    contentContainerQuery: [],
     siteName: 'Bing',
     siteValue: 'bing',
     regex: '(^(www|cn).?bing.com)',
@@ -35,6 +37,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='p']"],
     sidebarContainerQuery: ['#right', '.Contents__inner.Contents__inner--sub'],
     appendContainerQuery: ['#cols', '#contents__wrap'],
+    contentContainerQuery: [],
     siteName: 'Yahoo!',
     siteValue: 'yahoo',
     regex: '(^(search.)?yahoo.)',
@@ -43,6 +46,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['.results--sidebar.js-results-sidebar'],
     appendContainerQuery: ['#links_wrapper'],
+    contentContainerQuery: [],
     siteName: 'DuckDuckGo',
     siteValue: 'duckduckgo',
     regex: '(^(www.)?duckduckgo.com)',
@@ -51,6 +55,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='wd']"],
     sidebarContainerQuery: ['#content_right'],
     appendContainerQuery: ['#container'],
+    contentContainerQuery: [],
     watchRouteChange(callback) {
       const targetNode = document.getElementById('wrapper_wrapper')!
       const observer = new MutationObserver(function (records) {
@@ -75,6 +80,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['.right-content-box._0_right_sidebar'],
     appendContainerQuery: ['#_0_app_content'],
+    contentContainerQuery: [],
     siteName: 'kagi',
     siteValue: 'kagi',
     regex: '(^(www.)?kagi.com)',
@@ -83,6 +89,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='text']"],
     sidebarContainerQuery: ['#search-result-aside'],
     appendContainerQuery: [],
+    contentContainerQuery: [],
     siteName: 'Yandex',
     siteValue: 'yandex',
     regex: '(^(w+.)?yandex.)',
@@ -91,6 +98,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='query']"],
     sidebarContainerQuery: ['#sub_pack'],
     appendContainerQuery: ['#content'],
+    contentContainerQuery: [],
     siteName: 'NAVER',
     siteValue: 'naver',
     regex: '(^(search.)?naver.com)',
@@ -99,6 +107,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['#side-right'],
     appendContainerQuery: [],
+    contentContainerQuery: [],
     siteName: 'Brave',
     siteValue: 'brave',
     regex: `(^(search.)?brave.com)`,
@@ -107,6 +116,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['#sidebar_results'],
     appendContainerQuery: [],
+    contentContainerQuery: [],
     siteName: 'searX',
     siteValue: 'searx',
     regex: '(^(www.)?searx.be)',
@@ -116,6 +126,7 @@ export const config: Record<string, SearchEngine> = {
     sidebarContainerQuery: ['#rhs'],
     appendContainerQuery: ['#rcnt'],
     extabarContainerQuery: ['#extabar'],
+    contentContainerQuery: [],
     name: 'youtube',
     watchRouteChange(callback) {
       let currentUrl = window.location.href
@@ -193,5 +204,16 @@ export const config: Record<string, SearchEngine> = {
     siteName: 'GitHub',
     siteValue: 'github',
     regex: '(^(www.)?github.com)',
+  },
+  googlePatents: {
+    inputQuery: ["input[name='q']"],
+    sidebarContainerQuery: ['#rhs'],
+    appendContainerQuery: ['#rcnt'],
+    extabarContainerQuery: ['section.knowledge-card.patent-result'],
+    contentContainerQuery: ['#descriptionText'],
+    name: 'googlePatents',
+    siteName: 'Google Patents',
+    siteValue: 'googlePatents',
+    regex: '(^(patents).google.com)',
   },
 }

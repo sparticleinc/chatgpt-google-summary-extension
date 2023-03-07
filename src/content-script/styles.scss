@@ -292,3 +292,13 @@ span.glarity--header__logo {
 .glarity--chatgpt--nikkei {
   flex-grow: inherit;
 }
+
+// google partents
+.glarity--chatgpt--googlePatents {
+  margin-bottom: 0;
+
+  .glarity--chatgpt {
+    border: none;
+    border-radius: 0;
+  }
+}
