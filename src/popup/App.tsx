@@ -28,19 +28,21 @@ function App() {
   }, [])
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="mb-2 flex flex-row items-center px-1">
-        <img src={logo} className="w-5 h-5 rounded-sm" />
-        <p className="text-sm font-semibold m-0 ml-1">Glarity</p>
-        <div className="grow"></div>
-        <span className="cursor-pointer leading-[0]" onClick={openOptionsPage}>
+    <div className="glarity--flex glarity--flex-col glarity--h-full">
+      <div className="glarity--mb-2 glarity--flex glarity--flex-row glarity--items-center glarity--px-1">
+        <img src={logo} className="glarity--w-5 glarity--h-5 glarity--rounded-sm" />
+        <p className="glarity--text-sm glarity--font-semibold glarity--m-0 glarity--ml-1">
+          Glarity
+        </p>
+        <div className="glarity--grow"></div>
+        <span className="glarity--cursor-pointer glarity--leading-[0]" onClick={openOptionsPage}>
           <GearIcon size={16} />
         </span>
       </div>
       {isChrome && !hideShortcutsTipQuery.isLoading && !hideShortcutsTipQuery.data && (
-        <p className="m-0 mb-2">
+        <p className="glarity--m-0 glarity--mb-2">
           Tip:{' '}
-          <a onClick={openShortcutsPage} className="underline cursor-pointer">
+          <a onClick={openShortcutsPage} className="glarity--underline glarity--cursor-pointer">
             setup shortcuts
           </a>{' '}
           for faster access.
@@ -49,17 +51,19 @@ function App() {
       {(() => {
         if (accessTokenQuery.isLoading) {
           return (
-            <div className="grow justify-center items-center flex animate-bounce">
+            <div className="glarity--grow glarity--justify-center glarity--items-center glarity--flex glarity--animate-bounce">
               <GlobeIcon size={24} />
             </div>
           )
         }
         if (accessTokenQuery.data) {
-          return <iframe src="https://chat.openai.com" className="grow border-none" />
+          return (
+            <iframe src="https://chat.openai.com" className="glarity--grow glarity--border-none" />
+          )
         }
         return (
-          <div className="grow flex flex-col justify-center">
-            <p className="text-base px-2 text-center">
+          <div className="glarity--grow glarity--flex glarity--flex-col glarity--justify-center">
+            <p className="glarity--text-base glarity--px-2 glarity--text-center">
               Please login and pass Cloudflare check at{' '}
               <a href="https://chat.openai.com" target="_blank" rel="noreferrer">
                 chat.openai.com

@@ -35,18 +35,18 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
   }, [apiKeyBindings.value, model, models, setToast, tab])
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="glarity--flex glarity--flex-col glarity--gap-3">
       <Tabs value={tab} onChange={(v) => setTab(v as ProviderType)}>
         <Tabs.Item label="ChatGPT webapp" value={ProviderType.ChatGPT}>
           The API that powers ChatGPT webapp, free, but sometimes unstable
         </Tabs.Item>
         <Tabs.Item label="OpenAI API" value={ProviderType.GPT3}>
-          <div className="flex flex-col gap-2">
+          <div className="glarity--flex glarity--flex-col glarity--gap-2">
             <span>
               OpenAI official API, more stable,{' '}
-              <span className="font-semibold">charge by usage</span>
+              <span className="glarity--font-semibold">charge by usage</span>
             </span>
-            <div className="flex flex-row gap-2 glarity--geist--select">
+            <div className="glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select">
               <Select
                 scale={2 / 3}
                 value={model}
@@ -62,7 +62,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
               </Select>
               <Input htmlType="password" label="API key" scale={2 / 3} {...apiKeyBindings} />
             </div>
-            <span className="italic text-xs">
+            <span className="glarity--italic glarity--text-xs">
               You can find or create your API key{' '}
               <a
                 href="https://platform.openai.com/account/api-keys"

@@ -106,7 +106,7 @@ function ChatGPTQuery(props: Props) {
           {answer.text}
         </ReactMarkdown>
         {/* {done && showTip && (
-          <p className="italic mt-2">
+          <p className="glarity--italic glarity--mt-2">
             Enjoy this extension? Give us a 5-star rating at{' '}
             <a
               href="https://chatgpt4google.com/chrome?utm_source=rating_tip"
@@ -132,7 +132,7 @@ function ChatGPTQuery(props: Props) {
           (() => {
             if (isBraveBrowser()) {
               return (
-                <span className="block mt-2">
+                <span className="glarity--block glarity--mt-2">
                   Still not working? Follow{' '}
                   <a href="https://github.com/sparticleinc/chatgpt-google-summary-extension#troubleshooting">
                     Brave Troubleshooting
@@ -141,7 +141,7 @@ function ChatGPTQuery(props: Props) {
               )
             } else {
               return (
-                <span className="italic block mt-2 text-xs">
+                <span className="glarity--italic glarity--block glarity--mt-2 glarity--text-xs">
                   OpenAI requires passing a security check every once in a while. If this keeps
                   happening, change AI provider to OpenAI API in the extension options.
                 </span>
@@ -155,7 +155,7 @@ function ChatGPTQuery(props: Props) {
     return (
       <p>
         Failed to load response from ChatGPT:
-        <span className="break-all block">{error}</span>
+        <span className="glarity--break-all glarity--block">{error}</span>
         <a
           href="javascript:void(0)"
           onClick={() => {
