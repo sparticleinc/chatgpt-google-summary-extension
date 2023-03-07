@@ -85,7 +85,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
 function ProviderSelect() {
   const query = useSWR('provider-configs', async () => {
     const [config] = await Promise.all([getProviderConfigs()])
-    console.log('ProviderSelect config', config)
+
     return { config }
   })
 

@@ -12,6 +12,7 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
 }
 
 // Seems like 15,000 bytes is the limit for the prompt
+const textLimit = 14000
 const limit = 1100 // 1000 is a buffer
 const apiLimit = 2000
 
@@ -82,8 +83,41 @@ export function getChunckedTranscripts(textData, textDataOriginal) {
 }
 
 function truncateTranscript(str, providerConfigs) {
-  console.log('providerConfigs', providerConfigs)
+  let textStr = str
 
+  const textBytes = textToBinaryString(str).length
+  if (textBytes > textLimit) {
+    const ratio = textLimit / textBytes
+    const newStr = str.substring(0, str.length * ratio)
+    textStr = newStr
+  }
+
+  const tokenLimit = providerConfigs === ProviderType.GPT3 ? apiLimit : limit
+
+  // if (providerConfigs === ProviderType.GPT3) {
+  const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(textStr)
+  const bytes = encoded.bpe.length
+
+  if (bytes > tokenLimit) {
+    const ratio = tokenLimit / bytes
+    const newStr = textStr.substring(0, textStr.length * ratio)
+
+    return newStr
+  }
+
+  return textStr
+  // } else {
+  //   const bytes = textToBinaryString(str).length
+  //   if (bytes > tokenLimit) {
+  //     const ratio = tokenLimit / bytes
+  //     const newStr = str.substring(0, str.length * ratio)
+  //     return newStr
+  //   }
+  //   return str
+  // }
+}
+
+function truncateTranscriptByToken(str, providerConfigs) {
   const tokenLimit = providerConfigs === ProviderType.GPT3 ? apiLimit : limit
 
   // if (providerConfigs === ProviderType.GPT3) {
@@ -98,15 +132,6 @@ function truncateTranscript(str, providerConfigs) {
   }
 
   return str
-  // } else {
-  //   const bytes = textToBinaryString(str).length
-  //   if (bytes > tokenLimit) {
-  //     const ratio = tokenLimit / bytes
-  //     const newStr = str.substring(0, str.length * ratio)
-  //     return newStr
-  //   }
-  //   return str
-  // }
 }
 
 export function textToBinaryString(str) {

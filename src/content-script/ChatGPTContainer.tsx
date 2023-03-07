@@ -111,13 +111,13 @@ function ChatGPTContainer(props: Props) {
   }, [copied])
 
   useEffect(() => {
-    console.log('ChatGPTContainer props', props)
+    // console.log('ChatGPTContainer props', props)
     setQuestionProps({ ...props })
     setCurrentTranscript([...props.transcript])
   }, [props])
 
   useEffect(() => {
-    console.log('ChatGPTContainer questionProps', questionProps)
+    // console.log('ChatGPTContainer questionProps', questionProps)
   }, [questionProps])
 
   useEffect(() => {
@@ -134,7 +134,6 @@ function ChatGPTContainer(props: Props) {
   useEffect(() => {
     const goLink = (e) => {
       e.preventDefault()
-      console.log('e', e, e.target)
     }
     document.querySelector('div.glarity--main__container')?.addEventListener('click', goLink)
 

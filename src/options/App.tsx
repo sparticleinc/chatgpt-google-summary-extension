@@ -131,13 +131,10 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
   }, [setToast, enableSites])
 
   const onChangeSites = (value) => {
-    console.log(value)
     setEnableSites(value)
   }
 
   const onChangeSelectAll = (e) => {
-    console.log(e)
-
     if (e.target.checked) {
       setEnableSites(allSites)
     } else {
@@ -157,7 +154,6 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           return site.siteValue
         }) || []
 
-      console.log('sites', sites)
       setAllSites(sites)
       setEnableSites(config.enableSites ? config.enableSites : sites)
     })
