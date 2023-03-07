@@ -55,7 +55,11 @@ async function mount(props: MountProps) {
   const regexList = []
   Object.values(enableSites).map((v) => {
     const item = config[v]
-    regexList.push(item.regex)
+
+    console.log('item', item, item.regex)
+    if (item.regex) {
+      regexList.push(item.regex)
+    }
   })
 
   if (regexList.length <= 0) {
