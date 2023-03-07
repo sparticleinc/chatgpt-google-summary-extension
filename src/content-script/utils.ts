@@ -195,7 +195,7 @@ export async function getTranscriptHTML(rawTranscript, videoId) {
 }
 
 function convertIntToHms(num) {
-  const h = num < 3600 ? 14 : 12
+  const h = num < 3600 ? 14 : 11
   return new Date(num * 1000).toISOString().substring(h, 19).toString()
 }
 
