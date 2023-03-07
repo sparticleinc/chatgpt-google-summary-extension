@@ -1,5 +1,6 @@
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
+import { getProviderConfigs, ProviderType } from '../../config'
 
 export class OpenAIProvider implements Provider {
   constructor(private token: string, private model: string) {
@@ -19,23 +20,36 @@ export class OpenAIProvider implements Provider {
   }
 
   async generateAnswer(params: GenerateAnswerParams) {
+    const [config] = await Promise.all([getProviderConfigs()])
+
+    const gptModel = config.configs[ProviderType.GPT3]?.model ?? 'gpt-3.5-turbo'
+
+    let url = ''
+    let reqParams = {
+      model: this.model,
+      // prompt: this.buildPrompt(params.prompt),
+      // messages: this.buildMessages(params.prompt),
+      stream: true,
+      max_tokens: 800,
+      // temperature: 0.5,
+    }
+    if (gptModel === 'text-davinci-003') {
+      url = 'https://api.openai.com/v1/completions'
+      reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(params.prompt) } }
+    } else {
+      url = 'https://api.openai.com/v1/chat/completions'
+      reqParams = { ...reqParams, ...{ messages: this.buildMessages(params.prompt) } }
+    }
+
     let result = ''
-    // await fetchSSE('https://api.openai.com/v1/completions', {
-    await fetchSSE('https://api.openai.com/v1/chat/completions', {
+    await fetchSSE(url, {
       method: 'POST',
       signal: params.signal,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.token}`,
       },
-      body: JSON.stringify({
-        model: this.model,
-        // prompt: this.buildPrompt(params.prompt),
-        messages: this.buildMessages(params.prompt),
-        stream: true,
-        max_tokens: 800,
-        // temperature: 0.5,
-      }),
+      body: JSON.stringify(reqParams),
       onMessage(message) {
         console.debug('sse message', message)
         if (message === '[DONE]') {
@@ -45,9 +59,9 @@ export class OpenAIProvider implements Provider {
         let data
         try {
           data = JSON.parse(message)
-          // const text = data.choices[0].text
-          // if (text === '<|im_end|>' || text === '<|im_sep|>') {
-          const text = data.choices[0].delta.content
+          const text =
+            gptModel === 'text-davinci-003' ? data.choices[0].text : data.choices[0].delta.content
+
           if (text === undefined || text === '<|im_end|>' || text === '<|im_sep|>') {
             return
           }

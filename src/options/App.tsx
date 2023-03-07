@@ -33,6 +33,7 @@ import { detectSystemColorScheme, getExtensionVersion } from '../utils'
 import ProviderSelect from './ProviderSelect'
 import { config as supportSites } from '../content-script/search-engine-configs'
 import './styles.scss'
+import { Space } from 'antd'
 
 function CustomizePrompt() {
   return `Title: "{{Title}}"
@@ -171,11 +172,17 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     <div className="glarity--container glarity--mx-auto">
       <nav className="glarity--flex glarity--flex-row glarity--justify-between glarity--items-center glarity--mt-5 glarity--px-2">
         <div className="glarity--flex glarity--flex-row glarity--items-center glarity--gap-2">
-          <img src={logo} className="glarity--w-10 glarity--h-10 glarity--rounded-lg" />
-          <span className="font-semibold">
-            Glarity-Summary for Google/YouTube (ChatGPT) (v
-            {getExtensionVersion()})
-          </span>
+          <a href="https://glarity.app/" target="_blank" rel="noreferrer">
+            <img
+              src={logo}
+              className="glarity--w-10 glarity--h-10 glarity--rounded-lg"
+              style={{ 'vertical-align': 'middle' }}
+            />
+            <span className="font-semibold">
+              Glarity-Summary for Google/YouTube (ChatGPT) (v
+              {getExtensionVersion()})
+            </span>{' '}
+          </a>
         </div>
         <div className="glarity--flex glarity--flex-row glarity--gap-3">
           {/* <a href="https://chatgpt-for-google.canny.io/changelog" target="_blank" rel="noreferrer">
@@ -272,12 +279,14 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           />
           {/* <Divider /> */}
           <Card.Footer>
-            <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
-              Save
-            </Button>{' '}
-            <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
-              Use default
-            </Button>
+            <Space>
+              <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
+                Save
+              </Button>{' '}
+              <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
+                Use default
+              </Button>
+            </Space>
           </Card.Footer>
         </Card>
         <Text className="glarity--my-1">Example Prompts: </Text>
