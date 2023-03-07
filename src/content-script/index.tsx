@@ -129,18 +129,18 @@ async function mount(props: MountProps) {
     )
     appendContainer?.prepend(container)
   } else if (siteName === 'googlePatents') {
-    const appendContainer = getPossibleElementByQuerySelector(
-      siteConfig.extabarContainerQuery || [],
-    )
+    const extabarContainerQuery =
+      siteConfig.extabarContainerQuery && siteConfig.extabarContainerQuery[0]
 
-    console.log('googlePatents appendContainer', appendContainer)
-    waitForElm(siteConfig.extabarContainerQuery[0]).then(() => {
+    if (!extabarContainerQuery) {
+      return
+    }
+
+    waitForElm(extabarContainerQuery).then(() => {
       container.classList.add('glarity--chatgpt--googlePatents')
       const appendContainer = getPossibleElementByQuerySelector(
         siteConfig.extabarContainerQuery || [],
       )
-
-      console.log('googlePatents appendContainer', appendContainer)
       appendContainer?.prepend(container)
     })
   } else if (siteName === 'youtube') {
