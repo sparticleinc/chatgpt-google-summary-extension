@@ -113,7 +113,10 @@ function ChatGPTContainer(props: Props) {
   useEffect(() => {
     // console.log('ChatGPTContainer props', props)
     setQuestionProps({ ...props })
-    setCurrentTranscript([...props.transcript])
+
+    if (props.transcript) {
+      setCurrentTranscript([...props.transcript])
+    }
   }, [props])
 
   useEffect(() => {
