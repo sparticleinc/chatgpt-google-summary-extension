@@ -152,7 +152,7 @@ function ChatGPTContainer(props: Props) {
       <GeistProvider themeType={themeType}>
         <div className="glarity--chatgpt">
           <div className="glarity--header">
-            <div className="x">
+            <div>
               <a
                 href="https://glarity.app"
                 rel="noreferrer"
