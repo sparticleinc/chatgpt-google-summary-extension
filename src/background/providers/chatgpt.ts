@@ -112,7 +112,7 @@ export class ChatGPTProvider implements Provider {
         try {
           data = JSON.parse(message)
         } catch (err) {
-          // console.error(err)
+          console.error(err)
           return
         }
         const text = data.message?.content?.parts?.[0]

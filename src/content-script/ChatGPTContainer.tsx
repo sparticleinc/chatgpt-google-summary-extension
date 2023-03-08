@@ -134,17 +134,6 @@ function ChatGPTContainer(props: Props) {
     getUserConfig().then((config) => setTheme(config.theme))
   }, [])
 
-  useEffect(() => {
-    const goLink = (e) => {
-      e.preventDefault()
-    }
-    document.querySelector('div.glarity--main__container')?.addEventListener('click', goLink)
-
-    return () => {
-      document.querySelector('div.glarity--main__container')?.removeEventListener('click', goLink)
-    }
-  }, [])
-
   const switchtranscriptShow = () => {
     setTranscriptShow((state) => !state)
   }

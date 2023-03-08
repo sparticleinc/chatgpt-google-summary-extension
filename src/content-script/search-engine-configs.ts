@@ -26,8 +26,8 @@ export const config: Record<string, SearchEngine> = {
   },
   bing: {
     inputQuery: ["[name='q']"],
-    sidebarContainerQuery: ['#b_context'],
-    appendContainerQuery: [],
+    sidebarContainerQuery: ['ol#b_context'],
+    appendContainerQuery: ['#b_content'],
     contentContainerQuery: [],
     siteName: 'Bing',
     siteValue: 'bing',
