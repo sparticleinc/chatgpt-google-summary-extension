@@ -149,8 +149,6 @@ async function mount(props: MountProps) {
   } else {
     const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
 
-    console.log('siderbarContainer', siderbarContainer, container)
-
     if (siderbarContainer) {
       siderbarContainer.prepend(container)
     } else {
