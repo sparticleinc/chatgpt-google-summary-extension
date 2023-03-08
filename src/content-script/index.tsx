@@ -578,9 +578,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
             searchList +
             `
 [${index}] ${text}
-URL: ${url}
-
-          `
+[${index}]URL: ${url}\r\n`
         }
       })
     }
