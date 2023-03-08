@@ -11,6 +11,7 @@ export function getPossibleElementByQuerySelector<T extends Element>(
       return element as T
     }
   }
+  return undefined
 }
 
 export function endsWithQuestionMark(question: string) {
