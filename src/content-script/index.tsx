@@ -1,4 +1,5 @@
-import { render } from 'preact'
+// import { render } from 'preact'
+import { createRoot } from 'react-dom/client'
 import '../base.css'
 import { getUserConfig, Language, Theme, getProviderConfigs, ProviderType } from '../config'
 import { detectSystemColorScheme } from '../utils'
@@ -15,7 +16,6 @@ import {
   matchSites,
 } from './utils'
 import { getSummaryPrompt } from './prompt'
-import xss from 'xss'
 import { defaultPrompt } from '../utils'
 import './styles.scss'
 
@@ -76,8 +76,10 @@ async function mount(props: MountProps) {
     document.querySelector('div.glarity--container')?.remove()
   }
 
-  const container = document.createElement('div')
-  container.className = 'glarity--container'
+  const container = document.createElement('section')
+  container.className = 'b_glarity'
+  container.classList.add('glarity--container')
+  container.id = 'glarity--container'
 
   let theme: Theme
   if (userConfig.theme === Theme.Auto) {
@@ -147,17 +149,14 @@ async function mount(props: MountProps) {
       document.querySelector('#secondary.style-scope.ytd-watch-flexy')?.prepend(container)
     })
   } else {
+    if (siteName === 'bing') {
+      container.classList.add('glarity--chatgpt--bing')
+    }
     const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
 
     if (siderbarContainer) {
       siderbarContainer.prepend(container)
     } else {
-      // container.classList.add('sidebar--free')
-      // const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
-      // if (appendContainer) {
-      //   appendContainer.appendChild(container)
-      // }
-
       if (siteConfig.extabarContainerQuery && document.querySelector('#center_col')?.nextSibling) {
         container.classList.add('glarity--full-container')
         const appendContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery)
@@ -175,15 +174,31 @@ async function mount(props: MountProps) {
     }
   }
 
-  render(
-    <ChatGPTContainer
-      question={question}
-      transcript={transcript}
-      siteConfig={siteConfig}
-      langOptionsWithLink={langOptionsWithLink}
-      triggerMode={userConfig.triggerMode || 'always'}
-    />,
-    container,
+  const root = createRoot(document.getElementById('glarity--container'), {
+    unstable_enableAsyncRendering: true,
+  })
+
+  // render(
+  //   <ChatGPTContainer
+  //     question={question}
+  //     transcript={transcript}
+  //     siteConfig={siteConfig}
+  //     langOptionsWithLink={langOptionsWithLink}
+  //     triggerMode={userConfig.triggerMode || 'always'}
+  //   />,
+  //   container,
+  // )
+
+  root.render(
+    <>
+      <ChatGPTContainer
+        question={question}
+        transcript={transcript}
+        siteConfig={siteConfig}
+        langOptionsWithLink={langOptionsWithLink}
+        triggerMode={userConfig.triggerMode || 'always'}
+      />
+    </>,
   )
 }
 
@@ -394,7 +409,18 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     console.log('siteConfig', siteConfig)
 
     const contentContainer = await waitForElm(siteConfig.contentContainerQuery[0])
-    const contentDesc = await waitForElm('div.description.patent-text')
+
+    let contentDesc
+
+    if (document.querySelector('div.description.patent-text')) {
+      contentDesc = await waitForElm('div.description.patent-text')
+    } else {
+      // document.querySelector('#text #description')
+      contentDesc = await waitForElm('#text #description')
+    }
+
+    // console.log('contentDesc', contentDesc, contentDesc2)
+
     const articleTitle = document.title || ''
     // const articleUrl = location.href
     const articleText = contentDesc?.textContent
@@ -481,15 +507,15 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     if (resultList.length > 0) {
       for (let i = 0; i < resultList.length; i++) {
         const v = resultList[i]
-        const text = v.querySelector('.b_lineclamp2')?.textContent
+        const text =
+          v.querySelector('.b_lineclamp2')?.textContent ||
+          v.querySelector('.b_lineclamp3')?.textContent
         const index = i + 1
         let url =
           v.querySelector('a.sh_favicon')?.href ||
           v.querySelector('h2.b_topTitle > a')?.href ||
           v.querySelector('.b_title  a')?.href ||
           v.querySelector('h2  a')?.href
-
-        console.log('loading', url, text)
 
         if (text && url && index <= 6) {
           url = url.replace(/https?:/, '')

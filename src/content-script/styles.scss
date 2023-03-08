@@ -2,6 +2,8 @@
 @import 'dark.scss';
 
 .glarity--container {
+  position: relative;
+  z-index: 1;
   margin-bottom: 30px;
   flex-basis: 0;
   flex-grow: 1;
@@ -301,4 +303,10 @@ span.glarity--header__logo {
     border: none;
     border-radius: 0;
   }
+}
+
+// bing
+.glarity--chatgpt--bing {
+  margin-left: -20px;
+  margin-right: -20px;
 }
