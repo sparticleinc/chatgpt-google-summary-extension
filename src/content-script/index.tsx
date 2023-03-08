@@ -149,6 +149,8 @@ async function mount(props: MountProps) {
   } else {
     const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
 
+    console.log('siderbarContainer', siderbarContainer, container)
+
     if (siderbarContainer) {
       siderbarContainer.prepend(container)
     } else {
@@ -162,6 +164,7 @@ async function mount(props: MountProps) {
         container.classList.add('glarity--full-container')
         const appendContainer = getPossibleElementByQuerySelector(siteConfig.extabarContainerQuery)
         if (appendContainer) {
+          appendContainer.appendChild(container)
           appendContainer.appendChild(container)
         }
       } else {
@@ -473,23 +476,30 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     let searchList = ''
 
     //  Result list
-    const resultList = document.querySelectorAll('main > ol > li.b_algo')
+    const listElms = document.querySelectorAll('main > ol > li.b_algo')
+    const resultList =
+      listElms.length > 0 ? listElms : document.querySelectorAll('ol#b_results > li.b_algo')
+
     if (resultList.length > 0) {
       for (let i = 0; i < resultList.length; i++) {
         const v = resultList[i]
         const text = v.querySelector('.b_lineclamp2')?.textContent
         const index = i + 1
-        let url = v.querySelector('a.sh_favicon')?.href
+        let url =
+          v.querySelector('a.sh_favicon')?.href ||
+          v.querySelector('h2.b_topTitle > a')?.href ||
+          v.querySelector('.b_title  a')?.href ||
+          v.querySelector('h2  a')?.href
+
+        console.log('loading', url, text)
 
         if (text && url && index <= 6) {
           url = url.replace(/https?:/, '')
           searchList =
             searchList +
             `
-  [${index}] ${text}
-  URL: ${url}
-  
-            `
+  [${index}] ${text}\r\n
+  [${index}] URL: ${url}\r\n`
         } else {
           break
         }
@@ -577,7 +587,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
           searchList =
             searchList +
             `
-[${index}] ${text}
+[${index}] ${text}\r\n
 [${index}]URL: ${url}\r\n`
         }
       })
