@@ -179,14 +179,16 @@ function ChatGPTContainer(props: Props) {
               {questionProps.question ? (
                 <>
                   {triggerMode === TriggerMode.Manually && !questionProps.currentTime ? (
-                    <a
-                      href="javascript:;"
+                    <span
+                      className="glarity--link"
                       onClick={() => {
                         onRefresh()
                       }}
                     >
-                      <SearchIcon size="small" /> Ask ChatGPT to summarize
-                    </a>
+                      <a>
+                        <SearchIcon size="small" /> Ask ChatGPT to summarize
+                      </a>
+                    </span>
                   ) : (
                     <>
                       {loading && (
