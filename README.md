@@ -1,6 +1,6 @@
 # Glarity - Summary for Google/YouTube with ChatGPT
 
-Chrome extension to display ChatGPT summaries alongside Google search results and YouTube videos.
+Chrome extension to view ChatGPT summaries alongside Google search results and YouTube videos, also supports Yahoo! ニュース、PubMed、PMC、NewsPicks、Github、Nikkei、 Bing、Google Patents.
 
 ## ⚠️ Tips:
 
@@ -14,15 +14,39 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 - YouTube
 - Yahoo! JAPAN ニュース
 - PubMed
+- PMC
 - NewsPicks
-- Github project
+- Github
 - Nikkei
+- Bing
+- Google Patents
 
 ## Installation
 
 [Add from Chrome Web Store](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
 
 [Add from Mozilla Add-on Store](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
+
+## Features
+
+- Supports Google search
+- Supports YouTube
+- Supports Github
+- Supports Bing
+- Supports Yahoo! JAPAN ニュース
+- Supports PubMed
+- Supports PMC
+- Supports NewsPicks
+- Supports Nikkei
+- Supports Google Patents
+- Supports the official OpenAI API (GPT-3.5-turbo/text-davinci-003)
+- Supports ChatGPT Plus
+- Markdown rendering
+- Code highlights
+- Dark mode
+- Provide feedback to improve ChatGPT
+- Copy to clipboard
+- Switch languages
 
 ## Screenshot
 
@@ -35,6 +59,18 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 
 ![Screenshot](screenshots/extension-youtube.jpeg?raw=true)
 
+### Github
+
+![Github](screenshots/github-en.png?raw=true)
+
+### Bing
+
+![Bing](screenshots/bing-en.png)
+
+### Google Patents
+
+![Google Patents](screenshots/google-patents-en.png)
+
 ### Yahoo! JAPAN ニュース
 
 ![Screenshot](screenshots/yahoo-japan.jpg?raw=true)
@@ -43,27 +79,17 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 
 ![Screenshot](screenshots/pubmed.jpg?raw=true)
 
+### PMC
+
+![Screenshot](screenshots/PMC-en.png?raw=true)
+
 ### NewsPicks
 
 ![Screenshot](screenshots/newspicks-jp.jpg?raw=true)
 
-## Features
+### Nikkei
 
-- Supports Google search
-- Supports YouTube
-- Supports Yahoo! JAPAN ニュース
-- Supports PubMed
-- Supports NewsPicks
-- Supports Github
-- Supports Nikkei
-- Supports the official OpenAI API (GPT-3.5-turbo)
-- Supports ChatGPT Plus
-- Markdown rendering
-- Code highlights
-- Dark mode
-- Provide feedback to improve ChatGPT
-- Copy to clipboard
-- Switch languages
+![Nikkei](screenshots/nikkei-jp.png)
 
 ## Troubleshooting
 
