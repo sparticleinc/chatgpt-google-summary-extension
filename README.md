@@ -1,6 +1,6 @@
 # Glarity - Summary for Google/YouTube with ChatGPT
 
-Chrome extension to display ChatGPT summaries alongside Google search results and YouTube videos.
+Chrome extension to view ChatGPT summaries alongside Google search results and YouTube videos, also supports Yahoo! ニュース、PubMed、PMC、NewsPicks、Github、Nikkei、 Bing、Google Patents.
 
 ## ⚠️ Tips:
 
@@ -20,7 +20,6 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 - Nikkei
 - Bing
 - Google Patents
-- GitHub
 
 ## Installation
 
