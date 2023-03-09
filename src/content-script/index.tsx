@@ -41,11 +41,17 @@ const siteName =
     ? 'github'
     : hostname.includes('patents.google.com')
     ? 'googlePatents'
-    : hostname.match(siteRegex)![0]
+    : hostname.match(siteRegex)
+    ? hostname.match(siteRegex)![0]
+    : ''
 const siteConfig = config[siteName]
 
 async function mount(props: MountProps) {
   const { question, siteConfig, transcript, langOptionsWithLink } = props
+
+  if (!siteConfig) {
+    return
+  }
   const userConfig = await getUserConfig()
 
   const sites = Object.values(config).map((site) => {
@@ -208,6 +214,10 @@ async function run() {
 }
 
 export async function getQuestion(loadInit?: boolean) {
+  if (!siteConfig) {
+    return
+  }
+
   const language = window.navigator.language
   const userConfig = await getUserConfig()
 
@@ -649,6 +659,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
 run()
 
-if (siteConfig.watchRouteChange) {
+if (siteConfig?.watchRouteChange) {
   siteConfig.watchRouteChange(run)
 }
