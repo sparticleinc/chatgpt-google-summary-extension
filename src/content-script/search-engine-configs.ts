@@ -135,8 +135,8 @@ export const config: Record<string, SearchEngine> = {
         const videoId = getSearchParam(window.location.href)?.v
         if (window.location.href !== currentUrl && videoId) {
           waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
-            if (document.querySelector('div.glarity--container')) {
-              document.querySelector('div.glarity--container')?.remove()
+            if (document.querySelector('section.glarity--container')) {
+              document.querySelector('section.glarity--container')?.remove()
             }
           })
 
@@ -222,8 +222,8 @@ export const config: Record<string, SearchEngine> = {
         if (window.location.href !== currentUrl) {
           if (/patents.google.com\/patent\/\w+/g.test(location.href)) {
             waitForElm(config.googlePatents.extabarContainerQuery[0]).then(() => {
-              if (document.querySelector('div.glarity--container')) {
-                document.querySelector('div.glarity--container')?.remove()
+              if (document.querySelector('section.glarity--container')) {
+                document.querySelector('section.glarity--container')?.remove()
               }
             })
 

@@ -31689,8 +31689,8 @@
           if (window.location.href !== currentUrl && videoId) {
             waitForElm("#secondary.style-scope.ytd-watch-flexy").then(() => {
               var _a2;
-              if (document.querySelector("div.glarity--container")) {
-                (_a2 = document.querySelector("div.glarity--container")) == null ? void 0 : _a2.remove();
+              if (document.querySelector("section.glarity--container")) {
+                (_a2 = document.querySelector("section.glarity--container")) == null ? void 0 : _a2.remove();
               }
             });
             callback();
@@ -31775,8 +31775,8 @@
             if (/patents.google.com\/patent\/\w+/g.test(location.href)) {
               waitForElm(config.googlePatents.extabarContainerQuery[0]).then(() => {
                 var _a;
-                if (document.querySelector("div.glarity--container")) {
-                  (_a = document.querySelector("div.glarity--container")) == null ? void 0 : _a.remove();
+                if (document.querySelector("section.glarity--container")) {
+                  (_a = document.querySelector("section.glarity--container")) == null ? void 0 : _a.remove();
                 }
               });
               callback();

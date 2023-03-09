@@ -268,7 +268,7 @@
   text-decoration-line: underline;
 }
 
-/* temp_stylePlugin:ni:sha-256;waN_pWUUaDVRnZ_3Djyodr-h6jVpooSOzYwxFp4EId0 */
+/* temp_stylePlugin:ni:sha-256;I9Ixe6VvFDIwHs_9M6pfA-BtuD8xUVJXVy3fwq6VtoQ */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -2144,6 +2144,10 @@
 }
 .glarity--container .glarity--link {
   cursor: pointer;
+  color: #065fd4;
+}
+.glarity--container .glarity--link a:hover {
+  text-decoration: underline;
 }
 .glarity--container .glarity--chatgpt {
   border: 1px solid;
