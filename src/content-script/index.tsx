@@ -556,6 +556,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
   }
 
   // Google
+  await waitForElm(siteConfig.inputQuery[0])
   const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
   console.log('searchInput', searchInput)
   if (searchInput && searchInput.value) {
