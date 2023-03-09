@@ -30,6 +30,11 @@
 
   .glarity--link {
     cursor: pointer;
+    color: #065fd4;
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
 
   .glarity--chatgpt {

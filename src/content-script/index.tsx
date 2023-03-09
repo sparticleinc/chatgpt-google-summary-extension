@@ -1,5 +1,5 @@
-// import { render } from 'preact'
-import { createRoot } from 'react-dom/client'
+import { render } from 'preact'
+// import { createRoot } from 'react-dom/client'
 import '../base.css'
 import { getUserConfig, Language, Theme, getProviderConfigs, ProviderType } from '../config'
 import { detectSystemColorScheme } from '../utils'
@@ -78,8 +78,8 @@ async function mount(props: MountProps) {
     return
   }
 
-  if (document.querySelector('div.glarity--container')) {
-    document.querySelector('div.glarity--container')?.remove()
+  if (document.querySelector('section.glarity--container')) {
+    document.querySelector('section.glarity--container')?.remove()
   }
 
   const container = document.createElement('section')
@@ -180,32 +180,32 @@ async function mount(props: MountProps) {
     }
   }
 
-  const root = createRoot(document.getElementById('glarity--container'), {
-    unstable_enableAsyncRendering: true,
-  })
+  // const root = createRoot(document.getElementById('glarity--container'), {
+  //   unstable_enableAsyncRendering: true,
+  // })
 
-  // render(
-  //   <ChatGPTContainer
-  //     question={question}
-  //     transcript={transcript}
-  //     siteConfig={siteConfig}
-  //     langOptionsWithLink={langOptionsWithLink}
-  //     triggerMode={userConfig.triggerMode || 'always'}
-  //   />,
-  //   container,
-  // )
-
-  root.render(
-    <>
-      <ChatGPTContainer
-        question={question}
-        transcript={transcript}
-        siteConfig={siteConfig}
-        langOptionsWithLink={langOptionsWithLink}
-        triggerMode={userConfig.triggerMode || 'always'}
-      />
-    </>,
+  render(
+    <ChatGPTContainer
+      question={question}
+      transcript={transcript}
+      siteConfig={siteConfig}
+      langOptionsWithLink={langOptionsWithLink}
+      triggerMode={userConfig.triggerMode || 'always'}
+    />,
+    container,
   )
+
+  // root.render(
+  //   <>
+  //     <ChatGPTContainer
+  //       question={question}
+  //       transcript={transcript}
+  //       siteConfig={siteConfig}
+  //       langOptionsWithLink={langOptionsWithLink}
+  //       triggerMode={userConfig.triggerMode || 'always'}
+  //     />
+  //   </>,
+  // )
 }
 
 async function run() {
