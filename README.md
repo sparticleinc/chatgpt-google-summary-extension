@@ -2,6 +2,12 @@
 
 Chrome extension to display ChatGPT summaries alongside Google search results and YouTube videos.
 
+## ⚠️ Tips:
+
+If you cannot choose the OpenAI API model, please delete the plugin and reinstall it.
+
+Or You can try downloading the experience package (https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages) and adding it manually (https://github.com/sparticleinc/chatgpt- google-summary-extension#chrome).
+
 ## Supported Websites
 
 - Google
