@@ -41,11 +41,17 @@ const siteName =
     ? 'github'
     : hostname.includes('patents.google.com')
     ? 'googlePatents'
-    : hostname.match(siteRegex)![0]
+    : hostname.match(siteRegex)
+    ? hostname.match(siteRegex)![0]
+    : ''
 const siteConfig = config[siteName]
 
 async function mount(props: MountProps) {
   const { question, siteConfig, transcript, langOptionsWithLink } = props
+
+  if (!siteConfig) {
+    return
+  }
   const userConfig = await getUserConfig()
 
   const sites = Object.values(config).map((site) => {
@@ -208,6 +214,10 @@ async function run() {
 }
 
 export async function getQuestion(loadInit?: boolean) {
+  if (!siteConfig) {
+    return
+  }
+
   const language = window.navigator.language
   const userConfig = await getUserConfig()
 
@@ -556,7 +566,9 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
   }
 
   // Google
+  await waitForElm(siteConfig.inputQuery[0])
   const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
+  console.log('searchInput', searchInput)
   if (searchInput && searchInput.value) {
     const searchValueWithLanguageOption =
       userConfig.language === Language.Auto
@@ -597,6 +609,8 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
           title = titleWrap?.querySelector('h3.LC20lb') || null
           url = titleWrap?.querySelector('a')?.href || ''
           text = v.querySelector('div.VwiC3b')?.textContent || ''
+          const moreText = v.querySelector('div.IThcWe')?.textContent || ''
+          text = text + moreText
         }
 
         console.log(title, text, url)
@@ -612,7 +626,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
             searchList +
             `
 [${index}] ${text}\r\n
-[${index}]URL: ${url}\r\n`
+[${index}]URL: ${url}\r\n\r\n`
         }
       })
     }
@@ -632,9 +646,9 @@ Instructions: Using the provided web search results, write a comprehensive reply
 Query: ${searchInput.value}
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
-    console.log('searchList', searchList)
+    // console.log('searchList', searchList)
     console.log('queryText', queryText)
-    console.log('siteConfig', siteConfig)
+    // console.log('siteConfig', siteConfig)
 
     return {
       question: searchList ? queryText : searchValueWithLanguageOption,
@@ -645,6 +659,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
 run()
 
-if (siteConfig.watchRouteChange) {
+if (siteConfig?.watchRouteChange) {
   siteConfig.watchRouteChange(run)
 }

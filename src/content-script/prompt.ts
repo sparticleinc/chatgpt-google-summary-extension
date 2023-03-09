@@ -4,9 +4,11 @@ const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 
 export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType) {
   const text = transcript
-    .replace(/(\r\n)+/g, '\r\n')
-    .replace(/(\s{2,})/g, ' ')
-    .replace(/^(\s)+|(\s)$/g, '')
+    ? transcript
+        .replace(/(\r\n)+/g, '\r\n')
+        .replace(/(\s{2,})/g, ' ')
+        .replace(/^(\s)+|(\s)$/g, '')
+    : ''
 
   return truncateTranscript(text, providerConfigs)
 }

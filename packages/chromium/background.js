@@ -1,8 +1,2033 @@
-"use strict";(()=>{var xr=Object.create;var ke=Object.defineProperty;var Ar=Object.getOwnPropertyDescriptor;var yr=Object.getOwnPropertyNames;var hr=Object.getPrototypeOf,br=Object.prototype.hasOwnProperty;var z=(e,r)=>()=>(r||e((r={exports:{}}).exports,r),r.exports);var vr=(e,r,t,a)=>{if(r&&typeof r=="object"||typeof r=="function")for(let n of yr(r))!br.call(e,n)&&n!==t&&ke(e,n,{get:()=>r[n],enumerable:!(a=Ar(r,n))||a.enumerable});return e};var ue=(e,r,t)=>(t=e!=null?xr(hr(e)):{},vr(r||!e||!e.__esModule?ke(t,"default",{value:e,enumerable:!0}):t,e));var de=z((pe,je)=>{(function(e,r){if(typeof define=="function"&&define.amd)define("webextension-polyfill",["module"],r);else if(typeof pe<"u")r(je);else{var t={exports:{}};r(t),e.browser=t.exports}})(typeof globalThis<"u"?globalThis:typeof self<"u"?self:pe,function(e){"use strict";if(!globalThis.chrome?.runtime?.id)throw new Error("This script should only be loaded in a browser extension.");if(typeof globalThis.browser>"u"||Object.getPrototypeOf(globalThis.browser)!==Object.prototype){let r="The message port closed before a response was received.",t=a=>{let n={alarms:{clear:{minArgs:0,maxArgs:1},clearAll:{minArgs:0,maxArgs:0},get:{minArgs:0,maxArgs:1},getAll:{minArgs:0,maxArgs:0}},bookmarks:{create:{minArgs:1,maxArgs:1},get:{minArgs:1,maxArgs:1},getChildren:{minArgs:1,maxArgs:1},getRecent:{minArgs:1,maxArgs:1},getSubTree:{minArgs:1,maxArgs:1},getTree:{minArgs:0,maxArgs:0},move:{minArgs:2,maxArgs:2},remove:{minArgs:1,maxArgs:1},removeTree:{minArgs:1,maxArgs:1},search:{minArgs:1,maxArgs:1},update:{minArgs:2,maxArgs:2}},browserAction:{disable:{minArgs:0,maxArgs:1,fallbackToNoCallback:!0},enable:{minArgs:0,maxArgs:1,fallbackToNoCallback:!0},getBadgeBackgroundColor:{minArgs:1,maxArgs:1},getBadgeText:{minArgs:1,maxArgs:1},getPopup:{minArgs:1,maxArgs:1},getTitle:{minArgs:1,maxArgs:1},openPopup:{minArgs:0,maxArgs:0},setBadgeBackgroundColor:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setBadgeText:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setIcon:{minArgs:1,maxArgs:1},setPopup:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setTitle:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0}},browsingData:{remove:{minArgs:2,maxArgs:2},removeCache:{minArgs:1,maxArgs:1},removeCookies:{minArgs:1,maxArgs:1},removeDownloads:{minArgs:1,maxArgs:1},removeFormData:{minArgs:1,maxArgs:1},removeHistory:{minArgs:1,maxArgs:1},removeLocalStorage:{minArgs:1,maxArgs:1},removePasswords:{minArgs:1,maxArgs:1},removePluginData:{minArgs:1,maxArgs:1},settings:{minArgs:0,maxArgs:0}},commands:{getAll:{minArgs:0,maxArgs:0}},contextMenus:{remove:{minArgs:1,maxArgs:1},removeAll:{minArgs:0,maxArgs:0},update:{minArgs:2,maxArgs:2}},cookies:{get:{minArgs:1,maxArgs:1},getAll:{minArgs:1,maxArgs:1},getAllCookieStores:{minArgs:0,maxArgs:0},remove:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}},devtools:{inspectedWindow:{eval:{minArgs:1,maxArgs:2,singleCallbackArg:!1}},panels:{create:{minArgs:3,maxArgs:3,singleCallbackArg:!0},elements:{createSidebarPane:{minArgs:1,maxArgs:1}}}},downloads:{cancel:{minArgs:1,maxArgs:1},download:{minArgs:1,maxArgs:1},erase:{minArgs:1,maxArgs:1},getFileIcon:{minArgs:1,maxArgs:2},open:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},pause:{minArgs:1,maxArgs:1},removeFile:{minArgs:1,maxArgs:1},resume:{minArgs:1,maxArgs:1},search:{minArgs:1,maxArgs:1},show:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0}},extension:{isAllowedFileSchemeAccess:{minArgs:0,maxArgs:0},isAllowedIncognitoAccess:{minArgs:0,maxArgs:0}},history:{addUrl:{minArgs:1,maxArgs:1},deleteAll:{minArgs:0,maxArgs:0},deleteRange:{minArgs:1,maxArgs:1},deleteUrl:{minArgs:1,maxArgs:1},getVisits:{minArgs:1,maxArgs:1},search:{minArgs:1,maxArgs:1}},i18n:{detectLanguage:{minArgs:1,maxArgs:1},getAcceptLanguages:{minArgs:0,maxArgs:0}},identity:{launchWebAuthFlow:{minArgs:1,maxArgs:1}},idle:{queryState:{minArgs:1,maxArgs:1}},management:{get:{minArgs:1,maxArgs:1},getAll:{minArgs:0,maxArgs:0},getSelf:{minArgs:0,maxArgs:0},setEnabled:{minArgs:2,maxArgs:2},uninstallSelf:{minArgs:0,maxArgs:1}},notifications:{clear:{minArgs:1,maxArgs:1},create:{minArgs:1,maxArgs:2},getAll:{minArgs:0,maxArgs:0},getPermissionLevel:{minArgs:0,maxArgs:0},update:{minArgs:2,maxArgs:2}},pageAction:{getPopup:{minArgs:1,maxArgs:1},getTitle:{minArgs:1,maxArgs:1},hide:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setIcon:{minArgs:1,maxArgs:1},setPopup:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setTitle:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},show:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0}},permissions:{contains:{minArgs:1,maxArgs:1},getAll:{minArgs:0,maxArgs:0},remove:{minArgs:1,maxArgs:1},request:{minArgs:1,maxArgs:1}},runtime:{getBackgroundPage:{minArgs:0,maxArgs:0},getPlatformInfo:{minArgs:0,maxArgs:0},openOptionsPage:{minArgs:0,maxArgs:0},requestUpdateCheck:{minArgs:0,maxArgs:0},sendMessage:{minArgs:1,maxArgs:3},sendNativeMessage:{minArgs:2,maxArgs:2},setUninstallURL:{minArgs:1,maxArgs:1}},sessions:{getDevices:{minArgs:0,maxArgs:1},getRecentlyClosed:{minArgs:0,maxArgs:1},restore:{minArgs:0,maxArgs:1}},storage:{local:{clear:{minArgs:0,maxArgs:0},get:{minArgs:0,maxArgs:1},getBytesInUse:{minArgs:0,maxArgs:1},remove:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}},managed:{get:{minArgs:0,maxArgs:1},getBytesInUse:{minArgs:0,maxArgs:1}},sync:{clear:{minArgs:0,maxArgs:0},get:{minArgs:0,maxArgs:1},getBytesInUse:{minArgs:0,maxArgs:1},remove:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}}},tabs:{captureVisibleTab:{minArgs:0,maxArgs:2},create:{minArgs:1,maxArgs:1},detectLanguage:{minArgs:0,maxArgs:1},discard:{minArgs:0,maxArgs:1},duplicate:{minArgs:1,maxArgs:1},executeScript:{minArgs:1,maxArgs:2},get:{minArgs:1,maxArgs:1},getCurrent:{minArgs:0,maxArgs:0},getZoom:{minArgs:0,maxArgs:1},getZoomSettings:{minArgs:0,maxArgs:1},goBack:{minArgs:0,maxArgs:1},goForward:{minArgs:0,maxArgs:1},highlight:{minArgs:1,maxArgs:1},insertCSS:{minArgs:1,maxArgs:2},move:{minArgs:2,maxArgs:2},query:{minArgs:1,maxArgs:1},reload:{minArgs:0,maxArgs:2},remove:{minArgs:1,maxArgs:1},removeCSS:{minArgs:1,maxArgs:2},sendMessage:{minArgs:2,maxArgs:3},setZoom:{minArgs:1,maxArgs:2},setZoomSettings:{minArgs:1,maxArgs:2},update:{minArgs:1,maxArgs:2}},topSites:{get:{minArgs:0,maxArgs:0}},webNavigation:{getAllFrames:{minArgs:1,maxArgs:1},getFrame:{minArgs:1,maxArgs:1}},webRequest:{handlerBehaviorChanged:{minArgs:0,maxArgs:0}},windows:{create:{minArgs:0,maxArgs:1},get:{minArgs:1,maxArgs:2},getAll:{minArgs:0,maxArgs:1},getCurrent:{minArgs:0,maxArgs:1},getLastFocused:{minArgs:0,maxArgs:1},remove:{minArgs:1,maxArgs:1},update:{minArgs:2,maxArgs:2}}};if(Object.keys(n).length===0)throw new Error("api-metadata.json has not been included in browser-polyfill");class u extends WeakMap{constructor(s,m=void 0){super(m),this.createItem=s}get(s){return this.has(s)||this.set(s,this.createItem(s)),super.get(s)}}let f=o=>o&&typeof o=="object"&&typeof o.then=="function",g=(o,s)=>(...m)=>{a.runtime.lastError?o.reject(new Error(a.runtime.lastError.message)):s.singleCallbackArg||m.length<=1&&s.singleCallbackArg!==!1?o.resolve(m[0]):o.resolve(m)},c=o=>o==1?"argument":"arguments",x=(o,s)=>function(l,...b){if(b.length<s.minArgs)throw new Error(`Expected at least ${s.minArgs} ${c(s.minArgs)} for ${o}(), got ${b.length}`);if(b.length>s.maxArgs)throw new Error(`Expected at most ${s.maxArgs} ${c(s.maxArgs)} for ${o}(), got ${b.length}`);return new Promise((k,S)=>{if(s.fallbackToNoCallback)try{l[o](...b,g({resolve:k,reject:S},s))}catch(i){console.warn(`${o} API method doesn't seem to support the callback parameter, falling back to call it without a callback: `,i),l[o](...b),s.fallbackToNoCallback=!1,s.noCallback=!0,k()}else s.noCallback?(l[o](...b),k()):l[o](...b,g({resolve:k,reject:S},s))})},y=(o,s,m)=>new Proxy(s,{apply(l,b,k){return m.call(b,o,...k)}}),A=Function.call.bind(Object.prototype.hasOwnProperty),T=(o,s={},m={})=>{let l=Object.create(null),b={has(S,i){return i in o||i in l},get(S,i,C){if(i in l)return l[i];if(!(i in o))return;let h=o[i];if(typeof h=="function")if(typeof s[i]=="function")h=y(o,o[i],s[i]);else if(A(m,i)){let U=x(i,m[i]);h=y(o,o[i],U)}else h=h.bind(o);else if(typeof h=="object"&&h!==null&&(A(s,i)||A(m,i)))h=T(h,s[i],m[i]);else if(A(m,"*"))h=T(h,s[i],m["*"]);else return Object.defineProperty(l,i,{configurable:!0,enumerable:!0,get(){return o[i]},set(U){o[i]=U}}),h;return l[i]=h,h},set(S,i,C,h){return i in l?l[i]=C:o[i]=C,!0},defineProperty(S,i,C){return Reflect.defineProperty(l,i,C)},deleteProperty(S,i){return Reflect.deleteProperty(l,i)}},k=Object.create(o);return new Proxy(k,b)},d=o=>({addListener(s,m,...l){s.addListener(o.get(m),...l)},hasListener(s,m){return s.hasListener(o.get(m))},removeListener(s,m){s.removeListener(o.get(m))}}),M=new u(o=>typeof o!="function"?o:function(m){let l=T(m,{},{getContent:{minArgs:0,maxArgs:0}});o(l)}),j=new u(o=>typeof o!="function"?o:function(m,l,b){let k=!1,S,i=new Promise(L=>{S=function(I){k=!0,L(I)}}),C;try{C=o(m,l,S)}catch(L){C=Promise.reject(L)}let h=C!==!0&&f(C);if(C!==!0&&!h&&!k)return!1;let U=L=>{L.then(I=>{b(I)},I=>{let le;I&&(I instanceof Error||typeof I.message=="string")?le=I.message:le="An unexpected error occurred",b({__mozWebExtensionPolyfillReject__:!0,message:le})}).catch(I=>{console.error("Failed to send onMessage rejected reply",I)})};return U(h?C:i),!0}),E=({reject:o,resolve:s},m)=>{a.runtime.lastError?a.runtime.lastError.message===r?s():o(new Error(a.runtime.lastError.message)):m&&m.__mozWebExtensionPolyfillReject__?o(new Error(m.message)):s(m)},P=(o,s,m,...l)=>{if(l.length<s.minArgs)throw new Error(`Expected at least ${s.minArgs} ${c(s.minArgs)} for ${o}(), got ${l.length}`);if(l.length>s.maxArgs)throw new Error(`Expected at most ${s.maxArgs} ${c(s.maxArgs)} for ${o}(), got ${l.length}`);return new Promise((b,k)=>{let S=E.bind(null,{resolve:b,reject:k});l.push(S),m.sendMessage(...l)})},O={devtools:{network:{onRequestFinished:d(M)}},runtime:{onMessage:d(j),onMessageExternal:d(j),sendMessage:P.bind(null,"sendMessage",{minArgs:1,maxArgs:3})},tabs:{sendMessage:P.bind(null,"sendMessage",{minArgs:2,maxArgs:3})}},G={clear:{minArgs:1,maxArgs:1},get:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}};return n.privacy={network:{"*":G},services:{"*":G},websites:{"*":G}},T(a,O,n)};e.exports=t(chrome)}else e.exports=globalThis.browser})});var sr=z((As,ar)=>{"use strict";ar.exports=()=>{let e={};return e.promise=new Promise((r,t)=>{e.resolve=r,e.reject=t}),e}});var ir=z((ys,nr)=>{"use strict";var co=sr();function xo(e,r="maxAge"){let t,a,n,u=async()=>{if(t!==void 0)return;let c=async x=>{n=co();let y=x[1][r]-Date.now();if(y<=0){e.delete(x[0]),n.resolve();return}return t=x[0],a=setTimeout(()=>{e.delete(x[0]),n&&n.resolve()},y),typeof a.unref=="function"&&a.unref(),n.promise};try{for(let x of e)await c(x)}catch{}t=void 0},f=()=>{t=void 0,a!==void 0&&(clearTimeout(a),a=void 0),n!==void 0&&(n.reject(void 0),n=void 0)},g=e.set.bind(e);return e.set=(c,x)=>{e.has(c)&&e.delete(c);let y=g(c,x);return t&&t===c&&f(),u(),y},u(),e}nr.exports=xo});var mr=z((hs,fr)=>{"use strict";var Ao=ir(),he=class{constructor(r,t){if(this.maxAge=r,this[Symbol.toStringTag]="Map",this.data=new Map,Ao(this.data),t)for(let[a,n]of t)this.set(a,n)}get size(){return this.data.size}clear(){this.data.clear()}delete(r){return this.data.delete(r)}has(r){return this.data.has(r)}get(r){let t=this.data.get(r);if(t)return t.data}set(r,t){return this.data.set(r,{maxAge:Date.now()+this.maxAge,data:t}),this}values(){return this.createIterator(r=>r[1].data)}keys(){return this.data.keys()}entries(){return this.createIterator(r=>[r[0],r[1].data])}forEach(r,t){for(let[a,n]of this.entries())r.apply(t,[n,a,this])}[Symbol.iterator](){return this.entries()}*createIterator(r){for(let t of this.data.entries())yield r(t)}};fr.exports=he});var W=ue(de());var wr=typeof global=="object"&&global&&global.Object===Object&&global,V=wr;var Tr=typeof self=="object"&&self&&self.Object===Object&&self,Pr=V||Tr||Function("return this")(),w=Pr;var kr=w.Symbol,F=kr;var Se=Object.prototype,jr=Se.hasOwnProperty,Sr=Se.toString,$=F?F.toStringTag:void 0;function Cr(e){var r=jr.call(e,$),t=e[$];try{e[$]=void 0;var a=!0}catch{}var n=Sr.call(e);return a&&(r?e[$]=t:delete e[$]),n}var Ce=Cr;var Er=Object.prototype,Or=Er.toString;function Mr(e){return Or.call(e)}var Ee=Mr;var Ir="[object Null]",Nr="[object Undefined]",Oe=F?F.toStringTag:void 0;function Rr(e){return e==null?e===void 0?Nr:Ir:Oe&&Oe in Object(e)?Ce(e):Ee(e)}var R=Rr;function Br(e){return e!=null&&typeof e=="object"}var _=Br;var Dr=Array.isArray,Me=Dr;function Ur(e){var r=typeof e;return e!=null&&(r=="object"||r=="function")}var K=Ur;var Fr="[object AsyncFunction]",_r="[object Function]",Wr="[object GeneratorFunction]",Gr="[object Proxy]";function Lr(e){if(!K(e))return!1;var r=R(e);return r==_r||r==Wr||r==Fr||r==Gr}var J=Lr;var $r=w["__core-js_shared__"],H=$r;var Ie=function(){var e=/[^.]+$/.exec(H&&H.keys&&H.keys.IE_PROTO||"");return e?"Symbol(src)_1."+e:""}();function qr(e){return!!Ie&&Ie in e}var Ne=qr;var zr=Function.prototype,Vr=zr.toString;function Kr(e){if(e!=null){try{return Vr.call(e)}catch{}try{return e+""}catch{}}return""}var B=Kr;var Jr=/[\\^$.*+?()[\]{}|]/g,Hr=/^\[object .+?Constructor\]$/,Zr=Function.prototype,Xr=Object.prototype,Qr=Zr.toString,Yr=Xr.hasOwnProperty,et=RegExp("^"+Qr.call(Yr).replace(Jr,"\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$");function rt(e){if(!K(e)||Ne(e))return!1;var r=J(e)?et:Hr;return r.test(B(e))}var Re=rt;function tt(e,r){return e?.[r]}var Be=tt;function ot(e,r){var t=Be(e,r);return Re(t)?t:void 0}var N=ot;var at=N(w,"WeakMap"),Z=at;var st=9007199254740991;function nt(e){return typeof e=="number"&&e>-1&&e%1==0&&e<=st}var X=nt;function it(e){return e!=null&&X(e.length)&&!J(e)}var De=it;var ft=Object.prototype;function mt(e){var r=e&&e.constructor,t=typeof r=="function"&&r.prototype||ft;return e===t}var Q=mt;var lt="[object Arguments]";function ut(e){return _(e)&&R(e)==lt}var ge=ut;var Ue=Object.prototype,pt=Ue.hasOwnProperty,dt=Ue.propertyIsEnumerable,gt=ge(function(){return arguments}())?ge:function(e){return _(e)&&pt.call(e,"callee")&&!dt.call(e,"callee")},Fe=gt;function ct(){return!1}var _e=ct;var Le=typeof exports=="object"&&exports&&!exports.nodeType&&exports,We=Le&&typeof module=="object"&&module&&!module.nodeType&&module,xt=We&&We.exports===Le,Ge=xt?w.Buffer:void 0,At=Ge?Ge.isBuffer:void 0,yt=At||_e,$e=yt;var ht="[object Arguments]",bt="[object Array]",vt="[object Boolean]",wt="[object Date]",Tt="[object Error]",Pt="[object Function]",kt="[object Map]",jt="[object Number]",St="[object Object]",Ct="[object RegExp]",Et="[object Set]",Ot="[object String]",Mt="[object WeakMap]",It="[object ArrayBuffer]",Nt="[object DataView]",Rt="[object Float32Array]",Bt="[object Float64Array]",Dt="[object Int8Array]",Ut="[object Int16Array]",Ft="[object Int32Array]",_t="[object Uint8Array]",Wt="[object Uint8ClampedArray]",Gt="[object Uint16Array]",Lt="[object Uint32Array]",p={};p[Rt]=p[Bt]=p[Dt]=p[Ut]=p[Ft]=p[_t]=p[Wt]=p[Gt]=p[Lt]=!0;p[ht]=p[bt]=p[It]=p[vt]=p[Nt]=p[wt]=p[Tt]=p[Pt]=p[kt]=p[jt]=p[St]=p[Ct]=p[Et]=p[Ot]=p[Mt]=!1;function $t(e){return _(e)&&X(e.length)&&!!p[R(e)]}var qe=$t;function qt(e){return function(r){return e(r)}}var ze=qt;var Ve=typeof exports=="object"&&exports&&!exports.nodeType&&exports,q=Ve&&typeof module=="object"&&module&&!module.nodeType&&module,zt=q&&q.exports===Ve,ce=zt&&V.process,Vt=function(){try{var e=q&&q.require&&q.require("util").types;return e||ce&&ce.binding&&ce.binding("util")}catch{}}(),xe=Vt;var Ke=xe&&xe.isTypedArray,Kt=Ke?ze(Ke):qe,Je=Kt;function Jt(e,r){return function(t){return e(r(t))}}var He=Jt;var Ht=He(Object.keys,Object),Ze=Ht;var Zt=Object.prototype,Xt=Zt.hasOwnProperty;function Qt(e){if(!Q(e))return Ze(e);var r=[];for(var t in Object(e))Xt.call(e,t)&&t!="constructor"&&r.push(t);return r}var Xe=Qt;var Yt=N(w,"Map"),Y=Yt;var eo=N(w,"DataView"),ee=eo;var ro=N(w,"Promise"),re=ro;var to=N(w,"Set"),te=to;var Qe="[object Map]",oo="[object Object]",Ye="[object Promise]",er="[object Set]",rr="[object WeakMap]",tr="[object DataView]",ao=B(ee),so=B(Y),no=B(re),io=B(te),fo=B(Z),D=R;(ee&&D(new ee(new ArrayBuffer(1)))!=tr||Y&&D(new Y)!=Qe||re&&D(re.resolve())!=Ye||te&&D(new te)!=er||Z&&D(new Z)!=rr)&&(D=function(e){var r=R(e),t=r==oo?e.constructor:void 0,a=t?B(t):"";if(a)switch(a){case ao:return tr;case so:return Qe;case no:return Ye;case io:return er;case fo:return rr}return r});var or=D;var mo="[object Map]",lo="[object Set]",uo=Object.prototype,po=uo.hasOwnProperty;function go(e){if(e==null)return!0;if(De(e)&&(Me(e)||typeof e=="string"||typeof e.splice=="function"||$e(e)||Je(e)||Fe(e)))return!e.length;var r=or(e);if(r==mo||r==lo)return!e.size;if(Q(e))return!Xe(e).length;for(var t in e)if(po.call(e,t))return!1;return!0}var Ae=go;var ye=ue(de());async function oe(){let{provider:e="chatgpt"}=await ye.default.storage.local.get("provider"),r="provider:gpt3",t=await ye.default.storage.local.get(r);return{provider:e,configs:{["gpt3"]:t[r]}}}var gr=ue(mr());var ae,yo=new Uint8Array(16);function be(){if(!ae&&(ae=typeof crypto<"u"&&crypto.getRandomValues&&crypto.getRandomValues.bind(crypto),!ae))throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");return ae(yo)}var v=[];for(let e=0;e<256;++e)v.push((e+256).toString(16).slice(1));function lr(e,r=0){return(v[e[r+0]]+v[e[r+1]]+v[e[r+2]]+v[e[r+3]]+"-"+v[e[r+4]]+v[e[r+5]]+"-"+v[e[r+6]]+v[e[r+7]]+"-"+v[e[r+8]]+v[e[r+9]]+"-"+v[e[r+10]]+v[e[r+11]]+v[e[r+12]]+v[e[r+13]]+v[e[r+14]]+v[e[r+15]]).toLowerCase()}var ho=typeof crypto<"u"&&crypto.randomUUID&&crypto.randomUUID.bind(crypto),ve={randomUUID:ho};function bo(e,r,t){if(ve.randomUUID&&!r&&!e)return ve.randomUUID();e=e||{};let a=e.random||(e.rng||be)();if(a[6]=a[6]&15|64,a[8]=a[8]&63|128,r){t=t||0;for(let n=0;n<16;++n)r[t+n]=a[n];return r}return lr(a)}var se=bo;function ur(e){let r,t,a,n,u,f,g;return c(),{feed:x,reset:c};function c(){r=!0,t="",a=0,n=-1,u=void 0,f=void 0,g=""}function x(A){t=t?t+A:A,r&&vo(t)&&(t=t.slice(pr.length)),r=!1;let T=t.length,d=0,M=!1;for(;d<T;){M&&(t[d]===`
-`&&++d,M=!1);let j=-1,E=n,P;for(let O=a;j<0&&O<T;++O)P=t[O],P===":"&&E<0?E=O-d:P==="\r"?(M=!0,j=O-d):P===`
-`&&(j=O-d);if(j<0){a=T-d,n=E;break}else a=0,n=-1;y(t,d,E,j),d+=j+1}d===T?t="":d>0&&(t=t.slice(d))}function y(A,T,d,M){if(M===0){g.length>0&&(e({type:"event",id:u,event:f||void 0,data:g.slice(0,-1)}),g="",u=void 0),f=void 0;return}let j=d<0,E=A.slice(T,T+(j?M:d)),P=0;j?P=M:A[T+d+1]===" "?P=d+2:P=d+1;let O=T+P,G=M-P,o=A.slice(O,O+G).toString();if(E==="data")g+=o?"".concat(o,`
-`):`
-`;else if(E==="event")f=o;else if(E==="id"&&!o.includes("\0"))u=o;else if(E==="retry"){let s=parseInt(o,10);Number.isNaN(s)||e({type:"reconnect-interval",value:s})}}}var pr=[239,187,191];function vo(e){return pr.every((r,t)=>e.charCodeAt(t)===r)}async function*dr(e){let r=e.getReader();try{for(;;){let{done:t,value:a}=await r.read();if(t)return;yield a}}finally{r.releaseLock()}}async function ne(e,r){let{onMessage:t,...a}=r,n=await fetch(e,a);if(!n.ok){let f=await n.json().catch(()=>({}));throw new Error(Ae(f)?`${n.status} ${n.statusText}`:JSON.stringify(f))}let u=ur(f=>{f.type==="event"&&t(f.data)});for await(let f of dr(n.body)){let g=new TextDecoder().decode(f);u.feed(g)}}async function Pe(e,r,t,a){return fetch(`https://chat.openai.com/backend-api${t}`,{method:r,headers:{"Content-Type":"application/json",Authorization:`Bearer ${e}`},body:a===void 0?void 0:JSON.stringify(a)})}async function cr(e,r){await Pe(e,"POST","/conversation/message_feedback",r)}async function wo(e,r,t){await Pe(e,"PATCH",`/conversation/${r}`,t)}var we="accessToken",Te=new gr.default(10*1e3);async function fe(){if(Te.get(we))return Te.get(we);let e=await fetch("https://chat.openai.com/api/auth/session");if(e.status===403)throw new Error("CLOUDFLARE");let r=await e.json().catch(()=>({}));if(!r.accessToken)throw new Error("UNAUTHORIZED");return Te.set(we,r.accessToken),r.accessToken}var ie=class{constructor(r){this.token=r;this.token=r}async fetchModels(){return(await Pe(this.token,"GET","/models").then(t=>t.json())).models}async getModelName(){try{return(await this.fetchModels())[0].slug}catch(r){return console.error(r),"text-davinci-002-render"}}async generateAnswer(r){let t,a=()=>{t&&wo(this.token,t,{is_visible:!1})},n=await this.getModelName();return await ne("https://chat.openai.com/backend-api/conversation",{method:"POST",signal:r.signal,headers:{"Content-Type":"application/json",Authorization:`Bearer ${this.token}`},body:JSON.stringify({action:"next",messages:[{id:se(),role:"user",content:{content_type:"text",parts:[r.prompt]}}],model:n,parent_message_id:se()}),onMessage(u){var c,x,y;if(console.debug("sse message",u),u==="[DONE]"){r.onEvent({type:"done"}),a();return}let f;try{f=JSON.parse(u)}catch(A){console.error(A);return}let g=(y=(x=(c=f.message)==null?void 0:c.content)==null?void 0:x.parts)==null?void 0:y[0];g&&(t=f.conversation_id,r.onEvent({type:"answer",data:{text:g,messageId:f.message.id,conversationId:f.conversation_id}}))}}),{cleanup:a}}};var me=class{constructor(r,t){this.token=r;this.model=t;this.token=r,this.model=t}buildPrompt(r){return this.model.startsWith("text-chat-davinci")?`Respond conversationally.<|im_end|>
+"use strict";
+(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
 
-User: ${r}<|im_sep|>
-ChatGPT:`:r}buildMessages(r){return[{role:"user",content:r}]}async generateAnswer(r){var g,c;let[t]=await Promise.all([oe()]),a=(c=(g=t.configs["gpt3"])==null?void 0:g.model)!=null?c:"gpt-3.5-turbo",n="",u={model:this.model,stream:!0,max_tokens:800};a==="text-davinci-003"?(n="https://api.openai.com/v1/completions",u={...u,prompt:this.buildPrompt(r.prompt)}):(n="https://api.openai.com/v1/chat/completions",u={...u,messages:this.buildMessages(r.prompt)});let f="";return await ne(n,{method:"POST",signal:r.signal,headers:{"Content-Type":"application/json",Authorization:`Bearer ${this.token}`},body:JSON.stringify(u),onMessage(x){if(console.debug("sse message",x),x==="[DONE]"){r.onEvent({type:"done"});return}let y;try{y=JSON.parse(x);let A=a==="text-davinci-003"?y.choices[0].text:y.choices[0].delta.content;if(A===void 0||A==="<|im_end|>"||A==="<|im_sep|>")return;f+=A,r.onEvent({type:"answer",data:{text:f,messageId:y.id,conversationId:y.id}})}catch(A){return}}}),{}}};async function Po(e,r){let t=await oe(),a;if(t.provider==="chatgpt"){let f=await fe();a=new ie(f)}else if(t.provider==="gpt3"){let{apiKey:f,model:g}=t.configs["gpt3"];a=new me(f,g)}else throw new Error(`Unknown provider ${t.provider}`);let n=new AbortController;e.onDisconnect.addListener(()=>{n.abort(),u==null||u()});let{cleanup:u}=await a.generateAnswer({prompt:r,signal:n.signal,onEvent(f){if(f.type==="done"){e.postMessage({event:"DONE"});return}e.postMessage(f.data)}})}W.default.runtime.onConnect.addListener(e=>{e.onMessage.addListener(async r=>{console.debug("received msg",r);try{await Po(e,r.question)}catch(t){e.postMessage({error:t.message})}})});W.default.runtime.onMessage.addListener(async e=>{if(e.type==="FEEDBACK"){let r=await fe();await cr(r,e.data)}else if(e.type==="OPEN_OPTIONS_PAGE")W.default.runtime.openOptionsPage();else if(e.type==="GET_ACCESS_TOKEN")return fe()});W.default.runtime.onInstalled.addListener(e=>{e.reason==="install"&&W.default.runtime.openOptionsPage()});})();
+  // node_modules/.pnpm/webextension-polyfill@0.10.0/node_modules/webextension-polyfill/dist/browser-polyfill.js
+  var require_browser_polyfill = __commonJS({
+    "node_modules/.pnpm/webextension-polyfill@0.10.0/node_modules/webextension-polyfill/dist/browser-polyfill.js"(exports2, module2) {
+      (function(global2, factory) {
+        if (typeof define === "function" && define.amd) {
+          define("webextension-polyfill", ["module"], factory);
+        } else if (typeof exports2 !== "undefined") {
+          factory(module2);
+        } else {
+          var mod = {
+            exports: {}
+          };
+          factory(mod);
+          global2.browser = mod.exports;
+        }
+      })(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : exports2, function(module3) {
+        "use strict";
+        if (!globalThis.chrome?.runtime?.id) {
+          throw new Error("This script should only be loaded in a browser extension.");
+        }
+        if (typeof globalThis.browser === "undefined" || Object.getPrototypeOf(globalThis.browser) !== Object.prototype) {
+          const CHROME_SEND_MESSAGE_CALLBACK_NO_RESPONSE_MESSAGE = "The message port closed before a response was received.";
+          const wrapAPIs = (extensionAPIs) => {
+            const apiMetadata = {
+              "alarms": {
+                "clear": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "clearAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "get": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "bookmarks": {
+                "create": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getChildren": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getRecent": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getSubTree": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getTree": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "move": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeTree": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "search": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              },
+              "browserAction": {
+                "disable": {
+                  "minArgs": 0,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "enable": {
+                  "minArgs": 0,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "getBadgeBackgroundColor": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getBadgeText": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "openPopup": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "setBadgeBackgroundColor": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setBadgeText": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setIcon": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "setPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                }
+              },
+              "browsingData": {
+                "remove": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "removeCache": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeCookies": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeDownloads": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeFormData": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeHistory": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeLocalStorage": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removePasswords": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removePluginData": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "settings": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "commands": {
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "contextMenus": {
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              },
+              "cookies": {
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAllCookieStores": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "set": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "devtools": {
+                "inspectedWindow": {
+                  "eval": {
+                    "minArgs": 1,
+                    "maxArgs": 2,
+                    "singleCallbackArg": false
+                  }
+                },
+                "panels": {
+                  "create": {
+                    "minArgs": 3,
+                    "maxArgs": 3,
+                    "singleCallbackArg": true
+                  },
+                  "elements": {
+                    "createSidebarPane": {
+                      "minArgs": 1,
+                      "maxArgs": 1
+                    }
+                  }
+                }
+              },
+              "downloads": {
+                "cancel": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "download": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "erase": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getFileIcon": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "open": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "pause": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeFile": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "resume": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "search": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "show": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                }
+              },
+              "extension": {
+                "isAllowedFileSchemeAccess": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "isAllowedIncognitoAccess": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "history": {
+                "addUrl": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "deleteAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "deleteRange": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "deleteUrl": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getVisits": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "search": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "i18n": {
+                "detectLanguage": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAcceptLanguages": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "identity": {
+                "launchWebAuthFlow": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "idle": {
+                "queryState": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "management": {
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getSelf": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "setEnabled": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "uninstallSelf": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                }
+              },
+              "notifications": {
+                "clear": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "create": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getPermissionLevel": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              },
+              "pageAction": {
+                "getPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "hide": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setIcon": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "setPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "show": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                }
+              },
+              "permissions": {
+                "contains": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "request": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "runtime": {
+                "getBackgroundPage": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getPlatformInfo": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "openOptionsPage": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "requestUpdateCheck": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "sendMessage": {
+                  "minArgs": 1,
+                  "maxArgs": 3
+                },
+                "sendNativeMessage": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "setUninstallURL": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "sessions": {
+                "getDevices": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getRecentlyClosed": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "restore": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                }
+              },
+              "storage": {
+                "local": {
+                  "clear": {
+                    "minArgs": 0,
+                    "maxArgs": 0
+                  },
+                  "get": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "getBytesInUse": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "remove": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  },
+                  "set": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  }
+                },
+                "managed": {
+                  "get": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "getBytesInUse": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  }
+                },
+                "sync": {
+                  "clear": {
+                    "minArgs": 0,
+                    "maxArgs": 0
+                  },
+                  "get": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "getBytesInUse": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "remove": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  },
+                  "set": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  }
+                }
+              },
+              "tabs": {
+                "captureVisibleTab": {
+                  "minArgs": 0,
+                  "maxArgs": 2
+                },
+                "create": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "detectLanguage": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "discard": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "duplicate": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "executeScript": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getCurrent": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getZoom": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getZoomSettings": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "goBack": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "goForward": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "highlight": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "insertCSS": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "move": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "query": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "reload": {
+                  "minArgs": 0,
+                  "maxArgs": 2
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeCSS": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "sendMessage": {
+                  "minArgs": 2,
+                  "maxArgs": 3
+                },
+                "setZoom": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "setZoomSettings": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "update": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                }
+              },
+              "topSites": {
+                "get": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "webNavigation": {
+                "getAllFrames": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getFrame": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "webRequest": {
+                "handlerBehaviorChanged": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "windows": {
+                "create": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getCurrent": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getLastFocused": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              }
+            };
+            if (Object.keys(apiMetadata).length === 0) {
+              throw new Error("api-metadata.json has not been included in browser-polyfill");
+            }
+            class DefaultWeakMap extends WeakMap {
+              constructor(createItem, items = void 0) {
+                super(items);
+                this.createItem = createItem;
+              }
+              get(key) {
+                if (!this.has(key)) {
+                  this.set(key, this.createItem(key));
+                }
+                return super.get(key);
+              }
+            }
+            const isThenable = (value) => {
+              return value && typeof value === "object" && typeof value.then === "function";
+            };
+            const makeCallback = (promise, metadata) => {
+              return (...callbackArgs) => {
+                if (extensionAPIs.runtime.lastError) {
+                  promise.reject(new Error(extensionAPIs.runtime.lastError.message));
+                } else if (metadata.singleCallbackArg || callbackArgs.length <= 1 && metadata.singleCallbackArg !== false) {
+                  promise.resolve(callbackArgs[0]);
+                } else {
+                  promise.resolve(callbackArgs);
+                }
+              };
+            };
+            const pluralizeArguments = (numArgs) => numArgs == 1 ? "argument" : "arguments";
+            const wrapAsyncFunction = (name, metadata) => {
+              return function asyncFunctionWrapper(target, ...args) {
+                if (args.length < metadata.minArgs) {
+                  throw new Error(`Expected at least ${metadata.minArgs} ${pluralizeArguments(metadata.minArgs)} for ${name}(), got ${args.length}`);
+                }
+                if (args.length > metadata.maxArgs) {
+                  throw new Error(`Expected at most ${metadata.maxArgs} ${pluralizeArguments(metadata.maxArgs)} for ${name}(), got ${args.length}`);
+                }
+                return new Promise((resolve, reject) => {
+                  if (metadata.fallbackToNoCallback) {
+                    try {
+                      target[name](...args, makeCallback({
+                        resolve,
+                        reject
+                      }, metadata));
+                    } catch (cbError) {
+                      console.warn(`${name} API method doesn't seem to support the callback parameter, falling back to call it without a callback: `, cbError);
+                      target[name](...args);
+                      metadata.fallbackToNoCallback = false;
+                      metadata.noCallback = true;
+                      resolve();
+                    }
+                  } else if (metadata.noCallback) {
+                    target[name](...args);
+                    resolve();
+                  } else {
+                    target[name](...args, makeCallback({
+                      resolve,
+                      reject
+                    }, metadata));
+                  }
+                });
+              };
+            };
+            const wrapMethod = (target, method, wrapper) => {
+              return new Proxy(method, {
+                apply(targetMethod, thisObj, args) {
+                  return wrapper.call(thisObj, target, ...args);
+                }
+              });
+            };
+            let hasOwnProperty6 = Function.call.bind(Object.prototype.hasOwnProperty);
+            const wrapObject = (target, wrappers = {}, metadata = {}) => {
+              let cache2 = /* @__PURE__ */ Object.create(null);
+              let handlers = {
+                has(proxyTarget2, prop) {
+                  return prop in target || prop in cache2;
+                },
+                get(proxyTarget2, prop, receiver) {
+                  if (prop in cache2) {
+                    return cache2[prop];
+                  }
+                  if (!(prop in target)) {
+                    return void 0;
+                  }
+                  let value = target[prop];
+                  if (typeof value === "function") {
+                    if (typeof wrappers[prop] === "function") {
+                      value = wrapMethod(target, target[prop], wrappers[prop]);
+                    } else if (hasOwnProperty6(metadata, prop)) {
+                      let wrapper = wrapAsyncFunction(prop, metadata[prop]);
+                      value = wrapMethod(target, target[prop], wrapper);
+                    } else {
+                      value = value.bind(target);
+                    }
+                  } else if (typeof value === "object" && value !== null && (hasOwnProperty6(wrappers, prop) || hasOwnProperty6(metadata, prop))) {
+                    value = wrapObject(value, wrappers[prop], metadata[prop]);
+                  } else if (hasOwnProperty6(metadata, "*")) {
+                    value = wrapObject(value, wrappers[prop], metadata["*"]);
+                  } else {
+                    Object.defineProperty(cache2, prop, {
+                      configurable: true,
+                      enumerable: true,
+                      get() {
+                        return target[prop];
+                      },
+                      set(value2) {
+                        target[prop] = value2;
+                      }
+                    });
+                    return value;
+                  }
+                  cache2[prop] = value;
+                  return value;
+                },
+                set(proxyTarget2, prop, value, receiver) {
+                  if (prop in cache2) {
+                    cache2[prop] = value;
+                  } else {
+                    target[prop] = value;
+                  }
+                  return true;
+                },
+                defineProperty(proxyTarget2, prop, desc) {
+                  return Reflect.defineProperty(cache2, prop, desc);
+                },
+                deleteProperty(proxyTarget2, prop) {
+                  return Reflect.deleteProperty(cache2, prop);
+                }
+              };
+              let proxyTarget = Object.create(target);
+              return new Proxy(proxyTarget, handlers);
+            };
+            const wrapEvent = (wrapperMap) => ({
+              addListener(target, listener, ...args) {
+                target.addListener(wrapperMap.get(listener), ...args);
+              },
+              hasListener(target, listener) {
+                return target.hasListener(wrapperMap.get(listener));
+              },
+              removeListener(target, listener) {
+                target.removeListener(wrapperMap.get(listener));
+              }
+            });
+            const onRequestFinishedWrappers = new DefaultWeakMap((listener) => {
+              if (typeof listener !== "function") {
+                return listener;
+              }
+              return function onRequestFinished(req) {
+                const wrappedReq = wrapObject(
+                  req,
+                  {},
+                  {
+                    getContent: {
+                      minArgs: 0,
+                      maxArgs: 0
+                    }
+                  }
+                );
+                listener(wrappedReq);
+              };
+            });
+            const onMessageWrappers = new DefaultWeakMap((listener) => {
+              if (typeof listener !== "function") {
+                return listener;
+              }
+              return function onMessage(message, sender, sendResponse) {
+                let didCallSendResponse = false;
+                let wrappedSendResponse;
+                let sendResponsePromise = new Promise((resolve) => {
+                  wrappedSendResponse = function(response) {
+                    didCallSendResponse = true;
+                    resolve(response);
+                  };
+                });
+                let result;
+                try {
+                  result = listener(message, sender, wrappedSendResponse);
+                } catch (err) {
+                  result = Promise.reject(err);
+                }
+                const isResultThenable = result !== true && isThenable(result);
+                if (result !== true && !isResultThenable && !didCallSendResponse) {
+                  return false;
+                }
+                const sendPromisedResult = (promise) => {
+                  promise.then((msg) => {
+                    sendResponse(msg);
+                  }, (error) => {
+                    let message2;
+                    if (error && (error instanceof Error || typeof error.message === "string")) {
+                      message2 = error.message;
+                    } else {
+                      message2 = "An unexpected error occurred";
+                    }
+                    sendResponse({
+                      __mozWebExtensionPolyfillReject__: true,
+                      message: message2
+                    });
+                  }).catch((err) => {
+                    console.error("Failed to send onMessage rejected reply", err);
+                  });
+                };
+                if (isResultThenable) {
+                  sendPromisedResult(result);
+                } else {
+                  sendPromisedResult(sendResponsePromise);
+                }
+                return true;
+              };
+            });
+            const wrappedSendMessageCallback = ({
+              reject,
+              resolve
+            }, reply) => {
+              if (extensionAPIs.runtime.lastError) {
+                if (extensionAPIs.runtime.lastError.message === CHROME_SEND_MESSAGE_CALLBACK_NO_RESPONSE_MESSAGE) {
+                  resolve();
+                } else {
+                  reject(new Error(extensionAPIs.runtime.lastError.message));
+                }
+              } else if (reply && reply.__mozWebExtensionPolyfillReject__) {
+                reject(new Error(reply.message));
+              } else {
+                resolve(reply);
+              }
+            };
+            const wrappedSendMessage = (name, metadata, apiNamespaceObj, ...args) => {
+              if (args.length < metadata.minArgs) {
+                throw new Error(`Expected at least ${metadata.minArgs} ${pluralizeArguments(metadata.minArgs)} for ${name}(), got ${args.length}`);
+              }
+              if (args.length > metadata.maxArgs) {
+                throw new Error(`Expected at most ${metadata.maxArgs} ${pluralizeArguments(metadata.maxArgs)} for ${name}(), got ${args.length}`);
+              }
+              return new Promise((resolve, reject) => {
+                const wrappedCb = wrappedSendMessageCallback.bind(null, {
+                  resolve,
+                  reject
+                });
+                args.push(wrappedCb);
+                apiNamespaceObj.sendMessage(...args);
+              });
+            };
+            const staticWrappers = {
+              devtools: {
+                network: {
+                  onRequestFinished: wrapEvent(onRequestFinishedWrappers)
+                }
+              },
+              runtime: {
+                onMessage: wrapEvent(onMessageWrappers),
+                onMessageExternal: wrapEvent(onMessageWrappers),
+                sendMessage: wrappedSendMessage.bind(null, "sendMessage", {
+                  minArgs: 1,
+                  maxArgs: 3
+                })
+              },
+              tabs: {
+                sendMessage: wrappedSendMessage.bind(null, "sendMessage", {
+                  minArgs: 2,
+                  maxArgs: 3
+                })
+              }
+            };
+            const settingMetadata = {
+              clear: {
+                minArgs: 1,
+                maxArgs: 1
+              },
+              get: {
+                minArgs: 1,
+                maxArgs: 1
+              },
+              set: {
+                minArgs: 1,
+                maxArgs: 1
+              }
+            };
+            apiMetadata.privacy = {
+              network: {
+                "*": settingMetadata
+              },
+              services: {
+                "*": settingMetadata
+              },
+              websites: {
+                "*": settingMetadata
+              }
+            };
+            return wrapObject(extensionAPIs, staticWrappers, apiMetadata);
+          };
+          module3.exports = wrapAPIs(chrome);
+        } else {
+          module3.exports = globalThis.browser;
+        }
+      });
+    }
+  });
+
+  // node_modules/.pnpm/p-defer@1.0.0/node_modules/p-defer/index.js
+  var require_p_defer = __commonJS({
+    "node_modules/.pnpm/p-defer@1.0.0/node_modules/p-defer/index.js"(exports2, module2) {
+      "use strict";
+      module2.exports = () => {
+        const ret = {};
+        ret.promise = new Promise((resolve, reject) => {
+          ret.resolve = resolve;
+          ret.reject = reject;
+        });
+        return ret;
+      };
+    }
+  });
+
+  // node_modules/.pnpm/map-age-cleaner@0.2.0/node_modules/map-age-cleaner/dist/index.js
+  var require_dist = __commonJS({
+    "node_modules/.pnpm/map-age-cleaner@0.2.0/node_modules/map-age-cleaner/dist/index.js"(exports2, module2) {
+      "use strict";
+      var pDefer = require_p_defer();
+      function mapAgeCleaner(map, property = "maxAge") {
+        let processingKey;
+        let processingTimer;
+        let processingDeferred;
+        const cleanup = async () => {
+          if (processingKey !== void 0) {
+            return;
+          }
+          const setupTimer = async (item) => {
+            processingDeferred = pDefer();
+            const delay = item[1][property] - Date.now();
+            if (delay <= 0) {
+              map.delete(item[0]);
+              processingDeferred.resolve();
+              return;
+            }
+            processingKey = item[0];
+            processingTimer = setTimeout(() => {
+              map.delete(item[0]);
+              if (processingDeferred) {
+                processingDeferred.resolve();
+              }
+            }, delay);
+            if (typeof processingTimer.unref === "function") {
+              processingTimer.unref();
+            }
+            return processingDeferred.promise;
+          };
+          try {
+            for (const entry of map) {
+              await setupTimer(entry);
+            }
+          } catch (_a) {
+          }
+          processingKey = void 0;
+        };
+        const reset = () => {
+          processingKey = void 0;
+          if (processingTimer !== void 0) {
+            clearTimeout(processingTimer);
+            processingTimer = void 0;
+          }
+          if (processingDeferred !== void 0) {
+            processingDeferred.reject(void 0);
+            processingDeferred = void 0;
+          }
+        };
+        const originalSet = map.set.bind(map);
+        map.set = (key, value) => {
+          if (map.has(key)) {
+            map.delete(key);
+          }
+          const result = originalSet(key, value);
+          if (processingKey && processingKey === key) {
+            reset();
+          }
+          cleanup();
+          return result;
+        };
+        cleanup();
+        return map;
+      }
+      module2.exports = mapAgeCleaner;
+    }
+  });
+
+  // node_modules/.pnpm/expiry-map@2.0.0/node_modules/expiry-map/dist/index.js
+  var require_dist2 = __commonJS({
+    "node_modules/.pnpm/expiry-map@2.0.0/node_modules/expiry-map/dist/index.js"(exports2, module2) {
+      "use strict";
+      var mapAgeCleaner = require_dist();
+      var ExpiryMap2 = class {
+        constructor(maxAge, data) {
+          this.maxAge = maxAge;
+          this[Symbol.toStringTag] = "Map";
+          this.data = /* @__PURE__ */ new Map();
+          mapAgeCleaner(this.data);
+          if (data) {
+            for (const [key, value] of data) {
+              this.set(key, value);
+            }
+          }
+        }
+        get size() {
+          return this.data.size;
+        }
+        clear() {
+          this.data.clear();
+        }
+        delete(key) {
+          return this.data.delete(key);
+        }
+        has(key) {
+          return this.data.has(key);
+        }
+        get(key) {
+          const value = this.data.get(key);
+          if (value) {
+            return value.data;
+          }
+          return;
+        }
+        set(key, value) {
+          this.data.set(key, {
+            maxAge: Date.now() + this.maxAge,
+            data: value
+          });
+          return this;
+        }
+        values() {
+          return this.createIterator((item) => item[1].data);
+        }
+        keys() {
+          return this.data.keys();
+        }
+        entries() {
+          return this.createIterator((item) => [item[0], item[1].data]);
+        }
+        forEach(callbackfn, thisArg) {
+          for (const [key, value] of this.entries()) {
+            callbackfn.apply(thisArg, [value, key, this]);
+          }
+        }
+        [Symbol.iterator]() {
+          return this.entries();
+        }
+        *createIterator(projection) {
+          for (const item of this.data.entries()) {
+            yield projection(item);
+          }
+        }
+      };
+      module2.exports = ExpiryMap2;
+    }
+  });
+
+  // src/background/index.ts
+  var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_freeGlobal.js
+  var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+  var freeGlobal_default = freeGlobal;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_root.js
+  var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+  var root = freeGlobal_default || freeSelf || Function("return this")();
+  var root_default = root;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Symbol.js
+  var Symbol2 = root_default.Symbol;
+  var Symbol_default = Symbol2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getRawTag.js
+  var objectProto = Object.prototype;
+  var hasOwnProperty = objectProto.hasOwnProperty;
+  var nativeObjectToString = objectProto.toString;
+  var symToStringTag = Symbol_default ? Symbol_default.toStringTag : void 0;
+  function getRawTag(value) {
+    var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+    try {
+      value[symToStringTag] = void 0;
+      var unmasked = true;
+    } catch (e) {
+    }
+    var result = nativeObjectToString.call(value);
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag] = tag;
+      } else {
+        delete value[symToStringTag];
+      }
+    }
+    return result;
+  }
+  var getRawTag_default = getRawTag;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_objectToString.js
+  var objectProto2 = Object.prototype;
+  var nativeObjectToString2 = objectProto2.toString;
+  function objectToString(value) {
+    return nativeObjectToString2.call(value);
+  }
+  var objectToString_default = objectToString;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseGetTag.js
+  var nullTag = "[object Null]";
+  var undefinedTag = "[object Undefined]";
+  var symToStringTag2 = Symbol_default ? Symbol_default.toStringTag : void 0;
+  function baseGetTag(value) {
+    if (value == null) {
+      return value === void 0 ? undefinedTag : nullTag;
+    }
+    return symToStringTag2 && symToStringTag2 in Object(value) ? getRawTag_default(value) : objectToString_default(value);
+  }
+  var baseGetTag_default = baseGetTag;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isObjectLike.js
+  function isObjectLike(value) {
+    return value != null && typeof value == "object";
+  }
+  var isObjectLike_default = isObjectLike;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isArray.js
+  var isArray = Array.isArray;
+  var isArray_default = isArray;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isObject.js
+  function isObject(value) {
+    var type = typeof value;
+    return value != null && (type == "object" || type == "function");
+  }
+  var isObject_default = isObject;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isFunction.js
+  var asyncTag = "[object AsyncFunction]";
+  var funcTag = "[object Function]";
+  var genTag = "[object GeneratorFunction]";
+  var proxyTag = "[object Proxy]";
+  function isFunction(value) {
+    if (!isObject_default(value)) {
+      return false;
+    }
+    var tag = baseGetTag_default(value);
+    return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+  }
+  var isFunction_default = isFunction;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_coreJsData.js
+  var coreJsData = root_default["__core-js_shared__"];
+  var coreJsData_default = coreJsData;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_isMasked.js
+  var maskSrcKey = function() {
+    var uid = /[^.]+$/.exec(coreJsData_default && coreJsData_default.keys && coreJsData_default.keys.IE_PROTO || "");
+    return uid ? "Symbol(src)_1." + uid : "";
+  }();
+  function isMasked(func) {
+    return !!maskSrcKey && maskSrcKey in func;
+  }
+  var isMasked_default = isMasked;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_toSource.js
+  var funcProto = Function.prototype;
+  var funcToString = funcProto.toString;
+  function toSource(func) {
+    if (func != null) {
+      try {
+        return funcToString.call(func);
+      } catch (e) {
+      }
+      try {
+        return func + "";
+      } catch (e) {
+      }
+    }
+    return "";
+  }
+  var toSource_default = toSource;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseIsNative.js
+  var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+  var reIsHostCtor = /^\[object .+?Constructor\]$/;
+  var funcProto2 = Function.prototype;
+  var objectProto3 = Object.prototype;
+  var funcToString2 = funcProto2.toString;
+  var hasOwnProperty2 = objectProto3.hasOwnProperty;
+  var reIsNative = RegExp(
+    "^" + funcToString2.call(hasOwnProperty2).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+  );
+  function baseIsNative(value) {
+    if (!isObject_default(value) || isMasked_default(value)) {
+      return false;
+    }
+    var pattern = isFunction_default(value) ? reIsNative : reIsHostCtor;
+    return pattern.test(toSource_default(value));
+  }
+  var baseIsNative_default = baseIsNative;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getValue.js
+  function getValue(object, key) {
+    return object == null ? void 0 : object[key];
+  }
+  var getValue_default = getValue;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getNative.js
+  function getNative(object, key) {
+    var value = getValue_default(object, key);
+    return baseIsNative_default(value) ? value : void 0;
+  }
+  var getNative_default = getNative;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_WeakMap.js
+  var WeakMap2 = getNative_default(root_default, "WeakMap");
+  var WeakMap_default = WeakMap2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isLength.js
+  var MAX_SAFE_INTEGER = 9007199254740991;
+  function isLength(value) {
+    return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+  }
+  var isLength_default = isLength;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isArrayLike.js
+  function isArrayLike(value) {
+    return value != null && isLength_default(value.length) && !isFunction_default(value);
+  }
+  var isArrayLike_default = isArrayLike;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_isPrototype.js
+  var objectProto4 = Object.prototype;
+  function isPrototype(value) {
+    var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto4;
+    return value === proto;
+  }
+  var isPrototype_default = isPrototype;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseIsArguments.js
+  var argsTag = "[object Arguments]";
+  function baseIsArguments(value) {
+    return isObjectLike_default(value) && baseGetTag_default(value) == argsTag;
+  }
+  var baseIsArguments_default = baseIsArguments;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isArguments.js
+  var objectProto5 = Object.prototype;
+  var hasOwnProperty3 = objectProto5.hasOwnProperty;
+  var propertyIsEnumerable = objectProto5.propertyIsEnumerable;
+  var isArguments = baseIsArguments_default(function() {
+    return arguments;
+  }()) ? baseIsArguments_default : function(value) {
+    return isObjectLike_default(value) && hasOwnProperty3.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+  };
+  var isArguments_default = isArguments;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/stubFalse.js
+  function stubFalse() {
+    return false;
+  }
+  var stubFalse_default = stubFalse;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isBuffer.js
+  var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+  var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+  var moduleExports = freeModule && freeModule.exports === freeExports;
+  var Buffer2 = moduleExports ? root_default.Buffer : void 0;
+  var nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : void 0;
+  var isBuffer = nativeIsBuffer || stubFalse_default;
+  var isBuffer_default = isBuffer;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseIsTypedArray.js
+  var argsTag2 = "[object Arguments]";
+  var arrayTag = "[object Array]";
+  var boolTag = "[object Boolean]";
+  var dateTag = "[object Date]";
+  var errorTag = "[object Error]";
+  var funcTag2 = "[object Function]";
+  var mapTag = "[object Map]";
+  var numberTag = "[object Number]";
+  var objectTag = "[object Object]";
+  var regexpTag = "[object RegExp]";
+  var setTag = "[object Set]";
+  var stringTag = "[object String]";
+  var weakMapTag = "[object WeakMap]";
+  var arrayBufferTag = "[object ArrayBuffer]";
+  var dataViewTag = "[object DataView]";
+  var float32Tag = "[object Float32Array]";
+  var float64Tag = "[object Float64Array]";
+  var int8Tag = "[object Int8Array]";
+  var int16Tag = "[object Int16Array]";
+  var int32Tag = "[object Int32Array]";
+  var uint8Tag = "[object Uint8Array]";
+  var uint8ClampedTag = "[object Uint8ClampedArray]";
+  var uint16Tag = "[object Uint16Array]";
+  var uint32Tag = "[object Uint32Array]";
+  var typedArrayTags = {};
+  typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+  typedArrayTags[argsTag2] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag2] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+  function baseIsTypedArray(value) {
+    return isObjectLike_default(value) && isLength_default(value.length) && !!typedArrayTags[baseGetTag_default(value)];
+  }
+  var baseIsTypedArray_default = baseIsTypedArray;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseUnary.js
+  function baseUnary(func) {
+    return function(value) {
+      return func(value);
+    };
+  }
+  var baseUnary_default = baseUnary;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_nodeUtil.js
+  var freeExports2 = typeof exports == "object" && exports && !exports.nodeType && exports;
+  var freeModule2 = freeExports2 && typeof module == "object" && module && !module.nodeType && module;
+  var moduleExports2 = freeModule2 && freeModule2.exports === freeExports2;
+  var freeProcess = moduleExports2 && freeGlobal_default.process;
+  var nodeUtil = function() {
+    try {
+      var types = freeModule2 && freeModule2.require && freeModule2.require("util").types;
+      if (types) {
+        return types;
+      }
+      return freeProcess && freeProcess.binding && freeProcess.binding("util");
+    } catch (e) {
+    }
+  }();
+  var nodeUtil_default = nodeUtil;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isTypedArray.js
+  var nodeIsTypedArray = nodeUtil_default && nodeUtil_default.isTypedArray;
+  var isTypedArray = nodeIsTypedArray ? baseUnary_default(nodeIsTypedArray) : baseIsTypedArray_default;
+  var isTypedArray_default = isTypedArray;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_overArg.js
+  function overArg(func, transform) {
+    return function(arg) {
+      return func(transform(arg));
+    };
+  }
+  var overArg_default = overArg;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_nativeKeys.js
+  var nativeKeys = overArg_default(Object.keys, Object);
+  var nativeKeys_default = nativeKeys;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseKeys.js
+  var objectProto6 = Object.prototype;
+  var hasOwnProperty4 = objectProto6.hasOwnProperty;
+  function baseKeys(object) {
+    if (!isPrototype_default(object)) {
+      return nativeKeys_default(object);
+    }
+    var result = [];
+    for (var key in Object(object)) {
+      if (hasOwnProperty4.call(object, key) && key != "constructor") {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+  var baseKeys_default = baseKeys;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Map.js
+  var Map2 = getNative_default(root_default, "Map");
+  var Map_default = Map2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_DataView.js
+  var DataView = getNative_default(root_default, "DataView");
+  var DataView_default = DataView;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Promise.js
+  var Promise2 = getNative_default(root_default, "Promise");
+  var Promise_default = Promise2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Set.js
+  var Set = getNative_default(root_default, "Set");
+  var Set_default = Set;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getTag.js
+  var mapTag2 = "[object Map]";
+  var objectTag2 = "[object Object]";
+  var promiseTag = "[object Promise]";
+  var setTag2 = "[object Set]";
+  var weakMapTag2 = "[object WeakMap]";
+  var dataViewTag2 = "[object DataView]";
+  var dataViewCtorString = toSource_default(DataView_default);
+  var mapCtorString = toSource_default(Map_default);
+  var promiseCtorString = toSource_default(Promise_default);
+  var setCtorString = toSource_default(Set_default);
+  var weakMapCtorString = toSource_default(WeakMap_default);
+  var getTag = baseGetTag_default;
+  if (DataView_default && getTag(new DataView_default(new ArrayBuffer(1))) != dataViewTag2 || Map_default && getTag(new Map_default()) != mapTag2 || Promise_default && getTag(Promise_default.resolve()) != promiseTag || Set_default && getTag(new Set_default()) != setTag2 || WeakMap_default && getTag(new WeakMap_default()) != weakMapTag2) {
+    getTag = function(value) {
+      var result = baseGetTag_default(value), Ctor = result == objectTag2 ? value.constructor : void 0, ctorString = Ctor ? toSource_default(Ctor) : "";
+      if (ctorString) {
+        switch (ctorString) {
+          case dataViewCtorString:
+            return dataViewTag2;
+          case mapCtorString:
+            return mapTag2;
+          case promiseCtorString:
+            return promiseTag;
+          case setCtorString:
+            return setTag2;
+          case weakMapCtorString:
+            return weakMapTag2;
+        }
+      }
+      return result;
+    };
+  }
+  var getTag_default = getTag;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isEmpty.js
+  var mapTag3 = "[object Map]";
+  var setTag3 = "[object Set]";
+  var objectProto7 = Object.prototype;
+  var hasOwnProperty5 = objectProto7.hasOwnProperty;
+  function isEmpty(value) {
+    if (value == null) {
+      return true;
+    }
+    if (isArrayLike_default(value) && (isArray_default(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer_default(value) || isTypedArray_default(value) || isArguments_default(value))) {
+      return !value.length;
+    }
+    var tag = getTag_default(value);
+    if (tag == mapTag3 || tag == setTag3) {
+      return !value.size;
+    }
+    if (isPrototype_default(value)) {
+      return !baseKeys_default(value).length;
+    }
+    for (var key in value) {
+      if (hasOwnProperty5.call(value, key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  var isEmpty_default = isEmpty;
+
+  // src/config.ts
+  var import_webextension_polyfill = __toESM(require_browser_polyfill());
+  async function getProviderConfigs() {
+    const { provider = "chatgpt" /* ChatGPT */ } = await import_webextension_polyfill.default.storage.local.get("provider");
+    const configKey = `provider:${"gpt3" /* GPT3 */}`;
+    const result = await import_webextension_polyfill.default.storage.local.get(configKey);
+    return {
+      provider,
+      configs: {
+        ["gpt3" /* GPT3 */]: result[configKey]
+      }
+    };
+  }
+
+  // src/background/providers/chatgpt.ts
+  var import_expiry_map = __toESM(require_dist2());
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/rng.js
+  var getRandomValues;
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    if (!getRandomValues) {
+      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+      if (!getRandomValues) {
+        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+      }
+    }
+    return getRandomValues(rnds8);
+  }
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/stringify.js
+  var byteToHex = [];
+  for (let i = 0; i < 256; ++i) {
+    byteToHex.push((i + 256).toString(16).slice(1));
+  }
+  function unsafeStringify(arr, offset = 0) {
+    return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+  }
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/native.js
+  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+  var native_default = {
+    randomUUID
+  };
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/v4.js
+  function v4(options, buf, offset) {
+    if (native_default.randomUUID && !buf && !options) {
+      return native_default.randomUUID();
+    }
+    options = options || {};
+    const rnds = options.random || (options.rng || rng)();
+    rnds[6] = rnds[6] & 15 | 64;
+    rnds[8] = rnds[8] & 63 | 128;
+    if (buf) {
+      offset = offset || 0;
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = rnds[i];
+      }
+      return buf;
+    }
+    return unsafeStringify(rnds);
+  }
+  var v4_default = v4;
+
+  // node_modules/.pnpm/eventsource-parser@0.0.5/node_modules/eventsource-parser/dist/index.mjs
+  function createParser(onParse) {
+    let isFirstChunk;
+    let buffer;
+    let startingPosition;
+    let startingFieldLength;
+    let eventId;
+    let eventName;
+    let data;
+    reset();
+    return {
+      feed,
+      reset
+    };
+    function reset() {
+      isFirstChunk = true;
+      buffer = "";
+      startingPosition = 0;
+      startingFieldLength = -1;
+      eventId = void 0;
+      eventName = void 0;
+      data = "";
+    }
+    function feed(chunk) {
+      buffer = buffer ? buffer + chunk : chunk;
+      if (isFirstChunk && hasBom(buffer)) {
+        buffer = buffer.slice(BOM.length);
+      }
+      isFirstChunk = false;
+      const length = buffer.length;
+      let position = 0;
+      let discardTrailingNewline = false;
+      while (position < length) {
+        if (discardTrailingNewline) {
+          if (buffer[position] === "\n") {
+            ++position;
+          }
+          discardTrailingNewline = false;
+        }
+        let lineLength = -1;
+        let fieldLength = startingFieldLength;
+        let character;
+        for (let index = startingPosition; lineLength < 0 && index < length; ++index) {
+          character = buffer[index];
+          if (character === ":" && fieldLength < 0) {
+            fieldLength = index - position;
+          } else if (character === "\r") {
+            discardTrailingNewline = true;
+            lineLength = index - position;
+          } else if (character === "\n") {
+            lineLength = index - position;
+          }
+        }
+        if (lineLength < 0) {
+          startingPosition = length - position;
+          startingFieldLength = fieldLength;
+          break;
+        } else {
+          startingPosition = 0;
+          startingFieldLength = -1;
+        }
+        parseEventStreamLine(buffer, position, fieldLength, lineLength);
+        position += lineLength + 1;
+      }
+      if (position === length) {
+        buffer = "";
+      } else if (position > 0) {
+        buffer = buffer.slice(position);
+      }
+    }
+    function parseEventStreamLine(lineBuffer, index, fieldLength, lineLength) {
+      if (lineLength === 0) {
+        if (data.length > 0) {
+          onParse({
+            type: "event",
+            id: eventId,
+            event: eventName || void 0,
+            data: data.slice(0, -1)
+          });
+          data = "";
+          eventId = void 0;
+        }
+        eventName = void 0;
+        return;
+      }
+      const noValue = fieldLength < 0;
+      const field = lineBuffer.slice(index, index + (noValue ? lineLength : fieldLength));
+      let step = 0;
+      if (noValue) {
+        step = lineLength;
+      } else if (lineBuffer[index + fieldLength + 1] === " ") {
+        step = fieldLength + 2;
+      } else {
+        step = fieldLength + 1;
+      }
+      const position = index + step;
+      const valueLength = lineLength - step;
+      const value = lineBuffer.slice(position, position + valueLength).toString();
+      if (field === "data") {
+        data += value ? "".concat(value, "\n") : "\n";
+      } else if (field === "event") {
+        eventName = value;
+      } else if (field === "id" && !value.includes("\0")) {
+        eventId = value;
+      } else if (field === "retry") {
+        const retry = parseInt(value, 10);
+        if (!Number.isNaN(retry)) {
+          onParse({
+            type: "reconnect-interval",
+            value: retry
+          });
+        }
+      }
+    }
+  }
+  var BOM = [239, 187, 191];
+  function hasBom(buffer) {
+    return BOM.every((charCode, index) => buffer.charCodeAt(index) === charCode);
+  }
+
+  // src/background/stream-async-iterable.ts
+  async function* streamAsyncIterable(stream) {
+    const reader = stream.getReader();
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          return;
+        }
+        yield value;
+      }
+    } finally {
+      reader.releaseLock();
+    }
+  }
+
+  // src/background/fetch-sse.ts
+  async function fetchSSE(resource, options) {
+    const { onMessage, ...fetchOptions } = options;
+    const resp = await fetch(resource, fetchOptions);
+    if (!resp.ok) {
+      const error = await resp.json().catch(() => ({}));
+      throw new Error(!isEmpty_default(error) ? JSON.stringify(error) : `${resp.status} ${resp.statusText}`);
+    }
+    const parser = createParser((event) => {
+      if (event.type === "event") {
+        onMessage(event.data);
+      }
+    });
+    for await (const chunk of streamAsyncIterable(resp.body)) {
+      const str = new TextDecoder().decode(chunk);
+      parser.feed(str);
+    }
+  }
+
+  // src/background/providers/chatgpt.ts
+  async function request(token, method, path, data) {
+    return fetch(`https://chat.openai.com/backend-api${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: data === void 0 ? void 0 : JSON.stringify(data)
+    });
+  }
+  async function sendMessageFeedback(token, data) {
+    await request(token, "POST", "/conversation/message_feedback", data);
+  }
+  async function setConversationProperty(token, conversationId, propertyObject) {
+    await request(token, "PATCH", `/conversation/${conversationId}`, propertyObject);
+  }
+  var KEY_ACCESS_TOKEN = "accessToken";
+  var cache = new import_expiry_map.default(10 * 1e3);
+  async function getChatGPTAccessToken() {
+    if (cache.get(KEY_ACCESS_TOKEN)) {
+      return cache.get(KEY_ACCESS_TOKEN);
+    }
+    const resp = await fetch("https://chat.openai.com/api/auth/session");
+    if (resp.status === 403) {
+      throw new Error("CLOUDFLARE");
+    }
+    const data = await resp.json().catch(() => ({}));
+    if (!data.accessToken) {
+      throw new Error("UNAUTHORIZED");
+    }
+    cache.set(KEY_ACCESS_TOKEN, data.accessToken);
+    return data.accessToken;
+  }
+  var ChatGPTProvider = class {
+    constructor(token) {
+      this.token = token;
+      this.token = token;
+    }
+    async fetchModels() {
+      const resp = await request(this.token, "GET", "/models").then((r) => r.json());
+      return resp.models;
+    }
+    async getModelName() {
+      try {
+        const models = await this.fetchModels();
+        return models[0].slug;
+      } catch (err) {
+        console.error(err);
+        return "text-davinci-002-render";
+      }
+    }
+    async generateAnswer(params) {
+      let conversationId;
+      const cleanup = () => {
+        if (conversationId) {
+          setConversationProperty(this.token, conversationId, { is_visible: false });
+        }
+      };
+      const modelName = await this.getModelName();
+      await fetchSSE("https://chat.openai.com/backend-api/conversation", {
+        method: "POST",
+        signal: params.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify({
+          action: "next",
+          messages: [
+            {
+              id: v4_default(),
+              role: "user",
+              content: {
+                content_type: "text",
+                parts: [params.prompt]
+              }
+            }
+          ],
+          model: modelName,
+          parent_message_id: v4_default()
+        }),
+        onMessage(message) {
+          var _a, _b, _c;
+          console.debug("sse message", message);
+          if (message === "[DONE]") {
+            params.onEvent({ type: "done" });
+            cleanup();
+            return;
+          }
+          let data;
+          try {
+            data = JSON.parse(message);
+          } catch (err) {
+            console.error(err);
+            return;
+          }
+          const text = (_c = (_b = (_a = data.message) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0];
+          if (text) {
+            conversationId = data.conversation_id;
+            params.onEvent({
+              type: "answer",
+              data: {
+                text,
+                messageId: data.message.id,
+                conversationId: data.conversation_id
+              }
+            });
+          }
+        }
+      });
+      return { cleanup };
+    }
+  };
+
+  // src/background/providers/openai.ts
+  var OpenAIProvider = class {
+    constructor(token, model) {
+      this.token = token;
+      this.model = model;
+      this.token = token;
+      this.model = model;
+    }
+    buildPrompt(prompt) {
+      if (this.model.startsWith("text-chat-davinci")) {
+        return `Respond conversationally.<|im_end|>
+
+User: ${prompt}<|im_sep|>
+ChatGPT:`;
+      }
+      return prompt;
+    }
+    buildMessages(prompt) {
+      return [{ role: "user", content: prompt }];
+    }
+    async generateAnswer(params) {
+      var _a, _b;
+      const [config] = await Promise.all([getProviderConfigs()]);
+      const gptModel = (_b = (_a = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.model) != null ? _b : "gpt-3.5-turbo";
+      let url = "";
+      let reqParams = {
+        model: this.model,
+        // prompt: this.buildPrompt(params.prompt),
+        // messages: this.buildMessages(params.prompt),
+        stream: true,
+        max_tokens: 800
+        // temperature: 0.5,
+      };
+      if (gptModel === "text-davinci-003") {
+        url = "https://api.openai.com/v1/completions";
+        reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(params.prompt) } };
+      } else {
+        url = "https://api.openai.com/v1/chat/completions";
+        reqParams = { ...reqParams, ...{ messages: this.buildMessages(params.prompt) } };
+      }
+      let result = "";
+      await fetchSSE(url, {
+        method: "POST",
+        signal: params.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify(reqParams),
+        onMessage(message) {
+          console.debug("sse message", message);
+          if (message === "[DONE]") {
+            params.onEvent({ type: "done" });
+            return;
+          }
+          let data;
+          try {
+            data = JSON.parse(message);
+            const text = gptModel === "text-davinci-003" ? data.choices[0].text : data.choices[0].delta.content;
+            if (text === void 0 || text === "<|im_end|>" || text === "<|im_sep|>") {
+              return;
+            }
+            result += text;
+            params.onEvent({
+              type: "answer",
+              data: {
+                text: result,
+                messageId: data.id,
+                conversationId: data.id
+              }
+            });
+          } catch (err) {
+            return;
+          }
+        }
+      });
+      return {};
+    }
+  };
+
+  // src/background/index.ts
+  async function generateAnswers(port, question) {
+    const providerConfigs = await getProviderConfigs();
+    let provider;
+    if (providerConfigs.provider === "chatgpt" /* ChatGPT */) {
+      const token = await getChatGPTAccessToken();
+      provider = new ChatGPTProvider(token);
+    } else if (providerConfigs.provider === "gpt3" /* GPT3 */) {
+      const { apiKey, model } = providerConfigs.configs["gpt3" /* GPT3 */];
+      provider = new OpenAIProvider(apiKey, model);
+    } else {
+      throw new Error(`Unknown provider ${providerConfigs.provider}`);
+    }
+    const controller = new AbortController();
+    port.onDisconnect.addListener(() => {
+      controller.abort();
+      cleanup == null ? void 0 : cleanup();
+    });
+    const { cleanup } = await provider.generateAnswer({
+      prompt: question,
+      signal: controller.signal,
+      onEvent(event) {
+        if (event.type === "done") {
+          port.postMessage({ event: "DONE" });
+          return;
+        }
+        port.postMessage(event.data);
+      }
+    });
+  }
+  import_webextension_polyfill2.default.runtime.onConnect.addListener((port) => {
+    port.onMessage.addListener(async (msg) => {
+      console.debug("received msg", msg);
+      try {
+        await generateAnswers(port, msg.question);
+      } catch (err) {
+        port.postMessage({ error: err.message });
+      }
+    });
+  });
+  import_webextension_polyfill2.default.runtime.onMessage.addListener(async (message) => {
+    if (message.type === "FEEDBACK") {
+      const token = await getChatGPTAccessToken();
+      await sendMessageFeedback(token, message.data);
+    } else if (message.type === "OPEN_OPTIONS_PAGE") {
+      import_webextension_polyfill2.default.runtime.openOptionsPage();
+    } else if (message.type === "GET_ACCESS_TOKEN") {
+      return getChatGPTAccessToken();
+    }
+  });
+  import_webextension_polyfill2.default.runtime.onInstalled.addListener((details) => {
+    if (details.reason === "install") {
+      import_webextension_polyfill2.default.runtime.openOptionsPage();
+    }
+  });
+})();
