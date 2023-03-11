@@ -37,6 +37,28 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
   })
 }
 
+async function createTab(url) {
+  const oldTabId = await Browser.storage.local.get('pinnedTabId')
+  let tab
+  if (oldTabId.pinnedTabId) {
+    try {
+      tab = await Browser.tabs.get(oldTabId.pinnedTabId)
+      Browser.tabs.update(tab.id, { active: true, pinned: true })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  if (!tab) {
+    tab = await Browser.tabs.create({
+      url,
+      pinned: true,
+      active: true,
+    })
+  }
+  Browser.storage.local.set({ pinnedTabId: tab.id })
+  return { pinnedTabId: tab.id }
+}
+
 Browser.runtime.onConnect.addListener((port) => {
   port.onMessage.addListener(async (msg) => {
     console.debug('received msg', msg)
@@ -57,6 +79,8 @@ Browser.runtime.onMessage.addListener(async (message) => {
     Browser.runtime.openOptionsPage()
   } else if (message.type === 'GET_ACCESS_TOKEN') {
     return getChatGPTAccessToken()
+  } else if (message.type === 'NEW_TAB') {
+    return createTab(message.data.url)
   }
 })
 

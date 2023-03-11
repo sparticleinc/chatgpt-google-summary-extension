@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks'
 import { memo, useMemo } from 'react'
-import { Loading } from '@geist-ui/core'
+import { Loading, Button } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
@@ -61,6 +61,15 @@ function ChatGPTQuery(props: Props) {
       }
     }, 1000)
   }, [])
+
+  const newTab = () => {
+    Browser.runtime.sendMessage({
+      type: 'NEW_TAB',
+      data: {
+        url: 'https://chat.openai.com/chat',
+      },
+    })
+  }
 
   useEffect(() => {
     console.log('ChatGPTQuery props', props)
@@ -125,9 +134,9 @@ function ChatGPTQuery(props: Props) {
     return (
       <p>
         Please login and pass Cloudflare check at{' '}
-        <a href="https://chat.openai.com" target="_blank" rel="noreferrer">
+        <Button type="success" ghost auto scale={0.5} onClick={newTab}>
           chat.openai.com
-        </a>
+        </Button>
         {retry > 0 &&
           (() => {
             if (isBraveBrowser()) {
