@@ -14,7 +14,8 @@
     "https://*.openai.com/"
   ],
   "permissions": [
-    "storage"
+    "storage",
+    "scripting"
   ],
   "background": {
     "service_worker": "background.js"

@@ -1,10 +1,12 @@
 import { render } from 'preact'
-// import { createRoot } from 'react-dom/client'
+
 import '../base.css'
 import { getUserConfig, Language, Theme, getProviderConfigs, ProviderType } from '../config'
 import { detectSystemColorScheme } from '../utils'
 import ChatGPTContainer from './ChatGPTContainer'
+import ChatGPTTip from './ChatGPTTip'
 import { config, SearchEngine } from './search-engine-configs'
+import Browser from 'webextension-polyfill'
 import {
   getPossibleElementByQuerySelector,
   getSearchParam,
@@ -208,7 +210,22 @@ async function mount(props: MountProps) {
   // )
 }
 
-async function run() {
+async function Run() {
+  Browser.runtime.onMessage.addListener(async (message) => {
+    console.log('run message', message)
+
+    const { type, data } = message
+
+    if (type === 'CHATGPT_TAB_CURRENT') {
+      const container = document.createElement('section')
+      container.className = 'glarity--chatgpt--tips'
+      container.id = 'glarity--chatgpt--tips'
+      document.body.prepend(container)
+
+      render(<ChatGPTTip isLogin={data.isLogin} />, container)
+    }
+  })
+
   const questionData = await getQuestion(true)
   if (questionData) mount(questionData)
 }
@@ -657,8 +674,8 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
   }
 }
 
-run()
+Run()
 
 if (siteConfig?.watchRouteChange) {
-  siteConfig.watchRouteChange(run)
+  siteConfig.watchRouteChange(Run)
 }

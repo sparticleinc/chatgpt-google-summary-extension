@@ -268,7 +268,7 @@
   text-decoration-line: underline;
 }
 
-/* temp_stylePlugin:ni:sha-256;I9Ixe6VvFDIwHs_9M6pfA-BtuD8xUVJXVy3fwq6VtoQ */
+/* temp_stylePlugin:ni:sha-256;8YV6o8FBPodbPLqppT3fiKFaStczdKQffefvAohoaOA */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -2345,6 +2345,30 @@ span.glarity--header__logo {
   display: inline-block !important;
   vertical-align: middle;
   transform: scale(0.7);
+}
+.glarity--text-xs {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.glarity--mt-2 {
+  margin-top: 10px;
+}
+.glarity--chatgpt--tips {
+  position: fixed;
+  z-index: 100;
+  right: 20px;
+  top: 20px;
+  width: 300px;
+}
+.glarity--chatgpt--tips button.btn.glarity--chatgpt--tips--close {
+  position: absolute !important;
+  z-index: 100;
+  right: 5px;
+  top: 5px;
+  padding: 0;
+  height: auto;
+  border: none;
+  background-color: transparent;
 }
 .glarity--chatgpt--newspicks {
   margin-bottom: 32px;
