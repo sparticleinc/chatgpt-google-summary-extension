@@ -64,7 +64,7 @@ export class ChatGPTProvider implements Provider {
       return models[0].slug
     } catch (err) {
       console.error(err)
-      return 'text-davinci-002-render'
+      return 'text-davinci-002-render-sha'
     }
   }
 
