@@ -3,6 +3,7 @@ import { getProviderConfigs, ProviderType } from '../config'
 import { ChatGPTProvider, getChatGPTAccessToken, sendMessageFeedback } from './providers/chatgpt'
 import { OpenAIProvider } from './providers/openai'
 import { Provider } from './types'
+import { tabSendMsg } from '../content-script/utils'
 
 async function generateAnswers(port: Browser.Runtime.Port, question: string) {
   const providerConfigs = await getProviderConfigs()
@@ -38,6 +39,15 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
 }
 
 async function createTab(url) {
+  Browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+    console.log('getCurrent', tabs)
+    const tab = tabs[0]
+
+    if (tab.id) {
+      Browser.storage.local.set({ glarityTabId: tab.id })
+    }
+  })
+
   const oldTabId = await Browser.storage.local.get('pinnedTabId')
   let tab
   if (oldTabId.pinnedTabId) {
@@ -81,6 +91,12 @@ Browser.runtime.onMessage.addListener(async (message) => {
     return getChatGPTAccessToken()
   } else if (message.type === 'NEW_TAB') {
     return createTab(message.data.url)
+  } else if (message.type === 'GO_BACK') {
+    const tab = await Browser.storage.local.get('glarityTabId')
+
+    if (tab.glarityTabId) {
+      Browser.tabs.update(tab.glarityTabId, { active: true })
+    }
   }
 })
 
@@ -88,4 +104,35 @@ Browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     Browser.runtime.openOptionsPage()
   }
+})
+
+Browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
+  const oldTabId = await Browser.storage.local.get('pinnedTabId')
+
+  Browser.tabs.get(tabId).then((tab) => {
+    console.log('tabId', tabId, tab, changeInfo)
+
+    // Browser.tabs.query({}).then((tabs) => {
+    //   tabs.forEach((tab) => {
+    //     if (
+    //       changeInfo.status === 'complete' &&
+    //       tab.id &&
+    //       tab.id &&
+    //       oldTabId.pinnedTabId === tab.id
+    //     ) {
+    //       Browser.runtime.sendMessage(tab.id, { type: 'CHATGPT_TAB_CURRENT_' }).catch(() => {})
+    //     }
+    //   })
+    // })
+
+    if (
+      tab.url?.includes('https://chat.openai.com') &&
+      changeInfo.status === 'complete' &&
+      tab.id &&
+      oldTabId.pinnedTabId === tab.id
+    ) {
+      console.log('onUpdated', oldTabId, tab)
+      tabSendMsg(tab)
+    }
+  })
 })

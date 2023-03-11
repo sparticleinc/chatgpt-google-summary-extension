@@ -12,7 +12,8 @@
   },
   "permissions": [
     "storage",
-    "https://*.openai.com/"
+    "https://*.openai.com/",
+    "scripting"
   ],
   "background": {
     "scripts": [

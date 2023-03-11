@@ -13194,6 +13194,92 @@
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
+  // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/description/description.js
+  var _excluded7 = ["title", "content", "className"];
+  var defaultProps6 = {
+    title: "Title",
+    content: "",
+    className: ""
+  };
+  var DescriptionComponent = function DescriptionComponent2(_ref) {
+    var title = _ref.title, content3 = _ref.content, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded7);
+    var theme = use_theme_default();
+    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
+    var classes = use_classes_default2("description", className);
+    return /* @__PURE__ */ bn.createElement("dl", _extends({}, props, {
+      className: styled_jsx_es_default.dynamic([["2323318745", [SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_5, theme.palette.foreground]]]) + " " + (props && props.className != null && props.className || classes || "")
+    }), /* @__PURE__ */ bn.createElement("dt", {
+      className: styled_jsx_es_default.dynamic([["2323318745", [SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_5, theme.palette.foreground]]])
+    }, title), /* @__PURE__ */ bn.createElement("dd", {
+      className: styled_jsx_es_default.dynamic([["2323318745", [SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_5, theme.palette.foreground]]])
+    }, content3), /* @__PURE__ */ bn.createElement(styled_jsx_es_default, {
+      id: "2323318745",
+      dynamic: [SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_5, theme.palette.foreground]
+    }, ".description.__jsx-style-dynamic-selector{font-size:".concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}dt.__jsx-style-dynamic-selector{font-size:0.75em;line-height:1em;margin-bottom:0.5em;text-transform:uppercase;white-space:nowrap;color:").concat(theme.palette.accents_5, ";font-weight:500;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}dd.__jsx-style-dynamic-selector{font-size:0.875em;margin:0;line-height:1.1em;color:").concat(theme.palette.foreground, ";font-weight:500;}dd.__jsx-style-dynamic-selector p,dt.__jsx-style-dynamic-selector p{margin:0;}")));
+  };
+  DescriptionComponent.defaultProps = defaultProps6;
+  DescriptionComponent.displayName = "GeistDescription";
+  var Description = with_scale_default(DescriptionComponent);
+  var description_default = Description;
+
+  // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/description/index.js
+  var description_default2 = description_default;
+
+  // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/divider/divider.js
+  var _excluded8 = ["type", "align", "children", "className"];
+  var defaultProps7 = {
+    align: "center",
+    type: "default",
+    className: ""
+  };
+  var getColor = function getColor2(type, palette3) {
+    var colors = {
+      "default": palette3.border,
+      lite: palette3.accents_1,
+      success: palette3.successLight,
+      warning: palette3.warningLight,
+      error: palette3.errorLight,
+      secondary: palette3.secondary,
+      dark: palette3.foreground
+    };
+    return colors[type];
+  };
+  var DividerComponent = function DividerComponent2(_ref) {
+    var type = _ref.type, align = _ref.align, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded8);
+    var theme = use_theme_default();
+    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
+    var classes = use_classes_default2("divider", className);
+    var color2 = F(function() {
+      return getColor(type, theme.palette);
+    }, [type, theme.palette]);
+    var alignClassName = F(function() {
+      if (!align || align === "center")
+        return "";
+      if (align === "left" || align === "start")
+        return "start";
+      return "end";
+    }, [align]);
+    var alignClasses = use_classes_default2("text", alignClassName);
+    var textColor = type === "default" ? theme.palette.foreground : color2;
+    return /* @__PURE__ */ bn.createElement("div", _extends({
+      role: "separator"
+    }, props, {
+      className: styled_jsx_es_default.dynamic([["3410666717", [color2, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(0.0625), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.background, textColor]]]) + " " + (props && props.className != null && props.className || classes || "")
+    }), children && /* @__PURE__ */ bn.createElement("span", {
+      className: styled_jsx_es_default.dynamic([["3410666717", [color2, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(0.0625), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.background, textColor]]]) + " " + (alignClasses || "")
+    }, children), /* @__PURE__ */ bn.createElement(styled_jsx_es_default, {
+      id: "3410666717",
+      dynamic: [color2, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(0.0625), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.background, textColor]
+    }, ".divider.__jsx-style-dynamic-selector{max-width:100%;background-color:".concat(color2, ";position:relative;font-size:").concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(0.0625), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0.5), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0.5), " ").concat(SCALES.ml(0), ";}.text.__jsx-style-dynamic-selector{position:absolute;left:50%;top:50%;min-height:100%;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);padding:0 0.75em;font-size:inherit;font-weight:bold;text-transform:capitalize;background-color:").concat(theme.palette.background, ";color:").concat(textColor, ";z-index:10;}.text.start.__jsx-style-dynamic-selector{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);left:7%;}.text.end.__jsx-style-dynamic-selector{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);left:auto;right:7%;}")));
+  };
+  DividerComponent.defaultProps = defaultProps7;
+  DividerComponent.displayName = "GeistDivider";
+  var Divider = with_scale_default(DividerComponent);
+  var divider_default = Divider;
+
+  // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/divider/index.js
+  var divider_default2 = divider_default;
+
   // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/utils/use-geist-ui-context.js
   var defaultToastLayout = {
     padding: "12px 16px",
@@ -13505,9 +13591,64 @@
   // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/geist-provider/index.js
   var geist_provider_default2 = geist_provider_default;
 
+  // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/note/note.js
+  var _excluded9 = ["children", "type", "label", "filled", "className"];
+  var defaultProps8 = {
+    type: "default",
+    label: "note",
+    filled: false,
+    className: ""
+  };
+  var getStatusColor = function getStatusColor2(type, filled, theme) {
+    var colors = {
+      secondary: theme.palette.secondary,
+      success: theme.palette.success,
+      warning: theme.palette.warning,
+      error: theme.palette.error
+    };
+    var statusColor = colors[type];
+    if (!filled)
+      return {
+        color: statusColor || theme.palette.foreground,
+        borderColor: statusColor || theme.palette.border,
+        bgColor: theme.palette.background
+      };
+    var filledColor = statusColor ? "white" : theme.palette.background;
+    return {
+      color: filledColor,
+      borderColor: statusColor || theme.palette.foreground,
+      bgColor: statusColor || theme.palette.foreground
+    };
+  };
+  var NoteComponent = function NoteComponent2(_ref) {
+    var children = _ref.children, type = _ref.type, label = _ref.label, filled = _ref.filled, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded9);
+    var theme = use_theme_default();
+    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
+    var _useMemo = F(function() {
+      return getStatusColor(type, filled, theme);
+    }, [type, filled, theme]), color2 = _useMemo.color, borderColor = _useMemo.borderColor, bgColor = _useMemo.bgColor;
+    return /* @__PURE__ */ bn.createElement("div", _extends({}, props, {
+      className: styled_jsx_es_default.dynamic([["1082065680", [borderColor, color2, bgColor, theme.layout.radius, SCALES.font(0.875), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(1.32), SCALES.pb(0.667), SCALES.pl(1.32), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]]]) + " " + (props && props.className != null && props.className || use_classes_default2("note", className) || "")
+    }), label && /* @__PURE__ */ bn.createElement("span", {
+      className: styled_jsx_es_default.dynamic([["1082065680", [borderColor, color2, bgColor, theme.layout.radius, SCALES.font(0.875), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(1.32), SCALES.pb(0.667), SCALES.pl(1.32), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]]]) + " label"
+    }, /* @__PURE__ */ bn.createElement("b", {
+      className: styled_jsx_es_default.dynamic([["1082065680", [borderColor, color2, bgColor, theme.layout.radius, SCALES.font(0.875), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(1.32), SCALES.pb(0.667), SCALES.pl(1.32), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]]])
+    }, label, ":")), children, /* @__PURE__ */ bn.createElement(styled_jsx_es_default, {
+      id: "1082065680",
+      dynamic: [borderColor, color2, bgColor, theme.layout.radius, SCALES.font(0.875), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(1.32), SCALES.pb(0.667), SCALES.pl(1.32), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]
+    }, ".note.__jsx-style-dynamic-selector{line-height:1.8;border:1px solid ".concat(borderColor, ";color:").concat(color2, ";background-color:").concat(bgColor, ";border-radius:").concat(theme.layout.radius, ";font-size:").concat(SCALES.font(0.875), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0.667), " ").concat(SCALES.pr(1.32), " ").concat(SCALES.pb(0.667), " ").concat(SCALES.pl(1.32), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.note.__jsx-style-dynamic-selector p{margin:0;}.label.__jsx-style-dynamic-selector{text-transform:uppercase;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;line-height:1.5;padding-right:0.38em;}")));
+  };
+  NoteComponent.defaultProps = defaultProps8;
+  NoteComponent.displayName = "GeistNote";
+  var Note = with_scale_default(NoteComponent);
+  var note_default = Note;
+
+  // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/note/index.js
+  var note_default2 = note_default;
+
   // node_modules/.pnpm/@geist-ui+core@2.3.8_ive3jjn476xyi3ikfsqwmh5x74/node_modules/@geist-ui/core/esm/spinner/spinner.js
-  var _excluded7 = ["className"];
-  var defaultProps6 = {
+  var _excluded10 = ["className"];
+  var defaultProps9 = {
     className: ""
   };
   var getSpans = function getSpans2(theme) {
@@ -13522,7 +13663,7 @@
     });
   };
   var SpinnerComponent = function SpinnerComponent2(_ref) {
-    var className = _ref.className, props = _objectWithoutProperties(_ref, _excluded7);
+    var className = _ref.className, props = _objectWithoutProperties(_ref, _excluded10);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var classes = use_classes_default2("spinner", className);
@@ -13535,7 +13676,7 @@
       dynamic: [SCALES.width(1.25), SCALES.height(1.25), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]
     }, ".spinner.__jsx-style-dynamic-selector{display:block;box-sizing:border-box;width:".concat(SCALES.width(1.25), ";height:").concat(SCALES.height(1.25), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.container.__jsx-style-dynamic-selector{width:100%;height:100%;position:relative;left:50%;top:50%;}")));
   };
-  SpinnerComponent.defaultProps = defaultProps6;
+  SpinnerComponent.defaultProps = defaultProps9;
   SpinnerComponent.displayName = "GeistSpinner";
   var Spinner = with_scale_default(SpinnerComponent);
   var spinner_default = Spinner;
@@ -13780,6 +13921,28 @@
         "width": 24,
         "path": /* @__PURE__ */ bn.createElement("path", {
           d: "M12.596 2.043c1.075.076 2.059.281 2.743.956.698.688.92 1.696.92 2.941 0 .432-.057.955-.117 1.438-.026.2-.051.392-.076.572l-.056.429h2.05c.752 0 1.446.108 2.036.404.612.306 1.062.787 1.355 1.431.551 1.214.542 3.008.223 5.394l-.051.39c-.134 1.01-.248 1.872-.396 2.58-.166.795-.394 1.496-.816 2.05-.89 1.168-2.395 1.372-4.583 1.372-2.331 0-4.08-.418-5.544-.824l-.602-.17c-1.023-.29-1.852-.526-2.69-.586A1.75 1.75 0 0 1 5.25 22h-1.5A1.75 1.75 0 0 1 2 20.25V9.75C2 8.784 2.784 8 3.75 8h1.5a1.75 1.75 0 0 1 1.746 1.633 1.85 1.85 0 0 0 .523-.131c.961-.415 2.774-1.534 2.774-4.2V4.249c0-1.22 1.002-2.298 2.303-2.206ZM7 18.918c1.059.064 2.079.355 3.118.652l.568.16c1.406.39 3.006.77 5.142.77 2.277 0 3.004-.274 3.39-.781.216-.283.388-.718.54-1.448.136-.65.242-1.45.379-2.477l.05-.384c.32-2.4.253-3.795-.102-4.575-.16-.352-.375-.568-.66-.711-.305-.153-.74-.245-1.365-.245h-2.37c-.681 0-1.293-.57-1.211-1.328.026-.243.065-.537.105-.834l.07-.527c.06-.482.105-.921.105-1.25 0-1.125-.213-1.617-.473-1.873-.275-.27-.774-.455-1.795-.528-.351-.024-.698.274-.698.71v1.053c0 3.55-2.488 5.063-3.68 5.577-.372.16-.754.232-1.113.26ZM3.75 20.5h1.5a.25.25 0 0 0 .25-.25V9.75a.25.25 0 0 0-.25-.25h-1.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25Z"
+        })
+      }
+    };
+  });
+  var XCircleFillIcon = /* @__PURE__ */ createIconComponent("XCircleFillIcon", "octicon octicon-x-circle-fill", function() {
+    return {
+      "12": {
+        "width": 12,
+        "path": /* @__PURE__ */ bn.createElement("path", {
+          d: "M1.757 10.243a6.001 6.001 0 1 1 8.488-8.486 6.001 6.001 0 0 1-8.488 8.486ZM6 4.763l-2-2L2.763 4l2 2-2 2L4 9.237l2-2 2 2L9.237 8l-2-2 2-2L8 2.763Z"
+        })
+      },
+      "16": {
+        "width": 16,
+        "path": /* @__PURE__ */ bn.createElement("path", {
+          d: "M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"
+        })
+      },
+      "24": {
+        "width": 24,
+        "path": /* @__PURE__ */ bn.createElement("path", {
+          d: "M1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Zm8.036-4.024a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L10.939 12l-2.963 2.963a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L12 13.06l2.963 2.964a.75.75 0 0 0 1.061-1.06L13.061 12l2.963-2.964a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L12 10.939Z"
         })
       }
     };
@@ -14460,9 +14623,9 @@
   // node_modules/.pnpm/trough@2.1.0/node_modules/trough/index.js
   function trough() {
     const fns = [];
-    const pipeline = { run: run2, use };
+    const pipeline = { run, use };
     return pipeline;
-    function run2(...values) {
+    function run(...values) {
       let middlewareIndex = -1;
       const callback = values.pop();
       if (typeof callback !== "function") {
@@ -14558,7 +14721,7 @@
     processor.use = use;
     processor.parse = parse2;
     processor.stringify = stringify3;
-    processor.run = run2;
+    processor.run = run;
     processor.runSync = runSync;
     processor.process = process2;
     processor.processSync = processSync;
@@ -14700,7 +14863,7 @@
       }
       return Compiler(node2, file);
     }
-    function run2(node2, doc, callback) {
+    function run(node2, doc, callback) {
       assertNode(node2);
       processor.freeze();
       if (!callback && typeof doc === "function") {
@@ -35582,6 +35745,14 @@
         };
       }, 1e3);
     }, []);
+    const newTab = () => {
+      import_webextension_polyfill5.default.runtime.sendMessage({
+        type: "NEW_TAB",
+        data: {
+          url: "https://chat.openai.com/chat"
+        }
+      });
+    };
     h2(() => {
       console.log("ChatGPTQuery props", props);
     }, [props]);
@@ -35623,7 +35794,7 @@
       return /* @__PURE__ */ o3("p", { children: [
         "Please login and pass Cloudflare check at",
         " ",
-        /* @__PURE__ */ o3("a", { href: "https://chat.openai.com", target: "_blank", rel: "noreferrer", children: "chat.openai.com" }),
+        /* @__PURE__ */ o3(button_default2, { type: "success", ghost: true, auto: true, scale: 0.5, onClick: newTab, children: "chat.openai.com" }),
         retry > 0 && (() => {
           if (isBraveBrowser()) {
             return /* @__PURE__ */ o3("span", { className: "glarity--block glarity--mt-2", children: [
@@ -35930,6 +36101,50 @@
   }
   var ChatGPTContainer_default = ChatGPTContainer;
 
+  // src/content-script/ChatGPTTip.tsx
+  var import_webextension_polyfill7 = __toESM(require_browser_polyfill());
+  function ChatGPTTip(props) {
+    const isLogin = props == null ? void 0 : props.isLogin;
+    const [showTip, setShowTip] = p2(true);
+    const onClose = () => {
+      setShowTip(false);
+    };
+    const onBack = () => {
+      import_webextension_polyfill7.default.runtime.sendMessage({
+        type: "GO_BACK"
+      });
+    };
+    return /* @__PURE__ */ o3(p, { children: showTip && /* @__PURE__ */ o3(p, { children: [
+      /* @__PURE__ */ o3(note_default2, { type: "success", label: false, children: /* @__PURE__ */ o3(
+        description_default2,
+        {
+          title: "Glarity Summary tips:",
+          content: /* @__PURE__ */ o3(p, { children: isLogin ? /* @__PURE__ */ o3(p, { children: [
+            /* @__PURE__ */ o3(divider_default2, {}),
+            "I am Ready! ",
+            /* @__PURE__ */ o3("br", {}),
+            "Keep this tab to make ChatGPT more stable.",
+            /* @__PURE__ */ o3(divider_default2, {}),
+            /* @__PURE__ */ o3(button_default2, { auto: true, type: "success", onClick: onBack, scale: 0.5, children: "Back" })
+          ] }) : /* @__PURE__ */ o3(p, { children: [
+            /* @__PURE__ */ o3(divider_default2, {}),
+            "Login to the ChatGPT web application to use the Glarity Summary."
+          ] }) })
+        }
+      ) }),
+      /* @__PURE__ */ o3(
+        button_default2,
+        {
+          className: "glarity--chatgpt--tips--close",
+          iconRight: /* @__PURE__ */ o3(XCircleFillIcon, {}),
+          auto: true,
+          onClick: onClose
+        }
+      )
+    ] }) });
+  }
+  var ChatGPTTip_default = ChatGPTTip;
+
   // src/content-script/search-engine-configs.ts
   var config = {
     google: {
@@ -36153,6 +36368,9 @@
       }
     }
   };
+
+  // src/content-script/index.tsx
+  var import_webextension_polyfill8 = __toESM(require_browser_polyfill());
 
   // node_modules/.pnpm/gpt3-tokenizer@1.1.5/node_modules/gpt3-tokenizer/dist-browser/gpt3-tokenizer.js
   var import_array_keyed_map = __toESM(require_main());
@@ -86588,7 +86806,18 @@ om inated
       container
     );
   }
-  async function run() {
+  async function Run() {
+    import_webextension_polyfill8.default.runtime.onMessage.addListener(async (message) => {
+      console.log("run message", message);
+      const { type, data } = message;
+      if (type === "CHATGPT_TAB_CURRENT") {
+        const container = document.createElement("section");
+        container.className = "glarity--chatgpt--tips";
+        container.id = "glarity--chatgpt--tips";
+        document.body.prepend(container);
+        P(/* @__PURE__ */ o3(ChatGPTTip_default, { isLogin: data.isLogin }), container);
+      }
+    });
     const questionData = await getQuestion(true);
     if (questionData)
       mount(questionData);
@@ -86911,8 +87140,8 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
       };
     }
   }
-  run();
+  Run();
   if (siteConfig == null ? void 0 : siteConfig.watchRouteChange) {
-    siteConfig.watchRouteChange(run);
+    siteConfig.watchRouteChange(Run);
   }
 })();

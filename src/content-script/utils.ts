@@ -278,3 +278,16 @@ export function matchSites(site: string) {
     site,
   )
 }
+
+export function tabSendMsg(tab) {
+  const { id, url } = tab
+  if (url.includes('https://chat.openai.com/chat')) {
+    Browser.tabs
+      .sendMessage(id, { type: 'CHATGPT_TAB_CURRENT', data: { isLogin: true } })
+      .catch(() => {})
+  } else {
+    Browser.tabs
+      .sendMessage(id, { type: 'CHATGPT_TAB_CURRENT', data: { isLogin: false } })
+      .catch(() => {})
+  }
+}

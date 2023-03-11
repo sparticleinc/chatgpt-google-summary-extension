@@ -278,6 +278,26 @@ span.glarity--header__logo {
   margin-top: 10px;
 }
 
+// glarity--chatgpt--tips
+.glarity--chatgpt--tips {
+  position: fixed;
+  z-index: 100;
+  right: 20px;
+  top: 20px;
+  width: 300px;
+
+  button.btn.glarity--chatgpt--tips--close {
+    position: absolute !important;
+    z-index: 100;
+    right: 5px;
+    top: 5px;
+    padding: 0;
+    height: auto;
+    border: none;
+    background-color: transparent;
+  }
+}
+
 // newspicks
 .glarity--chatgpt--newspicks {
   margin-bottom: 32px;
