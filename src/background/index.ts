@@ -95,7 +95,11 @@ Browser.runtime.onMessage.addListener(async (message) => {
     const tab = await Browser.storage.local.get('glarityTabId')
 
     if (tab.glarityTabId) {
-      Browser.tabs.update(tab.glarityTabId, { active: true })
+      Browser.tabs.update(tab.glarityTabId, { active: true }).catch(() => {
+        Browser.tabs.create({ url: 'about:newtab', active: true })
+      })
+    } else {
+      Browser.tabs.create({ url: 'about:newtab', active: true })
     }
   }
 })
