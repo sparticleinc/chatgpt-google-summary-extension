@@ -34,6 +34,7 @@ import ProviderSelect from './ProviderSelect'
 import { config as supportSites } from '../content-script/search-engine-configs'
 import './styles.scss'
 import { Space } from 'antd'
+import { extractFromHtml } from '@extractus/article-extractor'
 
 function CustomizePrompt() {
   return `Title: "{{Title}}"
@@ -143,6 +144,16 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     }
   }
 
+  async function openPopup() {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+    await chrome.windows.create({
+      url: `popup.html?${new URLSearchParams({
+        tabId: tab.id,
+      })}`,
+      type: 'popup',
+    })
+  }
+
   useEffect(() => {
     getUserConfig().then((config) => {
       setTriggerMode(config.triggerMode)
@@ -167,6 +178,24 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
       setAllSelect(false)
     }
   }, [enableSites, allSites])
+
+  useEffect(() => {
+    const xxx = async () => {
+      const url =
+        'https://www.cnbc.com/2022/09/21/what-another-major-rate-hike-by-the-federal-reserve-means-to-you.html'
+
+      const res = await fetch(url)
+      const html = await res.text()
+
+      // you can do whatever with this raw html here: clean up, remove ads banner, etc
+      // just ensure a html string returned
+      console.log('html', html)
+      const article = await extractFromHtml(html)
+      console.log('article', article)
+    }
+
+    xxx()
+  }, [])
 
   return (
     <div className="glarity--container glarity--mx-auto">
