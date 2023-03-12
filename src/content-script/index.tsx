@@ -630,7 +630,7 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
           text = text + moreText
         }
 
-        console.log(title, text, url)
+        // console.log(title, text, url)
 
         // if (title && loadInit) {
         //   const html = xss(`<span class="glarity--summary--highlight">[${index}] </span> `)

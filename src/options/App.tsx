@@ -207,7 +207,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
           </a>
         </div>
       </nav>
-      <main className="glarity--w-[900px] glarity--mx-auto glarity--mt-14">
+      <main className="glarity--w-[900px] glarity--mx-auto glarity--mt-14 glarity--options">
         <Text h2>Options</Text>
         <Text h3 className="glarity--mt-5">
           Trigger Mode
