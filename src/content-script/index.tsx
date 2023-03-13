@@ -211,7 +211,7 @@ async function mount(props: MountProps) {
 }
 
 async function Run() {
-  Browser.runtime.onMessage.addListener(async (message) => {
+  Browser.runtime.onMessage.addListener((message, _, sendResponse) => {
     console.log('run message', message)
 
     const { type, data } = message
@@ -223,6 +223,9 @@ async function Run() {
       document.body.prepend(container)
 
       render(<ChatGPTTip isLogin={data.isLogin} />, container)
+    } else if (type === 'GET_DOM') {
+      console.log('GET_DOM')
+      sendResponse({ html: document.querySelector('html')?.outerHTML })
     }
   })
 

@@ -1,0 +1,17 @@
+.glarity--popup {
+  .glarity--chatgpt {
+    border: none;
+  }
+
+  .glarity--container #gpt-answer.markdown-body.gpt-markdown .glarity--chatgpt--header {
+    margin-top: 0 !important;
+  }
+}
+
+.glarity--popup--card {
+  // margin-top: 10px;
+
+  .content {
+    padding: 0 !important;
+  }
+}

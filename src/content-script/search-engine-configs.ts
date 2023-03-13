@@ -170,7 +170,7 @@ export const config: Record<string, SearchEngine> = {
     name: 'pubmed',
     siteName: 'PubMed',
     siteValue: 'pubmed',
-    regex: '(^(w+.)?ncbi.nlm.nih.gov)',
+    regex: '((w+.)?ncbi.nlm.nih.gov)',
   },
   newspicks: {
     inputQuery: ["input[name='q']"],

@@ -8,6 +8,7 @@ import { Answer } from '../messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
+import './styles.scss'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
 
