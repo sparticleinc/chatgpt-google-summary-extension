@@ -2,9 +2,10 @@ import ExpiryMap from 'expiry-map'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
+import { BASE_URL } from '../../config'
 
 async function request(token: string, method: string, path: string, data?: unknown) {
-  return fetch(`https://chat.openai.com/backend-api${path}`, {
+  return fetch(`${BASE_URL}/backend-api${path}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +35,7 @@ export async function getChatGPTAccessToken(): Promise<string> {
   if (cache.get(KEY_ACCESS_TOKEN)) {
     return cache.get(KEY_ACCESS_TOKEN)
   }
-  const resp = await fetch('https://chat.openai.com/api/auth/session')
+  const resp = await fetch(`${BASE_URL}/api/auth/session`)
   if (resp.status === 403) {
     throw new Error('CLOUDFLARE')
   }
@@ -79,7 +80,7 @@ export class ChatGPTProvider implements Provider {
 
     const modelName = await this.getModelName()
 
-    await fetchSSE('https://chat.openai.com/backend-api/conversation', {
+    await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
       method: 'POST',
       signal: params.signal,
       headers: {

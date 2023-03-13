@@ -1,6 +1,7 @@
 import Browser from 'webextension-polyfill'
 import $ from 'jquery'
 import copy from 'copy-to-clipboard'
+import { BASE_URL } from '../config'
 
 export function getPossibleElementByQuerySelector<T extends Element>(
   queryArray: string[],
@@ -281,7 +282,7 @@ export function matchSites(site: string) {
 
 export function tabSendMsg(tab) {
   const { id, url } = tab
-  if (url.includes('https://chat.openai.com/chat')) {
+  if (url.includes(`${BASE_URL}/chat`)) {
     Browser.tabs
       .sendMessage(id, { type: 'CHATGPT_TAB_CURRENT', data: { isLogin: true } })
       .catch(() => {})

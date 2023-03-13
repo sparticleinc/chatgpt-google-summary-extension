@@ -4,6 +4,7 @@ import { ChatGPTProvider, getChatGPTAccessToken, sendMessageFeedback } from './p
 import { OpenAIProvider } from './providers/openai'
 import { Provider } from './types'
 import { tabSendMsg } from '../content-script/utils'
+import { BASE_URL } from '../config'
 
 async function generateAnswers(port: Browser.Runtime.Port, question: string) {
   const providerConfigs = await getProviderConfigs()
@@ -130,7 +131,7 @@ Browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
     // })
 
     if (
-      tab.url?.includes('https://chat.openai.com') &&
+      tab.url?.includes(BASE_URL) &&
       changeInfo.status === 'complete' &&
       tab.id &&
       oldTabId.pinnedTabId === tab.id

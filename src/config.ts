@@ -97,3 +97,5 @@ export async function saveProviderConfigs(
     [`provider:${ProviderType.GPT3}`]: configs[ProviderType.GPT3],
   })
 }
+
+export const BASE_URL = 'https://chat.openai.com'

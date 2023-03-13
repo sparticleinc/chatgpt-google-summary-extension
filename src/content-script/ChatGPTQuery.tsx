@@ -8,6 +8,7 @@ import { Answer } from '../messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
+import { BASE_URL } from '../config'
 import './styles.scss'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
@@ -67,7 +68,7 @@ function ChatGPTQuery(props: Props) {
     Browser.runtime.sendMessage({
       type: 'NEW_TAB',
       data: {
-        url: 'https://chat.openai.com/chat',
+        url: `${BASE_URL}/chat`,
       },
     })
   }

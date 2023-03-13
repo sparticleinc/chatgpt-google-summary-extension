@@ -1,4 +1,3 @@
-import { GearIcon, GlobeIcon } from '@primer/octicons-react'
 import { Button, Divider, Card } from '@geist-ui/core'
 import { useCallback, useEffect, useState } from 'react'
 import useSWR from 'swr'
@@ -173,30 +172,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
           </div>
         </div>
       )}
-      {/* {(() => {
-        if (accessTokenQuery.isLoading) {
-          return (
-            <div className="glarity--grow glarity--justify-center glarity--items-center glarity--flex glarity--animate-bounce">
-              <GlobeIcon size={24} />
-            </div>
-          )
-        }
-        if (accessTokenQuery.data) {
-          return (
-            <iframe src="https://chat.openai.com" className="glarity--grow glarity--border-none" />
-          )
-        }
-        return (
-          <div className="glarity--grow glarity--flex glarity--flex-col glarity--justify-center">
-            <p className="glarity--text-base glarity--px-2 glarity--text-center">
-              Please login and pass Cloudflare check at{' '}
-              <a href="https://chat.openai.com" target="_blank" rel="noreferrer">
-                chat.openai.com
-              </a>
-            </p>
-          </div>
-        )
-      })()} */}
     </div>
   )
 }
