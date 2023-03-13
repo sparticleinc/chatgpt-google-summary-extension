@@ -18,6 +18,7 @@ import {
   matchSites,
 } from './utils'
 import { getSummaryPrompt } from './prompt'
+import WebSummary from './WebSummary'
 import { defaultPrompt } from '../utils'
 import './styles.scss'
 
@@ -228,6 +229,11 @@ async function Run() {
       sendResponse({ html: document.querySelector('html')?.outerHTML })
     }
   })
+
+  const container = document.createElement('section')
+  container.className = 'glarity--summary'
+  document.body.prepend(container)
+  render(<WebSummary />, container)
 
   const questionData = await getQuestion(true)
   if (questionData) mount(questionData)
