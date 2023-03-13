@@ -373,7 +373,7 @@ span.glarity--header__logo {
     position: absolute;
     right: 0;
     top: 0;
-    width: 320px;
+    width: 420px;
     border: 1px solid #eee;
     box-shadow: 0 3px 8px rgb(0 0 0 / 15%);
     border-radius: 6px !important;
@@ -403,8 +403,16 @@ span.glarity--header__logo {
       font-size: 14px;
       color: #333;
       line-height: 1.6;
-      max-height: 360px;
+      max-height: 500px;
       overflow-y: auto;
+
+      .glarity--container {
+        margin-bottom: 0;
+
+        .glarity--chatgpt {
+          border: none;
+        }
+      }
     }
 
     .glarity--summary__card--close {
