@@ -226,10 +226,15 @@ async function Run() {
     }
   })
 
+  const userConfig = await getUserConfig()
+
   const container = document.createElement('section')
   container.className = 'glarity--summary'
   document.body.prepend(container)
-  render(<WebSummary />, container)
+  render(
+    <WebSummary webSummary={userConfig.webSummary} webSummarySites={userConfig.webSummarySites} />,
+    container,
+  )
 
   const questionData = await getQuestion(true)
   if (questionData) mount(questionData)

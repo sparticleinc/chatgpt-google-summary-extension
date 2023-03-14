@@ -9,7 +9,13 @@ import { getSummaryPrompt } from '../content-script/prompt'
 import logoWhite from '../logo-white.png'
 import logo from '../logo.png'
 
-function WebSummary() {
+interface Props {
+  webSummary: string
+  webSummarySites: string
+}
+
+function WebSummary(props: Props) {
+  const { webSummary, webSummarySites } = props
   const [showCard, setShowCard] = useState(false)
   const [question, setQuestion] = useState('')
 
@@ -118,12 +124,15 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
           </div>
         </div>
       ) : (
-        <button
-          onClick={onSwitch}
-          className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}
-        >
-          <img src={logoWhite} className="glarity--w-5 glarity--h-5 glarity--rounded-sm" />
-        </button>
+        webSummary === 'custom' &&
+        webSummarySites.includes(location.hostname) && (
+          <button
+            onClick={onSwitch}
+            className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}
+          >
+            <img src={logoWhite} className="glarity--w-5 glarity--h-5 glarity--rounded-sm" />
+          </button>
+        )
       )}
 
       {/* {showCard ? (

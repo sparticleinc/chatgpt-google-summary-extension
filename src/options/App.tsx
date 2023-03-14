@@ -11,11 +11,8 @@ import {
   Card,
   Button,
   Snippet,
-  Divider,
   Checkbox,
-  Grid,
   Spacer,
-  Note,
 } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
 import '../base.scss'
@@ -26,6 +23,7 @@ import {
   TriggerMode,
   TRIGGER_MODE_TEXT,
   updateUserConfig,
+  WebSummary,
 } from '../config'
 import { defaultPrompt } from '../utils'
 import logo from '../logo.png'
@@ -34,7 +32,6 @@ import ProviderSelect from './ProviderSelect'
 import { config as supportSites } from '../content-script/search-engine-configs'
 import './styles.scss'
 import { Space } from 'antd'
-import { extractFromHtml } from '@extractus/article-extractor'
 
 function CustomizePrompt() {
   return `Title: "{{Title}}"
@@ -66,7 +63,12 @@ Example response:
 The title is a bit exaggerated.
 `
 
-function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => void }) {
+function OptionsPage(props: {
+  theme: Theme
+  onThemeChange: (theme: Theme) => void
+  webSummary: any
+  onWebSummaryChange: (webSummary) => void
+}) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
@@ -74,6 +76,8 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
   const [allSites, setAllSites] = useState([])
   const [enableSites, setEnableSites] = useState([])
   const [allSelect, setAllSelect] = useState(true)
+  const [webSummaryState, setWebSummaryState] = useState<string>(props.webSummary)
+  const [webSummarySites, setWebSummarysites] = useState<string>('')
 
   const onTriggerModeChange = useCallback(
     (mode: TriggerMode) => {
@@ -92,6 +96,21 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     },
     [props, setToast],
   )
+
+  const onWebSummaryChange = useCallback((webSummary) => {
+    setWebSummaryState(webSummary)
+  }, [])
+
+  const onWebSummarySitesChange = useCallback((e) => {
+    const value = e.target.value || ''
+    setWebSummarysites(value)
+  }, [])
+
+  const onWebSummarySave = useCallback(() => {
+    updateUserConfig({ webSummary: webSummaryState, webSummarySites: webSummarySites })
+    props.onWebSummaryChange(webSummaryState)
+    setToast({ text: 'Changes saved', type: 'success' })
+  }, [props, setToast, webSummaryState, webSummarySites])
 
   const onLanguageChange = useCallback(
     (language: Language) => {
@@ -147,6 +166,9 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
       setTriggerMode(config.triggerMode)
       setLanguage(config.language)
 
+      onWebSummaryChange(config.webSummary)
+      setWebSummarysites(config.webSummarySites)
+
       setPrompt(config.prompt ? config.prompt : defaultPrompt)
 
       const sites =
@@ -166,24 +188,6 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
       setAllSelect(false)
     }
   }, [enableSites, allSites])
-
-  useEffect(() => {
-    const xxx = async () => {
-      const url =
-        'https://www.cnbc.com/2022/09/21/what-another-major-rate-hike-by-the-federal-reserve-means-to-you.html'
-
-      const res = await fetch(url)
-      const html = await res.text()
-
-      // you can do whatever with this raw html here: clean up, remove ads banner, etc
-      // just ensure a html string returned
-      console.log('html', html)
-      const article = await extractFromHtml(html)
-      console.log('article', article)
-    }
-
-    xxx()
-  }, [])
 
   return (
     <div className="glarity--container glarity--mx-auto">
@@ -254,6 +258,44 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
             )
           })}
         </Radio.Group>
+
+        <Text h3 className="glarity--mt-5">
+          Page Summary
+        </Text>
+
+        <Card>
+          <Card.Content>
+            <Radio.Group value={webSummaryState} onChange={(val) => onWebSummaryChange(val)}>
+              {Object.values(WebSummary).map((v) => {
+                return (
+                  <Radio key={v.name} value={v.value}>
+                    {v.name}
+                    {v.value === 'custom' && (
+                      <Radio.Desc>
+                        <div className="glarity--mt-2">
+                          <Textarea
+                            placeholder="https://glarity.app
+https://reddit.com"
+                            resize={'vertical'}
+                            value={webSummarySites}
+                            style={{ width: '400px', height: '100px' }}
+                            onChange={onWebSummarySitesChange}
+                          />
+                        </div>
+                      </Radio.Desc>
+                    )}
+                  </Radio>
+                )
+              })}
+            </Radio.Group>
+          </Card.Content>
+          <Card.Footer>
+            <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={onWebSummarySave}>
+              Save
+            </Button>
+          </Card.Footer>
+        </Card>
+
         <Text h3 className="glarity--mt-5 glarity--mb-0">
           Language
         </Text>
@@ -392,6 +434,7 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
 
 function App() {
   const [theme, setTheme] = useState(Theme.Auto)
+  const [webSummary, setWebSummary] = useState('all')
 
   const themeType = useMemo(() => {
     if (theme === Theme.Auto) {
@@ -401,13 +444,23 @@ function App() {
   }, [theme])
 
   useEffect(() => {
-    getUserConfig().then((config) => setTheme(config.theme))
+    getUserConfig().then((config) => {
+      setTheme(config.theme)
+      setWebSummary(config.webSummary)
+    })
+
+    console.log('webSummary', webSummary)
   }, [])
 
   return (
     <GeistProvider themeType={themeType}>
       <CssBaseline />
-      <OptionsPage theme={theme} onThemeChange={setTheme} />
+      <OptionsPage
+        theme={theme}
+        onThemeChange={setTheme}
+        webSummary={webSummary}
+        onWebSummaryChange={setWebSummary}
+      />
     </GeistProvider>
   )
 }

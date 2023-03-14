@@ -45,6 +45,8 @@ const userConfigWithDefaultValue = {
   language: Language.Auto,
   prompt: '',
   enableSites: null,
+  webSummary: 'all',
+  webSummarySites: '',
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
@@ -99,3 +101,8 @@ export async function saveProviderConfigs(
 }
 
 export const BASE_URL = 'https://chat.openai.com'
+
+export const WebSummary = {
+  all: { name: 'All Sites', value: 'all' },
+  custom: { name: 'Custom Site List', value: 'custom' },
+}
