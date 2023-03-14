@@ -117,8 +117,6 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     setToast({ text: 'Changes saved', type: 'success' })
   }, [setToast])
 
-  CustomizePrompt
-
   const getSplitString = (str: string) => {
     if (str && str.includes('Chinese')) {
       return `Chinese (${str.split('Chinese')[1] || ''})`
@@ -142,16 +140,6 @@ function OptionsPage(props: { theme: Theme; onThemeChange: (theme: Theme) => voi
     } else {
       setEnableSites([])
     }
-  }
-
-  async function openPopup() {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-    await chrome.windows.create({
-      url: `popup.html?${new URLSearchParams({
-        tabId: tab.id,
-      })}`,
-      type: 'popup',
-    })
   }
 
   useEffect(() => {

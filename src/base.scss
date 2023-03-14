@@ -25,7 +25,13 @@ $font-size-normal: 14px;
     font-size: $font-size-large;
 
     .glarity--card__head--title {
+      display: inline-flex;
+      align-items: center;
       font-weight: bold;
+
+      .glarity--btn {
+        margin-left: 4px;
+      }
 
       a {
         display: inline-flex;

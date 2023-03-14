@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'preact/hooks'
+import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon, ShareIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
@@ -6,7 +6,6 @@ import ChatGPTQuery from '../content-script/ChatGPTQuery'
 import { extractFromHtml } from '@extractus/article-extractor'
 import { getUserConfig, Language, getProviderConfigs } from '../config'
 import { getSummaryPrompt } from '../content-script/prompt'
-
 import logoWhite from '../logo-white.png'
 import logo from '../logo.png'
 
@@ -14,15 +13,17 @@ function WebSummary() {
   const [showCard, setShowCard] = useState(false)
   const [question, setQuestion] = useState('')
 
-  const onSwitch = () => {
+  const onSwitch = useCallback(() => {
     setShowCard((state) => {
-      if (!state) {
+      const cardState = !state
+
+      if (cardState) {
         setQuestion('')
       }
 
-      return !state
+      return cardState
     })
-  }
+  }, [])
 
   const openOptionsPage = useCallback(() => {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
@@ -54,6 +55,15 @@ Instructions: Please use the contents to summarize the highlights.
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
       `)
     }
+  }, [])
+
+  useEffect(() => {
+    Browser.runtime.onMessage.addListener((message) => {
+      const { type } = message
+      if (type === 'OPEN_WEB_SUMMARY') {
+        setShowCard(true)
+      }
+    })
   }, [])
 
   return (

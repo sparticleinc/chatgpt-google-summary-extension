@@ -141,3 +141,13 @@ Browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
     }
   })
 })
+
+Browser.action.onClicked.addListener((tab) => {
+  const { id } = tab
+
+  if (!id) {
+    return
+  }
+
+  Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
+})

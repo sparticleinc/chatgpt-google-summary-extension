@@ -1,5 +1,4 @@
 import { render } from 'preact'
-
 import '../base.scss'
 import { getUserConfig, Language, Theme, getProviderConfigs, ProviderType } from '../config'
 import { detectSystemColorScheme } from '../utils'
@@ -11,11 +10,8 @@ import {
   getPossibleElementByQuerySelector,
   getSearchParam,
   getLangOptionsWithLink,
-  getTranscriptHTML,
-  getRawTranscript,
   waitForElm,
   getConverTranscript,
-  matchSites,
 } from './utils'
 import { getSummaryPrompt } from './prompt'
 import WebSummary from './WebSummary'
