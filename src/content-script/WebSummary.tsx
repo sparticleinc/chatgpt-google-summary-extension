@@ -58,7 +58,9 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
         <div className="glarity--card">
           <div className="glarity--card__head ">
             <div className="glarity--card__head--title">
-              <img src={logo} /> Glarity Summary{' '}
+              <a href="https://glarity.app" rel="noreferrer" target="_blank">
+                <img src={logo} /> Glarity Summary
+              </a>{' '}
               <button
                 className={classNames('glarity--btn', 'glarity--btn__icon')}
                 onClick={openOptionsPage}

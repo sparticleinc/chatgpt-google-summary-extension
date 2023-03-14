@@ -27,6 +27,10 @@ $font-size-normal: 14px;
     .glarity--card__head--title {
       font-weight: bold;
 
+      a {
+        color: #000;
+      }
+
       img {
         width: 20px;
         height: 20px;
@@ -56,7 +60,7 @@ $font-size-normal: 14px;
       text-align: center;
     }
 
-    .glarity--chatgpt--header {
+    .glarity--container #gpt-answer.markdown-body.gpt-markdown .glarity--chatgpt--header {
       margin: -13px -12px 0 0 !important;
     }
   }
@@ -83,12 +87,15 @@ $font-size-normal: 14px;
     color: $gray-color;
     background: transparent;
 
-    &:hover {
-      color: $primary-color;
-    }
+    // &:hover {
+    //   color: $primary-color;
+    // }
   }
 
   &.glarity--btn__launch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0;
     width: 24px;
     height: 24px;
@@ -100,6 +107,7 @@ $font-size-normal: 14px;
     img {
       width: 20px;
       height: 20px;
+      vertical-align: middle;
     }
   }
 
@@ -125,3 +133,37 @@ $font-size-normal: 14px;
 }
 
 // Dark
+@media (prefers-color-scheme: dark) {
+  .glarity--card {
+    background: rgb(35, 36, 40);
+    border-color: #444950;
+    box-shadow: 0 3px 9px rgb(255 255 255 / 30%);
+
+    .glarity--card__head {
+      border-bottom-color: #444950;
+    }
+
+    .glarity--card__content,
+    .glarity--card__head {
+      color: #ccc;
+
+      .glarity--card__head--title {
+        a {
+          color: #ccc;
+        }
+      }
+    }
+  }
+
+  .glarity--btn {
+    border-color: #444950;
+
+    &.glarity--btn__primary {
+      border-color: #999;
+    }
+
+    &.glarity--btn__icon {
+      color: #999;
+    }
+  }
+}
