@@ -10,12 +10,16 @@ import { getSummaryPrompt } from '../content-script/prompt'
 import logoWhite from '../logo-white.png'
 import logo from '../logo.png'
 
-function WebSummary(props) {
+function WebSummary() {
   const [showCard, setShowCard] = useState(false)
   const [question, setQuestion] = useState('')
 
   const onSwitch = () => {
     setShowCard((state) => {
+      if (!state) {
+        setQuestion('')
+      }
+
       return !state
     })
   }
