@@ -351,75 +351,11 @@ span.glarity--header__logo {
 // Web Summary
 .glarity--summary {
   position: fixed;
-  top: 60px;
+  top: 160px;
   right: 15px;
   z-index: 99999999999999;
 
-  .glarity--summary__btn {
-    padding: 0 !important;
-    width: 24px !important;
-    height: 24px !important;
-    text-align: center;
-    vertical-align: middle;
-    border: 1px solid #144a7f !important;
-
-    img {
-      width: 22px;
-      height: 22px;
-    }
-  }
-
-  .glarity--summary__card {
-    position: absolute;
-    right: 0;
-    top: 0;
+  .glarity--card {
     width: 420px;
-    border: 1px solid #eee;
-    box-shadow: 0 3px 8px rgb(0 0 0 / 15%);
-    border-radius: 6px !important;
-
-    .glarity--summary__card--title {
-      font-weight: bold;
-      img {
-        width: 20px;
-        height: 20px;
-        vertical-align: middle;
-      }
-    }
-
-    .content,
-    footer {
-      padding: 10px;
-      box-sizing: border-box;
-    }
-
-    footer {
-      height: auto;
-      min-height: auto;
-    }
-
-    .glarity--summary__card--content {
-      padding: 10px 15px;
-      font-size: 14px;
-      color: #333;
-      line-height: 1.6;
-      max-height: 500px;
-      overflow-y: auto;
-
-      .glarity--container {
-        margin-bottom: 0;
-
-        .glarity--chatgpt {
-          border: none;
-        }
-      }
-    }
-
-    .glarity--summary__card--close {
-      padding: 0;
-      height: auto !important;
-      border: none !important;
-      background: transparent !important;
-    }
   }
 }

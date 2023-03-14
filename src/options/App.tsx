@@ -18,7 +18,7 @@ import {
   Note,
 } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
-import '../base.css'
+import '../base.scss'
 import {
   getUserConfig,
   Language,
