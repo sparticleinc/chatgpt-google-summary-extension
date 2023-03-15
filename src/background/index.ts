@@ -142,12 +142,24 @@ Browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   })
 })
 
-Browser.action.onClicked.addListener((tab) => {
-  const { id } = tab
+if (navigator.userAgent.indexOf('Firefox') != -1) {
+  Browser.browserAction.onClicked.addListener((tab) => {
+    const { id } = tab
 
-  if (!id) {
-    return
-  }
+    if (!id) {
+      return
+    }
 
-  Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
-})
+    Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
+  })
+} else {
+  Browser.action.onClicked.addListener((tab) => {
+    const { id } = tab
+
+    if (!id) {
+      return
+    }
+
+    Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
+  })
+}
