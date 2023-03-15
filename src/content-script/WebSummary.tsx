@@ -18,6 +18,7 @@ interface Props {
 function WebSummary(props: Props) {
   const { webSummary, webSummarySites, siteRegex } = props
   const [showCard, setShowCard] = useState(false)
+  const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
 
   const onSwitch = useCallback(() => {
@@ -37,24 +38,33 @@ function WebSummary(props: Props) {
   }, [])
 
   const onSummary = useCallback(async () => {
+    setSupportSummary(true)
     setQuestion('')
     const html = document.querySelector('html')?.outerHTML
     const url = location.href
 
     if (!html) {
+      setSupportSummary(false)
       return
     }
 
     const article = await extractFromHtml(html, url)
     console.log('article', article)
 
-    if (article?.content) {
+    const title = article?.title || document.title || ''
+    const description =
+      article?.description ||
+      document.querySelector('meta[name="description"]')?.getAttribute('content') ||
+      ''
+    const content = article?.content ? description + article?.content : title + description
+
+    if (article?.content || description) {
       const language = window.navigator.language
       const userConfig = await getUserConfig()
       const providerConfigs = await getProviderConfigs()
 
       setQuestion(`Content:  ${getSummaryPrompt(
-        (article.description + article.content).replace(/<[^>]+>/g, ''),
+        content.replace(/<[^>]+>/g, ''),
         providerConfigs.provider,
       )}
 
@@ -62,7 +72,10 @@ Instructions: Please use the contents to summarize the highlights.
 
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
       `)
+      return
     }
+
+    setSupportSummary(false)
   }, [])
 
   useEffect(() => {
@@ -111,17 +124,21 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
               </div>
             ) : (
               <div className="glarity--card__empty ">
-                <button
-                  className={classNames(
-                    'glarity--btn',
-                    'glarity--btn__primary',
-                    // 'glarity--btn__large',
-                    'glarity--btn__block',
-                  )}
-                  onClick={onSummary}
-                >
-                  Summary
-                </button>
+                {!supportSummary ? (
+                  'Sorry, the summary of this page is not supported.'
+                ) : (
+                  <button
+                    className={classNames(
+                      'glarity--btn',
+                      'glarity--btn__primary',
+                      // 'glarity--btn__large',
+                      'glarity--btn__block',
+                    )}
+                    onClick={onSummary}
+                  >
+                    Summary
+                  </button>
+                )}
               </div>
             )}
           </div>
