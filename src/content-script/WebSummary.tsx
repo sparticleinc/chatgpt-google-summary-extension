@@ -82,11 +82,15 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     Browser.runtime.onMessage.addListener((message) => {
       const { type } = message
       if (type === 'OPEN_WEB_SUMMARY') {
+        if (showCard) {
+          return
+        }
+
         setQuestion('')
         setShowCard(true)
       }
     })
-  }, [])
+  }, [showCard])
 
   return (
     <>
