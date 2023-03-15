@@ -13,13 +13,13 @@ import logo from '../logo.png'
 interface Props {
   webSummary: string
   webSummarySites: string
+  siteRegex: RegExp
 }
 
 function WebSummary(props: Props) {
-  const { webSummary, webSummarySites } = props
+  const { webSummary, webSummarySites, siteRegex } = props
   const [showCard, setShowCard] = useState(false)
   const [question, setQuestion] = useState('')
-  const [siteRegex, setSiteRegex] = useState<RegExp>()
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -73,16 +73,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
         setShowCard(true)
       }
     })
-
-    const siteRegex = new RegExp(
-      Object.values(siteConfig)
-        .map((v) => {
-          return v.regex
-        })
-        .join('|'),
-    )
-
-    setSiteRegex(siteRegex)
   }, [])
 
   return (
@@ -138,8 +128,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
         </div>
       ) : (
         ((webSummary === 'custom' && webSummarySites.includes(location.hostname)) ||
-          webSummary === 'all') &&
-        !siteRegex?.test(location.hostname) && (
+          (webSummary === 'all' && !siteRegex?.test(location.hostname))) && (
           <button
             onClick={onSwitch}
             className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}

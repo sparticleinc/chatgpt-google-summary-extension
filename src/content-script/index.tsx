@@ -228,11 +228,23 @@ async function Run() {
 
   const userConfig = await getUserConfig()
 
+  const siteRegex = new RegExp(
+    Object.values(siteConfig)
+      .map((v) => {
+        return v.regex
+      })
+      .join('|'),
+  )
+
   const container = document.createElement('section')
   container.className = 'glarity--summary'
   document.body.prepend(container)
   render(
-    <WebSummary webSummary={userConfig.webSummary} webSummarySites={userConfig.webSummarySites} />,
+    <WebSummary
+      webSummary={userConfig.webSummary}
+      webSummarySites={userConfig.webSummarySites}
+      siteRegex={siteRegex}
+    />,
     container,
   )
 
