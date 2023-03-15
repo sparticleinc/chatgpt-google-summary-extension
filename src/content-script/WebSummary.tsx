@@ -36,6 +36,7 @@ function WebSummary(props: Props) {
   }, [])
 
   const onSummary = useCallback(async () => {
+    setQuestion('')
     const html = document.querySelector('html')?.outerHTML
     const url = location.href
 
@@ -46,7 +47,7 @@ function WebSummary(props: Props) {
     const article = await extractFromHtml(html, url)
     console.log('article', article)
 
-    if (article.content) {
+    if (article?.content) {
       const language = window.navigator.language
       const userConfig = await getUserConfig()
       const providerConfigs = await getProviderConfigs()
@@ -124,8 +125,8 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
           </div>
         </div>
       ) : (
-        webSummary === 'custom' &&
-        webSummarySites.includes(location.hostname) && (
+        ((webSummary === 'custom' && webSummarySites.includes(location.hostname)) ||
+          webSummary === 'all') && (
           <button
             onClick={onSwitch}
             className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}
@@ -134,65 +135,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
           </button>
         )
       )}
-
-      {/* {showCard ? (
-
-    
-
-        <div className="glarity--summary__card">
-          <Card>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              className="glarity--flex glarity--justify-between"
-            >
-              <div className="glarity--summary__card--title">
-                <img src={logo} /> Glarity Summary
-              </div>
-
-              <Button
-                variant="outlined"
-                size="small"
-                className="glarity--summary__card--close"
-                startIcon={<XCircleFillIcon />}
-                onClick={onSwitch}
-              ></Button>
-            </Typography>
-
-            <Divider my={0} />
-
-            <Card.Content className="glarity--summary__card--content">
-              <Button variant="text">Text</Button>
-              <Button variant="contained">Contained</Button>
-              <Button variant="outlined">Outlined</Button>
-              {question ? (
-                <div className="glarity--container">
-                  <div className="glarity--chatgpt">
-                    <ChatGPTQuery question={question} />
-                  </div>
-                </div>
-              ) : (
-                <Button type="success" scale={0.5} onClick={onSummary}>
-                  Summarize
-                </Button>
-              )}
-            </Card.Content>
-
-            {/* <Card.Footer className="glarity--justify-end">
-              <Button scale={0.25} type="success" ghost icon={<CopyIcon />} auto>
-                Copy
-              </Button>
-              <Button scale={0.25} type="secondary" ghost icon={<ShareIcon />} auto>
-                Share
-              </Button>
-            </Card.Footer> */}
-
-      {/* ) : (
-        <Button className={'glarity--summary__btn'} type="success" auto inline onClick={onSwitch}>
-          <img src={logoWhite} className="glarity--w-5 glarity--h-5 glarity--rounded-sm" />
-        </Button>
-      )} */}
     </>
   )
 }
