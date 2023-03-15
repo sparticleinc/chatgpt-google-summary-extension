@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'preact/hooks'
 import { Note, Description, Button, Divider } from '@geist-ui/core'
 import { XCircleFillIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'

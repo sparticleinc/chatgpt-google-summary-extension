@@ -41,7 +41,7 @@ $font-size-normal: 14px;
       }
 
       img {
-        margin-right: 4px;
+        margin: 0 4px 0 0;
         width: 20px;
         height: 20px;
         vertical-align: middle;
@@ -50,6 +50,7 @@ $font-size-normal: 14px;
   }
 
   .glarity--card__content {
+    position: relative;
     padding: 15px;
     color: #333;
     line-height: 1.6;
@@ -67,6 +68,11 @@ $font-size-normal: 14px;
     }
 
     .glarity--card__empty {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
       display: flex;
       padding: 6px 16px;
       text-align: center;
@@ -85,6 +91,7 @@ $font-size-normal: 14px;
 .glarity--btn {
   margin: 0;
   padding: 8px 10px;
+  line-height: 1;
   font-size: $font-size-normal;
   border-radius: 8px;
   border: 1px solid #fff;
@@ -120,6 +127,7 @@ $font-size-normal: 14px;
     background: #fff;
 
     img {
+      margin: 0;
       width: 20px;
       height: 20px;
       vertical-align: middle;

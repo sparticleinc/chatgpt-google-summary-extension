@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon, ShareIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery from '../content-script/ChatGPTQuery'
-import { extractFromHtml } from '@extractus/article-extractor'
+import { extractFromHtml, extract } from '@extractus/article-extractor'
 import { getUserConfig, Language, getProviderConfigs } from '../config'
 import { getSummaryPrompt } from '../content-script/prompt'
 import logoWhite from '../logo-white.png'
@@ -48,7 +48,8 @@ function WebSummary(props: Props) {
       return
     }
 
-    const article = await extractFromHtml(html, url)
+    // const article = await extractFromHtml(html, url)
+    const article = await extract(url)
     console.log('article', article)
 
     const title = article?.title || document.title || ''
