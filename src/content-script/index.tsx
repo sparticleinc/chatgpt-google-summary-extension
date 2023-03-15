@@ -229,7 +229,7 @@ async function Run() {
   const userConfig = await getUserConfig()
 
   const siteRegex = new RegExp(
-    Object.values(siteConfig)
+    Object.values(config)
       .map((v) => {
         return v.regex
       })

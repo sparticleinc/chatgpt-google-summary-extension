@@ -56,6 +56,7 @@ $font-size-normal: 14px;
     max-height: 500px;
     overflow-y: auto;
     overflow-wrap: break-word;
+    min-height: 110px;
 
     .glarity--container {
       margin-bottom: 0;
@@ -66,8 +67,12 @@ $font-size-normal: 14px;
     }
 
     .glarity--card__empty {
+      display: flex;
       padding: 6px 16px;
       text-align: center;
+      justify-content: center;
+      align-items: center;
+      min-height: 70px;
     }
 
     .glarity--container #gpt-answer.markdown-body.gpt-markdown .glarity--chatgpt--header {

@@ -6,7 +6,6 @@ import ChatGPTQuery from '../content-script/ChatGPTQuery'
 import { extractFromHtml } from '@extractus/article-extractor'
 import { getUserConfig, Language, getProviderConfigs } from '../config'
 import { getSummaryPrompt } from '../content-script/prompt'
-import { config as siteConfig } from './search-engine-configs'
 import logoWhite from '../logo-white.png'
 import logo from '../logo.png'
 
@@ -70,6 +69,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     Browser.runtime.onMessage.addListener((message) => {
       const { type } = message
       if (type === 'OPEN_WEB_SUMMARY') {
+        setQuestion('')
         setShowCard(true)
       }
     })
@@ -115,7 +115,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
                   className={classNames(
                     'glarity--btn',
                     'glarity--btn__primary',
-                    'glarity--btn__large',
+                    // 'glarity--btn__large',
                     'glarity--btn__block',
                   )}
                   onClick={onSummary}
