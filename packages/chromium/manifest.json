@@ -20,7 +20,9 @@
     "scripting"
   ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": [
+        "background.js"
+    ]
   },
   "action": {},
   "options_ui": {
