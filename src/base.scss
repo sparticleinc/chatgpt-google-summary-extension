@@ -97,6 +97,15 @@ $font-size-normal: 14px;
   border: 1px solid #fff;
   cursor: pointer;
 
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
   &:hover {
     opacity: 0.9;
   }
@@ -131,6 +140,7 @@ $font-size-normal: 14px;
       width: 20px;
       height: 20px;
       vertical-align: middle;
+      filter: blur(0);
     }
   }
 

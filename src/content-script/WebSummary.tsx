@@ -21,6 +21,7 @@ function WebSummary(props: Props) {
   const [showCard, setShowCard] = useState(false)
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -28,6 +29,7 @@ function WebSummary(props: Props) {
 
       if (cardState) {
         setQuestion('')
+        setLoading(false)
       }
 
       return cardState
@@ -39,7 +41,9 @@ function WebSummary(props: Props) {
   }, [])
 
   const onSummary = useCallback(async () => {
+    setLoading(true)
     setSupportSummary(true)
+
     setQuestion('')
     const html = document.querySelector('html')?.outerHTML
     const url = location.href
@@ -50,7 +54,6 @@ function WebSummary(props: Props) {
     }
 
     const article = await extractFromHtml(html, url)
-    // const article = await extract(url)
     console.log('article', article)
 
     const title = article?.title || document.title || ''
@@ -90,9 +93,14 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
         setQuestion('')
         setShowCard(true)
+        setLoading(false)
       }
     })
   }, [showCard])
+
+  // useEffect(() => {
+  //   console.log('question', question)
+  // }, [question])
 
   return (
     <>
@@ -101,7 +109,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
           <div className="glarity--card__head ">
             <div className="glarity--card__head--title">
               <a href="https://glarity.app" rel="noreferrer" target="_blank">
-                <img src={logo} /> Glarity Summary
+                <img src={logo} alt="Glarity Summary" /> Glarity Summary
               </a>{' '}
               <button
                 className={classNames('glarity--btn', 'glarity--btn__icon')}
@@ -141,6 +149,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
                       'glarity--btn__block',
                     )}
                     onClick={onSummary}
+                    disabled={loading}
                   >
                     Summary
                   </button>
@@ -156,7 +165,11 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
             onClick={onSwitch}
             className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}
           >
-            <img src={logoWhite} className="glarity--w-5 glarity--h-5 glarity--rounded-sm" />
+            <img
+              src={logoWhite}
+              alt="Glarity Summary"
+              className="glarity--w-5 glarity--h-5 glarity--rounded-sm"
+            />
           </button>
         )
       )}

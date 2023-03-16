@@ -142,24 +142,22 @@ Browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   })
 })
 
+const openWebSummary = (tab) => {
+  const { id } = tab
+
+  if (!id) {
+    return
+  }
+
+  Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
+}
+
 if (navigator.userAgent.indexOf('Firefox') != -1) {
   Browser.browserAction.onClicked.addListener((tab) => {
-    const { id } = tab
-
-    if (!id) {
-      return
-    }
-
-    Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
+    openWebSummary(tab)
   })
 } else {
   Browser.action.onClicked.addListener((tab) => {
-    const { id } = tab
-
-    if (!id) {
-      return
-    }
-
-    Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
+    openWebSummary(tab)
   })
 }
