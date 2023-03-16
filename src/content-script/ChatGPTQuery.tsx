@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useState, useCallback } from 'preact/hooks'
 import { memo, useMemo } from 'react'
 import { Loading, Button } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
@@ -64,14 +64,18 @@ function ChatGPTQuery(props: Props) {
     }, 1000)
   }, [])
 
-  const newTab = () => {
+  const newTab = useCallback(() => {
     Browser.runtime.sendMessage({
       type: 'NEW_TAB',
       data: {
         url: `${BASE_URL}/chat`,
       },
     })
-  }
+  }, [])
+
+  const openOptionsPage = useCallback(() => {
+    Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
+  }, [])
 
   useEffect(() => {
     console.log('ChatGPTQuery props', props)
@@ -154,7 +158,11 @@ function ChatGPTQuery(props: Props) {
               return (
                 <span className="glarity--italic glarity--block glarity--mt-2 glarity--text-xs">
                   OpenAI requires passing a security check every once in a while. If this keeps
-                  happening, change AI provider to OpenAI API in the extension options.
+                  happening, change AI provider to OpenAI API in the{' '}
+                  <Button type="success" ghost auto scale={0.5} onClick={openOptionsPage}>
+                    extension options
+                  </Button>
+                  .
                 </span>
               )
             }
