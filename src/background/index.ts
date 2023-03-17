@@ -70,7 +70,7 @@ async function createTab(url) {
   return { pinnedTabId: tab.id }
 }
 
-Browser.runtime.onConnect.addListener((port) => {
+Browser.runtime.onConnect.addListener(async (port) => {
   port.onMessage.addListener(async (msg) => {
     console.debug('received msg', msg)
     try {
@@ -105,7 +105,7 @@ Browser.runtime.onMessage.addListener(async (message) => {
   }
 })
 
-Browser.runtime.onInstalled.addListener((details) => {
+Browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
     Browser.runtime.openOptionsPage()
   }
@@ -142,7 +142,7 @@ Browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   })
 })
 
-const openWebSummary = (tab) => {
+async function openWebSummary(tab) {
   const { id } = tab
 
   if (!id) {
@@ -153,11 +153,11 @@ const openWebSummary = (tab) => {
 }
 
 if (navigator.userAgent.indexOf('Firefox') != -1) {
-  Browser.browserAction.onClicked.addListener((tab) => {
-    openWebSummary(tab)
+  Browser.browserAction.onClicked.addListener(async (tab) => {
+    await openWebSummary(tab)
   })
 } else {
-  Browser.action.onClicked.addListener((tab) => {
-    openWebSummary(tab)
+  Browser.action.onClicked.addListener(async (tab) => {
+    await openWebSummary(tab)
   })
 }

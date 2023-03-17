@@ -7,98 +7,98 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		556B126F29C300EA0045A41D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556B126E29C300EA0045A41D /* AppDelegate.swift */; };
-		556B127129C300EA0045A41D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556B127029C300EA0045A41D /* SceneDelegate.swift */; };
-		556B127429C300EA0045A41D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 556B127229C300EA0045A41D /* LaunchScreen.storyboard */; };
-		556B127729C300EA0045A41D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 556B127529C300EA0045A41D /* Main.storyboard */; };
-		556B128029C300EA0045A41D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556B127F29C300EA0045A41D /* AppDelegate.swift */; };
-		556B128329C300EA0045A41D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 556B128129C300EA0045A41D /* Main.storyboard */; };
-		556B128B29C300EA0045A41D /* Glarity Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 556B128A29C300EA0045A41D /* Glarity Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		556B129529C300EA0045A41D /* Glarity Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 556B129429C300EA0045A41D /* Glarity Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		556B129B29C300EA0045A41D /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 556B125E29C300E70045A41D /* Main.html */; };
-		556B129C29C300EA0045A41D /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 556B125E29C300E70045A41D /* Main.html */; };
-		556B129D29C300EA0045A41D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B126029C300E70045A41D /* Icon.png */; };
-		556B129E29C300EA0045A41D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B126029C300E70045A41D /* Icon.png */; };
-		556B129F29C300EA0045A41D /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B126129C300E70045A41D /* Style.css */; };
-		556B12A029C300EA0045A41D /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B126129C300E70045A41D /* Style.css */; };
-		556B12A129C300EA0045A41D /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B126229C300E70045A41D /* Script.js */; };
-		556B12A229C300EA0045A41D /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B126229C300E70045A41D /* Script.js */; };
-		556B12A329C300EA0045A41D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556B126329C300E70045A41D /* ViewController.swift */; };
-		556B12A429C300EA0045A41D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556B126329C300E70045A41D /* ViewController.swift */; };
-		556B12A529C300EA0045A41D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556B126429C300EA0045A41D /* Assets.xcassets */; };
-		556B12A629C300EA0045A41D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556B126429C300EA0045A41D /* Assets.xcassets */; };
-		556B12A729C300EA0045A41D /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556B126629C300EA0045A41D /* SafariWebExtensionHandler.swift */; };
-		556B12A829C300EA0045A41D /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556B126629C300EA0045A41D /* SafariWebExtensionHandler.swift */; };
-		556B12CA29C300EB0045A41D /* content-script.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BA29C300EA0045A41D /* content-script.css */; };
-		556B12CB29C300EB0045A41D /* logo-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BB29C300EA0045A41D /* logo-128.png */; };
-		556B12CC29C300EB0045A41D /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BC29C300EA0045A41D /* popup.js */; };
-		556B12CD29C300EB0045A41D /* logo-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BD29C300EA0045A41D /* logo-16.png */; };
-		556B12CE29C300EB0045A41D /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BE29C300EA0045A41D /* background.js */; };
-		556B12CF29C300EB0045A41D /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BF29C300EA0045A41D /* popup.html */; };
-		556B12D029C300EB0045A41D /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C029C300EA0045A41D /* options.js */; };
-		556B12D129C300EB0045A41D /* logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C129C300EA0045A41D /* logo-48.png */; };
-		556B12D229C300EB0045A41D /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C229C300EA0045A41D /* logo.png */; };
-		556B12D329C300EB0045A41D /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C329C300EA0045A41D /* manifest.json */; };
-		556B12D429C300EB0045A41D /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C429C300EA0045A41D /* content-script.js */; };
-		556B12D529C300EB0045A41D /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C529C300EA0045A41D /* logo-32.png */; };
-		556B12D629C300EB0045A41D /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C629C300EA0045A41D /* options.html */; };
-		556B12D729C300EB0045A41D /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C729C300EA0045A41D /* popup.css */; };
-		556B12D829C300EB0045A41D /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C829C300EA0045A41D /* _locales */; };
-		556B12D929C300EB0045A41D /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C929C300EB0045A41D /* options.css */; };
-		556B12DA29C300EB0045A41D /* content-script.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BA29C300EA0045A41D /* content-script.css */; };
-		556B12DB29C300EB0045A41D /* logo-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BB29C300EA0045A41D /* logo-128.png */; };
-		556B12DC29C300EB0045A41D /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BC29C300EA0045A41D /* popup.js */; };
-		556B12DD29C300EB0045A41D /* logo-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BD29C300EA0045A41D /* logo-16.png */; };
-		556B12DE29C300EB0045A41D /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BE29C300EA0045A41D /* background.js */; };
-		556B12DF29C300EB0045A41D /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 556B12BF29C300EA0045A41D /* popup.html */; };
-		556B12E029C300EB0045A41D /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C029C300EA0045A41D /* options.js */; };
-		556B12E129C300EB0045A41D /* logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C129C300EA0045A41D /* logo-48.png */; };
-		556B12E229C300EB0045A41D /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C229C300EA0045A41D /* logo.png */; };
-		556B12E329C300EB0045A41D /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C329C300EA0045A41D /* manifest.json */; };
-		556B12E429C300EB0045A41D /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C429C300EA0045A41D /* content-script.js */; };
-		556B12E529C300EB0045A41D /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C529C300EA0045A41D /* logo-32.png */; };
-		556B12E629C300EB0045A41D /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C629C300EA0045A41D /* options.html */; };
-		556B12E729C300EB0045A41D /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C729C300EA0045A41D /* popup.css */; };
-		556B12E829C300EB0045A41D /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C829C300EA0045A41D /* _locales */; };
-		556B12E929C300EB0045A41D /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 556B12C929C300EB0045A41D /* options.css */; };
+		55905B4E29C458A7007DF3AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4D29C458A7007DF3AF /* AppDelegate.swift */; };
+		55905B5029C458A7007DF3AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4F29C458A7007DF3AF /* SceneDelegate.swift */; };
+		55905B5329C458A7007DF3AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55905B5129C458A7007DF3AF /* LaunchScreen.storyboard */; };
+		55905B5629C458A7007DF3AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55905B5429C458A7007DF3AF /* Main.storyboard */; };
+		55905B5F29C458A7007DF3AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B5E29C458A7007DF3AF /* AppDelegate.swift */; };
+		55905B6229C458A7007DF3AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55905B6029C458A7007DF3AF /* Main.storyboard */; };
+		55905B6A29C458A7007DF3AF /* Glarity Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 55905B6929C458A7007DF3AF /* Glarity Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		55905B7429C458A7007DF3AF /* Glarity Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 55905B7329C458A7007DF3AF /* Glarity Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		55905B7A29C458A7007DF3AF /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905B3D29C458A5007DF3AF /* Main.html */; };
+		55905B7B29C458A7007DF3AF /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905B3D29C458A5007DF3AF /* Main.html */; };
+		55905B7C29C458A7007DF3AF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905B3F29C458A5007DF3AF /* Icon.png */; };
+		55905B7D29C458A7007DF3AF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905B3F29C458A5007DF3AF /* Icon.png */; };
+		55905B7E29C458A7007DF3AF /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905B4029C458A5007DF3AF /* Style.css */; };
+		55905B7F29C458A7007DF3AF /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905B4029C458A5007DF3AF /* Style.css */; };
+		55905B8029C458A7007DF3AF /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B4129C458A5007DF3AF /* Script.js */; };
+		55905B8129C458A7007DF3AF /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B4129C458A5007DF3AF /* Script.js */; };
+		55905B8229C458A7007DF3AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4229C458A5007DF3AF /* ViewController.swift */; };
+		55905B8329C458A7007DF3AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4229C458A5007DF3AF /* ViewController.swift */; };
+		55905B8429C458A7007DF3AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55905B4329C458A7007DF3AF /* Assets.xcassets */; };
+		55905B8529C458A7007DF3AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55905B4329C458A7007DF3AF /* Assets.xcassets */; };
+		55905B8629C458A7007DF3AF /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4529C458A7007DF3AF /* SafariWebExtensionHandler.swift */; };
+		55905B8729C458A7007DF3AF /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4529C458A7007DF3AF /* SafariWebExtensionHandler.swift */; };
+		55905BA929C458A8007DF3AF /* content-script.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9929C458A8007DF3AF /* content-script.css */; };
+		55905BAA29C458A8007DF3AF /* logo-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9A29C458A8007DF3AF /* logo-128.png */; };
+		55905BAB29C458A8007DF3AF /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9B29C458A8007DF3AF /* popup.js */; };
+		55905BAC29C458A8007DF3AF /* logo-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9C29C458A8007DF3AF /* logo-16.png */; };
+		55905BAD29C458A8007DF3AF /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9D29C458A8007DF3AF /* background.js */; };
+		55905BAE29C458A8007DF3AF /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9E29C458A8007DF3AF /* popup.html */; };
+		55905BAF29C458A8007DF3AF /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9F29C458A8007DF3AF /* options.js */; };
+		55905BB029C458A8007DF3AF /* logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA029C458A8007DF3AF /* logo-48.png */; };
+		55905BB129C458A8007DF3AF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA129C458A8007DF3AF /* logo.png */; };
+		55905BB329C458A8007DF3AF /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA329C458A8007DF3AF /* content-script.js */; };
+		55905BB429C458A8007DF3AF /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA429C458A8007DF3AF /* logo-32.png */; };
+		55905BB529C458A8007DF3AF /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA529C458A8007DF3AF /* options.html */; };
+		55905BB629C458A8007DF3AF /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA629C458A8007DF3AF /* popup.css */; };
+		55905BB729C458A8007DF3AF /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA729C458A8007DF3AF /* _locales */; };
+		55905BB829C458A8007DF3AF /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA829C458A8007DF3AF /* options.css */; };
+		55905BB929C458A8007DF3AF /* content-script.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9929C458A8007DF3AF /* content-script.css */; };
+		55905BBA29C458A8007DF3AF /* logo-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9A29C458A8007DF3AF /* logo-128.png */; };
+		55905BBB29C458A8007DF3AF /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9B29C458A8007DF3AF /* popup.js */; };
+		55905BBC29C458A8007DF3AF /* logo-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9C29C458A8007DF3AF /* logo-16.png */; };
+		55905BBD29C458A8007DF3AF /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9D29C458A8007DF3AF /* background.js */; };
+		55905BBE29C458A8007DF3AF /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9E29C458A8007DF3AF /* popup.html */; };
+		55905BBF29C458A8007DF3AF /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9F29C458A8007DF3AF /* options.js */; };
+		55905BC029C458A8007DF3AF /* logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA029C458A8007DF3AF /* logo-48.png */; };
+		55905BC129C458A8007DF3AF /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA129C458A8007DF3AF /* logo.png */; };
+		55905BC229C458A8007DF3AF /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA229C458A8007DF3AF /* manifest.json */; };
+		55905BC329C458A8007DF3AF /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA329C458A8007DF3AF /* content-script.js */; };
+		55905BC429C458A8007DF3AF /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA429C458A8007DF3AF /* logo-32.png */; };
+		55905BC529C458A8007DF3AF /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA529C458A8007DF3AF /* options.html */; };
+		55905BC629C458A8007DF3AF /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA629C458A8007DF3AF /* popup.css */; };
+		55905BC729C458A8007DF3AF /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA729C458A8007DF3AF /* _locales */; };
+		55905BC829C458A8007DF3AF /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA829C458A8007DF3AF /* options.css */; };
+		55B48A6829C458E200029E03 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 55B48A6729C458E200029E03 /* manifest.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		556B128C29C300EA0045A41D /* PBXContainerItemProxy */ = {
+		55905B6B29C458A7007DF3AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 556B125829C300E60045A41D /* Project object */;
+			containerPortal = 55905B3729C458A5007DF3AF /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 556B128929C300EA0045A41D;
+			remoteGlobalIDString = 55905B6829C458A7007DF3AF;
 			remoteInfo = "Glarity Extension (iOS)";
 		};
-		556B129629C300EA0045A41D /* PBXContainerItemProxy */ = {
+		55905B7529C458A7007DF3AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 556B125829C300E60045A41D /* Project object */;
+			containerPortal = 55905B3729C458A5007DF3AF /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 556B129329C300EA0045A41D;
+			remoteGlobalIDString = 55905B7229C458A7007DF3AF;
 			remoteInfo = "Glarity Extension (macOS)";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		556B12AE29C300EA0045A41D /* Embed Foundation Extensions */ = {
+		55905B8D29C458A7007DF3AF /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				556B128B29C300EA0045A41D /* Glarity Extension.appex in Embed Foundation Extensions */,
+				55905B6A29C458A7007DF3AF /* Glarity Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B12B529C300EA0045A41D /* Embed Foundation Extensions */ = {
+		55905B9429C458A7007DF3AF /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				556B129529C300EA0045A41D /* Glarity Extension.appex in Embed Foundation Extensions */,
+				55905B7429C458A7007DF3AF /* Glarity Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,70 +106,71 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		556B125F29C300E70045A41D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
-		556B126029C300E70045A41D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		556B126129C300E70045A41D /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
-		556B126229C300E70045A41D /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
-		556B126329C300E70045A41D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		556B126429C300EA0045A41D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		556B126629C300EA0045A41D /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
-		556B126B29C300EA0045A41D /* Glarity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glarity.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		556B126E29C300EA0045A41D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		556B127029C300EA0045A41D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		556B127329C300EA0045A41D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		556B127629C300EA0045A41D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		556B127829C300EA0045A41D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		556B127D29C300EA0045A41D /* Glarity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glarity.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		556B127F29C300EA0045A41D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		556B128229C300EA0045A41D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		556B128429C300EA0045A41D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		556B128529C300EA0045A41D /* Glarity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glarity.entitlements; sourceTree = "<group>"; };
-		556B128A29C300EA0045A41D /* Glarity Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Glarity Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		556B128F29C300EA0045A41D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		556B129429C300EA0045A41D /* Glarity Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Glarity Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		556B129929C300EA0045A41D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		556B129A29C300EA0045A41D /* Glarity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glarity.entitlements; sourceTree = "<group>"; };
-		556B12BA29C300EA0045A41D /* content-script.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = "content-script.css"; path = "../../../packages/chromium/content-script.css"; sourceTree = "<group>"; };
-		556B12BB29C300EA0045A41D /* logo-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-128.png"; path = "../../../packages/chromium/logo-128.png"; sourceTree = "<group>"; };
-		556B12BC29C300EA0045A41D /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../../packages/chromium/popup.js; sourceTree = "<group>"; };
-		556B12BD29C300EA0045A41D /* logo-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-16.png"; path = "../../../packages/chromium/logo-16.png"; sourceTree = "<group>"; };
-		556B12BE29C300EA0045A41D /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../packages/chromium/background.js; sourceTree = "<group>"; };
-		556B12BF29C300EA0045A41D /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../../packages/chromium/popup.html; sourceTree = "<group>"; };
-		556B12C029C300EA0045A41D /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../packages/chromium/options.js; sourceTree = "<group>"; };
-		556B12C129C300EA0045A41D /* logo-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-48.png"; path = "../../../packages/chromium/logo-48.png"; sourceTree = "<group>"; };
-		556B12C229C300EA0045A41D /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../packages/chromium/logo.png; sourceTree = "<group>"; };
-		556B12C329C300EA0045A41D /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../packages/chromium/manifest.json; sourceTree = "<group>"; };
-		556B12C429C300EA0045A41D /* content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "content-script.js"; path = "../../../packages/chromium/content-script.js"; sourceTree = "<group>"; };
-		556B12C529C300EA0045A41D /* logo-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-32.png"; path = "../../../packages/chromium/logo-32.png"; sourceTree = "<group>"; };
-		556B12C629C300EA0045A41D /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../packages/chromium/options.html; sourceTree = "<group>"; };
-		556B12C729C300EA0045A41D /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = popup.css; path = ../../../packages/chromium/popup.css; sourceTree = "<group>"; };
-		556B12C829C300EA0045A41D /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../../packages/chromium/_locales; sourceTree = "<group>"; };
-		556B12C929C300EB0045A41D /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../packages/chromium/options.css; sourceTree = "<group>"; };
+		55905B3E29C458A5007DF3AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
+		55905B3F29C458A5007DF3AF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		55905B4029C458A5007DF3AF /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		55905B4129C458A5007DF3AF /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		55905B4229C458A5007DF3AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		55905B4329C458A7007DF3AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		55905B4529C458A7007DF3AF /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		55905B4A29C458A7007DF3AF /* Glarity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glarity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55905B4D29C458A7007DF3AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		55905B4F29C458A7007DF3AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		55905B5229C458A7007DF3AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		55905B5529C458A7007DF3AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		55905B5729C458A7007DF3AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55905B5C29C458A7007DF3AF /* Glarity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glarity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55905B5E29C458A7007DF3AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		55905B6129C458A7007DF3AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		55905B6329C458A7007DF3AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55905B6429C458A7007DF3AF /* Glarity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glarity.entitlements; sourceTree = "<group>"; };
+		55905B6929C458A7007DF3AF /* Glarity Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Glarity Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55905B6E29C458A7007DF3AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55905B7329C458A7007DF3AF /* Glarity Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Glarity Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55905B7829C458A7007DF3AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55905B7929C458A7007DF3AF /* Glarity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glarity.entitlements; sourceTree = "<group>"; };
+		55905B9929C458A8007DF3AF /* content-script.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = "content-script.css"; path = "../../../packages/chromium/content-script.css"; sourceTree = "<group>"; };
+		55905B9A29C458A8007DF3AF /* logo-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-128.png"; path = "../../../packages/chromium/logo-128.png"; sourceTree = "<group>"; };
+		55905B9B29C458A8007DF3AF /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../../packages/chromium/popup.js; sourceTree = "<group>"; };
+		55905B9C29C458A8007DF3AF /* logo-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-16.png"; path = "../../../packages/chromium/logo-16.png"; sourceTree = "<group>"; };
+		55905B9D29C458A8007DF3AF /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../packages/chromium/background.js; sourceTree = "<group>"; };
+		55905B9E29C458A8007DF3AF /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../../packages/chromium/popup.html; sourceTree = "<group>"; };
+		55905B9F29C458A8007DF3AF /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../packages/chromium/options.js; sourceTree = "<group>"; };
+		55905BA029C458A8007DF3AF /* logo-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-48.png"; path = "../../../packages/chromium/logo-48.png"; sourceTree = "<group>"; };
+		55905BA129C458A8007DF3AF /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../packages/chromium/logo.png; sourceTree = "<group>"; };
+		55905BA229C458A8007DF3AF /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../packages/chromium/manifest.json; sourceTree = "<group>"; };
+		55905BA329C458A8007DF3AF /* content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "content-script.js"; path = "../../../packages/chromium/content-script.js"; sourceTree = "<group>"; };
+		55905BA429C458A8007DF3AF /* logo-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-32.png"; path = "../../../packages/chromium/logo-32.png"; sourceTree = "<group>"; };
+		55905BA529C458A8007DF3AF /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../packages/chromium/options.html; sourceTree = "<group>"; };
+		55905BA629C458A8007DF3AF /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = popup.css; path = ../../../packages/chromium/popup.css; sourceTree = "<group>"; };
+		55905BA729C458A8007DF3AF /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../../packages/chromium/_locales; sourceTree = "<group>"; };
+		55905BA829C458A8007DF3AF /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../packages/chromium/options.css; sourceTree = "<group>"; };
+		55B48A6729C458E200029E03 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		556B126829C300EA0045A41D /* Frameworks */ = {
+		55905B4729C458A7007DF3AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B127A29C300EA0045A41D /* Frameworks */ = {
+		55905B5929C458A7007DF3AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B128729C300EA0045A41D /* Frameworks */ = {
+		55905B6629C458A7007DF3AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B129129C300EA0045A41D /* Frameworks */ = {
+		55905B7029C458A7007DF3AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -179,119 +180,120 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		556B125729C300E60045A41D = {
+		55905B3629C458A5007DF3AF = {
 			isa = PBXGroup;
 			children = (
-				556B125C29C300E70045A41D /* Shared (App) */,
-				556B126529C300EA0045A41D /* Shared (Extension) */,
-				556B126D29C300EA0045A41D /* iOS (App) */,
-				556B127E29C300EA0045A41D /* macOS (App) */,
-				556B128E29C300EA0045A41D /* iOS (Extension) */,
-				556B129829C300EA0045A41D /* macOS (Extension) */,
-				556B126C29C300EA0045A41D /* Products */,
+				55905B3B29C458A5007DF3AF /* Shared (App) */,
+				55905B4429C458A7007DF3AF /* Shared (Extension) */,
+				55905B4C29C458A7007DF3AF /* iOS (App) */,
+				55905B5D29C458A7007DF3AF /* macOS (App) */,
+				55905B6D29C458A7007DF3AF /* iOS (Extension) */,
+				55905B7729C458A7007DF3AF /* macOS (Extension) */,
+				55905B4B29C458A7007DF3AF /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		556B125C29C300E70045A41D /* Shared (App) */ = {
+		55905B3B29C458A5007DF3AF /* Shared (App) */ = {
 			isa = PBXGroup;
 			children = (
-				556B126329C300E70045A41D /* ViewController.swift */,
-				556B126429C300EA0045A41D /* Assets.xcassets */,
-				556B125D29C300E70045A41D /* Resources */,
+				55905B4229C458A5007DF3AF /* ViewController.swift */,
+				55905B4329C458A7007DF3AF /* Assets.xcassets */,
+				55905B3C29C458A5007DF3AF /* Resources */,
 			);
 			path = "Shared (App)";
 			sourceTree = "<group>";
 		};
-		556B125D29C300E70045A41D /* Resources */ = {
+		55905B3C29C458A5007DF3AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				556B125E29C300E70045A41D /* Main.html */,
-				556B126029C300E70045A41D /* Icon.png */,
-				556B126129C300E70045A41D /* Style.css */,
-				556B126229C300E70045A41D /* Script.js */,
+				55905B3D29C458A5007DF3AF /* Main.html */,
+				55905B3F29C458A5007DF3AF /* Icon.png */,
+				55905B4029C458A5007DF3AF /* Style.css */,
+				55905B4129C458A5007DF3AF /* Script.js */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		556B126529C300EA0045A41D /* Shared (Extension) */ = {
+		55905B4429C458A7007DF3AF /* Shared (Extension) */ = {
 			isa = PBXGroup;
 			children = (
-				556B12B929C300EA0045A41D /* Resources */,
-				556B126629C300EA0045A41D /* SafariWebExtensionHandler.swift */,
+				55905B9829C458A8007DF3AF /* Resources */,
+				55905B4529C458A7007DF3AF /* SafariWebExtensionHandler.swift */,
 			);
 			path = "Shared (Extension)";
 			sourceTree = "<group>";
 		};
-		556B126C29C300EA0045A41D /* Products */ = {
+		55905B4B29C458A7007DF3AF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				556B126B29C300EA0045A41D /* Glarity.app */,
-				556B127D29C300EA0045A41D /* Glarity.app */,
-				556B128A29C300EA0045A41D /* Glarity Extension.appex */,
-				556B129429C300EA0045A41D /* Glarity Extension.appex */,
+				55905B4A29C458A7007DF3AF /* Glarity.app */,
+				55905B5C29C458A7007DF3AF /* Glarity.app */,
+				55905B6929C458A7007DF3AF /* Glarity Extension.appex */,
+				55905B7329C458A7007DF3AF /* Glarity Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		556B126D29C300EA0045A41D /* iOS (App) */ = {
+		55905B4C29C458A7007DF3AF /* iOS (App) */ = {
 			isa = PBXGroup;
 			children = (
-				556B126E29C300EA0045A41D /* AppDelegate.swift */,
-				556B127029C300EA0045A41D /* SceneDelegate.swift */,
-				556B127229C300EA0045A41D /* LaunchScreen.storyboard */,
-				556B127529C300EA0045A41D /* Main.storyboard */,
-				556B127829C300EA0045A41D /* Info.plist */,
+				55905B4D29C458A7007DF3AF /* AppDelegate.swift */,
+				55905B4F29C458A7007DF3AF /* SceneDelegate.swift */,
+				55905B5129C458A7007DF3AF /* LaunchScreen.storyboard */,
+				55905B5429C458A7007DF3AF /* Main.storyboard */,
+				55905B5729C458A7007DF3AF /* Info.plist */,
 			);
 			path = "iOS (App)";
 			sourceTree = "<group>";
 		};
-		556B127E29C300EA0045A41D /* macOS (App) */ = {
+		55905B5D29C458A7007DF3AF /* macOS (App) */ = {
 			isa = PBXGroup;
 			children = (
-				556B127F29C300EA0045A41D /* AppDelegate.swift */,
-				556B128129C300EA0045A41D /* Main.storyboard */,
-				556B128429C300EA0045A41D /* Info.plist */,
-				556B128529C300EA0045A41D /* Glarity.entitlements */,
+				55905B5E29C458A7007DF3AF /* AppDelegate.swift */,
+				55905B6029C458A7007DF3AF /* Main.storyboard */,
+				55905B6329C458A7007DF3AF /* Info.plist */,
+				55905B6429C458A7007DF3AF /* Glarity.entitlements */,
 			);
 			path = "macOS (App)";
 			sourceTree = "<group>";
 		};
-		556B128E29C300EA0045A41D /* iOS (Extension) */ = {
+		55905B6D29C458A7007DF3AF /* iOS (Extension) */ = {
 			isa = PBXGroup;
 			children = (
-				556B128F29C300EA0045A41D /* Info.plist */,
+				55905B6E29C458A7007DF3AF /* Info.plist */,
 			);
 			path = "iOS (Extension)";
 			sourceTree = "<group>";
 		};
-		556B129829C300EA0045A41D /* macOS (Extension) */ = {
+		55905B7729C458A7007DF3AF /* macOS (Extension) */ = {
 			isa = PBXGroup;
 			children = (
-				556B129929C300EA0045A41D /* Info.plist */,
-				556B129A29C300EA0045A41D /* Glarity.entitlements */,
+				55905B7829C458A7007DF3AF /* Info.plist */,
+				55905B7929C458A7007DF3AF /* Glarity.entitlements */,
 			);
 			path = "macOS (Extension)";
 			sourceTree = "<group>";
 		};
-		556B12B929C300EA0045A41D /* Resources */ = {
+		55905B9829C458A8007DF3AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				556B12BA29C300EA0045A41D /* content-script.css */,
-				556B12BB29C300EA0045A41D /* logo-128.png */,
-				556B12BC29C300EA0045A41D /* popup.js */,
-				556B12BD29C300EA0045A41D /* logo-16.png */,
-				556B12BE29C300EA0045A41D /* background.js */,
-				556B12BF29C300EA0045A41D /* popup.html */,
-				556B12C029C300EA0045A41D /* options.js */,
-				556B12C129C300EA0045A41D /* logo-48.png */,
-				556B12C229C300EA0045A41D /* logo.png */,
-				556B12C329C300EA0045A41D /* manifest.json */,
-				556B12C429C300EA0045A41D /* content-script.js */,
-				556B12C529C300EA0045A41D /* logo-32.png */,
-				556B12C629C300EA0045A41D /* options.html */,
-				556B12C729C300EA0045A41D /* popup.css */,
-				556B12C829C300EA0045A41D /* _locales */,
-				556B12C929C300EB0045A41D /* options.css */,
+				55905B9929C458A8007DF3AF /* content-script.css */,
+				55905B9A29C458A8007DF3AF /* logo-128.png */,
+				55905B9B29C458A8007DF3AF /* popup.js */,
+				55905B9C29C458A8007DF3AF /* logo-16.png */,
+				55905B9D29C458A8007DF3AF /* background.js */,
+				55905B9E29C458A8007DF3AF /* popup.html */,
+				55905B9F29C458A8007DF3AF /* options.js */,
+				55905BA029C458A8007DF3AF /* logo-48.png */,
+				55905BA129C458A8007DF3AF /* logo.png */,
+				55905BA229C458A8007DF3AF /* manifest.json */,
+				55905BA329C458A8007DF3AF /* content-script.js */,
+				55905BA429C458A8007DF3AF /* logo-32.png */,
+				55905BA529C458A8007DF3AF /* options.html */,
+				55905BA629C458A8007DF3AF /* popup.css */,
+				55905BA729C458A8007DF3AF /* _locales */,
+				55905BA829C458A8007DF3AF /* options.css */,
+				55B48A6729C458E200029E03 /* manifest.json */,
 			);
 			name = Resources;
 			path = "Shared (Extension)";
@@ -300,51 +302,51 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		556B126A29C300EA0045A41D /* Glarity (iOS) */ = {
+		55905B4929C458A7007DF3AF /* Glarity (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 556B12AF29C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity (iOS)" */;
+			buildConfigurationList = 55905B8E29C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity (iOS)" */;
 			buildPhases = (
-				556B126729C300EA0045A41D /* Sources */,
-				556B126829C300EA0045A41D /* Frameworks */,
-				556B126929C300EA0045A41D /* Resources */,
-				556B12AE29C300EA0045A41D /* Embed Foundation Extensions */,
+				55905B4629C458A7007DF3AF /* Sources */,
+				55905B4729C458A7007DF3AF /* Frameworks */,
+				55905B4829C458A7007DF3AF /* Resources */,
+				55905B8D29C458A7007DF3AF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				556B128D29C300EA0045A41D /* PBXTargetDependency */,
+				55905B6C29C458A7007DF3AF /* PBXTargetDependency */,
 			);
 			name = "Glarity (iOS)";
 			productName = "Glarity (iOS)";
-			productReference = 556B126B29C300EA0045A41D /* Glarity.app */;
+			productReference = 55905B4A29C458A7007DF3AF /* Glarity.app */;
 			productType = "com.apple.product-type.application";
 		};
-		556B127C29C300EA0045A41D /* Glarity (macOS) */ = {
+		55905B5B29C458A7007DF3AF /* Glarity (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 556B12B629C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity (macOS)" */;
+			buildConfigurationList = 55905B9529C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity (macOS)" */;
 			buildPhases = (
-				556B127929C300EA0045A41D /* Sources */,
-				556B127A29C300EA0045A41D /* Frameworks */,
-				556B127B29C300EA0045A41D /* Resources */,
-				556B12B529C300EA0045A41D /* Embed Foundation Extensions */,
+				55905B5829C458A7007DF3AF /* Sources */,
+				55905B5929C458A7007DF3AF /* Frameworks */,
+				55905B5A29C458A7007DF3AF /* Resources */,
+				55905B9429C458A7007DF3AF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				556B129729C300EA0045A41D /* PBXTargetDependency */,
+				55905B7629C458A7007DF3AF /* PBXTargetDependency */,
 			);
 			name = "Glarity (macOS)";
 			productName = "Glarity (macOS)";
-			productReference = 556B127D29C300EA0045A41D /* Glarity.app */;
+			productReference = 55905B5C29C458A7007DF3AF /* Glarity.app */;
 			productType = "com.apple.product-type.application";
 		};
-		556B128929C300EA0045A41D /* Glarity Extension (iOS) */ = {
+		55905B6829C458A7007DF3AF /* Glarity Extension (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 556B12AB29C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity Extension (iOS)" */;
+			buildConfigurationList = 55905B8A29C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity Extension (iOS)" */;
 			buildPhases = (
-				556B128629C300EA0045A41D /* Sources */,
-				556B128729C300EA0045A41D /* Frameworks */,
-				556B128829C300EA0045A41D /* Resources */,
+				55905B6529C458A7007DF3AF /* Sources */,
+				55905B6629C458A7007DF3AF /* Frameworks */,
+				55905B6729C458A7007DF3AF /* Resources */,
 			);
 			buildRules = (
 			);
@@ -352,16 +354,16 @@
 			);
 			name = "Glarity Extension (iOS)";
 			productName = "Glarity Extension (iOS)";
-			productReference = 556B128A29C300EA0045A41D /* Glarity Extension.appex */;
+			productReference = 55905B6929C458A7007DF3AF /* Glarity Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		556B129329C300EA0045A41D /* Glarity Extension (macOS) */ = {
+		55905B7229C458A7007DF3AF /* Glarity Extension (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 556B12B229C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity Extension (macOS)" */;
+			buildConfigurationList = 55905B9129C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity Extension (macOS)" */;
 			buildPhases = (
-				556B129029C300EA0045A41D /* Sources */,
-				556B129129C300EA0045A41D /* Frameworks */,
-				556B129229C300EA0045A41D /* Resources */,
+				55905B6F29C458A7007DF3AF /* Sources */,
+				55905B7029C458A7007DF3AF /* Frameworks */,
+				55905B7129C458A7007DF3AF /* Resources */,
 			);
 			buildRules = (
 			);
@@ -369,34 +371,34 @@
 			);
 			name = "Glarity Extension (macOS)";
 			productName = "Glarity Extension (macOS)";
-			productReference = 556B129429C300EA0045A41D /* Glarity Extension.appex */;
+			productReference = 55905B7329C458A7007DF3AF /* Glarity Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		556B125829C300E60045A41D /* Project object */ = {
+		55905B3729C458A5007DF3AF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
-					556B126A29C300EA0045A41D = {
+					55905B4929C458A7007DF3AF = {
 						CreatedOnToolsVersion = 14.2;
 					};
-					556B127C29C300EA0045A41D = {
+					55905B5B29C458A7007DF3AF = {
 						CreatedOnToolsVersion = 14.2;
 					};
-					556B128929C300EA0045A41D = {
+					55905B6829C458A7007DF3AF = {
 						CreatedOnToolsVersion = 14.2;
 					};
-					556B129329C300EA0045A41D = {
+					55905B7229C458A7007DF3AF = {
 						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
-			buildConfigurationList = 556B125B29C300E60045A41D /* Build configuration list for PBXProject "Glarity" */;
+			buildConfigurationList = 55905B3A29C458A5007DF3AF /* Build configuration list for PBXProject "Glarity" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -404,175 +406,175 @@
 				en,
 				Base,
 			);
-			mainGroup = 556B125729C300E60045A41D;
-			productRefGroup = 556B126C29C300EA0045A41D /* Products */;
+			mainGroup = 55905B3629C458A5007DF3AF;
+			productRefGroup = 55905B4B29C458A7007DF3AF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				556B126A29C300EA0045A41D /* Glarity (iOS) */,
-				556B127C29C300EA0045A41D /* Glarity (macOS) */,
-				556B128929C300EA0045A41D /* Glarity Extension (iOS) */,
-				556B129329C300EA0045A41D /* Glarity Extension (macOS) */,
+				55905B4929C458A7007DF3AF /* Glarity (iOS) */,
+				55905B5B29C458A7007DF3AF /* Glarity (macOS) */,
+				55905B6829C458A7007DF3AF /* Glarity Extension (iOS) */,
+				55905B7229C458A7007DF3AF /* Glarity Extension (macOS) */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		556B126929C300EA0045A41D /* Resources */ = {
+		55905B4829C458A7007DF3AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B129D29C300EA0045A41D /* Icon.png in Resources */,
-				556B127429C300EA0045A41D /* LaunchScreen.storyboard in Resources */,
-				556B129B29C300EA0045A41D /* Main.html in Resources */,
-				556B12A129C300EA0045A41D /* Script.js in Resources */,
-				556B12A529C300EA0045A41D /* Assets.xcassets in Resources */,
-				556B127729C300EA0045A41D /* Main.storyboard in Resources */,
-				556B129F29C300EA0045A41D /* Style.css in Resources */,
+				55905B7C29C458A7007DF3AF /* Icon.png in Resources */,
+				55905B5329C458A7007DF3AF /* LaunchScreen.storyboard in Resources */,
+				55905B7A29C458A7007DF3AF /* Main.html in Resources */,
+				55905B8029C458A7007DF3AF /* Script.js in Resources */,
+				55905B8429C458A7007DF3AF /* Assets.xcassets in Resources */,
+				55905B5629C458A7007DF3AF /* Main.storyboard in Resources */,
+				55905B7E29C458A7007DF3AF /* Style.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B127B29C300EA0045A41D /* Resources */ = {
+		55905B5A29C458A7007DF3AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B129E29C300EA0045A41D /* Icon.png in Resources */,
-				556B12A029C300EA0045A41D /* Style.css in Resources */,
-				556B128329C300EA0045A41D /* Main.storyboard in Resources */,
-				556B12A229C300EA0045A41D /* Script.js in Resources */,
-				556B12A629C300EA0045A41D /* Assets.xcassets in Resources */,
-				556B129C29C300EA0045A41D /* Main.html in Resources */,
+				55905B7D29C458A7007DF3AF /* Icon.png in Resources */,
+				55905B7F29C458A7007DF3AF /* Style.css in Resources */,
+				55905B6229C458A7007DF3AF /* Main.storyboard in Resources */,
+				55905B8129C458A7007DF3AF /* Script.js in Resources */,
+				55905B8529C458A7007DF3AF /* Assets.xcassets in Resources */,
+				55905B7B29C458A7007DF3AF /* Main.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B128829C300EA0045A41D /* Resources */ = {
+		55905B6729C458A7007DF3AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B12E129C300EB0045A41D /* logo-48.png in Resources */,
-				556B12DB29C300EB0045A41D /* logo-128.png in Resources */,
-				556B12E629C300EB0045A41D /* options.html in Resources */,
-				556B12E829C300EB0045A41D /* _locales in Resources */,
-				556B12E329C300EB0045A41D /* manifest.json in Resources */,
-				556B12E229C300EB0045A41D /* logo.png in Resources */,
-				556B12DF29C300EB0045A41D /* popup.html in Resources */,
-				556B12E529C300EB0045A41D /* logo-32.png in Resources */,
-				556B12DC29C300EB0045A41D /* popup.js in Resources */,
-				556B12E729C300EB0045A41D /* popup.css in Resources */,
-				556B12E029C300EB0045A41D /* options.js in Resources */,
-				556B12DA29C300EB0045A41D /* content-script.css in Resources */,
-				556B12DD29C300EB0045A41D /* logo-16.png in Resources */,
-				556B12E429C300EB0045A41D /* content-script.js in Resources */,
-				556B12E929C300EB0045A41D /* options.css in Resources */,
-				556B12DE29C300EB0045A41D /* background.js in Resources */,
+				55905BC029C458A8007DF3AF /* logo-48.png in Resources */,
+				55905BBA29C458A8007DF3AF /* logo-128.png in Resources */,
+				55905BC529C458A8007DF3AF /* options.html in Resources */,
+				55905BC729C458A8007DF3AF /* _locales in Resources */,
+				55905BC229C458A8007DF3AF /* manifest.json in Resources */,
+				55905BC129C458A8007DF3AF /* logo.png in Resources */,
+				55905BBE29C458A8007DF3AF /* popup.html in Resources */,
+				55905BC429C458A8007DF3AF /* logo-32.png in Resources */,
+				55905BBB29C458A8007DF3AF /* popup.js in Resources */,
+				55905BC629C458A8007DF3AF /* popup.css in Resources */,
+				55905BBF29C458A8007DF3AF /* options.js in Resources */,
+				55905BB929C458A8007DF3AF /* content-script.css in Resources */,
+				55905BBC29C458A8007DF3AF /* logo-16.png in Resources */,
+				55905BC329C458A8007DF3AF /* content-script.js in Resources */,
+				55905BC829C458A8007DF3AF /* options.css in Resources */,
+				55905BBD29C458A8007DF3AF /* background.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B129229C300EA0045A41D /* Resources */ = {
+		55905B7129C458A7007DF3AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B12D129C300EB0045A41D /* logo-48.png in Resources */,
-				556B12CB29C300EB0045A41D /* logo-128.png in Resources */,
-				556B12D629C300EB0045A41D /* options.html in Resources */,
-				556B12D829C300EB0045A41D /* _locales in Resources */,
-				556B12D329C300EB0045A41D /* manifest.json in Resources */,
-				556B12D229C300EB0045A41D /* logo.png in Resources */,
-				556B12CF29C300EB0045A41D /* popup.html in Resources */,
-				556B12D529C300EB0045A41D /* logo-32.png in Resources */,
-				556B12CC29C300EB0045A41D /* popup.js in Resources */,
-				556B12D729C300EB0045A41D /* popup.css in Resources */,
-				556B12D029C300EB0045A41D /* options.js in Resources */,
-				556B12CA29C300EB0045A41D /* content-script.css in Resources */,
-				556B12CD29C300EB0045A41D /* logo-16.png in Resources */,
-				556B12D429C300EB0045A41D /* content-script.js in Resources */,
-				556B12D929C300EB0045A41D /* options.css in Resources */,
-				556B12CE29C300EB0045A41D /* background.js in Resources */,
+				55905BB029C458A8007DF3AF /* logo-48.png in Resources */,
+				55905BAA29C458A8007DF3AF /* logo-128.png in Resources */,
+				55905BB529C458A8007DF3AF /* options.html in Resources */,
+				55905BB729C458A8007DF3AF /* _locales in Resources */,
+				55905BB129C458A8007DF3AF /* logo.png in Resources */,
+				55905BAE29C458A8007DF3AF /* popup.html in Resources */,
+				55905BB429C458A8007DF3AF /* logo-32.png in Resources */,
+				55905BAB29C458A8007DF3AF /* popup.js in Resources */,
+				55905BB629C458A8007DF3AF /* popup.css in Resources */,
+				55905BAF29C458A8007DF3AF /* options.js in Resources */,
+				55905BA929C458A8007DF3AF /* content-script.css in Resources */,
+				55905BAC29C458A8007DF3AF /* logo-16.png in Resources */,
+				55B48A6829C458E200029E03 /* manifest.json in Resources */,
+				55905BB329C458A8007DF3AF /* content-script.js in Resources */,
+				55905BB829C458A8007DF3AF /* options.css in Resources */,
+				55905BAD29C458A8007DF3AF /* background.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		556B126729C300EA0045A41D /* Sources */ = {
+		55905B4629C458A7007DF3AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B12A329C300EA0045A41D /* ViewController.swift in Sources */,
-				556B126F29C300EA0045A41D /* AppDelegate.swift in Sources */,
-				556B127129C300EA0045A41D /* SceneDelegate.swift in Sources */,
+				55905B8229C458A7007DF3AF /* ViewController.swift in Sources */,
+				55905B4E29C458A7007DF3AF /* AppDelegate.swift in Sources */,
+				55905B5029C458A7007DF3AF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B127929C300EA0045A41D /* Sources */ = {
+		55905B5829C458A7007DF3AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B12A429C300EA0045A41D /* ViewController.swift in Sources */,
-				556B128029C300EA0045A41D /* AppDelegate.swift in Sources */,
+				55905B8329C458A7007DF3AF /* ViewController.swift in Sources */,
+				55905B5F29C458A7007DF3AF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B128629C300EA0045A41D /* Sources */ = {
+		55905B6529C458A7007DF3AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B12A729C300EA0045A41D /* SafariWebExtensionHandler.swift in Sources */,
+				55905B8629C458A7007DF3AF /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		556B129029C300EA0045A41D /* Sources */ = {
+		55905B6F29C458A7007DF3AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556B12A829C300EA0045A41D /* SafariWebExtensionHandler.swift in Sources */,
+				55905B8729C458A7007DF3AF /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		556B128D29C300EA0045A41D /* PBXTargetDependency */ = {
+		55905B6C29C458A7007DF3AF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 556B128929C300EA0045A41D /* Glarity Extension (iOS) */;
-			targetProxy = 556B128C29C300EA0045A41D /* PBXContainerItemProxy */;
+			target = 55905B6829C458A7007DF3AF /* Glarity Extension (iOS) */;
+			targetProxy = 55905B6B29C458A7007DF3AF /* PBXContainerItemProxy */;
 		};
-		556B129729C300EA0045A41D /* PBXTargetDependency */ = {
+		55905B7629C458A7007DF3AF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 556B129329C300EA0045A41D /* Glarity Extension (macOS) */;
-			targetProxy = 556B129629C300EA0045A41D /* PBXContainerItemProxy */;
+			target = 55905B7229C458A7007DF3AF /* Glarity Extension (macOS) */;
+			targetProxy = 55905B7529C458A7007DF3AF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		556B125E29C300E70045A41D /* Main.html */ = {
+		55905B3D29C458A5007DF3AF /* Main.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				556B125F29C300E70045A41D /* Base */,
+				55905B3E29C458A5007DF3AF /* Base */,
 			);
 			name = Main.html;
 			sourceTree = "<group>";
 		};
-		556B127229C300EA0045A41D /* LaunchScreen.storyboard */ = {
+		55905B5129C458A7007DF3AF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				556B127329C300EA0045A41D /* Base */,
+				55905B5229C458A7007DF3AF /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		556B127529C300EA0045A41D /* Main.storyboard */ = {
+		55905B5429C458A7007DF3AF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				556B127629C300EA0045A41D /* Base */,
+				55905B5529C458A7007DF3AF /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		556B128129C300EA0045A41D /* Main.storyboard */ = {
+		55905B6029C458A7007DF3AF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				556B128229C300EA0045A41D /* Base */,
+				55905B6129C458A7007DF3AF /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -580,7 +582,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		556B12A929C300EA0045A41D /* Debug */ = {
+		55905B8829C458A7007DF3AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -638,7 +640,7 @@
 			};
 			name = Debug;
 		};
-		556B12AA29C300EA0045A41D /* Release */ = {
+		55905B8929C458A7007DF3AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -689,7 +691,7 @@
 			};
 			name = Release;
 		};
-		556B12AC29C300EA0045A41D /* Debug */ = {
+		55905B8B29C458A7007DF3AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -719,7 +721,7 @@
 			};
 			name = Debug;
 		};
-		556B12AD29C300EA0045A41D /* Release */ = {
+		55905B8C29C458A7007DF3AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -750,7 +752,7 @@
 			};
 			name = Release;
 		};
-		556B12B029C300EA0045A41D /* Debug */ = {
+		55905B8F29C458A7007DF3AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -787,7 +789,7 @@
 			};
 			name = Debug;
 		};
-		556B12B129C300EA0045A41D /* Release */ = {
+		55905B9029C458A7007DF3AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -825,7 +827,7 @@
 			};
 			name = Release;
 		};
-		556B12B329C300EA0045A41D /* Debug */ = {
+		55905B9229C458A7007DF3AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Glarity.entitlements";
@@ -856,7 +858,7 @@
 			};
 			name = Debug;
 		};
-		556B12B429C300EA0045A41D /* Release */ = {
+		55905B9329C458A7007DF3AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Glarity.entitlements";
@@ -887,7 +889,7 @@
 			};
 			name = Release;
 		};
-		556B12B729C300EA0045A41D /* Debug */ = {
+		55905B9629C458A7007DF3AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -922,7 +924,7 @@
 			};
 			name = Debug;
 		};
-		556B12B829C300EA0045A41D /* Release */ = {
+		55905B9729C458A7007DF3AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -960,52 +962,52 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		556B125B29C300E60045A41D /* Build configuration list for PBXProject "Glarity" */ = {
+		55905B3A29C458A5007DF3AF /* Build configuration list for PBXProject "Glarity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				556B12A929C300EA0045A41D /* Debug */,
-				556B12AA29C300EA0045A41D /* Release */,
+				55905B8829C458A7007DF3AF /* Debug */,
+				55905B8929C458A7007DF3AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		556B12AB29C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity Extension (iOS)" */ = {
+		55905B8A29C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity Extension (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				556B12AC29C300EA0045A41D /* Debug */,
-				556B12AD29C300EA0045A41D /* Release */,
+				55905B8B29C458A7007DF3AF /* Debug */,
+				55905B8C29C458A7007DF3AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		556B12AF29C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity (iOS)" */ = {
+		55905B8E29C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				556B12B029C300EA0045A41D /* Debug */,
-				556B12B129C300EA0045A41D /* Release */,
+				55905B8F29C458A7007DF3AF /* Debug */,
+				55905B9029C458A7007DF3AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		556B12B229C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity Extension (macOS)" */ = {
+		55905B9129C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity Extension (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				556B12B329C300EA0045A41D /* Debug */,
-				556B12B429C300EA0045A41D /* Release */,
+				55905B9229C458A7007DF3AF /* Debug */,
+				55905B9329C458A7007DF3AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		556B12B629C300EA0045A41D /* Build configuration list for PBXNativeTarget "Glarity (macOS)" */ = {
+		55905B9529C458A7007DF3AF /* Build configuration list for PBXNativeTarget "Glarity (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				556B12B729C300EA0045A41D /* Debug */,
-				556B12B829C300EA0045A41D /* Release */,
+				55905B9629C458A7007DF3AF /* Debug */,
+				55905B9729C458A7007DF3AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 556B125829C300E60045A41D /* Project object */;
+	rootObject = 55905B3729C458A5007DF3AF /* Project object */;
 }
