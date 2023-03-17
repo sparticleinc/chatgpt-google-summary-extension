@@ -208,9 +208,9 @@ function OptionsPage(props: {
           </a>
         </div>
         <div className="glarity--flex glarity--flex-row glarity--gap-3">
-          {/* <a href="https://chatgpt-for-google.canny.io/changelog" target="_blank" rel="noreferrer">
-            Changelog
-          </a> */}
+          <a href="https://discord.gg/JEJExVuWVM" target="_blank" rel="noreferrer">
+            Discord
+          </a>
           <a
             href="https://github.com/sparticleinc/chatgpt-google-summary-extension/issues"
             target="_blank"
@@ -314,7 +314,7 @@ function OptionsPage(props: {
           </Card.Footer>
         </Card>
         <Text className="glarity--my-1">Example Prompts: </Text>
-        <ul>
+        <ul className="glarity--prompt__list">
           <li>
             <Snippet symbol="" type="secondary">
               Summarize the above content highlights.{' '}
