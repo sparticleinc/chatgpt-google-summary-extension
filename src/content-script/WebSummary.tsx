@@ -7,6 +7,7 @@ import ChatGPTQuery from '../content-script/ChatGPTQuery'
 import { extractFromHtml } from '../utils/article-extractor/cjs/article-extractor.esm'
 import { getUserConfig, Language, getProviderConfigs } from '../config'
 import { getSummaryPrompt } from '../content-script/prompt'
+import { isIOS } from '../utils/utils'
 import logoWhite from '../logo-white.png'
 import logo from '../logo.png'
 
@@ -160,7 +161,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
         </div>
       ) : (
         ((webSummary === 'custom' && webSummarySites.includes(location.hostname)) ||
-          (webSummary === 'all' && !siteRegex?.test(location.hostname))) && (
+          (webSummary === 'all' && (isIOS || !siteRegex?.test(location.hostname)))) && (
           <button
             onClick={onSwitch}
             className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}

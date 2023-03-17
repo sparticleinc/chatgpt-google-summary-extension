@@ -1,19 +1,10 @@
-import {
-  Button,
-  Input,
-  Select,
-  Spinner,
-  Tabs,
-  useInput,
-  useToasts,
-  Radio,
-  Card,
-} from '@geist-ui/core'
+import { Button, Input, Spinner, useInput, useToasts, Radio, Card } from '@geist-ui/core'
 import { FC, useCallback, useState, useEffect } from 'react'
 import useSWR from 'swr'
 import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '../config'
 import { Select as Aselect } from 'antd'
 const { Option } = Aselect
+import { isIOS } from '../utils/utils'
 
 interface ConfigProps {
   config: ProviderConfigs
@@ -21,7 +12,7 @@ interface ConfigProps {
 }
 
 const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
-  const [tab, setTab] = useState<ProviderType>(config.provider)
+  const [tab, setTab] = useState<ProviderType>(isIOS ? ProviderType.GPT3 : config.provider)
   const { bindings: apiKeyBindings } = useInput(config.configs[ProviderType.GPT3]?.apiKey ?? '')
   const [model, setModel] = useState(config.configs[ProviderType.GPT3]?.model ?? models[0])
   const { setToast } = useToasts()
@@ -56,13 +47,17 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
       <Card className="glarity--card">
         <div className="glarity--flex glarity--flex-col glarity--gap-3">
           <Radio.Group value={tab} onChange={(v) => setTab(v as ProviderType)}>
-            <Radio value={ProviderType.ChatGPT}>
-              ChatGPT webapp
-              <Radio.Desc>
-                {' '}
-                The API that powers ChatGPT webapp, free, but sometimes unstable
-              </Radio.Desc>
-            </Radio>
+            {!isIOS && (
+              <>
+                <Radio value={ProviderType.ChatGPT}>
+                  ChatGPT webapp
+                  <Radio.Desc>
+                    {' '}
+                    The API that powers ChatGPT webapp, free, but sometimes unstable
+                  </Radio.Desc>
+                </Radio>
+              </>
+            )}
 
             <Radio value={ProviderType.GPT3}>
               OpenAI API
@@ -78,6 +73,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                       onChange={(v) => setModel(v as string)}
                       placeholder="model"
                       optionLabelProp="label"
+                      style={{ width: '170px' }}
                     >
                       {models.map((m) => (
                         <Option key={m} value={m} label={m}>
@@ -85,7 +81,13 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                         </Option>
                       ))}
                     </Aselect>
-                    <Input htmlType="password" label="API key" scale={2 / 3} {...apiKeyBindings} />
+                    <Input
+                      htmlType="password"
+                      placeholder="sk-********"
+                      label="API key"
+                      scale={2 / 3}
+                      {...apiKeyBindings}
+                    />
                   </div>
                   <span className="glarity--italic glarity--text-xs">
                     You can find or create your API key{' '}
@@ -108,45 +110,6 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
           </Card.Footer>
         </div>
       </Card>
-
-      {/* <Tabs value={tab} onChange={(v) => setTab(v as ProviderType)}>
-        <Tabs.Item label="ChatGPT webapp" value={ProviderType.ChatGPT}>
-          The API that powers ChatGPT webapp, free, but sometimes unstable
-        </Tabs.Item>
-        <Tabs.Item label="OpenAI API" value={ProviderType.GPT3}>
-          <div className="glarity--flex glarity--flex-col glarity--gap-2">
-            <span>
-              OpenAI official API, more stable,{' '}
-              <span className="glarity--font-semibold">charge by usage</span>
-            </span>
-            <div className="glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select">
-              <Select
-                scale={2 / 3}
-                value={model}
-                onChange={(v) => setModel(v as string)}
-                placeholder="model"
-              >
-                {models.map((m) => (
-                  <Select.Option key={m} value={m}>
-                    {m}
-                  </Select.Option>
-                ))}
-              </Select>
-              <Input htmlType="password" label="API key" scale={2 / 3} {...apiKeyBindings} />
-            </div>
-            <span className="glarity--italic glarity--text-xs">
-              You can find or create your API key{' '}
-              <a
-                href="https://platform.openai.com/account/api-keys"
-                target="_blank"
-                rel="noreferrer"
-              >
-                here
-              </a>
-            </span>
-          </div>
-        </Tabs.Item>
-      </Tabs> */}
     </>
   )
 }
@@ -160,6 +123,7 @@ function ProviderSelect() {
 
   const models = [
     'gpt-3.5-turbo',
+    'gpt-3.5-turbo-0301',
     'text-davinci-003',
     // 'text-curie-001',
     // 'text-babbage-001',

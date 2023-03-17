@@ -34,6 +34,7 @@ import ProviderSelect from './ProviderSelect'
 import { config as supportSites } from '../content-script/search-engine-configs'
 import './styles.scss'
 import { Space } from 'antd'
+import { isSafari, isIOS } from '../utils/utils'
 
 function CustomizePrompt() {
   return `Title: "{{Title}}"
@@ -232,22 +233,28 @@ function OptionsPage(props: {
       </nav>
       <main className="glarity--w-[900px] glarity--mx-auto glarity--mt-14 glarity--options">
         <Text h2>Options</Text>
-        <Text h3 className="glarity--mt-5">
-          Trigger Mode
-        </Text>
-        <Radio.Group
-          value={triggerMode}
-          onChange={(val) => onTriggerModeChange(val as TriggerMode)}
-        >
-          {Object.entries(TRIGGER_MODE_TEXT).map(([value, texts]) => {
-            return (
-              <Radio key={value} value={value}>
-                {texts.title}
-                <Radio.Description>{texts.desc}</Radio.Description>
-              </Radio>
-            )
-          })}
-        </Radio.Group>
+
+        {!isIOS && (
+          <>
+            <Text h3 className="glarity--mt-5">
+              Trigger Mode
+            </Text>
+            <Radio.Group
+              value={triggerMode}
+              onChange={(val) => onTriggerModeChange(val as TriggerMode)}
+            >
+              {Object.entries(TRIGGER_MODE_TEXT).map(([value, texts]) => {
+                return (
+                  <Radio key={value} value={value}>
+                    {texts.title}
+                    <Radio.Description>{texts.desc}</Radio.Description>
+                  </Radio>
+                )
+              })}
+            </Radio.Group>
+          </>
+        )}
+
         <Text h3 className="glarity--mt-5">
           Theme
         </Text>
@@ -285,103 +292,113 @@ function OptionsPage(props: {
         </Text>
         <ProviderSelect />
 
-        <Text h3 className="glarity--mt-5 glarity--mb-0">
-          Customize Prompt for Summary(YouTube)
-        </Text>
-        <Card className="glarity--card">
-          <Text className="glarity--my-1">
-            <Code block my={0}>
-              <CustomizePrompt />
-            </Code>
-          </Text>
+        {!isIOS && (
+          <>
+            <Text h3 className="glarity--mt-5 glarity--mb-0">
+              Customize Prompt for Summary(YouTube)
+            </Text>
+            <Card className="glarity--card">
+              <Text className="glarity--my-1">
+                <Code block my={0}>
+                  <CustomizePrompt />
+                </Code>
+              </Text>
 
-          <Textarea
-            placeholder="Please enter a Prompt."
-            value={prompt}
-            resize={'vertical'}
-            onChange={onPromptChange}
-          />
-          {/* <Divider /> */}
-          <Card.Footer>
-            <Space>
-              <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
-                Save
-              </Button>{' '}
-              <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
-                Use default
-              </Button>
-            </Space>
-          </Card.Footer>
-        </Card>
-        <Text className="glarity--my-1">Example Prompts: </Text>
-        <ul className="glarity--prompt__list">
-          <li>
-            <Snippet symbol="" type="secondary">
-              Summarize the above content highlights.{' '}
-            </Snippet>
-          </li>
-          <li>
-            {' '}
-            <Snippet symbol="" type="secondary">
-              Summarize the above in 3 bullet points.{' '}
-            </Snippet>
-          </li>
-          <li>
-            {' '}
-            <Snippet symbol="" type="secondary">
-              What's key takeaways from the above?{' '}
-            </Snippet>
-          </li>
-          <li>
-            <Snippet type="secondary">Extract the gist of the above.</Snippet>
-          </li>
-          <li>
-            <Snippet symbol="" type="secondary">
-              {customizePrompt1}
-            </Snippet>
-          </li>
-          <li>
-            <Snippet symbol="" type="success">
-              {customizePromptClickbait}
-            </Snippet>
-          </li>
-        </ul>
+              <Textarea
+                placeholder="Please enter a Prompt."
+                value={prompt}
+                resize={'vertical'}
+                onChange={onPromptChange}
+              />
+              {/* <Divider /> */}
+              <Card.Footer>
+                <Space>
+                  <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
+                    Save
+                  </Button>{' '}
+                  <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
+                    Use default
+                  </Button>
+                </Space>
+              </Card.Footer>
+            </Card>
+            <Text className="glarity--my-1">Example Prompts: </Text>
+            <ul className="glarity--prompt__list">
+              <li>
+                <Snippet symbol="" type="secondary">
+                  Summarize the above content highlights.{' '}
+                </Snippet>
+              </li>
+              <li>
+                {' '}
+                <Snippet symbol="" type="secondary">
+                  Summarize the above in 3 bullet points.{' '}
+                </Snippet>
+              </li>
+              <li>
+                {' '}
+                <Snippet symbol="" type="secondary">
+                  What's key takeaways from the above?{' '}
+                </Snippet>
+              </li>
+              <li>
+                <Snippet type="secondary">Extract the gist of the above.</Snippet>
+              </li>
+              <li>
+                <Snippet symbol="" type="secondary">
+                  {customizePrompt1}
+                </Snippet>
+              </li>
+              <li>
+                <Snippet symbol="" type="success">
+                  {customizePromptClickbait}
+                </Snippet>
+              </li>
+            </ul>
+          </>
+        )}
 
-        <Text h3 className="glarity--mt-5">
-          Enable/Disable Glarity
-          <Text font="12px" my={0}>
-            You can enable/disable the Glarity Summary on the following website.
-          </Text>
-        </Text>
+        {!isIOS && (
+          <>
+            <Text h3 className="glarity--mt-5">
+              Enable/Disable Glarity
+              <Text font="12px" my={0}>
+                You can enable/disable the Glarity Summary on the following website.
+              </Text>
+            </Text>
 
-        <Card>
-          {/* <Card.Content py={0}></Card.Content>
-          <Divider /> */}
-          <Card.Content>
-            <Checkbox.Group
-              value={enableSites}
-              onChange={onChangeSites}
-              className="glarity--support__sites"
-            >
-              {Object.entries(supportSites).map(([k, v]) => {
-                return (
-                  <Checkbox key={k} value={v.siteValue} className="glarity--support__sites--item">
-                    {v.siteName}
-                  </Checkbox>
-                )
-              })}
-            </Checkbox.Group>
-          </Card.Content>
-          <Card.Footer>
-            <Checkbox checked={allSelect} value="selectAll" onChange={onChangeSelectAll}>
-              Select All / Reverse
-            </Checkbox>
-            <Spacer w={2} />
-            <Button type="secondary" auto scale={1 / 3} onClick={onSaveSelect}>
-              Save
-            </Button>
-          </Card.Footer>
-        </Card>
+            <Card>
+              <Card.Content>
+                <Checkbox.Group
+                  value={enableSites}
+                  onChange={onChangeSites}
+                  className="glarity--support__sites"
+                >
+                  {Object.entries(supportSites).map(([k, v]) => {
+                    return (
+                      <Checkbox
+                        key={k}
+                        value={v.siteValue}
+                        className="glarity--support__sites--item"
+                      >
+                        {v.siteName}
+                      </Checkbox>
+                    )
+                  })}
+                </Checkbox.Group>
+              </Card.Content>
+              <Card.Footer>
+                <Checkbox checked={allSelect} value="selectAll" onChange={onChangeSelectAll}>
+                  Select All / Reverse
+                </Checkbox>
+                <Spacer w={2} />
+                <Button type="secondary" auto scale={1 / 3} onClick={onSaveSelect}>
+                  Save
+                </Button>
+              </Card.Footer>
+            </Card>
+          </>
+        )}
 
         <Text h3 className="glarity--mt-8">
           Misc

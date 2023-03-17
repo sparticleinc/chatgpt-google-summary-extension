@@ -5,6 +5,7 @@ import { OpenAIProvider } from './providers/openai'
 import { Provider } from './types'
 import { tabSendMsg } from '../content-script/utils'
 import { BASE_URL } from '../config'
+import { isFirefox } from '../utils/utils'
 
 async function generateAnswers(port: Browser.Runtime.Port, question: string) {
   const providerConfigs = await getProviderConfigs()
@@ -152,7 +153,7 @@ async function openWebSummary(tab) {
   Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
 }
 
-if (navigator.userAgent.indexOf('Firefox') != -1) {
+if (isFirefox) {
   Browser.browserAction.onClicked.addListener(async (tab) => {
     await openWebSummary(tab)
   })

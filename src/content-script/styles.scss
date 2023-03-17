@@ -360,3 +360,11 @@ span.glarity--header__logo {
     width: 360px;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .glarity--summary {
+    .glarity--card {
+      width: calc(100vw - 30px);
+    }
+  }
+}

@@ -9,6 +9,7 @@ import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
 import { BASE_URL } from '../config'
+import { isIOS } from '../utils/utils'
 import './styles.scss'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
@@ -139,11 +140,26 @@ function ChatGPTQuery(props: Props) {
   if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE') {
     return (
       <p>
-        Please login and pass Cloudflare check at{' '}
-        <Button type="success" ghost auto scale={0.5} onClick={newTab}>
-          chat.openai.com
-        </Button>
+        {isIOS ? (
+          <>
+            Please set OpenAI API Key in the{' '}
+            <Button type="success" ghost auto scale={0.5} onClick={openOptionsPage}>
+              extension options
+            </Button>
+            .
+          </>
+        ) : (
+          <>
+            {' '}
+            Please login and pass Cloudflare check at{' '}
+            <Button type="success" ghost auto scale={0.5} onClick={newTab}>
+              chat.openai.com
+            </Button>
+          </>
+        )}
+
         {retry > 0 &&
+          !isIOS &&
           (() => {
             if (isBraveBrowser()) {
               return (
