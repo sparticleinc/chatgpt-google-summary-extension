@@ -398,7 +398,7 @@
   }
 }
 
-/* temp_stylePlugin:ni:sha-256;SmYhKS6Ncb83CSAAK8Oz0OBN_gKh5B2GyjUQyt5RfZc */
+/* temp_stylePlugin:ni:sha-256;IiWCokN9oEzP_n5BUpNIhZFIcVP7QoCheFAA_SO0sxU */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -2461,6 +2461,7 @@ span.glarity--header__logo {
   font-size: 1.3rem;
   font-weight: 500;
   line-height: 1.8rem;
+  cursor: pointer;
 }
 .glarity--subtitle .subtitle--text {
   padding-left: 10px;

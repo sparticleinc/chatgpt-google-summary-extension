@@ -35691,7 +35691,8 @@
       const hhmmss = convertIntToHms(t3);
       return {
         time: hhmmss,
-        text: obj.text
+        text: obj.text,
+        start: t3
       };
     });
     function resetNums() {
@@ -36026,6 +36027,16 @@
       setQuestionProps({ ...props, ...questionData });
       setQueryStatus(void 0);
     }, [props, loading]);
+    const onPlay = T2(async (starttime = 0) => {
+      const videoElm = document.querySelector(
+        "#movie_player > div.html5-video-container > video"
+      );
+      if (!videoElm) {
+        return;
+      }
+      videoElm.currentTime = starttime;
+      videoElm.play();
+    }, []);
     h2(() => {
       if (copied) {
         const timer = setTimeout(() => {
@@ -36159,7 +36170,16 @@
             children: currentTranscript.map((v3, i4) => {
               const { time, text: text4 } = v3;
               return /* @__PURE__ */ o3("div", { className: "glarity--subtitle", children: [
-                /* @__PURE__ */ o3("div", { className: "subtitle--time", children: time }),
+                /* @__PURE__ */ o3(
+                  "div",
+                  {
+                    className: "subtitle--time",
+                    onClick: () => {
+                      onPlay(v3.start || 0);
+                    },
+                    children: time
+                  }
+                ),
                 /* @__PURE__ */ o3(
                   "div",
                   {
@@ -91945,7 +91965,7 @@ and ensure you are accounting for this risk.
           providerConfigs.provider
         )}
 
-Instructions: Please use the contents to summarize the highlights.
+Instructions: Summarize the highlights of the article and output a useful summary in a few sentences.
 
 Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userConfig.language} language.
       `);
@@ -92385,6 +92405,7 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
       const langOptionsWithLink = await getLangOptionsWithLink(videoId);
       console.log("langOptionsWithLink", langOptionsWithLink);
       const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: 0 });
+      console.log("transcriptList", transcriptList);
       const videoTitle = document.title;
       const transcript = (transcriptList.map((v3) => {
         return `${v3.text}`;

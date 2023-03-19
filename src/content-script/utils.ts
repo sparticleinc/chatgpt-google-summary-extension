@@ -188,6 +188,7 @@ export async function getTranscriptHTML(rawTranscript, videoId) {
     return {
       time: hhmmss,
       text: obj.text,
+      start: t,
     }
   })
 

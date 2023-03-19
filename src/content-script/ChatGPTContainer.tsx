@@ -101,6 +101,18 @@ function ChatGPTContainer(props: Props) {
     setQueryStatus(undefined)
   }, [props, loading])
 
+  const onPlay = useCallback(async (starttime = 0) => {
+    const videoElm = document.querySelector(
+      '#movie_player > div.html5-video-container > video',
+    ) as HTMLVideoElement
+    if (!videoElm) {
+      return
+    }
+
+    videoElm.currentTime = starttime
+    videoElm.play()
+  }, [])
+
   useEffect(() => {
     if (copied) {
       const timer = setTimeout(() => {
@@ -275,7 +287,14 @@ function ChatGPTContainer(props: Props) {
 
                   return (
                     <div className="glarity--subtitle" key={i}>
-                      <div className="subtitle--time">{time}</div>
+                      <div
+                        className="subtitle--time"
+                        onClick={() => {
+                          onPlay(v.start || 0)
+                        }}
+                      >
+                        {time}
+                      </div>
                       <div
                         className="subtitle--text"
                         dangerouslySetInnerHTML={{ __html: text }}

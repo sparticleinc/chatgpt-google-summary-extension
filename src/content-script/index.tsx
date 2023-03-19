@@ -507,6 +507,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     console.log('langOptionsWithLink', langOptionsWithLink)
 
     const transcriptList = await getConverTranscript({ langOptionsWithLink, videoId, index: 0 })
+    console.log('transcriptList', transcriptList)
 
     const videoTitle = document.title
     // const videoUrl = window.location.href
