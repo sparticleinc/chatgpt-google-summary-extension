@@ -74,7 +74,7 @@ function WebSummary(props: Props) {
         providerConfigs.provider,
       )}
 
-Instructions: Please use the contents to summarize the highlights.
+Instructions: Summarize the highlights of the article and output a useful summary in a few sentences.
 
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
       `)
