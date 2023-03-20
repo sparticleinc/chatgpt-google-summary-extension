@@ -46977,8 +46977,8 @@ and ensure you are accounting for this risk.
     language: "auto" /* Auto */,
     prompt: "",
     enableSites: null,
-    webSummary: "all",
-    webSummarySites: ""
+    pageSummary: "all",
+    pageSummarySites: ""
   };
   async function getUserConfig() {
     const result = await import_webextension_polyfill2.default.storage.local.get(Object.keys(userConfigWithDefaultValue));

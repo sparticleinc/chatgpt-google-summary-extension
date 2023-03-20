@@ -14391,8 +14391,8 @@
     language: "auto" /* Auto */,
     prompt: "",
     enableSites: null,
-    webSummary: "all",
-    webSummarySites: ""
+    pageSummary: "all",
+    pageSummarySites: ""
   };
   async function getUserConfig() {
     const result = await import_webextension_polyfill.default.storage.local.get(Object.keys(userConfigWithDefaultValue));
@@ -14419,7 +14419,7 @@
       [`provider:${"gpt3" /* GPT3 */}`]: configs["gpt3" /* GPT3 */]
     });
   }
-  var WebSummary = {
+  var PageSummary = {
     all: { name: "All Sites", value: "all" },
     custom: { name: "Custom Site List", value: "custom" }
   };
@@ -32081,6 +32081,17 @@
           }
         }, 1e3);
       }
+    },
+    bilibili: {
+      inputQuery: [],
+      sidebarContainerQuery: [],
+      appendContainerQuery: [],
+      extabarContainerQuery: ["div.right-container"],
+      contentContainerQuery: [],
+      name: "bilibili",
+      siteName: "Bilibili",
+      siteValue: "bilibili",
+      regex: "(^(www.)?bilibili.com)"
     }
   };
 
@@ -32113,8 +32124,8 @@ The title is a bit exaggerated.
     const [allSites, setAllSites] = p2([]);
     const [enableSites, setEnableSites] = p2([]);
     const [allSelect, setAllSelect] = p2(true);
-    const [webSummaryState, setWebSummaryState] = p2(props.webSummary);
-    const [webSummarySites, setWebSummarysites] = p2("");
+    const [pageSummaryState, setPageSummaryState] = p2(props.pageSummary);
+    const [pageSummarySites, setPageSummarysites] = p2("");
     const onTriggerModeChange = T2(
       (mode) => {
         setTriggerMode(mode);
@@ -32131,18 +32142,18 @@ The title is a bit exaggerated.
       },
       [props, setToast]
     );
-    const onWebSummaryChange = T2((webSummary) => {
-      setWebSummaryState(webSummary);
+    const onPageSummaryChange = T2((pageSummary) => {
+      setPageSummaryState(pageSummary);
     }, []);
-    const onWebSummarySitesChange = T2((e3) => {
+    const onPageSummarySitesChange = T2((e3) => {
       const value = e3.target.value || "";
-      setWebSummarysites(value);
+      setPageSummarysites(value);
     }, []);
-    const onWebSummarySave = T2(() => {
-      updateUserConfig({ webSummary: webSummaryState, webSummarySites });
-      props.onWebSummaryChange(webSummaryState);
+    const onPageSummarySave = T2(() => {
+      updateUserConfig({ pageSummary: pageSummaryState, pageSummarySites });
+      props.onPageSummaryChange(pageSummaryState);
       setToast({ text: "Changes saved", type: "success" });
-    }, [props, setToast, webSummaryState, webSummarySites]);
+    }, [props, setToast, pageSummaryState, pageSummarySites]);
     const onLanguageChange = T2(
       (language2) => {
         updateUserConfig({ language: language2 });
@@ -32187,8 +32198,8 @@ The title is a bit exaggerated.
       getUserConfig().then((config2) => {
         setTriggerMode(config2.triggerMode);
         setLanguage(config2.language);
-        onWebSummaryChange(config2.webSummary);
-        setWebSummarysites(config2.webSummarySites);
+        onPageSummaryChange(config2.pageSummary);
+        setPageSummarysites(config2.pageSummarySites);
         setPrompt(config2.prompt ? config2.prompt : defaultPrompt);
         const sites = Object.values(config).map((site) => {
           return site.siteValue;
@@ -32375,7 +32386,7 @@ The title is a bit exaggerated.
           ] })
         ] }),
         /* @__PURE__ */ o3(card_default2, { children: [
-          /* @__PURE__ */ o3(card_default2.Content, { children: /* @__PURE__ */ o3(radio_default2.Group, { value: webSummaryState, onChange: (val) => onWebSummaryChange(val), children: Object.values(WebSummary).map((v3) => {
+          /* @__PURE__ */ o3(card_default2.Content, { children: /* @__PURE__ */ o3(radio_default2.Group, { value: pageSummaryState, onChange: (val) => onPageSummaryChange(val), children: Object.values(PageSummary).map((v3) => {
             return /* @__PURE__ */ o3(radio_default2, { value: v3.value, children: [
               v3.name,
               v3.value === "custom" && /* @__PURE__ */ o3(radio_default2.Desc, { children: /* @__PURE__ */ o3("div", { className: "glarity--mt-2", children: /* @__PURE__ */ o3(
@@ -32383,21 +32394,21 @@ The title is a bit exaggerated.
                 {
                   placeholder: "https://glarity.app\nhttps://reddit.com",
                   resize: "vertical",
-                  value: webSummarySites,
+                  value: pageSummarySites,
                   style: { width: "400px", height: "100px" },
-                  onChange: onWebSummarySitesChange
+                  onChange: onPageSummarySitesChange
                 }
               ) }) })
             ] }, v3.name);
           }) }) }),
-          /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(button_default2, { scale: 2 / 3, style: { width: 20 }, type: "success", onClick: onWebSummarySave, children: "Save" }) })
+          /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(button_default2, { scale: 2 / 3, style: { width: 20 }, type: "success", onClick: onPageSummarySave, children: "Save" }) })
         ] })
       ] })
     ] });
   }
   function App() {
     const [theme, setTheme] = p2("auto" /* Auto */);
-    const [webSummary, setWebSummary] = p2("all");
+    const [pageSummary, setPageSummary] = p2("all");
     const themeType = F(() => {
       if (theme === "auto" /* Auto */) {
         return detectSystemColorScheme();
@@ -32407,9 +32418,9 @@ The title is a bit exaggerated.
     h2(() => {
       getUserConfig().then((config2) => {
         setTheme(config2.theme);
-        setWebSummary(config2.webSummary);
+        setPageSummary(config2.pageSummary);
       });
-      console.log("webSummary", webSummary);
+      console.log("pageSummary", pageSummary);
     }, []);
     return /* @__PURE__ */ o3(geist_provider_default2, { themeType, children: [
       /* @__PURE__ */ o3(css_baseline_default, {}),
@@ -32418,8 +32429,8 @@ The title is a bit exaggerated.
         {
           theme,
           onThemeChange: setTheme,
-          webSummary,
-          onWebSummaryChange: setWebSummary
+          pageSummary,
+          onPageSummaryChange: setPageSummary
         }
       )
     ] });

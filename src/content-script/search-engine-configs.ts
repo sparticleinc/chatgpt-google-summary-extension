@@ -235,4 +235,15 @@ export const config: Record<string, SearchEngine> = {
       }, 1000)
     },
   },
+  bilibili: {
+    inputQuery: [],
+    sidebarContainerQuery: [],
+    appendContainerQuery: [],
+    extabarContainerQuery: ['div.right-container'],
+    contentContainerQuery: [],
+    name: 'bilibili',
+    siteName: 'Bilibili',
+    siteValue: 'bilibili',
+    regex: '(^(www.)?bilibili.com)',
+  },
 }

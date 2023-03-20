@@ -8691,7 +8691,7 @@ ChatGPT:`;
       }
     });
   });
-  async function openWebSummary(tab) {
+  async function openPageSummary(tab) {
     const { id } = tab;
     if (!id) {
       return;
@@ -8701,11 +8701,11 @@ ChatGPT:`;
   }
   if (isFirefox) {
     import_webextension_polyfill3.default.browserAction.onClicked.addListener(async (tab) => {
-      await openWebSummary(tab);
+      await openPageSummary(tab);
     });
   } else {
     import_webextension_polyfill3.default.action.onClicked.addListener(async (tab) => {
-      await openWebSummary(tab);
+      await openPageSummary(tab);
     });
   }
 })();

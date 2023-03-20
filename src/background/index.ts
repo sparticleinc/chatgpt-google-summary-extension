@@ -143,7 +143,7 @@ Browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   })
 })
 
-async function openWebSummary(tab) {
+async function openPageSummary(tab) {
   const { id } = tab
 
   if (!id) {
@@ -155,10 +155,10 @@ async function openWebSummary(tab) {
 
 if (isFirefox) {
   Browser.browserAction.onClicked.addListener(async (tab) => {
-    await openWebSummary(tab)
+    await openPageSummary(tab)
   })
 } else {
   Browser.action.onClicked.addListener(async (tab) => {
-    await openWebSummary(tab)
+    await openPageSummary(tab)
   })
 }

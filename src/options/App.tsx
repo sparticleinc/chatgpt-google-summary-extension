@@ -25,7 +25,7 @@ import {
   TriggerMode,
   TRIGGER_MODE_TEXT,
   updateUserConfig,
-  WebSummary,
+  PageSummary,
 } from '../config'
 import { defaultPrompt } from '../utils'
 import logo from '../logo.png'
@@ -69,8 +69,8 @@ The title is a bit exaggerated.
 function OptionsPage(props: {
   theme: Theme
   onThemeChange: (theme: Theme) => void
-  webSummary: any
-  onWebSummaryChange: (webSummary) => void
+  pageSummary: any
+  onPageSummaryChange: (pageSummary) => void
 }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
@@ -79,8 +79,8 @@ function OptionsPage(props: {
   const [allSites, setAllSites] = useState([])
   const [enableSites, setEnableSites] = useState([])
   const [allSelect, setAllSelect] = useState(true)
-  const [webSummaryState, setWebSummaryState] = useState<string>(props.webSummary)
-  const [webSummarySites, setWebSummarysites] = useState<string>('')
+  const [pageSummaryState, setPageSummaryState] = useState<string>(props.pageSummary)
+  const [pageSummarySites, setPageSummarysites] = useState<string>('')
 
   const onTriggerModeChange = useCallback(
     (mode: TriggerMode) => {
@@ -100,20 +100,20 @@ function OptionsPage(props: {
     [props, setToast],
   )
 
-  const onWebSummaryChange = useCallback((webSummary) => {
-    setWebSummaryState(webSummary)
+  const onPageSummaryChange = useCallback((pageSummary) => {
+    setPageSummaryState(pageSummary)
   }, [])
 
-  const onWebSummarySitesChange = useCallback((e) => {
+  const onPageSummarySitesChange = useCallback((e) => {
     const value = e.target.value || ''
-    setWebSummarysites(value)
+    setPageSummarysites(value)
   }, [])
 
-  const onWebSummarySave = useCallback(() => {
-    updateUserConfig({ webSummary: webSummaryState, webSummarySites: webSummarySites })
-    props.onWebSummaryChange(webSummaryState)
+  const onPageSummarySave = useCallback(() => {
+    updateUserConfig({ pageSummary: pageSummaryState, pageSummarySites: pageSummarySites })
+    props.onPageSummaryChange(pageSummaryState)
     setToast({ text: 'Changes saved', type: 'success' })
-  }, [props, setToast, webSummaryState, webSummarySites])
+  }, [props, setToast, pageSummaryState, pageSummarySites])
 
   const onLanguageChange = useCallback(
     (language: Language) => {
@@ -169,8 +169,8 @@ function OptionsPage(props: {
       setTriggerMode(config.triggerMode)
       setLanguage(config.language)
 
-      onWebSummaryChange(config.webSummary)
-      setWebSummarysites(config.webSummarySites)
+      onPageSummaryChange(config.pageSummary)
+      setPageSummarysites(config.pageSummarySites)
 
       setPrompt(config.prompt ? config.prompt : defaultPrompt)
 
@@ -424,8 +424,8 @@ function OptionsPage(props: {
 
         <Card>
           <Card.Content>
-            <Radio.Group value={webSummaryState} onChange={(val) => onWebSummaryChange(val)}>
-              {Object.values(WebSummary).map((v) => {
+            <Radio.Group value={pageSummaryState} onChange={(val) => onPageSummaryChange(val)}>
+              {Object.values(PageSummary).map((v) => {
                 return (
                   <Radio key={v.name} value={v.value}>
                     {v.name}
@@ -436,9 +436,9 @@ function OptionsPage(props: {
                             placeholder="https://glarity.app
 https://reddit.com"
                             resize={'vertical'}
-                            value={webSummarySites}
+                            value={pageSummarySites}
                             style={{ width: '400px', height: '100px' }}
-                            onChange={onWebSummarySitesChange}
+                            onChange={onPageSummarySitesChange}
                           />
                         </div>
                       </Radio.Desc>
@@ -449,7 +449,7 @@ https://reddit.com"
             </Radio.Group>
           </Card.Content>
           <Card.Footer>
-            <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={onWebSummarySave}>
+            <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={onPageSummarySave}>
               Save
             </Button>
           </Card.Footer>
@@ -461,7 +461,7 @@ https://reddit.com"
 
 function App() {
   const [theme, setTheme] = useState(Theme.Auto)
-  const [webSummary, setWebSummary] = useState('all')
+  const [pageSummary, setPageSummary] = useState('all')
 
   const themeType = useMemo(() => {
     if (theme === Theme.Auto) {
@@ -473,10 +473,10 @@ function App() {
   useEffect(() => {
     getUserConfig().then((config) => {
       setTheme(config.theme)
-      setWebSummary(config.webSummary)
+      setPageSummary(config.pageSummary)
     })
 
-    console.log('webSummary', webSummary)
+    console.log('pageSummary', pageSummary)
   }, [])
 
   return (
@@ -485,8 +485,8 @@ function App() {
       <OptionsPage
         theme={theme}
         onThemeChange={setTheme}
-        webSummary={webSummary}
-        onWebSummaryChange={setWebSummary}
+        pageSummary={pageSummary}
+        onPageSummaryChange={setPageSummary}
       />
     </GeistProvider>
   )

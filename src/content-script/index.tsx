@@ -14,8 +14,9 @@ import {
   getConverTranscript,
 } from './utils'
 import { getSummaryPrompt } from './prompt'
-import WebSummary from './WebSummary'
+import PageSummary from './PageSummary'
 import { defaultPrompt } from '../utils'
+import { getBiliTranscript, getBiliVideoId } from '../utils/bilibili'
 import './styles.scss'
 
 interface MountProps {
@@ -43,11 +44,13 @@ const siteName =
     : hostname.match(siteRegex)
     ? hostname.match(siteRegex)![0]
     : ''
+
+console.log('siteName', siteName)
+
 const siteConfig = config[siteName]
 
 async function mount(props: MountProps) {
   const { question, siteConfig, transcript, langOptionsWithLink } = props
-
   if (!siteConfig) {
     return
   }
@@ -153,6 +156,20 @@ async function mount(props: MountProps) {
     waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
       document.querySelector('#secondary.style-scope.ytd-watch-flexy')?.prepend(container)
     })
+  } else if (siteName === 'bilibili') {
+    container.classList.add('glarity--chatgpt--bilibili')
+    // const appendContainer = getPossibleElementByQuerySelector(
+    //   siteConfig.extabarContainerQuery || [],
+    // )
+    // appendContainer?.prepend(container)
+
+    waitForElm(siteConfig.extabarContainerQuery[0]).then(() => {
+      container.classList.add('glarity--chatgpt--bilibili')
+      const appendContainer = getPossibleElementByQuerySelector(
+        siteConfig.extabarContainerQuery || [],
+      )
+      appendContainer?.prepend(container)
+    })
   } else {
     if (siteName === 'bing') {
       container.classList.add('glarity--chatgpt--bing')
@@ -240,9 +257,9 @@ async function Run() {
   container.className = 'glarity--summary'
   document.body.prepend(container)
   render(
-    <WebSummary
-      webSummary={userConfig.webSummary}
-      webSummarySites={userConfig.webSummarySites}
+    <PageSummary
+      pageSummary={userConfig.pageSummary}
+      pageSummarySites={userConfig.pageSummarySites}
       siteRegex={siteRegex}
     />,
     container,
@@ -533,6 +550,37 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
       siteConfig,
       transcript: transcriptList,
       langOptionsWithLink,
+    }
+  }
+
+  // Bilibili
+  if (siteName === 'bilibili') {
+    const id = getBiliVideoId(window.location.href)
+    if (!id) {
+      return
+    }
+
+    const transcriptList = await getBiliTranscript(window.location.href)
+    const videoTitle = document.title
+    const transcript = (
+      transcriptList.map((v) => {
+        return `${v.content}`
+      }) || []
+    ).join('')
+
+    const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
+
+    const queryText = `Title: ${videoTitle}
+Transcript: ${getSummaryPrompt(transcript, providerConfigs.provider)}
+Instructions: ${Instructions}
+Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
+`
+
+    console.log('Bilibili', queryText)
+
+    return {
+      question: transcript.length > 0 ? queryText : null,
+      siteConfig,
     }
   }
 

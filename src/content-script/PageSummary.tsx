@@ -1,24 +1,24 @@
 import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
-import { XCircleFillIcon, GearIcon, ShareIcon } from '@primer/octicons-react'
+import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
-import ChatGPTQuery from '../content-script/ChatGPTQuery'
+import ChatGPTQuery from './ChatGPTQuery'
 // import { extractFromHtml, extract } from '@extractus/article-extractor'
 import { extractFromHtml } from '../utils/article-extractor/cjs/article-extractor.esm'
 import { getUserConfig, Language, getProviderConfigs } from '../config'
-import { getSummaryPrompt } from '../content-script/prompt'
+import { getSummaryPrompt } from './prompt'
 import { isIOS } from '../utils/utils'
 import logoWhite from '../logo-white.png'
 import logo from '../logo.png'
 
 interface Props {
-  webSummary: string
-  webSummarySites: string
+  pageSummary: string
+  pageSummarySites: string
   siteRegex: RegExp
 }
 
-function WebSummary(props: Props) {
-  const { webSummary, webSummarySites, siteRegex } = props
+function PageSummary(props: Props) {
+  const { pageSummary, pageSummarySites, siteRegex } = props
   const [showCard, setShowCard] = useState(false)
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
@@ -160,8 +160,8 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
           </div>
         </div>
       ) : (
-        ((webSummary === 'custom' && webSummarySites.includes(location.hostname)) ||
-          (webSummary === 'all' && (isIOS || !siteRegex?.test(location.hostname)))) && (
+        ((pageSummary === 'custom' && pageSummarySites.includes(location.hostname)) ||
+          (pageSummary === 'all' && (isIOS || !siteRegex?.test(location.hostname)))) && (
           <button
             onClick={onSwitch}
             className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}
@@ -178,4 +178,4 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
   )
 }
 
-export default WebSummary
+export default PageSummary

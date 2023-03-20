@@ -398,7 +398,7 @@
   }
 }
 
-/* temp_stylePlugin:ni:sha-256;IiWCokN9oEzP_n5BUpNIhZFIcVP7QoCheFAA_SO0sxU */
+/* temp_stylePlugin:ni:sha-256;HyEqKQhx7YIvTPfQuRNGqzhK_zaplEJ-8R-DnsGkIIM */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -2258,6 +2258,7 @@
   width: var(--rhs-width);
   min-width: var(--rhs-width);
   max-width: 100%;
+  pointer-events: all;
 }
 .glarity--container.glarity--chatgpt--youtube {
   width: var(--ytd-watch-flexy-sidebar-width);

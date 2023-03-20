@@ -12,6 +12,7 @@
   width: var(--rhs-width);
   min-width: var(--rhs-width);
   max-width: 100%;
+  pointer-events: all;
 
   &.glarity--chatgpt--youtube {
     width: var(--ytd-watch-flexy-sidebar-width);
