@@ -92270,11 +92270,6 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
             appendContainer.appendChild(container);
           }
         } else {
-          container.classList.add("sidebar--free");
-          const appendContainer = getPossibleElementByQuerySelector(siteConfig2.appendContainerQuery);
-          if (appendContainer) {
-            appendContainer.appendChild(container);
-          }
         }
       }
     }

@@ -187,11 +187,11 @@ async function mount(props: MountProps) {
           appendContainer.appendChild(container)
         }
       } else {
-        container.classList.add('sidebar--free')
-        const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
-        if (appendContainer) {
-          appendContainer.appendChild(container)
-        }
+        // container.classList.add('sidebar--free')
+        // const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
+        // if (appendContainer) {
+        //   appendContainer.appendChild(container)
+        // }
       }
     }
   }
