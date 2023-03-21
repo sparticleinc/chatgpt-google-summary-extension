@@ -363,6 +363,17 @@ span.glarity--header__logo {
   }
 }
 
+// Bilibili
+.glarity--chatgpt--bilibili {
+  margin-top: 20px;
+  margin-bottom: 0;
+
+  .glarity--chatgpt {
+    background-color: transparent !important;
+    border-radius: 0;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .glarity--summary {
     .glarity--card {

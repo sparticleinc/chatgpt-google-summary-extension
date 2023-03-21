@@ -1,4 +1,5 @@
 import { getSearchParam, waitForElm } from './utils'
+import { getBiliVideoId } from '../utils/bilibili'
 export interface SearchEngine {
   inputQuery: string[]
   sidebarContainerQuery: string[]
@@ -245,5 +246,24 @@ export const config: Record<string, SearchEngine> = {
     siteName: 'Bilibili',
     siteValue: 'bilibili',
     regex: '(^(www.)?bilibili.com)',
+    watchRouteChange(callback) {
+      let currentUrl = window.location.href
+
+      setInterval(() => {
+        if (window.location.href !== currentUrl) {
+          if (getBiliVideoId(location.href)) {
+            waitForElm(config.bilibili.extabarContainerQuery[0]).then(() => {
+              if (document.querySelector('section.glarity--container')) {
+                document.querySelector('section.glarity--container')?.remove()
+              }
+            })
+
+            callback()
+          }
+
+          currentUrl = window.location.href
+        }
+      }, 1000)
+    },
   },
 }

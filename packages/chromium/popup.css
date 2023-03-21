@@ -398,7 +398,7 @@
   }
 }
 
-/* temp_stylePlugin:ni:sha-256;HyEqKQhx7YIvTPfQuRNGqzhK_zaplEJ-8R-DnsGkIIM */
+/* temp_stylePlugin:ni:sha-256;CpQHdhobTmGsZpG-owbSOAv4qj2iXCI7N4axuO_lTVY */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -2546,6 +2546,14 @@ span.glarity--header__logo {
 }
 .glarity--summary .glarity--card {
   width: 360px;
+}
+.glarity--chatgpt--bilibili {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+.glarity--chatgpt--bilibili .glarity--chatgpt {
+  background-color: transparent !important;
+  border-radius: 0;
 }
 @media screen and (max-width: 600px) {
   .glarity--summary .glarity--card {

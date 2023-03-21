@@ -561,17 +561,29 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     }
 
     const transcriptList = await getBiliTranscript(window.location.href)
+
+    if (!transcriptList) {
+      return
+    }
+
+    const { transcript = [], desc } = transcriptList
     const videoTitle = document.title
-    const transcript = (
-      transcriptList.map((v) => {
-        return `${v.content}`
-      }) || []
-    ).join('')
+    let videoDesc =
+      document?.querySelector('meta[name="description"]')?.getAttribute('content') || ''
+    videoDesc = videoDesc.split('视频播放量')[0]
+
+    const content = transcript
+      ? (
+          transcript.map((v) => {
+            return `${v.content}`
+          }) || []
+        ).join('')
+      : desc + videoDesc
 
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
     const queryText = `Title: ${videoTitle}
-Transcript: ${getSummaryPrompt(transcript, providerConfigs.provider)}
+Transcript: ${getSummaryPrompt(content, providerConfigs.provider)}
 Instructions: ${Instructions}
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
 `
@@ -579,7 +591,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     console.log('Bilibili', queryText)
 
     return {
-      question: transcript.length > 0 ? queryText : null,
+      question: content ? queryText : null,
       siteConfig,
     }
   }

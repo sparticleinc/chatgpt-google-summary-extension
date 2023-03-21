@@ -31,14 +31,28 @@ export async function getBiliTranscript(url) {
   const videoUrl = setParams(params, 'https://api.bilibili.com/x/web-interface/view')
   const detail = await fetch(videoUrl)
   const detailJson = await detail.json()
-  const trinscriptUrl = detailJson.data.subtitle.list[0].subtitle_url
+  const { data = {} } = detailJson
+  const descV2 = data.desc_v2 || []
+  const desc = descV2.length > 0 ? descV2.map((v) => v.raw_text).join(',') : data.desc
+
+  console.log('detailJson', detailJson)
+  const trinscriptUrl =
+    data?.subtitle?.list && data?.subtitle?.list[0] && data?.subtitle?.list[0].subtitle_url
 
   if (!trinscriptUrl) {
-    return null
+    return desc
+      ? {
+          transcript: null,
+          desc,
+        }
+      : null
   }
 
   const trinscript = await fetch(trinscriptUrl.replace(/^http/g, 'https'))
   const trinscriptJson = await trinscript.json()
-  console.log(trinscriptJson)
-  return trinscriptJson?.body
+
+  return {
+    transcript: trinscriptJson?.body,
+    desc,
+  }
 }

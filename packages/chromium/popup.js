@@ -97419,7 +97419,7 @@ om inated
   // src/content-script/prompt.ts
   var tokenizer = new gpt3_tokenizer_default({ type: "gpt3" });
   function getSummaryPrompt(transcript = "", providerConfigs) {
-    const text4 = transcript ? transcript.replace(/(\r\n)+/g, "\r\n").replace(/(\s{2,})/g, " ").replace(/^(\s)+|(\s)$/g, "") : "";
+    const text4 = transcript ? transcript.replace(/&#39;/g, "'").replace(/(\r\n)+/g, "\r\n").replace(/(\s{2,})/g, " ").replace(/^(\s)+|(\s)$/g, "") : "";
     return truncateTranscript(text4, providerConfigs);
   }
   var textLimit = 14e3;

@@ -35735,7 +35735,7 @@
       return;
     }
     subtitle.forEach((v3) => {
-      contentBody += `(${v3.time}) ${v3.text}
+      contentBody += `(${v3.time}) ${v3.text.replaceAll("&#39;", "'")}
 `;
     });
     (0, import_copy_to_clipboard.default)(contentBody);
@@ -36274,6 +36274,47 @@
   }
   var ChatGPTTip_default = ChatGPTTip;
 
+  // src/utils/bilibili.ts
+  var getBiliVideoId = (url) => {
+    const matches = url.match(/bilibili.com\/video\/(\w+)\//);
+    const id = matches ? matches[1] : null;
+    return id;
+  };
+  async function getBiliTranscript(url) {
+    var _a, _b, _c;
+    const id = getBiliVideoId(url);
+    if (!id) {
+      return null;
+    }
+    let params = {
+      aid: "",
+      bvid: ""
+    };
+    params = id.startsWith("av") ? Object.assign(params, { aid: id.replace(/^av/, "") }) : Object.assign(params, {
+      bvid: id
+    });
+    const videoUrl = y3(params, "https://api.bilibili.com/x/web-interface/view");
+    const detail = await fetch(videoUrl);
+    const detailJson = await detail.json();
+    const { data = {} } = detailJson;
+    const descV2 = data.desc_v2 || [];
+    const desc = descV2.length > 0 ? descV2.map((v3) => v3.raw_text).join(",") : data.desc;
+    console.log("detailJson", detailJson);
+    const trinscriptUrl = ((_a = data == null ? void 0 : data.subtitle) == null ? void 0 : _a.list) && ((_b = data == null ? void 0 : data.subtitle) == null ? void 0 : _b.list[0]) && ((_c = data == null ? void 0 : data.subtitle) == null ? void 0 : _c.list[0].subtitle_url);
+    if (!trinscriptUrl) {
+      return desc ? {
+        transcript: null,
+        desc
+      } : null;
+    }
+    const trinscript = await fetch(trinscriptUrl.replace(/^http/g, "https"));
+    const trinscriptJson = await trinscript.json();
+    return {
+      transcript: trinscriptJson == null ? void 0 : trinscriptJson.body,
+      desc
+    };
+  }
+
   // src/content-script/search-engine-configs.ts
   var config = {
     google: {
@@ -36505,7 +36546,24 @@
       name: "bilibili",
       siteName: "Bilibili",
       siteValue: "bilibili",
-      regex: "(^(www.)?bilibili.com)"
+      regex: "(^(www.)?bilibili.com)",
+      watchRouteChange(callback) {
+        let currentUrl = window.location.href;
+        setInterval(() => {
+          if (window.location.href !== currentUrl) {
+            if (getBiliVideoId(location.href)) {
+              waitForElm(config.bilibili.extabarContainerQuery[0]).then(() => {
+                var _a;
+                if (document.querySelector("section.glarity--container")) {
+                  (_a = document.querySelector("section.glarity--container")) == null ? void 0 : _a.remove();
+                }
+              });
+              callback();
+            }
+            currentUrl = window.location.href;
+          }
+        }, 1e3);
+      }
     }
   };
 
@@ -86778,7 +86836,7 @@ om inated
   // src/content-script/prompt.ts
   var tokenizer = new gpt3_tokenizer_default({ type: "gpt3" });
   function getSummaryPrompt(transcript = "", providerConfigs) {
-    const text4 = transcript ? transcript.replace(/(\r\n)+/g, "\r\n").replace(/(\s{2,})/g, " ").replace(/^(\s)+|(\s)$/g, "") : "";
+    const text4 = transcript ? transcript.replace(/&#39;/g, "'").replace(/(\r\n)+/g, "\r\n").replace(/(\s{2,})/g, " ").replace(/^(\s)+|(\s)$/g, "") : "";
     return truncateTranscript(text4, providerConfigs);
   }
   var textLimit = 14e3;
@@ -92089,37 +92147,6 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
   }
   var PageSummary_default = PageSummary;
 
-  // src/utils/bilibili.ts
-  var getBiliVideoId = (url) => {
-    const matches = url.match(/bilibili.com\/video\/(\w+)\//);
-    const id = matches ? matches[1] : null;
-    return id;
-  };
-  async function getBiliTranscript(url) {
-    const id = getBiliVideoId(url);
-    if (!id) {
-      return null;
-    }
-    let params = {
-      aid: "",
-      bvid: ""
-    };
-    params = id.startsWith("av") ? Object.assign(params, { aid: id.replace(/^av/, "") }) : Object.assign(params, {
-      bvid: id
-    });
-    const videoUrl = y3(params, "https://api.bilibili.com/x/web-interface/view");
-    const detail = await fetch(videoUrl);
-    const detailJson = await detail.json();
-    const trinscriptUrl = detailJson.data.subtitle.list[0].subtitle_url;
-    if (!trinscriptUrl) {
-      return null;
-    }
-    const trinscript = await fetch(trinscriptUrl.replace(/^http/g, "https"));
-    const trinscriptJson = await trinscript.json();
-    console.log(trinscriptJson);
-    return trinscriptJson == null ? void 0 : trinscriptJson.body;
-  }
-
   // src/content-script/index.tsx
   var hostname = location.hostname;
   var siteRegex = new RegExp(Object.keys(config).join("|"));
@@ -92306,7 +92333,7 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
       mount(questionData);
   }
   async function getQuestion(loadInit) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
     if (!siteConfig) {
       return;
     }
@@ -92516,19 +92543,25 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
         return;
       }
       const transcriptList = await getBiliTranscript(window.location.href);
+      if (!transcriptList) {
+        return;
+      }
+      const { transcript = [], desc } = transcriptList;
       const videoTitle = document.title;
-      const transcript = (transcriptList.map((v3) => {
+      let videoDesc = ((_g = document == null ? void 0 : document.querySelector('meta[name="description"]')) == null ? void 0 : _g.getAttribute("content")) || "";
+      videoDesc = videoDesc.split("\u89C6\u9891\u64AD\u653E\u91CF")[0];
+      const content3 = transcript ? (transcript.map((v3) => {
         return `${v3.content}`;
-      }) || []).join("");
+      }) || []).join("") : desc + videoDesc;
       const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt;
       const queryText = `Title: ${videoTitle}
-Transcript: ${getSummaryPrompt(transcript, providerConfigs.provider)}
+Transcript: ${getSummaryPrompt(content3, providerConfigs.provider)}
 Instructions: ${Instructions}
 Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userConfig.language} language.
 `;
       console.log("Bilibili", queryText);
       return {
-        question: transcript.length > 0 ? queryText : null,
+        question: content3 ? queryText : null,
         siteConfig
       };
     }
@@ -92544,9 +92577,9 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
       if (resultList.length > 0) {
         for (let i4 = 0; i4 < resultList.length; i4++) {
           const v3 = resultList[i4];
-          const text4 = ((_g = v3.querySelector(".b_lineclamp2")) == null ? void 0 : _g.textContent) || ((_h = v3.querySelector(".b_lineclamp3")) == null ? void 0 : _h.textContent);
+          const text4 = ((_h = v3.querySelector(".b_lineclamp2")) == null ? void 0 : _h.textContent) || ((_i = v3.querySelector(".b_lineclamp3")) == null ? void 0 : _i.textContent);
           const index2 = i4 + 1;
-          let url = ((_i = v3.querySelector("a.sh_favicon")) == null ? void 0 : _i.href) || ((_j = v3.querySelector("h2.b_topTitle > a")) == null ? void 0 : _j.href) || ((_k = v3.querySelector(".b_title  a")) == null ? void 0 : _k.href) || ((_l = v3.querySelector("h2  a")) == null ? void 0 : _l.href);
+          let url = ((_j = v3.querySelector("a.sh_favicon")) == null ? void 0 : _j.href) || ((_k = v3.querySelector("h2.b_topTitle > a")) == null ? void 0 : _k.href) || ((_l = v3.querySelector(".b_title  a")) == null ? void 0 : _l.href) || ((_m = v3.querySelector("h2  a")) == null ? void 0 : _m.href);
           if (text4 && url && index2 <= 6) {
             url = url.replace(/https?:/, "");
             searchList = searchList + `
