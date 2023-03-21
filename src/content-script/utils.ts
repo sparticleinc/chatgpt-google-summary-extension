@@ -239,7 +239,7 @@ export function copyTranscript(videoId, subtitle) {
   }
 
   subtitle.forEach((v) => {
-    contentBody += `(${v.time}) ${v.text}\n`
+    contentBody += `(${v.time}) ${v.text.replaceAll('&#39;', "'")}\n`
   })
 
   copy(contentBody)
