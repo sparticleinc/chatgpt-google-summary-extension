@@ -33394,7 +33394,7 @@
       inputQuery: [],
       sidebarContainerQuery: [],
       appendContainerQuery: [],
-      extabarContainerQuery: ["div#v_upinfo"],
+      extabarContainerQuery: ["div.bpx-player-auxiliary"],
       contentContainerQuery: [],
       name: "bilibili",
       siteName: "Bilibili",
