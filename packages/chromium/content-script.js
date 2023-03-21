@@ -36541,7 +36541,7 @@
       inputQuery: [],
       sidebarContainerQuery: [],
       appendContainerQuery: [],
-      extabarContainerQuery: ["div.right-container"],
+      extabarContainerQuery: ["div#v_upinfo"],
       contentContainerQuery: [],
       name: "bilibili",
       siteName: "Bilibili",
@@ -92252,7 +92252,7 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
         const appendContainer = getPossibleElementByQuerySelector(
           siteConfig2.extabarContainerQuery || []
         );
-        appendContainer == null ? void 0 : appendContainer.prepend(container);
+        appendContainer == null ? void 0 : appendContainer.insertAdjacentElement("afterend", container);
       });
     } else {
       if (siteName === "bing") {

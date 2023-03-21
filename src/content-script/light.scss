@@ -17,6 +17,12 @@
     }
   }
 
+  &.glarity--chatgpt--bilibili {
+    .glarity--chatgpt {
+      background: var(--bg3);
+    }
+  }
+
   pre code.hljs {
     display: block;
     overflow-x: auto;

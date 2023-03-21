@@ -398,7 +398,7 @@
   }
 }
 
-/* temp_stylePlugin:ni:sha-256;CpQHdhobTmGsZpG-owbSOAv4qj2iXCI7N4axuO_lTVY */
+/* temp_stylePlugin:ni:sha-256;6XCoZOEtrXtDaANuTZMihbBypcMV5ZGrR42lyD-rgy0 */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -413,6 +413,9 @@
 }
 .glarity--container.gpt--light.glarity--chatgpt--newspicks .glarity--main {
   border-top-color: #eee;
+}
+.glarity--container.gpt--light.glarity--chatgpt--bilibili .glarity--chatgpt {
+  background: var(--bg3);
 }
 .glarity--container.gpt--light pre code.hljs {
   display: block;
@@ -2549,11 +2552,14 @@ span.glarity--header__logo {
 }
 .glarity--chatgpt--bilibili {
   margin-top: 20px;
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 .glarity--chatgpt--bilibili .glarity--chatgpt {
-  background-color: transparent !important;
-  border-radius: 0;
+  border-radius: 6px;
+  border: none;
+}
+.glarity--chatgpt--bilibili .glarity--chatgpt .glarity--main {
+  border-top-color: var(--line_regular);
 }
 @media screen and (max-width: 600px) {
   .glarity--summary .glarity--card {

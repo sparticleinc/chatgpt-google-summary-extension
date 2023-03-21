@@ -366,11 +366,15 @@ span.glarity--header__logo {
 // Bilibili
 .glarity--chatgpt--bilibili {
   margin-top: 20px;
-  margin-bottom: 0;
+  margin-bottom: 20px;
 
   .glarity--chatgpt {
-    background-color: transparent !important;
-    border-radius: 0;
+    border-radius: 6px;
+    border: none;
+
+    .glarity--main {
+      border-top-color: var(--line_regular);
+    }
   }
 }
 

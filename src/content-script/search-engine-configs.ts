@@ -240,7 +240,7 @@ export const config: Record<string, SearchEngine> = {
     inputQuery: [],
     sidebarContainerQuery: [],
     appendContainerQuery: [],
-    extabarContainerQuery: ['div.right-container'],
+    extabarContainerQuery: ['div#v_upinfo'],
     contentContainerQuery: [],
     name: 'bilibili',
     siteName: 'Bilibili',

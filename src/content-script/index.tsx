@@ -168,7 +168,7 @@ async function mount(props: MountProps) {
       const appendContainer = getPossibleElementByQuerySelector(
         siteConfig.extabarContainerQuery || [],
       )
-      appendContainer?.prepend(container)
+      appendContainer?.insertAdjacentElement('afterend', container)
     })
   } else {
     if (siteName === 'bing') {
