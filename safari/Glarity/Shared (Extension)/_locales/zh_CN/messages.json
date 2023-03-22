@@ -1,0 +1,8 @@
+{
+  "appName": {
+    "message": "Glarity-为谷歌搜索结果及YouTube视频生成摘要 (ChatGPT)"
+  },
+  "appDesc": {
+    "message": "Google 搜索结果和 YouTube 视频旁边展示 ChatGPT 摘要（支持自动翻译成中文）"
+  }
+}

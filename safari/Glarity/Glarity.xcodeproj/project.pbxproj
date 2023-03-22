@@ -42,7 +42,6 @@
 		55905BB429C458A8007DF3AF /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA429C458A8007DF3AF /* logo-32.png */; };
 		55905BB529C458A8007DF3AF /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA529C458A8007DF3AF /* options.html */; };
 		55905BB629C458A8007DF3AF /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA629C458A8007DF3AF /* popup.css */; };
-		55905BB729C458A8007DF3AF /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA729C458A8007DF3AF /* _locales */; };
 		55905BB829C458A8007DF3AF /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA829C458A8007DF3AF /* options.css */; };
 		55905BB929C458A8007DF3AF /* content-script.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9929C458A8007DF3AF /* content-script.css */; };
 		55905BBA29C458A8007DF3AF /* logo-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905B9A29C458A8007DF3AF /* logo-128.png */; };
@@ -58,9 +57,10 @@
 		55905BC429C458A8007DF3AF /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA429C458A8007DF3AF /* logo-32.png */; };
 		55905BC529C458A8007DF3AF /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA529C458A8007DF3AF /* options.html */; };
 		55905BC629C458A8007DF3AF /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA629C458A8007DF3AF /* popup.css */; };
-		55905BC729C458A8007DF3AF /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA729C458A8007DF3AF /* _locales */; };
 		55905BC829C458A8007DF3AF /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA829C458A8007DF3AF /* options.css */; };
 		55B48A6829C458E200029E03 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 55B48A6729C458E200029E03 /* manifest.json */; };
+		55D459AF29CAD39400B2A51B /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55D459AE29CAD39400B2A51B /* _locales */; };
+		55D459B029CAD39400B2A51B /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55D459AE29CAD39400B2A51B /* _locales */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,9 +143,9 @@
 		55905BA429C458A8007DF3AF /* logo-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-32.png"; path = "../../../packages/chromium/logo-32.png"; sourceTree = "<group>"; };
 		55905BA529C458A8007DF3AF /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../packages/chromium/options.html; sourceTree = "<group>"; };
 		55905BA629C458A8007DF3AF /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = popup.css; path = ../../../packages/chromium/popup.css; sourceTree = "<group>"; };
-		55905BA729C458A8007DF3AF /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../../packages/chromium/_locales; sourceTree = "<group>"; };
 		55905BA829C458A8007DF3AF /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../packages/chromium/options.css; sourceTree = "<group>"; };
 		55B48A6729C458E200029E03 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		55D459AE29CAD39400B2A51B /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +277,7 @@
 		55905B9829C458A8007DF3AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				55D459AE29CAD39400B2A51B /* _locales */,
 				55905B9929C458A8007DF3AF /* content-script.css */,
 				55905B9A29C458A8007DF3AF /* logo-128.png */,
 				55905B9B29C458A8007DF3AF /* popup.js */,
@@ -291,7 +292,6 @@
 				55905BA429C458A8007DF3AF /* logo-32.png */,
 				55905BA529C458A8007DF3AF /* options.html */,
 				55905BA629C458A8007DF3AF /* popup.css */,
-				55905BA729C458A8007DF3AF /* _locales */,
 				55905BA829C458A8007DF3AF /* options.css */,
 				55B48A6729C458E200029E03 /* manifest.json */,
 			);
@@ -454,7 +454,6 @@
 				55905BC029C458A8007DF3AF /* logo-48.png in Resources */,
 				55905BBA29C458A8007DF3AF /* logo-128.png in Resources */,
 				55905BC529C458A8007DF3AF /* options.html in Resources */,
-				55905BC729C458A8007DF3AF /* _locales in Resources */,
 				55905BC229C458A8007DF3AF /* manifest.json in Resources */,
 				55905BC129C458A8007DF3AF /* logo.png in Resources */,
 				55905BBE29C458A8007DF3AF /* popup.html in Resources */,
@@ -462,6 +461,7 @@
 				55905BBB29C458A8007DF3AF /* popup.js in Resources */,
 				55905BC629C458A8007DF3AF /* popup.css in Resources */,
 				55905BBF29C458A8007DF3AF /* options.js in Resources */,
+				55D459AF29CAD39400B2A51B /* _locales in Resources */,
 				55905BB929C458A8007DF3AF /* content-script.css in Resources */,
 				55905BBC29C458A8007DF3AF /* logo-16.png in Resources */,
 				55905BC329C458A8007DF3AF /* content-script.js in Resources */,
@@ -477,7 +477,6 @@
 				55905BB029C458A8007DF3AF /* logo-48.png in Resources */,
 				55905BAA29C458A8007DF3AF /* logo-128.png in Resources */,
 				55905BB529C458A8007DF3AF /* options.html in Resources */,
-				55905BB729C458A8007DF3AF /* _locales in Resources */,
 				55905BB129C458A8007DF3AF /* logo.png in Resources */,
 				55905BAE29C458A8007DF3AF /* popup.html in Resources */,
 				55905BB429C458A8007DF3AF /* logo-32.png in Resources */,
@@ -485,6 +484,7 @@
 				55905BB629C458A8007DF3AF /* popup.css in Resources */,
 				55905BAF29C458A8007DF3AF /* options.js in Resources */,
 				55905BA929C458A8007DF3AF /* content-script.css in Resources */,
+				55D459B029CAD39400B2A51B /* _locales in Resources */,
 				55905BAC29C458A8007DF3AF /* logo-16.png in Resources */,
 				55B48A6829C458E200029E03 /* manifest.json in Resources */,
 				55905BB329C458A8007DF3AF /* content-script.js in Resources */,
