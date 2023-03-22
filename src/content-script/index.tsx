@@ -172,6 +172,9 @@ async function mount(props: MountProps) {
     })
   } else {
     if (siteName === 'bing') {
+      if (!/bing.com\/search\?/g.test(location.href)) {
+        return
+      }
       container.classList.add('glarity--chatgpt--bing')
     }
     const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
@@ -187,11 +190,11 @@ async function mount(props: MountProps) {
           appendContainer.appendChild(container)
         }
       } else {
-        // container.classList.add('sidebar--free')
-        // const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
-        // if (appendContainer) {
-        //   appendContainer.appendChild(container)
-        // }
+        container.classList.add('sidebar--free')
+        const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
+        if (appendContainer) {
+          appendContainer.appendChild(container)
+        }
       }
     }
   }

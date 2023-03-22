@@ -11,6 +11,7 @@ export interface SearchEngine {
   siteName: string
   siteValue: string
   regex: string
+  searchRegExp?: string
 }
 
 export const config: Record<string, SearchEngine> = {
