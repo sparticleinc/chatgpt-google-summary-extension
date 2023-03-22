@@ -31,6 +31,7 @@ import { config as supportSites } from '../content-script/search-engine-configs'
 import { isIOS } from '../utils/utils'
 import Header from './components/Header'
 import CustomizePrompt from './components/CustomizePrompt'
+import PageSummaryComponent from './components/PageSummary'
 import { defaultPrompt, defaultPromptSearch, detectSystemColorScheme } from '../utils'
 import './styles.scss'
 
@@ -77,12 +78,6 @@ function OptionsPage(props: {
     const value = e.target.value || ''
     setPageSummarysites(value)
   }, [])
-
-  const onPageSummarySave = useCallback(() => {
-    updateUserConfig({ pageSummary: pageSummaryState, pageSummarySites: pageSummarySites })
-    props.onPageSummaryChange(pageSummaryState)
-    setToast({ text: 'Changes saved', type: 'success' })
-  }, [props, setToast, pageSummaryState, pageSummarySites])
 
   const onLanguageChange = useCallback(
     (language: Language) => {
@@ -272,48 +267,12 @@ function OptionsPage(props: {
 
         <Divider />
 
-        <Text h3 className="glarity--mt-5">
-          Page Summary{' '}
-          <sup>
-            {' '}
-            <Tag scale={1 / 3} type="success">
-              Beta
-            </Tag>
-          </sup>
-        </Text>
-
-        <Card>
-          <Card.Content>
-            <Radio.Group value={pageSummaryState} onChange={(val) => onPageSummaryChange(val)}>
-              {Object.values(PageSummary).map((v) => {
-                return (
-                  <Radio key={v.name} value={v.value}>
-                    {v.name}
-                    {v.value === 'custom' && (
-                      <Radio.Desc>
-                        <div className="glarity--mt-2">
-                          <Textarea
-                            placeholder="https://glarity.app
-https://reddit.com"
-                            resize={'vertical'}
-                            value={pageSummarySites}
-                            style={{ width: '400px', height: '100px' }}
-                            onChange={onPageSummarySitesChange}
-                          />
-                        </div>
-                      </Radio.Desc>
-                    )}
-                  </Radio>
-                )
-              })}
-            </Radio.Group>
-          </Card.Content>
-          <Card.Footer>
-            <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={onPageSummarySave}>
-              Save
-            </Button>
-          </Card.Footer>
-        </Card>
+        <PageSummaryComponent
+          pageSummaryState={pageSummaryState}
+          setPageSummaryState={setPageSummaryState}
+          pageSummarySites={pageSummarySites}
+          setPageSummarySites={setPageSummarysites}
+        />
       </main>
     </div>
   )
@@ -335,8 +294,6 @@ function App() {
       setTheme(config.theme)
       setPageSummary(config.pageSummary)
     })
-
-    console.log('pageSummary', pageSummary)
   }, [])
 
   return (
