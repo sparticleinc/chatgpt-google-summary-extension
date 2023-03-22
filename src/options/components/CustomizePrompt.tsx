@@ -166,7 +166,9 @@ function CustomizePrompt(props: Props) {
                   </Snippet>
                 </li>
                 <li>
-                  <Snippet type="secondary">Extract the gist of the above.</Snippet>
+                  <Snippet symbol="" type="secondary">
+                    Extract the gist of the above.
+                  </Snippet>
                 </li>
                 <li>
                   <Snippet symbol="" type="secondary">
@@ -251,7 +253,9 @@ function CustomizePrompt(props: Props) {
                   </Snippet>
                 </li>
                 <li>
-                  <Snippet type="secondary">Extract the gist of the above.</Snippet>
+                  <Snippet symbol="" type="secondary">
+                    Extract the gist of the above.
+                  </Snippet>
                 </li>
               </ul>
             </Collapse>

@@ -17,6 +17,12 @@ import { getSummaryPrompt } from './prompt'
 import PageSummary from './PageSummary'
 import { defaultPrompt } from '../utils'
 import { getBiliTranscript, getBiliVideoId } from '../utils/bilibili'
+import {
+  articlePrompt,
+  googlePatentsPromptHighlight,
+  videoPrompt,
+  searchPrompt,
+} from '../utils/prompt'
 import './styles.scss'
 
 interface MountProps {
@@ -295,7 +301,6 @@ export async function getQuestion(loadInit?: boolean) {
     }
 
     const articleTitle = document.title || ''
-    const articleUrl = location.href
     const contentElement = getPossibleElementByQuerySelector(siteConfig.contentContainerQuery || [])
 
     document.querySelector('div#abstract-1 + #body-1')
@@ -326,26 +331,16 @@ export async function getQuestion(loadInit?: boolean) {
       }
     }
 
-    console.log('articleText', articleText)
-
     if (!articleText) {
       return null
     }
-
     const content = getSummaryPrompt(articleText, providerConfigs.provider)
 
-    console.log('content', content)
-
-    const queryText = `
-Title: ${articleTitle}
-URL: ${articleUrl}
-Content:  ${content}
-
-Instructions: Please use the above to summarize the highlights.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
-
-    console.log('PubMed', queryText)
+    const queryText = articlePrompt({
+      title: articleTitle,
+      content: content,
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+    })
 
     return { question: queryText, siteConfig }
   }
@@ -357,7 +352,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     }
 
     const articleTitle = document.title || ''
-    const articleUrl = location.href
+    // const articleUrl = location.href
     const articleText = getPossibleElementByQuerySelector(
       siteConfig.contentContainerQuery || [],
     )?.textContent
@@ -365,17 +360,13 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     if (!articleText) {
       return null
     }
+    const content = getSummaryPrompt(articleText, providerConfigs.provider)
 
-    const queryText = `
-Title: ${articleTitle}
-URL: ${articleUrl}
-Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
-
-Instructions: Please use the above to summarize the highlights.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
-
-    console.log('Yahoo Japan News queryText', queryText)
+    const queryText = articlePrompt({
+      title: articleTitle,
+      content: content,
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+    })
 
     return { question: queryText, siteConfig }
   }
@@ -396,16 +387,13 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
       return null
     }
 
-    const queryText = `
-Title: ${articleTitle}
-URL: ${articleUrl}
-Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+    const content = getSummaryPrompt(articleText, providerConfigs.provider)
 
-Instructions: Please use the above to summarize the highlights.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
-
-    console.log('newspicks queryText', queryText)
+    const queryText = articlePrompt({
+      title: articleTitle,
+      content: content,
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+    })
 
     return { question: queryText, siteConfig }
   }
@@ -417,7 +405,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     }
 
     const articleTitle = document.title || ''
-    const articleUrl = location.href
+    // const articleUrl = location.href
     const articleText = getPossibleElementByQuerySelector(
       siteConfig.contentContainerQuery || [],
     )?.textContent
@@ -426,16 +414,13 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
       return null
     }
 
-    const queryText = `
-Title: ${articleTitle}
-URL: ${articleUrl}
-Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+    const content = getSummaryPrompt(articleText, providerConfigs.provider)
 
-Instructions: Please use the above to summarize the highlights.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
-
-    console.log('nikkei queryText', queryText)
+    const queryText = articlePrompt({
+      title: articleTitle,
+      content: content,
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+    })
 
     return { question: queryText, siteConfig }
   }
@@ -456,15 +441,13 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
       return null
     }
 
-    const queryText = `
-Title: ${articleTitle}
-Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+    const content = getSummaryPrompt(articleText, providerConfigs.provider)
 
-Instructions: Please use the above to summarize the highlights.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
-
-    console.log('github queryText', queryText)
+    const queryText = articlePrompt({
+      title: articleTitle,
+      content: content,
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+    })
 
     return { question: queryText, siteConfig }
   }
@@ -477,7 +460,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
     console.log('siteConfig', siteConfig)
 
-    const contentContainer = await waitForElm(siteConfig.contentContainerQuery[0])
+    await waitForElm(siteConfig.contentContainerQuery[0])
 
     let contentDesc
 
@@ -500,15 +483,14 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
       return null
     }
 
-    const queryText = `
-Title: ${articleTitle}
-Content:${getSummaryPrompt(articleText, providerConfigs.provider)}
+    const content = getSummaryPrompt(articleText, providerConfigs.provider)
 
-Instructions: Please summarize the highlights of the above article in easy-to-understand terms.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
-
-    console.log('Google Patents queryText', queryText)
+    const queryText = articlePrompt({
+      title: articleTitle,
+      content: content,
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      prompt: googlePatentsPromptHighlight,
+    })
 
     return { question: queryText, siteConfig }
   }
@@ -540,13 +522,12 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
-    const queryText = `Title: ${videoTitle}
-Transcript: ${getSummaryPrompt(transcript, providerConfigs.provider)}
-Instructions: ${Instructions}
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
-`
-
-    console.log('youtube queryText', queryText)
+    const queryText = videoPrompt({
+      title: videoTitle,
+      transcript: getSummaryPrompt(transcript, providerConfigs.provider),
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      prompt: Instructions,
+    })
 
     return {
       question: transcript.length > 0 ? queryText : '',
@@ -585,13 +566,12 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
 
     const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
 
-    const queryText = `Title: ${videoTitle}
-Transcript: ${getSummaryPrompt(content, providerConfigs.provider)}
-Instructions: ${Instructions}
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
-`
-
-    console.log('Bilibili', queryText)
+    const queryText = videoPrompt({
+      title: videoTitle,
+      transcript: getSummaryPrompt(content, providerConfigs.provider),
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      prompt: Instructions,
+    })
 
     return {
       question: content ? queryText : null,
@@ -643,28 +623,16 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
       }
     }
 
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-
     const Instructions = userConfig.promptSearch
       ? `${userConfig.promptSearch}`
       : defaultPromptSearch
 
-    const queryText = `Web search results:
-
-${getSummaryPrompt(searchList)}
-
-Current date: ${year}/${month}/${day}
-
-Instructions: ${Instructions}
-Query: ${searchInput.value}
-Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}`
-
-    console.log('searchList', searchList)
-    console.log('queryText', queryText)
-    console.log('siteConfig', siteConfig)
+    const queryText = searchPrompt({
+      query: searchInput.value,
+      results: getSummaryPrompt(searchList, providerConfigs.provider),
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      prompt: Instructions,
+    })
 
     return {
       question: searchList ? queryText : searchValueWithLanguageOption,
@@ -738,28 +706,16 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
       })
     }
 
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-
     const Instructions = userConfig.promptSearch
       ? `${userConfig.promptSearch}`
       : defaultPromptSearch
 
-    const queryText = `Web search results:
-
-${getSummaryPrompt(searchList, providerConfigs.provider)}
-
-Current date: ${year}/${month}/${day}
-
-Instructions: ${Instructions}
-Query: ${searchInput.value}
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
-
-    // console.log('searchList', searchList)
-    console.log('queryText', queryText)
-    // console.log('siteConfig', siteConfig)
+    const queryText = searchPrompt({
+      query: searchInput.value,
+      results: getSummaryPrompt(searchList, providerConfigs.provider),
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      prompt: Instructions,
+    })
 
     return {
       question: searchList ? queryText : searchValueWithLanguageOption,
