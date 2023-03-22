@@ -6,11 +6,9 @@ import {
   Text,
   Toggle,
   useToasts,
-  Code,
   Textarea,
   Card,
   Button,
-  Snippet,
   Checkbox,
   Spacer,
   Tag,
@@ -27,44 +25,14 @@ import {
   updateUserConfig,
   PageSummary,
 } from '../config'
-import { defaultPrompt } from '../utils'
-import logo from '../logo.png'
-import { detectSystemColorScheme, getExtensionVersion } from '../utils'
+
 import ProviderSelect from './ProviderSelect'
 import { config as supportSites } from '../content-script/search-engine-configs'
+import { isIOS } from '../utils/utils'
+import Header from './components/Header'
+import CustomizePrompt from './components/CustomizePrompt'
+import { defaultPrompt, defaultPromptSearch, detectSystemColorScheme } from '../utils'
 import './styles.scss'
-import { Space, Tooltip } from 'antd'
-import { isSafari, isIOS } from '../utils/utils'
-
-function CustomizePrompt() {
-  return `Title: "{{Title}}"
-Transcript: "{{Transcript}}"`
-}
-
-const customizePrompt1 = `Your output should use the following template:
-#### Summary
-#### Highlights
-- [Emoji] Bulletpoint
-
-Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.
-`
-
-const customizePromptClickbait_bak = `The above is the transcript and title of a youtube video I would like to analyze for exaggeration. Based on the content, please give a Clickbait score of the title.
-
-reply format:
-#### Clickbait score
-
-#### Explanation`
-
-const customizePromptClickbait = `What is the clickbait likelihood of the title and transcript for this video? Please provide a score and a brief explanation for your score, the clickbait score is up to 10, if the clickbait score is less than 5 then answer: 👍 Clickbait Score : Low, otherwise answer: 👎 Clickbait Score : High.
-
-Example response:
-> The lower the Clickbait score, the better.
-#### Clickbait Score:
-👍 Clickbait Score : Low or 👎 Clickbait Score : High
-#### Explanation:
-The title is a bit exaggerated.
-`
 
 function OptionsPage(props: {
   theme: Theme
@@ -75,12 +43,13 @@ function OptionsPage(props: {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
-  const [prompt, setPrompt] = useState<string>('')
   const [allSites, setAllSites] = useState([])
   const [enableSites, setEnableSites] = useState([])
   const [allSelect, setAllSelect] = useState(true)
   const [pageSummaryState, setPageSummaryState] = useState<string>(props.pageSummary)
   const [pageSummarySites, setPageSummarysites] = useState<string>('')
+  const [prompt, setPrompt] = useState<string>('')
+  const [promptSearch, setPromptSearch] = useState<string>('')
 
   const onTriggerModeChange = useCallback(
     (mode: TriggerMode) => {
@@ -123,22 +92,6 @@ function OptionsPage(props: {
     [setToast],
   )
 
-  const onPromptChange = useCallback((e) => {
-    const prompt = e.target.value || ''
-    setPrompt(prompt)
-  }, [])
-
-  const onSavePrompt = useCallback(() => {
-    updateUserConfig({ prompt })
-    setToast({ text: 'Changes saved', type: 'success' })
-  }, [setToast, prompt])
-
-  const onSetPrompt = useCallback(() => {
-    setPrompt(defaultPrompt)
-    updateUserConfig({ prompt: defaultPrompt })
-    setToast({ text: 'Changes saved', type: 'success' })
-  }, [setToast])
-
   const getSplitString = (str: string) => {
     if (str && str.includes('Chinese')) {
       return `Chinese (${str.split('Chinese')[1] || ''})`
@@ -173,6 +126,7 @@ function OptionsPage(props: {
       setPageSummarysites(config.pageSummarySites)
 
       setPrompt(config.prompt ? config.prompt : defaultPrompt)
+      setPromptSearch(config.promptSearch ? config.promptSearch : defaultPromptSearch)
 
       const sites =
         Object.values(supportSites).map((site) => {
@@ -194,43 +148,8 @@ function OptionsPage(props: {
 
   return (
     <div className="glarity--container glarity--mx-auto">
-      <nav className="glarity--flex glarity--flex-row glarity--justify-between glarity--items-center glarity--mt-5 glarity--px-2">
-        <div className="glarity--flex glarity--flex-row glarity--items-center glarity--gap-2">
-          <a href="https://glarity.app/" target="_blank" rel="noreferrer">
-            <img
-              src={logo}
-              className="glarity--w-10 glarity--h-10 glarity--rounded-lg"
-              style={{ 'vertical-align': 'middle' }}
-            />
-            <span className="font-semibold">
-              Glarity-Summary for Google/YouTube (ChatGPT) (v
-              {getExtensionVersion()})
-            </span>{' '}
-          </a>
-        </div>
-        <div className="glarity--flex glarity--flex-row glarity--gap-3">
-          <a href="https://discord.gg/JEJExVuWVM" target="_blank" rel="noreferrer">
-            Discord
-          </a>
-          <a
-            href="https://github.com/sparticleinc/chatgpt-google-summary-extension/issues"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Feedback
-          </a>
-          <a href="https://twitter.com/Glarity_summary" target="_blank" rel="noreferrer">
-            Twitter
-          </a>
-          <a
-            href="https://github.com/sparticleinc/chatgpt-google-summary-extension"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Source code
-          </a>
-        </div>
-      </nav>
+      <Header />
+
       <main className="glarity--w-[900px] glarity--mx-auto glarity--mt-14 glarity--options">
         <Text h2>Options</Text>
 
@@ -292,79 +211,12 @@ function OptionsPage(props: {
         </Text>
         <ProviderSelect />
 
-        {!isIOS && (
-          <>
-            <Text h3 className="glarity--mt-5 glarity--mb-0">
-              Customize Prompt for Summary(YouTube / Bilibili{' '}
-              <sup>
-                <Tooltip title="This is because Glarity relies on transcribed subtitles, but Bilibili videos have less support for transcribed subtitles, so the results are less than ideal.">
-                  <Tag scale={1 / 3} type="success">
-                    Beta
-                  </Tag>
-                </Tooltip>
-              </sup>
-              )
-            </Text>
-            <Card className="glarity--card">
-              <Text className="glarity--my-1">
-                <Code block my={0}>
-                  <CustomizePrompt />
-                </Code>
-              </Text>
-
-              <Textarea
-                placeholder="Please enter a Prompt."
-                value={prompt}
-                resize={'vertical'}
-                onChange={onPromptChange}
-              />
-              {/* <Divider /> */}
-              <Card.Footer>
-                <Space>
-                  <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
-                    Save
-                  </Button>{' '}
-                  <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
-                    Use default
-                  </Button>
-                </Space>
-              </Card.Footer>
-            </Card>
-            <Text className="glarity--my-1">Example Prompts: </Text>
-            <ul className="glarity--prompt__list">
-              <li>
-                <Snippet symbol="" type="secondary">
-                  Summarize the above content highlights.{' '}
-                </Snippet>
-              </li>
-              <li>
-                {' '}
-                <Snippet symbol="" type="secondary">
-                  Summarize the above in 3 bullet points.{' '}
-                </Snippet>
-              </li>
-              <li>
-                {' '}
-                <Snippet symbol="" type="secondary">
-                  What's key takeaways from the above?{' '}
-                </Snippet>
-              </li>
-              <li>
-                <Snippet type="secondary">Extract the gist of the above.</Snippet>
-              </li>
-              <li>
-                <Snippet symbol="" type="secondary">
-                  {customizePrompt1}
-                </Snippet>
-              </li>
-              <li>
-                <Snippet symbol="" type="success">
-                  {customizePromptClickbait}
-                </Snippet>
-              </li>
-            </ul>
-          </>
-        )}
+        <CustomizePrompt
+          prompt={prompt}
+          promptSearch={promptSearch}
+          setPrompt={setPrompt}
+          setPromptSearch={setPromptSearch}
+        />
 
         {!isIOS && (
           <>

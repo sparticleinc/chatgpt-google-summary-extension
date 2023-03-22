@@ -44,6 +44,7 @@ const userConfigWithDefaultValue = {
   theme: Theme.Auto,
   language: Language.Auto,
   prompt: '',
+  promptSearch: '',
   enableSites: null,
   pageSummary: 'all',
   pageSummarySites: '',
