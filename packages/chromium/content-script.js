@@ -92256,6 +92256,9 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
       });
     } else {
       if (siteName === "bing") {
+        if (!/bing.com\/search\?/g.test(location.href)) {
+          return;
+        }
         container.classList.add("glarity--chatgpt--bing");
       }
       const siderbarContainer = getPossibleElementByQuerySelector(siteConfig2.sidebarContainerQuery);
@@ -92270,6 +92273,11 @@ Please write in ${userConfig.language === "auto" /* Auto */ ? language2 : userCo
             appendContainer.appendChild(container);
           }
         } else {
+          container.classList.add("sidebar--free");
+          const appendContainer = getPossibleElementByQuerySelector(siteConfig2.appendContainerQuery);
+          if (appendContainer) {
+            appendContainer.appendChild(container);
+          }
         }
       }
     }
