@@ -39,13 +39,22 @@ export enum Language {
   Russian = 'ru-RU',
 }
 
-const userConfigWithDefaultValue = {
+const userConfigWithDefaultValue: {
+  triggerMode: TriggerMode
+  theme: Theme
+  language: Language
+  prompt: string
+  promptSearch: string
+  enableSites: string[]
+  pageSummary: string
+  pageSummarySites: string
+} = {
   triggerMode: TriggerMode.Always,
   theme: Theme.Auto,
   language: Language.Auto,
   prompt: '',
   promptSearch: '',
-  enableSites: null,
+  enableSites: [],
   pageSummary: 'all',
   pageSummarySites: '',
 }

@@ -6,12 +6,6 @@ import {
   Text,
   Toggle,
   useToasts,
-  Textarea,
-  Card,
-  Button,
-  Checkbox,
-  Spacer,
-  Tag,
   Divider,
 } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
@@ -23,7 +17,6 @@ import {
   TriggerMode,
   TRIGGER_MODE_TEXT,
   updateUserConfig,
-  PageSummary,
 } from '../config'
 
 import ProviderSelect from './ProviderSelect'
@@ -32,6 +25,7 @@ import { isIOS } from '../utils/utils'
 import Header from './components/Header'
 import CustomizePrompt from './components/CustomizePrompt'
 import PageSummaryComponent from './components/PageSummary'
+import EnableGlarity from './components/EnableGlarity'
 import { defaultPrompt, defaultPromptSearch, detectSystemColorScheme } from '../utils'
 import './styles.scss'
 
@@ -44,9 +38,9 @@ function OptionsPage(props: {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
-  const [allSites, setAllSites] = useState([])
-  const [enableSites, setEnableSites] = useState([])
-  const [allSelect, setAllSelect] = useState(true)
+  const [allSites, setAllSites] = useState<string[]>([])
+  const [enableSites, setEnableSites] = useState<string[]>([])
+
   const [pageSummaryState, setPageSummaryState] = useState<string>(props.pageSummary)
   const [pageSummarySites, setPageSummarysites] = useState<string>('')
   const [prompt, setPrompt] = useState<string>('')
@@ -74,11 +68,6 @@ function OptionsPage(props: {
     setPageSummaryState(pageSummary)
   }, [])
 
-  const onPageSummarySitesChange = useCallback((e) => {
-    const value = e.target.value || ''
-    setPageSummarysites(value)
-  }, [])
-
   const onLanguageChange = useCallback(
     (language: Language) => {
       updateUserConfig({ language })
@@ -93,23 +82,6 @@ function OptionsPage(props: {
     }
 
     return str ?? ''
-  }
-
-  const onSaveSelect = useCallback(() => {
-    updateUserConfig({ enableSites })
-    setToast({ text: 'Changes saved', type: 'success' })
-  }, [setToast, enableSites])
-
-  const onChangeSites = (value) => {
-    setEnableSites(value)
-  }
-
-  const onChangeSelectAll = (e) => {
-    if (e.target.checked) {
-      setEnableSites(allSites)
-    } else {
-      setEnableSites([])
-    }
   }
 
   useEffect(() => {
@@ -133,14 +105,6 @@ function OptionsPage(props: {
     })
   }, [])
 
-  useEffect(() => {
-    if (enableSites.length === allSites.length) {
-      setAllSelect(true)
-    } else {
-      setAllSelect(false)
-    }
-  }, [enableSites, allSites])
-
   return (
     <div className="glarity--container glarity--mx-auto">
       <Header />
@@ -148,6 +112,7 @@ function OptionsPage(props: {
       <main className="glarity--w-[900px] glarity--mx-auto glarity--mt-14 glarity--options">
         <Text h2>Options</Text>
 
+        {/* Trigger Mode */}
         {!isIOS && (
           <>
             <Text h3 className="glarity--mt-5">
@@ -169,6 +134,7 @@ function OptionsPage(props: {
           </>
         )}
 
+        {/* Theme */}
         <Text h3 className="glarity--mt-5">
           Theme
         </Text>
@@ -182,6 +148,7 @@ function OptionsPage(props: {
           })}
         </Radio.Group>
 
+        {/* Language */}
         <Text h3 className="glarity--mt-5 glarity--mb-0">
           Language
         </Text>
@@ -201,6 +168,7 @@ function OptionsPage(props: {
           ))}
         </Select>
 
+        {/* AI Provider */}
         <Text h3 className="glarity--mt-5 glarity--mb-0">
           AI Provider
         </Text>
@@ -213,48 +181,15 @@ function OptionsPage(props: {
           setPromptSearch={setPromptSearch}
         />
 
-        {!isIOS && (
-          <>
-            <Text h3 className="glarity--mt-5">
-              Enable/Disable Glarity
-              <Text font="12px" my={0}>
-                You can enable/disable the Glarity Summary on the following website.
-              </Text>
-            </Text>
+        {/* Enable/Disable Glarity */}
+        <EnableGlarity
+          enableSites={enableSites}
+          setEnableSites={setEnableSites}
+          allSites={allSites}
+          supportSites={supportSites}
+        />
 
-            <Card>
-              <Card.Content>
-                <Checkbox.Group
-                  value={enableSites}
-                  onChange={onChangeSites}
-                  className="glarity--support__sites"
-                >
-                  {Object.entries(supportSites).map(([k, v]) => {
-                    return (
-                      <Checkbox
-                        key={k}
-                        value={v.siteValue}
-                        className="glarity--support__sites--item"
-                      >
-                        {v.siteName}
-                      </Checkbox>
-                    )
-                  })}
-                </Checkbox.Group>
-              </Card.Content>
-              <Card.Footer>
-                <Checkbox checked={allSelect} value="selectAll" onChange={onChangeSelectAll}>
-                  Select All / Reverse
-                </Checkbox>
-                <Spacer w={2} />
-                <Button type="secondary" auto scale={1 / 3} onClick={onSaveSelect}>
-                  Save
-                </Button>
-              </Card.Footer>
-            </Card>
-          </>
-        )}
-
+        {/* Misc */}
         <Text h3 className="glarity--mt-8">
           Misc
         </Text>
@@ -267,6 +202,7 @@ function OptionsPage(props: {
 
         <Divider />
 
+        {/* Page Summary */}
         <PageSummaryComponent
           pageSummaryState={pageSummaryState}
           setPageSummaryState={setPageSummaryState}
