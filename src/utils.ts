@@ -21,12 +21,7 @@ export const defaultPromptSearch = `Using the provided web search results, write
 export const customizePrompt = `Title: "{{Title}}"
 Transcript: "{{Transcript}}"`
 
-export const customizePromptSearch = `Your output should use the following template:
-#### Summary
-#### Highlights
-- [Emoji] Bulletpoint
-
-Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.`
+export const customizePromptSearch = `Web search results: {{Search Results }}`
 
 export const customizePrompt1 = `Your output should use the following template:
 #### Summary

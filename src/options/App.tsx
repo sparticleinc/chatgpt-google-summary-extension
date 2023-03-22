@@ -32,7 +32,7 @@ import './styles.scss'
 function OptionsPage(props: {
   theme: Theme
   onThemeChange: (theme: Theme) => void
-  pageSummary: any
+  pageSummary: string
   onPageSummaryChange: (pageSummary) => void
 }) {
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)

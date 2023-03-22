@@ -1,7 +1,7 @@
 import { render } from 'preact'
 import '../base.scss'
 import { getUserConfig, Language, Theme, getProviderConfigs } from '../config'
-import { detectSystemColorScheme } from '../utils'
+import { defaultPromptSearch, detectSystemColorScheme } from '../utils'
 import ChatGPTContainer from './ChatGPTContainer'
 import ChatGPTTip from './ChatGPTTip'
 import { config, SearchEngine } from './search-engine-configs'
@@ -648,13 +648,17 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
     const month = date.getMonth() + 1
     const day = date.getDate()
 
+    const Instructions = userConfig.promptSearch
+      ? `${userConfig.promptSearch}`
+      : defaultPromptSearch
+
     const queryText = `Web search results:
 
 ${getSummaryPrompt(searchList)}
 
 Current date: ${year}/${month}/${day}
 
-Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.
+Instructions: ${Instructions}
 Query: ${searchInput.value}
 Reply in ${userConfig.language === Language.Auto ? language : userConfig.language}`
 
@@ -739,13 +743,17 @@ Reply in ${userConfig.language === Language.Auto ? language : userConfig.languag
     const month = date.getMonth() + 1
     const day = date.getDate()
 
+    const Instructions = userConfig.promptSearch
+      ? `${userConfig.promptSearch}`
+      : defaultPromptSearch
+
     const queryText = `Web search results:
 
 ${getSummaryPrompt(searchList, providerConfigs.provider)}
 
 Current date: ${year}/${month}/${day}
 
-Instructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.
+Instructions: ${Instructions}
 Query: ${searchInput.value}
 Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.`
 
