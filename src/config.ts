@@ -48,6 +48,9 @@ const userConfigWithDefaultValue: {
   enableSites: string[]
   pageSummary: string
   pageSummarySites: string
+  pageSummaryEnable: boolean
+  pageSummaryWhitelist: string
+  pageSummaryBlacklist: string
 } = {
   triggerMode: TriggerMode.Always,
   theme: Theme.Auto,
@@ -57,6 +60,9 @@ const userConfigWithDefaultValue: {
   enableSites: [],
   pageSummary: 'all',
   pageSummarySites: '',
+  pageSummaryEnable: true,
+  pageSummaryWhitelist: '',
+  pageSummaryBlacklist: '',
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

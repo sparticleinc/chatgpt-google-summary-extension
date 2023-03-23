@@ -6,6 +6,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "noEmit": true,
     "skipLibCheck": true,
     "strict": true,

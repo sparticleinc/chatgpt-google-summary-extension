@@ -1,40 +1,78 @@
 import React from 'react'
 import { useCallback } from 'preact/hooks'
-import { Text, Textarea, Card, Button, Tag, useToasts, Radio } from '@geist-ui/core'
-import { updateUserConfig, PageSummary } from '../../config'
-import { changeToast } from '../../utils'
+import {
+  Text,
+  Textarea,
+  Card,
+  Button,
+  Tag,
+  useToasts,
+  Radio,
+  Divider,
+  Toggle,
+  Spacer,
+} from '@geist-ui/core'
+import { updateUserConfig } from '@/config'
+import { changeToast } from '@/utils'
 
 interface Props {
-  pageSummaryState: string
-  setPageSummaryState: (state: string) => void
-  pageSummarySites: string
-  setPageSummarySites: (sites: string) => void
+  pageSummaryEnable: boolean
+  setPageSummaryEnable: (state: boolean) => void
+  pageSummaryWhitelist: string
+  setPageSummaryWhitelist: (whitelist: string) => void
+  pageSummaryBlacklist: string
+  setPageSummaryBlacklist: (blacklist: string) => void
 }
 
 function PageSummaryComponent(props: Props) {
-  const { pageSummaryState, setPageSummaryState, pageSummarySites, setPageSummarySites } = props
+  const {
+    pageSummaryEnable,
+    setPageSummaryEnable,
+    pageSummaryWhitelist,
+    pageSummaryBlacklist,
+    setPageSummaryWhitelist,
+    setPageSummaryBlacklist,
+  } = props
   const { setToast } = useToasts()
 
-  const onPageSummaryChange = useCallback(
-    (pageSummary) => {
-      setPageSummaryState(pageSummary)
-    },
-    [setPageSummaryState],
-  )
-
-  const onPageSummarySitesChange = useCallback(
-    (e) => {
-      const value = e.target.value || ''
-      setPageSummarySites(value)
-    },
-    [setPageSummarySites],
-  )
-
   const onPageSummarySave = useCallback(() => {
-    updateUserConfig({ pageSummary: pageSummaryState, pageSummarySites: pageSummarySites })
-    onPageSummaryChange(pageSummaryState)
+    updateUserConfig({ pageSummaryWhitelist, pageSummaryBlacklist })
+    setPageSummaryWhitelist(pageSummaryWhitelist)
+    setPageSummaryBlacklist(pageSummaryBlacklist)
     setToast(changeToast)
-  }, [pageSummaryState, pageSummarySites, onPageSummaryChange, setToast])
+  }, [
+    pageSummaryBlacklist,
+    pageSummaryWhitelist,
+    setPageSummaryBlacklist,
+    setPageSummaryWhitelist,
+    setToast,
+  ])
+
+  const onPageSummaryEnableChange = useCallback(
+    (e: React.ChangeEvent) => {
+      const value = e.target.checked
+      setPageSummaryEnable(value)
+      updateUserConfig({ pageSummaryEnable: value })
+      setToast(changeToast)
+    },
+    [setPageSummaryEnable, setToast],
+  )
+
+  const onPageSummaryWhitelistChange = useCallback(
+    (e: React.ChangeEvent) => {
+      const value = e.target.value || ''
+      setPageSummaryWhitelist(value)
+    },
+    [setPageSummaryWhitelist],
+  )
+
+  const onPageSummaryBlacklistChange = useCallback(
+    (e: React.ChangeEvent) => {
+      const value = e.target.value || ''
+      setPageSummaryBlacklist(value)
+    },
+    [setPageSummaryBlacklist],
+  )
 
   return (
     <>
@@ -45,38 +83,52 @@ function PageSummaryComponent(props: Props) {
           <Tag scale={1 / 3} type="success">
             Beta
           </Tag>
-        </sup>
+        </sup>{' '}
+        <Toggle
+          initialChecked
+          scale={2}
+          checked={pageSummaryEnable}
+          onChange={onPageSummaryEnableChange}
+        />
       </Text>
 
       <Card>
         <Card.Content>
-          <Radio.Group
-            value={pageSummaryState}
-            onChange={(val: string) => onPageSummaryChange(val)}
-          >
-            {Object.values(PageSummary).map((v) => {
-              return (
-                <Radio key={v.name} value={v.value}>
-                  {v.name}
-                  {v.value === 'custom' && (
-                    <Radio.Desc>
-                      <div className="glarity--mt-2">
-                        <Textarea
-                          placeholder="https://glarity.app
+          <Text h4 className="glarity--mb-0">
+            Whitelist Sites
+          </Text>
+          <Text className="glarity--mt-0" font="12px">
+            Only display the Glarity icon on these sites (one URL per line).
+          </Text>
+          <Spacer h={0.5} />
+          <Textarea
+            placeholder="https://glarity.app
 https://reddit.com"
-                          resize={'vertical'}
-                          value={pageSummarySites}
-                          style={{ width: '400px', height: '100px' }}
-                          onChange={onPageSummarySitesChange}
-                        />
-                      </div>
-                    </Radio.Desc>
-                  )}
-                </Radio>
-              )
-            })}
-          </Radio.Group>
+            resize={'vertical'}
+            value={pageSummaryWhitelist}
+            style={{ width: '400px', height: '100px' }}
+            onChange={onPageSummaryWhitelistChange}
+          />
         </Card.Content>
+        <Divider />
+        <Card.Content>
+          <Text h4 className="glarity--mb-0">
+            Blacklist Sites
+          </Text>
+          <Text className="glarity--mt-0" font="12px">
+            Do not display Glarity icon on these sites (one URL per line).
+          </Text>
+          <Spacer h={0.5} />
+          <Textarea
+            placeholder="https://glarity.app
+https://reddit.com"
+            resize={'vertical'}
+            value={pageSummaryBlacklist}
+            style={{ width: '400px', height: '100px' }}
+            onChange={onPageSummaryBlacklistChange}
+          />
+        </Card.Content>
+
         <Card.Footer>
           <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={onPageSummarySave}>
             Save

@@ -32,17 +32,26 @@ import './styles.scss'
 function OptionsPage(props: {
   theme: Theme
   onThemeChange: (theme: Theme) => void
-  pageSummary: string
-  onPageSummaryChange: (pageSummary) => void
+  setPageSummaryEnable: (state: boolean) => void
+  pageSummaryEnable: boolean
+  pageSummaryWhitelist: string
+  setPageSummaryWhitelist: (whitelist: string) => void
+  pageSummaryBlacklist: string
+  setPageSummaryBlacklist: (blacklist: string) => void
 }) {
+  const {
+    setPageSummaryEnable,
+    pageSummaryEnable,
+    pageSummaryWhitelist,
+    pageSummaryBlacklist,
+    setPageSummaryWhitelist,
+    setPageSummaryBlacklist,
+  } = props
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
   const [allSites, setAllSites] = useState<string[]>([])
   const [enableSites, setEnableSites] = useState<string[]>([])
-
-  const [pageSummaryState, setPageSummaryState] = useState<string>(props.pageSummary)
-  const [pageSummarySites, setPageSummarysites] = useState<string>('')
   const [prompt, setPrompt] = useState<string>('')
   const [promptSearch, setPromptSearch] = useState<string>('')
 
@@ -64,10 +73,6 @@ function OptionsPage(props: {
     [props, setToast],
   )
 
-  const onPageSummaryChange = useCallback((pageSummary) => {
-    setPageSummaryState(pageSummary)
-  }, [])
-
   const onLanguageChange = useCallback(
     (language: Language) => {
       updateUserConfig({ language })
@@ -88,9 +93,6 @@ function OptionsPage(props: {
     getUserConfig().then((config) => {
       setTriggerMode(config.triggerMode)
       setLanguage(config.language)
-
-      onPageSummaryChange(config.pageSummary)
-      setPageSummarysites(config.pageSummarySites)
 
       setPrompt(config.prompt ? config.prompt : defaultPrompt)
       setPromptSearch(config.promptSearch ? config.promptSearch : defaultPromptSearch)
@@ -204,10 +206,12 @@ function OptionsPage(props: {
 
         {/* Page Summary */}
         <PageSummaryComponent
-          pageSummaryState={pageSummaryState}
-          setPageSummaryState={setPageSummaryState}
-          pageSummarySites={pageSummarySites}
-          setPageSummarySites={setPageSummarysites}
+          pageSummaryEnable={pageSummaryEnable}
+          setPageSummaryEnable={setPageSummaryEnable}
+          pageSummaryWhitelist={pageSummaryWhitelist}
+          pageSummaryBlacklist={pageSummaryBlacklist}
+          setPageSummaryWhitelist={setPageSummaryWhitelist}
+          setPageSummaryBlacklist={setPageSummaryBlacklist}
         />
       </main>
     </div>
@@ -216,7 +220,9 @@ function OptionsPage(props: {
 
 function App() {
   const [theme, setTheme] = useState(Theme.Auto)
-  const [pageSummary, setPageSummary] = useState('all')
+  const [pageSummaryEnable, setPageSummaryEnable] = useState(true)
+  const [pageSummaryWhitelist, setPageSummaryWhitelist] = useState<string>('')
+  const [pageSummaryBlacklist, setPageSummaryBlacklist] = useState<string>('')
 
   const themeType = useMemo(() => {
     if (theme === Theme.Auto) {
@@ -228,7 +234,9 @@ function App() {
   useEffect(() => {
     getUserConfig().then((config) => {
       setTheme(config.theme)
-      setPageSummary(config.pageSummary)
+      setPageSummaryEnable(config.pageSummaryEnable)
+      setPageSummaryWhitelist(config.pageSummaryWhitelist)
+      setPageSummaryBlacklist(config.pageSummaryBlacklist)
     })
   }, [])
 
@@ -238,8 +246,12 @@ function App() {
       <OptionsPage
         theme={theme}
         onThemeChange={setTheme}
-        pageSummary={pageSummary}
-        onPageSummaryChange={setPageSummary}
+        setPageSummaryEnable={setPageSummaryEnable}
+        pageSummaryEnable={pageSummaryEnable}
+        pageSummaryWhitelist={pageSummaryWhitelist}
+        pageSummaryBlacklist={pageSummaryBlacklist}
+        setPageSummaryWhitelist={setPageSummaryWhitelist}
+        setPageSummaryBlacklist={setPageSummaryBlacklist}
       />
     </GeistProvider>
   )
