@@ -1,4 +1,6 @@
 {
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
@@ -11,7 +13,7 @@
     "skipLibCheck": true,
     "strict": true,
     "moduleResolution": "node",
-    "noImplicitAny":false,
+    "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

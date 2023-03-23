@@ -9,10 +9,6 @@ export enum TriggerMode {
 
 export const TRIGGER_MODE_TEXT = {
   [TriggerMode.Always]: { title: 'Always', desc: 'ChatGPT is queried on every search' },
-  // [TriggerMode.QuestionMark]: {
-  //   title: 'Question Mark',
-  //   desc: 'When your query ends with a question mark (?)',
-  // },
   [TriggerMode.Manually]: {
     title: 'Manually',
     desc: 'ChatGPT is queried when you manually click a button',
@@ -118,3 +114,25 @@ export const PageSummary = {
   all: { name: 'All Sites', value: 'all' },
   custom: { name: 'Custom Site List', value: 'custom' },
 }
+
+export const DEFAULT_PAGE_SUMMARY_BLACKLIST = `https://translate.google.com
+https://www.deepl.com
+https://www.youtube.com
+https://youku.com
+https://v.qq.com
+https://www.iqiyi.com
+https://www.bilibili.com
+https://www.tudou.com
+https://www.tiktok.com
+https://vimeo.com
+https://www.dailymotion.com
+https://www.twitch.tv
+https://www.hulu.com
+https://www.netflix.com
+https://www.hbomax.com
+https://www.disneyplus.com
+https://www.peacocktv.com
+https://www.crunchyroll.com
+https://www.funimation.com
+https://www.viki.com
+`

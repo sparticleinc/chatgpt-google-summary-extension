@@ -17,6 +17,7 @@ import {
   TriggerMode,
   TRIGGER_MODE_TEXT,
   updateUserConfig,
+  DEFAULT_PAGE_SUMMARY_BLACKLIST,
 } from '@/config'
 import { PageSummaryProps } from './components/PageSummary'
 import ProviderSelect from './ProviderSelect'
@@ -232,7 +233,9 @@ function App() {
       setTheme(config.theme)
       setPageSummaryEnable(config.pageSummaryEnable)
       setPageSummaryWhitelist(config.pageSummaryWhitelist)
-      setPageSummaryBlacklist(config.pageSummaryBlacklist)
+      setPageSummaryBlacklist(
+        config.pageSummaryBlacklist ? config.pageSummaryBlacklist : DEFAULT_PAGE_SUMMARY_BLACKLIST,
+      )
     })
   }, [])
 
