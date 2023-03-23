@@ -4,11 +4,11 @@ import { SearchIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
 // import useSWRImmutable from 'swr/immutable'
 import { SearchEngine } from './search-engine-configs'
-import { TriggerMode, Theme, getUserConfig } from '../config'
+import { TriggerMode, Theme, getUserConfig } from '@/config'
 import ChatGPTCard from './ChatGPTCard'
 import { QueryStatus } from './ChatGPTQuery'
 import { getSearchParam, copyTranscript, getConverTranscript } from './utils'
-import { detectSystemColorScheme } from '../utils'
+import { detectSystemColorScheme } from '@/utils/utils'
 import {
   GearIcon,
   CheckIcon,

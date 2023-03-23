@@ -6,7 +6,7 @@ import '../base.scss'
 import logo from '../logo.png'
 import { extractFromHtml } from '@extractus/article-extractor'
 import ChatGPTQuery from '../content-script/ChatGPTQuery'
-import { getUserConfig, Language, getProviderConfigs } from '../config'
+import { getUserConfig, Language, getProviderConfigs } from '@/config'
 import { getSummaryPrompt } from '../content-script/prompt'
 import './styles.scss'
 

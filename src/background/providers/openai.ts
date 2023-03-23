@@ -1,6 +1,6 @@
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
-import { getProviderConfigs, ProviderType } from '../../config'
+import { getProviderConfigs, ProviderType } from '@/config'
 
 export class OpenAIProvider implements Provider {
   constructor(private token: string, private model: string) {

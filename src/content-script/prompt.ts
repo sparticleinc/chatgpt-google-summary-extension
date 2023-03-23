@@ -1,4 +1,4 @@
-import { ProviderType } from '../config'
+import { ProviderType } from '@/config'
 import GPT3Tokenizer from 'gpt3-tokenizer'
 const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 

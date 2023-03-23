@@ -12,7 +12,7 @@ import {
   Spacer,
 } from '@geist-ui/core'
 import { updateUserConfig } from '@/config'
-import { changeToast } from '@/utils'
+import { changeToast } from '@/utils/utils'
 
 export interface PageSummaryProps {
   pageSummaryEnable: boolean

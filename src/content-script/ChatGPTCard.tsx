@@ -1,6 +1,6 @@
 import { LightBulbIcon, SearchIcon } from '@primer/octicons-react'
 import { useState, useEffect } from 'preact/hooks'
-import { TriggerMode } from '../config'
+import { TriggerMode } from '@/config'
 import ChatGPTQuery, { QueryStatus } from './ChatGPTQuery'
 import { endsWithQuestionMark } from './utils.js'
 

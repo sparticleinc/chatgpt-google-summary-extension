@@ -1,7 +1,7 @@
 import Browser from 'webextension-polyfill'
 import $ from 'jquery'
 import copy from 'copy-to-clipboard'
-import { BASE_URL } from '../config'
+import { BASE_URL } from '@/config'
 
 export function getPossibleElementByQuerySelector<T extends Element>(
   queryArray: string[],

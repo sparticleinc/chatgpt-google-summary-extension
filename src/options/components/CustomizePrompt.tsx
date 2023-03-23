@@ -12,17 +12,16 @@ import {
   useToasts,
 } from '@geist-ui/core'
 import { Space, Tooltip } from 'antd'
-import { updateUserConfig } from '../../config'
-import { isIOS } from '../../utils/utils'
+import { updateUserConfig } from '@/config'
+import { isIOS, changeToast } from '@/utils/utils'
 import {
-  defaultPrompt,
-  defaultPromptSearch,
+  videoSummaryPromptHightligt,
+  searchPromptHighlight,
   customizePrompt,
   customizePromptSearch,
   customizePrompt1,
   customizePromptClickbait,
-  changeToast,
-} from '../../utils'
+} from '@/utils/prompt'
 
 interface Props {
   prompt: string
@@ -57,14 +56,14 @@ function CustomizePrompt(props: Props) {
     (type?: string) => {
       switch (type) {
         case 'search': {
-          setPromptSearch(defaultPromptSearch)
-          updateUserConfig({ promptSearch: defaultPromptSearch })
+          setPromptSearch(searchPromptHighlight)
+          updateUserConfig({ promptSearch: searchPromptHighlight })
           break
         }
 
         default: {
-          setPrompt(defaultPrompt)
-          updateUserConfig({ prompt: defaultPrompt })
+          setPrompt(videoSummaryPromptHightligt)
+          updateUserConfig({ prompt: videoSummaryPromptHightligt })
           break
         }
       }

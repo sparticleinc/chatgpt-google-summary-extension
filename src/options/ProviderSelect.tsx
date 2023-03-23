@@ -1,7 +1,7 @@
 import { Button, Input, Spinner, useInput, useToasts, Radio, Card } from '@geist-ui/core'
 import { FC, useCallback, useState, useEffect } from 'react'
 import useSWR from 'swr'
-import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '../config'
+import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
 import { Select as Aselect } from 'antd'
 const { Option } = Aselect
 import { isIOS } from '../utils/utils'

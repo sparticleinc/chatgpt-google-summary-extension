@@ -1,7 +1,7 @@
 import { render } from 'preact'
 import '../base.scss'
-import { getUserConfig, Language, Theme, getProviderConfigs } from '../config'
-import { defaultPromptSearch, detectSystemColorScheme } from '../utils'
+import { getUserConfig, Language, Theme, getProviderConfigs } from '@/config'
+import { detectSystemColorScheme } from '@/utils/utils'
 import ChatGPTContainer from './ChatGPTContainer'
 import ChatGPTTip from './ChatGPTTip'
 import { config, SearchEngine } from './search-engine-configs'
@@ -15,14 +15,15 @@ import {
 } from './utils'
 import { getSummaryPrompt } from './prompt'
 import PageSummary from './PageSummary'
-import { defaultPrompt } from '../utils'
 import { getBiliTranscript, getBiliVideoId } from '../utils/bilibili'
 import {
   articlePrompt,
   googlePatentsPromptHighlight,
   videoPrompt,
   searchPrompt,
-} from '../utils/prompt'
+  videoSummaryPromptHightligt,
+  searchPromptHighlight,
+} from '@/utils/prompt'
 import './styles.scss'
 
 interface MountProps {
@@ -505,7 +506,7 @@ export async function getQuestion(loadInit?: boolean) {
       }) || []
     ).join('')
 
-    const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
+    const Instructions = userConfig.prompt ? `${userConfig.prompt}` : videoSummaryPromptHightligt
 
     const queryText = videoPrompt({
       title: videoTitle,
@@ -549,7 +550,7 @@ export async function getQuestion(loadInit?: boolean) {
         ).join('')
       : desc + videoDesc
 
-    const Instructions = userConfig.prompt ? `${userConfig.prompt}` : defaultPrompt
+    const Instructions = userConfig.prompt ? `${userConfig.prompt}` : videoSummaryPromptHightligt
 
     const queryText = videoPrompt({
       title: videoTitle,
@@ -610,7 +611,7 @@ export async function getQuestion(loadInit?: boolean) {
 
     const Instructions = userConfig.promptSearch
       ? `${userConfig.promptSearch}`
-      : defaultPromptSearch
+      : searchPromptHighlight
 
     const queryText = searchPrompt({
       query: searchInput.value,
@@ -693,7 +694,7 @@ export async function getQuestion(loadInit?: boolean) {
 
     const Instructions = userConfig.promptSearch
       ? `${userConfig.promptSearch}`
-      : defaultPromptSearch
+      : searchPromptHighlight
 
     const queryText = searchPrompt({
       query: searchInput.value,

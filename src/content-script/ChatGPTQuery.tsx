@@ -8,7 +8,7 @@ import { Answer } from '../messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
 import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
-import { BASE_URL } from '../config'
+import { BASE_URL } from '@/config'
 import { isIOS } from '../utils/utils'
 import './styles.scss'
 

@@ -27,7 +27,9 @@ import Header from './components/Header'
 import CustomizePrompt from './components/CustomizePrompt'
 import PageSummaryComponent from './components/PageSummary'
 import EnableGlarity from './components/EnableGlarity'
-import { defaultPrompt, defaultPromptSearch, detectSystemColorScheme } from '@/utils'
+import { detectSystemColorScheme } from '@/utils/utils'
+import { videoSummaryPromptHightligt, searchPromptHighlight } from '@/utils/prompt'
+
 import './styles.scss'
 
 function OptionsPage(
@@ -91,8 +93,8 @@ function OptionsPage(
       setTriggerMode(config.triggerMode)
       setLanguage(config.language)
 
-      setPrompt(config.prompt ? config.prompt : defaultPrompt)
-      setPromptSearch(config.promptSearch ? config.promptSearch : defaultPromptSearch)
+      setPrompt(config.prompt ? config.prompt : videoSummaryPromptHightligt)
+      setPromptSearch(config.promptSearch ? config.promptSearch : searchPromptHighlight)
 
       const sites =
         Object.values(supportSites).map((site) => {

@@ -1,10 +1,9 @@
 import React from 'react'
 import { useCallback, useEffect, useState } from 'preact/hooks'
-import { SearchEngine } from '../../content-script/search-engine-configs'
+import { SearchEngine } from '@/content-script/search-engine-configs'
 import { Text, Card, Button, Spacer, useToasts, Checkbox } from '@geist-ui/core'
-import { updateUserConfig } from '../../config'
-import { changeToast } from '../../utils'
-import { isIOS } from '../../utils/utils'
+import { updateUserConfig } from '@/config'
+import { changeToast, isIOS } from '@/utils/utils'
 
 interface Props {
   enableSites: string[]

@@ -110,11 +110,6 @@ export async function saveProviderConfigs(
 
 export const BASE_URL = 'https://chat.openai.com'
 
-export const PageSummary = {
-  all: { name: 'All Sites', value: 'all' },
-  custom: { name: 'Custom Site List', value: 'custom' },
-}
-
 export const DEFAULT_PAGE_SUMMARY_BLACKLIST = `https://translate.google.com
 https://www.deepl.com
 https://www.youtube.com

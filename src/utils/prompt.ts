@@ -2,6 +2,30 @@ export const articlePromptHighlight = `Please use the above to summarize the hig
 export const pagePromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
 export const googlePatentsPromptHighlight = `Please summarize the highlights of the above article in easy-to-understand terms`
 export const pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
+export const videoSummaryPromptHightligt = `Summarize the above content highlights.`
+export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
+export const customizePrompt = `Title: "{{Title}}"
+Transcript: "{{Transcript}}"`
+
+export const customizePromptSearch = `Web search results: {{Search Results }}`
+
+export const customizePrompt1 = `Your output should use the following template:
+#### Summary
+#### Highlights
+- [Emoji] Bulletpoint
+
+Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.
+`
+
+export const customizePromptClickbait = `What is the clickbait likelihood of the title and transcript for this video? Please provide a score and a brief explanation for your score, the clickbait score is up to 10, if the clickbait score is less than 5 then answer: 👍 Clickbait Score : Low, otherwise answer: 👎 Clickbait Score : High.
+
+Example response:
+> The lower the Clickbait score, the better.
+#### Clickbait Score:
+👍 Clickbait Score : Low or 👎 Clickbait Score : High
+#### Explanation:
+The title is a bit exaggerated.
+`
 
 export const replylanguagePrompt = (language: string) => {
   return `Please write in ${language} language.`
