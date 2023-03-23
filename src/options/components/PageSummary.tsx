@@ -15,7 +15,7 @@ import {
 import { updateUserConfig } from '@/config'
 import { changeToast } from '@/utils'
 
-interface Props {
+export interface PageSummaryProps {
   pageSummaryEnable: boolean
   setPageSummaryEnable: (state: boolean) => void
   pageSummaryWhitelist: string
@@ -24,7 +24,7 @@ interface Props {
   setPageSummaryBlacklist: (blacklist: string) => void
 }
 
-function PageSummaryComponent(props: Props) {
+function PageSummaryComponent(props: PageSummaryProps) {
   const {
     pageSummaryEnable,
     setPageSummaryEnable,

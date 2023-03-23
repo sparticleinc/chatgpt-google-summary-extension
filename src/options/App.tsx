@@ -9,7 +9,7 @@ import {
   Divider,
 } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
-import '../base.scss'
+import '@/base.scss'
 import {
   getUserConfig,
   Language,
@@ -17,28 +17,24 @@ import {
   TriggerMode,
   TRIGGER_MODE_TEXT,
   updateUserConfig,
-} from '../config'
-
+} from '@/config'
+import { PageSummaryProps } from './components/PageSummary'
 import ProviderSelect from './ProviderSelect'
-import { config as supportSites } from '../content-script/search-engine-configs'
-import { isIOS } from '../utils/utils'
+import { config as supportSites } from '@/content-script/search-engine-configs'
+import { isIOS } from '@/utils/utils'
 import Header from './components/Header'
 import CustomizePrompt from './components/CustomizePrompt'
 import PageSummaryComponent from './components/PageSummary'
 import EnableGlarity from './components/EnableGlarity'
-import { defaultPrompt, defaultPromptSearch, detectSystemColorScheme } from '../utils'
+import { defaultPrompt, defaultPromptSearch, detectSystemColorScheme } from '@/utils'
 import './styles.scss'
 
-function OptionsPage(props: {
-  theme: Theme
-  onThemeChange: (theme: Theme) => void
-  setPageSummaryEnable: (state: boolean) => void
-  pageSummaryEnable: boolean
-  pageSummaryWhitelist: string
-  setPageSummaryWhitelist: (whitelist: string) => void
-  pageSummaryBlacklist: string
-  setPageSummaryBlacklist: (blacklist: string) => void
-}) {
+function OptionsPage(
+  props: {
+    theme: Theme
+    onThemeChange: (theme: Theme) => void
+  } & PageSummaryProps,
+) {
   const {
     setPageSummaryEnable,
     pageSummaryEnable,
