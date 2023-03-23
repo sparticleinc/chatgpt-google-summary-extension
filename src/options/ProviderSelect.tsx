@@ -4,7 +4,7 @@ import useSWR from 'swr'
 import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
 import { Select as Aselect } from 'antd'
 const { Option } = Aselect
-import { isIOS } from '../utils/utils'
+import { isIOS } from '@/utils/utils'
 
 interface ConfigProps {
   config: ProviderConfigs

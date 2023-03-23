@@ -1,8 +1,8 @@
 import { LightBulbIcon, SearchIcon } from '@primer/octicons-react'
-import { useState, useEffect } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 import { TriggerMode } from '@/config'
 import ChatGPTQuery, { QueryStatus } from './ChatGPTQuery'
-import { endsWithQuestionMark } from './utils.js'
+import { endsWithQuestionMark } from '@/content-script/utils'
 
 interface Props {
   question: string
@@ -15,11 +15,6 @@ function ChatGPTCard(props: Props) {
   const { triggerMode, question, onStatusChange, currentTime: propCurrentTime } = props
 
   const [triggered, setTriggered] = useState(false)
-  // const [currentTime, setCurrentTime] = useState(propCurrentTime)
-
-  // useEffect(() => {
-  //   console.log('ChatGPTCard props', props)
-  // }, [props])
 
   if (triggerMode === TriggerMode.Always || propCurrentTime) {
     return (

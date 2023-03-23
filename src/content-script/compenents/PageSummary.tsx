@@ -2,14 +2,14 @@ import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
-import ChatGPTQuery from './ChatGPTQuery'
-import { extractFromHtml } from '../utils/article-extractor/cjs/article-extractor.esm'
-import { getUserConfig, Language, getProviderConfigs } from '@/config'
-import { getSummaryPrompt } from './prompt'
-import { isIOS } from '../utils/utils'
-import { pageSummaryPrompt } from '../utils/prompt'
-import logoWhite from '@/logo-white.png'
-import logo from '@/logo.png'
+import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
+import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
+import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
+import { getSummaryPrompt } from '@/content-script/prompt'
+import { isIOS } from '@/utils/utils'
+import { pageSummaryPrompt } from '@/utils/prompt'
+import logoWhite from '@/assets/img/logo-white.png'
+import logo from '@/assets/img/logo.png'
 
 interface Props {
   pageSummaryEnable: boolean
@@ -57,7 +57,6 @@ function PageSummary(props: Props) {
     }
 
     const article = await extractFromHtml(html, url)
-    // console.log('article', article)
 
     const title = article?.title || document.title || ''
     const description =
@@ -120,7 +119,7 @@ function PageSummary(props: Props) {
           <div className="glarity--card__head ">
             <div className="glarity--card__head--title">
               <a href="https://glarity.app" rel="noreferrer" target="_blank">
-                <img src={logo} alt="Glarity Summary" /> Glarity Summary
+                <img src={logo} alt={APP_TITLE} /> {APP_TITLE}
               </a>{' '}
               <button
                 className={classNames('glarity--btn', 'glarity--btn__icon')}
@@ -177,7 +176,7 @@ function PageSummary(props: Props) {
           >
             <img
               src={logoWhite}
-              alt="Glarity Summary"
+              alt={APP_TITLE}
               className="glarity--w-5 glarity--h-5 glarity--rounded-sm"
             />
           </button>

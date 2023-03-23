@@ -9,7 +9,7 @@ import {
   Divider,
 } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
-import '@/base.scss'
+import '@/assets/styles/base.scss'
 import {
   getUserConfig,
   Language,

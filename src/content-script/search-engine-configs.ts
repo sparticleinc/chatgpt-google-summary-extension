@@ -1,4 +1,5 @@
-import { getSearchParam, waitForElm } from './utils'
+import { waitForElm } from './utils'
+import { queryParam } from 'gb-url'
 import { getBiliVideoId } from '../utils/bilibili'
 export interface SearchEngine {
   inputQuery: string[]
@@ -134,7 +135,7 @@ export const config: Record<string, SearchEngine> = {
       let currentUrl = window.location.href
 
       setInterval(() => {
-        const videoId = getSearchParam(window.location.href)?.v
+        const videoId = queryParam('v', window.location.href)
         if (window.location.href !== currentUrl && videoId) {
           waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
             if (document.querySelector('section.glarity--container')) {
@@ -223,7 +224,7 @@ export const config: Record<string, SearchEngine> = {
       setInterval(() => {
         if (window.location.href !== currentUrl) {
           if (/patents.google.com\/patent\/\w+/g.test(location.href)) {
-            waitForElm(config.googlePatents.extabarContainerQuery[0]).then(() => {
+            waitForElm(config.googlePatents.extabarContainerQuery?.[0]).then(() => {
               if (document.querySelector('section.glarity--container')) {
                 document.querySelector('section.glarity--container')?.remove()
               }
@@ -253,7 +254,7 @@ export const config: Record<string, SearchEngine> = {
       setInterval(() => {
         if (window.location.href !== currentUrl) {
           if (getBiliVideoId(location.href)) {
-            waitForElm(config.bilibili.extabarContainerQuery[0]).then(() => {
+            waitForElm(config.bilibili.extabarContainerQuery?.[0]).then(() => {
               if (document.querySelector('section.glarity--container')) {
                 document.querySelector('section.glarity--container')?.remove()
               }

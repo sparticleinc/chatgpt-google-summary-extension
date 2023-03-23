@@ -9,7 +9,6 @@
     "watch": "chokidar src -c 'npm run build'"
   },
   "dependencies": {
-    "@extractus/article-extractor": "^7.2.10",
     "@geist-ui/core": "^2.3.8",
     "@primer/octicons-react": "^17.9.0",
     "antd": "^5.3.0",

@@ -131,3 +131,4 @@ https://www.crunchyroll.com
 https://www.funimation.com
 https://www.viki.com
 `
+export const APP_TITLE = `Glarity Summary`

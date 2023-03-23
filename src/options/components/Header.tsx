@@ -1,5 +1,5 @@
 import { getExtensionVersion, AppName } from '@/utils/utils'
-import logo from '@/logo.png'
+import logo from '@/assets/img/logo.png'
 
 function Header() {
   return (

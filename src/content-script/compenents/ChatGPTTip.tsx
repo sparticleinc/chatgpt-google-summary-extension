@@ -1,9 +1,14 @@
-import { useState, useEffect } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 import { Note, Description, Button, Divider } from '@geist-ui/core'
 import { XCircleFillIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
+import { APP_TITLE } from '@/config'
 
-function ChatGPTTip(props) {
+interface Props {
+  isLogin: boolean
+}
+
+function ChatGPTTip(props: Props) {
   const isLogin = props?.isLogin
   const [showTip, setShowTip] = useState(true)
 
@@ -23,7 +28,7 @@ function ChatGPTTip(props) {
         <>
           <Note type="success" label={false}>
             <Description
-              title="Glarity Summary tips:"
+              title={`${APP_TITLE}  tips:`}
               content={
                 <>
                   {isLogin ? (

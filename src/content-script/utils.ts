@@ -2,6 +2,7 @@ import Browser from 'webextension-polyfill'
 import $ from 'jquery'
 import copy from 'copy-to-clipboard'
 import { BASE_URL } from '@/config'
+import { config } from './search-engine-configs'
 
 export function getPossibleElementByQuerySelector<T extends Element>(
   queryArray: string[],
@@ -92,7 +93,7 @@ export async function getRawTranscript(link) {
   })
 }
 
-export async function getTranscriptHTML(rawTranscript, videoId) {
+export async function getTranscriptHTML(rawTranscript: string[], videoId) {
   const scriptObjArr = [],
     timeUpperLimit = 60,
     charInitLimit = 300,
@@ -202,26 +203,6 @@ function convertIntToHms(num) {
   return new Date(num * 1000).toISOString().substring(h, 19).toString()
 }
 
-export function getSearchParam(str) {
-  const searchParam = str && str !== '' ? str : window.location.search
-
-  if (!/\?([a-zA-Z0-9_]+)/i.exec(searchParam)) return {}
-  let match,
-    pl = /\+/g, // Regex for replacing addition symbol with a space
-    search = /([^?&=]+)=?([^&]*)/g
-  const decode = function (s) {
-      return decodeURIComponent(s.replace(pl, ' '))
-    },
-    index = /\?([a-zA-Z0-9_]+)/i.exec(searchParam)['index'] + 1,
-    query = searchParam.substring(index)
-
-  let urlParams = {}
-  while ((match = search.exec(query))) {
-    urlParams[decode(match[1])] = decode(match[2])
-  }
-  return urlParams
-}
-
 export function copyTranscript(videoId, subtitle) {
   let contentBody = ''
   const url = `https://www.youtube.com/watch?v=${videoId}`
@@ -292,4 +273,31 @@ export function tabSendMsg(tab) {
       .sendMessage(id, { type: 'CHATGPT_TAB_CURRENT', data: { isLogin: false } })
       .catch(() => {})
   }
+}
+
+export const hostname = location.hostname
+
+export function siteName() {
+  const siteRegex = new RegExp(Object.keys(config).join('|'))
+  const siteName =
+    hostname === 'news.yahoo.co.jp'
+      ? 'yahooJpNews'
+      : hostname.includes('ncbi.nlm.nih.gov')
+      ? 'pubmed'
+      : hostname === 'newspicks.com'
+      ? 'newspicks'
+      : hostname.includes('nikkei.com')
+      ? 'nikkei'
+      : hostname.includes('github.com')
+      ? 'github'
+      : hostname.includes('patents.google.com')
+      ? 'googlePatents'
+      : hostname.match(siteRegex)
+      ? hostname.match(siteRegex)?.[0] || ''
+      : ''
+  return siteName
+}
+
+export function siteConfig() {
+  return config[siteName()]
 }

@@ -4,13 +4,13 @@ import { Loading, Button } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
-import { Answer } from '../messaging'
+import { Answer } from '@/messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
-import { isBraveBrowser, shouldShowRatingTip } from './utils.js'
+import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
 import { BASE_URL } from '@/config'
-import { isIOS } from '../utils/utils'
-import './styles.scss'
+import { isIOS } from '@/utils/utils'
+import '@/content-script/styles.scss'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
 
@@ -32,7 +32,6 @@ function ChatGPTQuery(props: Props) {
 
   const requestGpt = useMemo(() => {
     return debounce(() => {
-      console.log('Request ChatGPT')
       setStatus(undefined)
       // setError('error')
       // setStatus('error')
@@ -40,8 +39,6 @@ function ChatGPTQuery(props: Props) {
 
       const port = Browser.runtime.connect()
       const listener = (msg: any) => {
-        console.log('result', msg)
-
         if (msg.text) {
           let text = msg.text || ''
           text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
@@ -77,10 +74,6 @@ function ChatGPTQuery(props: Props) {
   const openOptionsPage = useCallback(() => {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
-
-  useEffect(() => {
-    console.log('ChatGPTQuery props', props)
-  }, [props])
 
   useEffect(() => {
     onStatusChange?.(status)

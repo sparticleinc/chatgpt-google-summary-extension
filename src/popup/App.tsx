@@ -1,13 +1,13 @@
-import { Button, Divider, Card } from '@geist-ui/core'
-import { useCallback, useEffect, useState } from 'react'
+import { Button, Divider } from '@geist-ui/core'
+import { useCallback, useState } from 'react'
 import useSWR from 'swr'
 import Browser from 'webextension-polyfill'
-import '../base.scss'
-import logo from '../logo.png'
+import '@/assets/styles/base.scss'
+import logo from '@/assets/img/logo.png'
 import { extractFromHtml } from '@extractus/article-extractor'
-import ChatGPTQuery from '../content-script/ChatGPTQuery'
-import { getUserConfig, Language, getProviderConfigs } from '@/config'
-import { getSummaryPrompt } from '../content-script/prompt'
+import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
+import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
+import { getSummaryPrompt } from '@/content-script/prompt'
 import './styles.scss'
 
 const isChrome = /chrome/i.test(navigator.userAgent)
@@ -74,7 +74,7 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
       <div className="glarity--mb-1 glarity--flex glarity--flex-row glarity--items-center glarity--px-1">
         <img src={logo} className="glarity--w-5 glarity--h-5 glarity--rounded-sm" />
         <p className="glarity--text-sm glarity--font-semibold glarity--m-0 glarity--ml-1">
-          Glarity Summary
+          {APP_TITLE}
         </p>
         <div className="glarity--grow"></div>
 
