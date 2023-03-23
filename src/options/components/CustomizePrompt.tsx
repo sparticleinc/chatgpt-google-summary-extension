@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
+import { useCallback } from 'preact/hooks'
 import {
   Text,
   Code,

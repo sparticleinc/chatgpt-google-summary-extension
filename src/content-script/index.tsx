@@ -378,7 +378,7 @@ export async function getQuestion(loadInit?: boolean) {
     }
 
     const articleTitle = document.title || ''
-    const articleUrl = location.href
+    // const articleUrl = location.href
     const articleText = getPossibleElementByQuerySelector(
       siteConfig.contentContainerQuery || [],
     )?.textContent

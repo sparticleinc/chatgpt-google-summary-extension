@@ -8,8 +8,9 @@ import { extractFromHtml } from '../utils/article-extractor/cjs/article-extracto
 import { getUserConfig, Language, getProviderConfigs } from '../config'
 import { getSummaryPrompt } from './prompt'
 import { isIOS } from '../utils/utils'
-import logoWhite from '../logo-white.png'
-import logo from '../logo.png'
+import { pageSummaryPrompt } from '../utils/prompt'
+import logoWhite from '@/logo-white.png'
+import logo from '@/logo.png'
 
 interface Props {
   pageSummary: string
@@ -69,15 +70,12 @@ function PageSummary(props: Props) {
       const userConfig = await getUserConfig()
       const providerConfigs = await getProviderConfigs()
 
-      setQuestion(`Content:  ${getSummaryPrompt(
-        content.replace(/<[^>]+>/g, ''),
-        providerConfigs.provider,
-      )}
+      const prompt = pageSummaryPrompt({
+        content: getSummaryPrompt(content.replace(/<[^>]+>/g, ''), providerConfigs.provider),
+        language: userConfig.language === Language.Auto ? language : userConfig.language,
+      })
 
-Instructions: Summarize the highlights of the content and output a useful summary in a few sentences.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
-      `)
+      setQuestion(prompt)
       return
     }
 

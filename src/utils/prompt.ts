@@ -1,6 +1,8 @@
 export const articlePromptHighlight = `Please use the above to summarize the highlights.`
 export const pagePromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
 export const googlePatentsPromptHighlight = `Please summarize the highlights of the above article in easy-to-understand terms`
+export const pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
+
 export const replylanguagePrompt = (language: string) => {
   return `Please write in ${language} language.`
 }
@@ -61,5 +63,19 @@ export const searchPrompt = ({
 Current date: ${year}/${month}/${day}
 Instructions: ${prompt}
 Query: ${query}
+${replylanguagePrompt(language)}`
+}
+
+export const pageSummaryPrompt = ({
+  content,
+  language,
+  prompt,
+}: {
+  content: string
+  language: string
+  prompt?: string
+}) => {
+  return `Content: ${content}
+Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
 ${replylanguagePrompt(language)}`
 }

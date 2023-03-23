@@ -10,6 +10,10 @@
     "skipLibCheck": true,
     "strict": true,
     "moduleResolution": "node",
-    "noImplicitAny":false
+    "noImplicitAny":false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }
