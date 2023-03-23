@@ -205,10 +205,6 @@ async function mount(props: MountProps) {
     }
   }
 
-  // const root = createRoot(document.getElementById('glarity--container'), {
-  //   unstable_enableAsyncRendering: true,
-  // })
-
   render(
     <ChatGPTContainer
       question={question}
@@ -219,18 +215,6 @@ async function mount(props: MountProps) {
     />,
     container,
   )
-
-  // root.render(
-  //   <>
-  //     <ChatGPTContainer
-  //       question={question}
-  //       transcript={transcript}
-  //       siteConfig={siteConfig}
-  //       langOptionsWithLink={langOptionsWithLink}
-  //       triggerMode={userConfig.triggerMode || 'always'}
-  //     />
-  //   </>,
-  // )
 }
 
 async function Run() {
@@ -267,8 +251,9 @@ async function Run() {
   document.body.prepend(container)
   render(
     <PageSummary
-      pageSummary={userConfig.pageSummary}
-      pageSummarySites={userConfig.pageSummarySites}
+      pageSummaryEnable={userConfig.pageSummaryEnable}
+      pageSummaryWhitelist={userConfig.pageSummaryWhitelist}
+      pageSummaryBlacklist={userConfig.pageSummaryBlacklist}
       siteRegex={siteRegex}
     />,
     container,

@@ -13,17 +13,19 @@ import logoWhite from '@/logo-white.png'
 import logo from '@/logo.png'
 
 interface Props {
-  pageSummary: string
-  pageSummarySites: string
+  pageSummaryEnable: boolean
+  pageSummaryWhitelist: string
+  pageSummaryBlacklist: string
   siteRegex: RegExp
 }
 
 function PageSummary(props: Props) {
-  const { pageSummary, pageSummarySites, siteRegex } = props
+  const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props
   const [showCard, setShowCard] = useState(false)
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
+  const [show, setShow] = useState<boolean>(false)
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -56,7 +58,7 @@ function PageSummary(props: Props) {
     }
 
     const article = await extractFromHtml(html, url)
-    console.log('article', article)
+    // console.log('article', article)
 
     const title = article?.title || document.title || ''
     const description =
@@ -97,9 +99,20 @@ function PageSummary(props: Props) {
     })
   }, [showCard])
 
-  // useEffect(() => {
-  //   console.log('question', question)
-  // }, [question])
+  useEffect(() => {
+    const hostname = location.hostname
+    const blacklist = pageSummaryBlacklist.replace(/[\s\r\n]+/g, '')
+    const whitelist = pageSummaryWhitelist.replace(/[\s\r\n]+/g, '')
+
+    const inWhitelist = !whitelist
+      ? !blacklist.includes(hostname)
+      : !blacklist.includes(hostname) && pageSummaryWhitelist.includes(hostname)
+
+    const show =
+      pageSummaryEnable && ((isIOS && inWhitelist) || (inWhitelist && !siteRegex?.test(hostname)))
+
+    setShow(show)
+  }, [pageSummaryBlacklist, pageSummaryEnable, pageSummaryWhitelist, siteRegex])
 
   return (
     <>
@@ -158,8 +171,7 @@ function PageSummary(props: Props) {
           </div>
         </div>
       ) : (
-        ((pageSummary === 'custom' && pageSummarySites.includes(location.hostname)) ||
-          (pageSummary === 'all' && (isIOS || !siteRegex?.test(location.hostname)))) && (
+        show && (
           <button
             onClick={onSwitch}
             className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}
