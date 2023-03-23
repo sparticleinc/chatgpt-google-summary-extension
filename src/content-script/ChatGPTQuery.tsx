@@ -200,6 +200,12 @@ function ChatGPTQuery(props: Props) {
         >
           Retry
         </a>
+        <br />
+        If this keeps happening, change AI provider to OpenAI API in the{' '}
+        <Button type="success" ghost auto scale={0.5} onClick={openOptionsPage}>
+          extension options
+        </Button>
+        .
       </p>
     )
   }
