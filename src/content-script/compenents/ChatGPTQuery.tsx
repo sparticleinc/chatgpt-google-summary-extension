@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'preact/hooks'
+import { useEffect, useState, useCallback, useRef } from 'preact/hooks'
 import { memo, useMemo } from 'react'
 import { Loading, Button } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
@@ -29,6 +29,7 @@ function ChatGPTQuery(props: Props) {
   const [done, setDone] = useState(false)
   const [showTip, setShowTip] = useState(false)
   const [status, setStatus] = useState<QueryStatus>()
+  const wrapRef = useRef<HTMLDivElement | null>(null)
 
   const requestGpt = useMemo(() => {
     return debounce(() => {
@@ -60,7 +61,7 @@ function ChatGPTQuery(props: Props) {
         port.disconnect()
       }
     }, 1000)
-  }, [])
+  }, [props.question])
 
   const newTab = useCallback(() => {
     Browser.runtime.sendMessage({
@@ -101,6 +102,20 @@ function ChatGPTQuery(props: Props) {
     shouldShowRatingTip().then((show) => setShowTip(show))
   }, [])
 
+  useEffect(() => {
+    const wrap: HTMLDivElement | null = wrapRef.current
+    if (!wrap) {
+      return
+    }
+
+    if (answer) {
+      wrap.scrollTo({
+        top: 10000,
+        behavior: 'smooth',
+      })
+    }
+  }, [answer])
+
   if (answer) {
     return (
       <div className="markdown-body gpt-markdown" id="gpt-answer" dir="auto">
@@ -111,9 +126,11 @@ function ChatGPTQuery(props: Props) {
             answerText={answer.text}
           />
         </div>
-        <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
-          {answer.text}
-        </ReactMarkdown>
+        <div className="glarity--chatgpt--content" ref={wrapRef}>
+          <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
+            {answer.text}
+          </ReactMarkdown>
+        </div>
         {/* {done && showTip && (
           <p className="glarity--italic glarity--mt-2">
             Enjoy this extension? Give us a 5-star rating at{' '}

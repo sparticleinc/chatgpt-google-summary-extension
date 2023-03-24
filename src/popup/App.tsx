@@ -47,10 +47,7 @@ function App() {
 
     const html = await Browser.tabs.sendMessage(tab.id, { type: 'GET_DOM', data: { tab } })
 
-    console.log('html', html)
-
     const article = await extractFromHtml(html.html, tab.url)
-    console.log('article', article)
 
     if (article.content) {
       const language = window.navigator.language

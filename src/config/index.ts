@@ -41,7 +41,7 @@ const userConfigWithDefaultValue: {
   language: Language
   prompt: string
   promptSearch: string
-  enableSites: string[]
+  enableSites: string[] | null
   pageSummaryEnable: boolean
   pageSummaryWhitelist: string
   pageSummaryBlacklist: string
@@ -51,7 +51,7 @@ const userConfigWithDefaultValue: {
   language: Language.Auto,
   prompt: '',
   promptSearch: '',
-  enableSites: [],
+  enableSites: null,
   pageSummaryEnable: true,
   pageSummaryWhitelist: '',
   pageSummaryBlacklist: '',

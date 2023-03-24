@@ -72,8 +72,8 @@
   }
 
   #gpt-answer.markdown-body.gpt-markdown {
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.5;
 
     pre {
       margin-top: 10px;
@@ -223,7 +223,19 @@ span.glarity--header__logo {
   color: #444;
 
   &.glarity--main__container--subtitle {
+    margin-right: -10px;
+    padding-right: 10px;
     height: 200px;
+    max-height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+
+  .glarity--chatgpt--content {
+    margin-right: -10px;
+    padding-right: 10px;
+    max-height: 260px;
+    height: 260px;
     overflow: hidden;
     overflow-y: auto;
   }
