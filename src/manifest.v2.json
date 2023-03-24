@@ -14,8 +14,7 @@
     "storage",
     "https://*.openai.com/",
     "activeTab",
-    "tabs",
-    "scripting"
+    "tabs"
   ],
   "background": {
     "scripts": [
