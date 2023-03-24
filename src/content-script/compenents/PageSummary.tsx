@@ -7,7 +7,7 @@ import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor
 import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
-import { pageSummaryPrompt } from '@/utils/prompt'
+import { pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
 
@@ -70,9 +70,14 @@ function PageSummary(props: Props) {
       const userConfig = await getUserConfig()
       const providerConfigs = await getProviderConfigs()
 
+      const Instructions = userConfig.promptPage
+        ? userConfig.promptPage
+        : pageSummaryPromptHighlight
+
       const prompt = pageSummaryPrompt({
         content: getSummaryPrompt(content.replace(/<[^>]+>/g, ''), providerConfigs.provider),
         language: userConfig.language === Language.Auto ? language : userConfig.language,
+        prompt: Instructions,
       })
 
       setQuestion(prompt)

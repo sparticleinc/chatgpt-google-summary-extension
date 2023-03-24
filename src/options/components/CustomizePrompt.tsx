@@ -17,10 +17,12 @@ import { isIOS, changeToast } from '@/utils/utils'
 import {
   videoSummaryPromptHightligt,
   searchPromptHighlight,
+  pageSummaryPromptHighlight,
   customizePrompt,
   customizePromptSearch,
   customizePrompt1,
   customizePromptClickbait,
+  customizePromptPage,
 } from '@/utils/prompt'
 
 interface Props {
@@ -28,10 +30,12 @@ interface Props {
   setPrompt: (prompt: string) => void
   promptSearch: string
   setPromptSearch: (promptSearch: string) => void
+  promptPage: string
+  setPromptPage: (promptPage: string) => void
 }
 
 function CustomizePrompt(props: Props) {
-  const { prompt, setPrompt, promptSearch, setPromptSearch } = props
+  const { prompt, setPrompt, promptSearch, setPromptSearch, promptPage, setPromptPage } = props
   const { setToast } = useToasts()
 
   const onPromptChange = useCallback(
@@ -43,13 +47,18 @@ function CustomizePrompt(props: Props) {
           break
         }
 
+        case 'page': {
+          setPromptPage(prompt)
+          break
+        }
+
         default: {
           setPrompt(prompt)
           break
         }
       }
     },
-    [setPrompt, setPromptSearch],
+    [setPrompt, setPromptSearch, setPromptPage],
   )
 
   const onSetPrompt = useCallback(
@@ -58,6 +67,12 @@ function CustomizePrompt(props: Props) {
         case 'search': {
           setPromptSearch(searchPromptHighlight)
           updateUserConfig({ promptSearch: searchPromptHighlight })
+          break
+        }
+
+        case 'page': {
+          setPromptPage(pageSummaryPromptHighlight)
+          updateUserConfig({ promptPage: pageSummaryPromptHighlight })
           break
         }
 
@@ -70,7 +85,7 @@ function CustomizePrompt(props: Props) {
 
       setToast(changeToast)
     },
-    [setPrompt, setPromptSearch, setToast],
+    [setPrompt, setPromptPage, setPromptSearch, setToast],
   )
 
   const onSavePrompt = useCallback(
@@ -79,6 +94,12 @@ function CustomizePrompt(props: Props) {
         case 'search': {
           setPromptSearch(promptSearch)
           updateUserConfig({ promptSearch: promptSearch })
+          break
+        }
+
+        case 'page': {
+          setPromptPage(promptPage)
+          updateUserConfig({ promptPage: promptPage })
           break
         }
 
@@ -92,7 +113,7 @@ function CustomizePrompt(props: Props) {
       updateUserConfig({ prompt })
       setToast(changeToast)
     },
-    [prompt, setToast, setPromptSearch, promptSearch, setPrompt],
+    [prompt, setToast, setPromptSearch, promptSearch, setPromptPage, promptPage, setPrompt],
   )
 
   return (
@@ -225,6 +246,88 @@ function CustomizePrompt(props: Props) {
                       scale={1 / 3}
                       onClick={() => {
                         onSetPrompt('search')
+                      }}
+                    >
+                      Use default
+                    </Button>
+                  </Space>
+                </Card.Footer>
+              </Card>
+              <Text className="glarity--my-1">Example Prompts: </Text>
+              <ul className="glarity--prompt__list">
+                <li>
+                  <Snippet symbol="" type="secondary">
+                    Summarize the above content highlights.{' '}
+                  </Snippet>
+                </li>
+                <li>
+                  {' '}
+                  <Snippet symbol="" type="secondary">
+                    Summarize the above in 3 bullet points.{' '}
+                  </Snippet>
+                </li>
+                <li>
+                  {' '}
+                  <Snippet symbol="" type="secondary">
+                    What's key takeaways from the above?{' '}
+                  </Snippet>
+                </li>
+                <li>
+                  <Snippet symbol="" type="secondary">
+                    Extract the gist of the above.
+                  </Snippet>
+                </li>
+              </ul>
+            </Collapse>
+
+            {/* Page Summary */}
+            <Collapse
+              title={
+                <Text h4 className="glarity--mt-5 glarity--mb-0">
+                  Page Summary{' '}
+                  <sup>
+                    <Tag scale={1 / 3} type="success">
+                      Beta
+                    </Tag>
+                  </sup>
+                </Text>
+              }
+            >
+              <Card className="glarity--card">
+                <Text className="glarity--my-1">
+                  <Code block my={0}>
+                    {customizePromptPage}
+                  </Code>
+                </Text>
+
+                <Textarea
+                  placeholder="Please enter a Prompt."
+                  value={promptPage}
+                  resize={'vertical'}
+                  onChange={(e: React.ChangeEvent) => {
+                    onPromptChange(e, 'page')
+                  }}
+                />
+
+                <Card.Footer>
+                  <Space>
+                    <Button
+                      type="secondary"
+                      auto
+                      scale={1 / 3}
+                      onClick={() => {
+                        onSavePrompt('page')
+                      }}
+                    >
+                      Save
+                    </Button>{' '}
+                    <Button
+                      type="secondary"
+                      ghost
+                      auto
+                      scale={1 / 3}
+                      onClick={() => {
+                        onSetPrompt('page')
                       }}
                     >
                       Use default

@@ -28,7 +28,11 @@ import CustomizePrompt from './components/CustomizePrompt'
 import PageSummaryComponent from './components/PageSummary'
 import EnableGlarity from './components/EnableGlarity'
 import { detectSystemColorScheme } from '@/utils/utils'
-import { videoSummaryPromptHightligt, searchPromptHighlight } from '@/utils/prompt'
+import {
+  videoSummaryPromptHightligt,
+  searchPromptHighlight,
+  pageSummaryPromptHighlight,
+} from '@/utils/prompt'
 
 import './styles.scss'
 
@@ -53,6 +57,7 @@ function OptionsPage(
   const [enableSites, setEnableSites] = useState<string[]>([])
   const [prompt, setPrompt] = useState<string>('')
   const [promptSearch, setPromptSearch] = useState<string>('')
+  const [promptPage, setPromptPage] = useState<string>('')
 
   const onTriggerModeChange = useCallback(
     (mode: TriggerMode) => {
@@ -95,6 +100,7 @@ function OptionsPage(
 
       setPrompt(config.prompt ? config.prompt : videoSummaryPromptHightligt)
       setPromptSearch(config.promptSearch ? config.promptSearch : searchPromptHighlight)
+      setPromptPage(config.promptPage ? config.promptPage : pageSummaryPromptHighlight)
 
       const sites =
         Object.values(supportSites).map((site) => {
@@ -181,6 +187,8 @@ function OptionsPage(
           promptSearch={promptSearch}
           setPrompt={setPrompt}
           setPromptSearch={setPromptSearch}
+          promptPage={promptPage}
+          setPromptPage={setPromptPage}
         />
 
         {/* Enable/Disable Glarity */}

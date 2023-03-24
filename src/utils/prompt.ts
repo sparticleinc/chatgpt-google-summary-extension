@@ -7,7 +7,9 @@ export const searchPromptHighlight = `Using the provided web search results, wri
 export const customizePrompt = `Title: "{{Title}}"
 Transcript: "{{Transcript}}"`
 
-export const customizePromptSearch = `Web search results: {{Search Results }}`
+export const customizePromptSearch = `Web search results: {{Search Results}}`
+
+export const customizePromptPage = `Content: {{content}}`
 
 export const customizePrompt1 = `Your output should use the following template:
 #### Summary
