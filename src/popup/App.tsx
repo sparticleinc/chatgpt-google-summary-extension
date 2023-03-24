@@ -4,10 +4,7 @@ import useSWR from 'swr'
 import Browser from 'webextension-polyfill'
 import '@/assets/styles/base.scss'
 import logo from '@/assets/img/logo.png'
-import { extractFromHtml } from '@extractus/article-extractor'
-import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
-import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
-import { getSummaryPrompt } from '@/content-script/prompt'
+import { APP_TITLE } from '@/config'
 import './styles.scss'
 
 const isChrome = /chrome/i.test(navigator.userAgent)
@@ -34,38 +31,6 @@ function App() {
     Browser.tabs.create({ url: 'chrome://extensions/shortcuts' })
   }, [])
 
-  const onSummary = useCallback(async () => {
-    const tabs = await Browser.tabs.query({ currentWindow: true, active: true })
-
-    const [tab] = tabs
-
-    console.log('tab', tab)
-
-    if (!tab.id) {
-      return
-    }
-
-    const html = await Browser.tabs.sendMessage(tab.id, { type: 'GET_DOM', data: { tab } })
-
-    const article = await extractFromHtml(html.html, tab.url)
-
-    if (article.content) {
-      const language = window.navigator.language
-      const userConfig = await getUserConfig()
-      const providerConfigs = await getProviderConfigs()
-
-      setQuestion(`Content:  ${getSummaryPrompt(
-        article.content.replace(/<[^>]+>/g, ''),
-        providerConfigs.provider,
-      )}
-
-Instructions: Please use the above to summarize the highlights.
-
-Please write in ${userConfig.language === Language.Auto ? language : userConfig.language} language.
-      `)
-    }
-  }, [])
-
   return (
     <div className="glarity--flex glarity--flex-col glarity--h-full glarity--popup">
       <div className="glarity--mb-1 glarity--flex glarity--flex-row glarity--items-center glarity--px-1">
@@ -73,11 +38,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
         <p className="glarity--text-sm glarity--font-semibold glarity--m-0 glarity--ml-1">
           {APP_TITLE}
         </p>
-        <div className="glarity--grow"></div>
-
-        <Button auto type="success" scale={0.5} onClick={onSummary}>
-          Summarize
-        </Button>
       </div>
       {isChrome && !hideShortcutsTipQuery.isLoading && !hideShortcutsTipQuery.data && (
         <p className="glarity--m-0 glarity--mb-1">
@@ -87,18 +47,6 @@ Please write in ${userConfig.language === Language.Auto ? language : userConfig.
           </a>{' '}
           for faster access.
         </p>
-      )}
-
-      <Divider />
-
-      {question && (
-        <div className="glarity--popup--card">
-          <div className="glarity--container">
-            <div className="glarity--chatgpt">
-              <ChatGPTQuery question={question} />
-            </div>
-          </div>
-        </div>
       )}
     </div>
   )

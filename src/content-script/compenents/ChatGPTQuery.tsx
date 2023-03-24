@@ -32,6 +32,8 @@ function ChatGPTQuery(props: Props) {
   const wrapRef = useRef<HTMLDivElement | null>(null)
 
   const requestGpt = useMemo(() => {
+    console.log('question', question)
+
     return debounce(() => {
       setStatus(undefined)
       // setError('error')
@@ -55,13 +57,13 @@ function ChatGPTQuery(props: Props) {
         }
       }
       port.onMessage.addListener(listener)
-      port.postMessage({ question: props.question })
+      port.postMessage({ question })
       return () => {
         port.onMessage.removeListener(listener)
         port.disconnect()
       }
     }, 1000)
-  }, [props.question])
+  }, [question])
 
   const newTab = useCallback(() => {
     Browser.runtime.sendMessage({

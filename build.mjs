@@ -13,42 +13,50 @@ const outdir = 'build'
 const packagesDir = 'packages'
 const appName = 'Glarity-'
 
+const isDev = process.env.NODE_ENV === 'dev'
+
+let buildConfig = {
+  entryPoints: [
+    'src/content-script/index.tsx',
+    'src/background/index.ts',
+    'src/options/index.tsx',
+    'src/popup/index.tsx',
+  ],
+  bundle: true,
+  outdir: outdir,
+  treeShaking: true,
+  minify: true,
+  drop: ['console', 'debugger'],
+  legalComments: 'none',
+  define: {
+    'process.env.NODE_ENV': '"production"',
+  },
+  jsxFactory: 'h',
+  jsxFragment: 'Fragment',
+  jsx: 'automatic',
+  loader: {
+    '.png': 'dataurl',
+    '.svg': 'dataurl',
+  },
+  plugins: [
+    postcssPlugin({
+      postcss: {
+        plugins: [tailwindcss, autoprefixer],
+      },
+    }),
+  ],
+}
+
+if (isDev) {
+  buildConfig = { ...buildConfig, ...{ minify: false, drop: [] } }
+}
+
 async function deleteOldDir() {
   await fs.remove(outdir)
 }
 
 async function runEsbuild() {
-  await esbuild.build({
-    entryPoints: [
-      'src/content-script/index.tsx',
-      'src/background/index.ts',
-      'src/options/index.tsx',
-      'src/popup/index.tsx',
-    ],
-    bundle: true,
-    outdir: outdir,
-    treeShaking: true,
-    minify: true,
-    legalComments: 'none',
-    define: {
-      'process.env.NODE_ENV': '"production"',
-      'process.env.AXIOM_TOKEN': JSON.stringify(process.env.AXIOM_TOKEN || 'UNDEFINED'),
-    },
-    jsxFactory: 'h',
-    jsxFragment: 'Fragment',
-    jsx: 'automatic',
-    loader: {
-      '.png': 'dataurl',
-      '.svg': 'dataurl',
-    },
-    plugins: [
-      postcssPlugin({
-        postcss: {
-          plugins: [tailwindcss, autoprefixer],
-        },
-      }),
-    ],
-  })
+  await esbuild.build(buildConfig)
 }
 
 async function zipFolder(dir) {

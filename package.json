@@ -2,11 +2,12 @@
   "name": "chatgpt-google-summary-extension",
   "author": "givebest",
   "scripts": {
-    "build": "node build.mjs",
+    "dev": "cross-env NODE_ENV='dev' node build.mjs",
+    "build": "cross-env NODE_ENV='production' node build.mjs",
     "lint": "eslint --ext .js,.mjs,.jsx .",
     "lint:fix": "eslint --ext .js,.mjs,.jsx . --fix",
     "prepare": "husky install",
-    "watch": "chokidar src -c 'npm run build'"
+    "watch": "chokidar src -c 'npm run dev'"
   },
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
@@ -43,6 +44,7 @@
     "archiver": "^5.3.1",
     "autoprefixer": "^10.4.13",
     "chokidar-cli": "^3.0.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.4",
     "esbuild-style-plugin": "^1.6.1",

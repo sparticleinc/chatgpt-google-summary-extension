@@ -182,7 +182,7 @@ function CustomizePrompt(props: Props) {
                 <li>
                   {' '}
                   <Snippet symbol="" type="secondary">
-                    What's key takeaways from the above?{' '}
+                    {`What's key takeaways from the above?`}
                   </Snippet>
                 </li>
                 <li>
