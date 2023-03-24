@@ -10,9 +10,6 @@ import {
   hostname,
 } from '@/content-script/utils'
 
-const siteConfig = sietConfigFn()
-const siteName = siteNameFn()
-
 interface MountProps {
   question: string | null
   transcript?: unknown
@@ -20,6 +17,9 @@ interface MountProps {
 }
 
 export default async function mount(props: MountProps) {
+  const siteConfig = sietConfigFn()
+  const siteName = siteNameFn()
+
   const { question, transcript, langOptionsWithLink } = props
   if (!siteConfig) {
     return
@@ -31,7 +31,6 @@ export default async function mount(props: MountProps) {
   })
 
   const enableSites = userConfig.enableSites ? userConfig.enableSites : sites
-
   const regexList = []
   Object.values(enableSites).map((v) => {
     const item = config[v]
@@ -159,6 +158,7 @@ export default async function mount(props: MountProps) {
         }
         container.classList.add('glarity--chatgpt--bing')
       }
+
       const siderbarContainer = getPossibleElementByQuerySelector(siteConfig.sidebarContainerQuery)
 
       if (siderbarContainer) {

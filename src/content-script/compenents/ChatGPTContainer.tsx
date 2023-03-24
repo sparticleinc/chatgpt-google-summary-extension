@@ -23,11 +23,11 @@ import getQuestion from '@/content-script/compenents/GetQuestion'
 import logo from '@/assets/img/logo-48.png'
 
 interface Props {
-  question: string
-  transcript?: any
+  question: string | null
+  transcript?: unknown
   triggerMode: TriggerMode
   siteConfig: SearchEngine
-  langOptionsWithLink?: any
+  langOptionsWithLink?: unknown
   currentTime?: number
 }
 
@@ -131,7 +131,6 @@ function ChatGPTContainer(props: Props) {
   }, [props])
 
   useEffect(() => {
-
     if (queryStatus) {
       setLoading(false)
     }

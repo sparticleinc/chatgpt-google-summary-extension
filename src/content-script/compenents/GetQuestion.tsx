@@ -18,10 +18,10 @@ import { getBiliTranscript, getBiliVideoId } from '@/utils/bilibili'
 import { queryParam } from 'gb-url'
 import { siteConfig as sietConfigFn, siteName as siteNameFn } from '@/content-script/utils'
 
-const siteConfig = sietConfigFn()
-const siteName = siteNameFn()
-
 export default async function getQuestion() {
+  const siteConfig = sietConfigFn()
+  const siteName = siteNameFn()
+
   if (!siteConfig) {
     return
   }

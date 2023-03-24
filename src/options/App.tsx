@@ -102,7 +102,8 @@ function OptionsPage(
         }) || []
 
       setAllSites(sites)
-      setEnableSites(config.enableSites ? config.enableSites : sites)
+      const enableSites = config.enableSites || []
+      setEnableSites(enableSites.length > 0 ? config.enableSites : sites)
     })
   }, [])
 
