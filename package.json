@@ -65,7 +65,7 @@
     "webextension-polyfill": "^0.10.0"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,mjs}": [
+    "src/*.{js,jsx,ts,tsx,mjs}": [
       "npx prettier --write",
       "npx eslint --fix"
     ]
