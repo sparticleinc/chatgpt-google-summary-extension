@@ -1,10 +1,9 @@
-import { Button, Divider } from '@geist-ui/core'
+import logo from '@/assets/img/logo.png'
+import '@/assets/styles/base.scss'
+import { APP_TITLE } from '@/config'
 import { useCallback, useState } from 'react'
 import useSWR from 'swr'
 import Browser from 'webextension-polyfill'
-import '@/assets/styles/base.scss'
-import logo from '@/assets/img/logo.png'
-import { APP_TITLE } from '@/config'
 import './styles.scss'
 
 const isChrome = /chrome/i.test(navigator.userAgent)

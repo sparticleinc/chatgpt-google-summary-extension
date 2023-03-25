@@ -1,6 +1,6 @@
 # # Glarity - Summary for Google/YouTube with ChatGPT
 
-Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展示 ChatGPT 摘要，同时支持 Yahoo! JAPAN ニュース、PubMed、PMC、NewsPicks、Github、Nikkei、Bing、Google Patents。
+Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展示 ChatGPT 摘要，同时支持 Yahoo! JAPAN ニュース、PubMed、PMC、NewsPicks、Github、Nikkei、Bing、Google Patents, 以及任意网页的总结。
 
 ## ⚠️ Tips:
 
@@ -20,6 +20,8 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 - Nikkei
 - Bing
 - Google Patents
+- Bilibili
+- 任意网站
 
 ## 安装
 
@@ -39,6 +41,9 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 - 支持 PMC 总结
 - 支持 NewsPicks 总结
 - 支持 Nikkei 总结
+- 支持 Bilibili 视频总结
+- 支持任意网页的总结
+- 支持 iOS Safari/ macOS Safari
 - 支持 OpenAI 官方 API（GPT-3.5-turbo/text-davinci-003）
 - 支持 ChatGPT Plus
 - Markdown 格式渲染
@@ -58,6 +63,15 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 ### YouTube
 
 ![Screenshot](screenshots/extension-youtube-zh-CN.jpeg?raw=true)
+
+### Bilibili
+
+![Screenshot](screenshots/bilibili-cn.webp?raw=true)
+
+### iOS Safari /macOS Safari
+
+![Screenshot](screenshots/iOS-Safari-en.webp?raw=true)
+![Screenshot](screenshots/macOS-Safari-en.webp?raw=true)
 
 ### Github
 
