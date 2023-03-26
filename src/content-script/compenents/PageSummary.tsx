@@ -3,10 +3,11 @@ import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
-import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
+// import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
 import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
+import { getPageSummaryContntent, getPageSummaryReviews } from '@/content-script/utils'
 import { pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
@@ -48,15 +49,10 @@ function PageSummary(props: Props) {
     setSupportSummary(true)
 
     setQuestion('')
-    const html = document.querySelector('html')?.outerHTML
-    const url = location.href
 
-    if (!html) {
-      setSupportSummary(false)
-      return
-    }
-
-    const article = await extractFromHtml(html, url)
+    const reviews = await getPageSummaryReviews()
+    const pageContent = await getPageSummaryContntent()
+    const article = reviews ? reviews : pageContent
 
     const title = article?.title || document.title || ''
     const description =
@@ -78,6 +74,7 @@ function PageSummary(props: Props) {
         content: getSummaryPrompt(content.replace(/<[^>]+>/g, ''), providerConfigs.provider),
         language: userConfig.language === Language.Auto ? language : userConfig.language,
         prompt: Instructions,
+        rate: article?.['rate'],
       })
 
       setQuestion(prompt)

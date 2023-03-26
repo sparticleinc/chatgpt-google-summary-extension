@@ -4,6 +4,9 @@ export const googlePatentsPromptHighlight = `Please summarize the highlights of 
 export const pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
 export const videoSummaryPromptHightligt = `Summarize the above content highlights.`
 export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
+export const reviewSummaryPromptHightligt = `Give a summary of the reviews of this item according to the above, and add a rating.Your output should use the following template:
+#### Rating
+#### Summary`
 export const customizePrompt = `Title: "{{Title}}"
 Transcript: "{{Transcript}}"`
 
@@ -96,12 +99,15 @@ export const pageSummaryPrompt = ({
   content,
   language,
   prompt,
+  rate,
 }: {
   content: string
   language: string
   prompt?: string
+  rate?: string | null | string
 }) => {
   return `Content: ${content}
-Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
+${rate ? 'Customer Ratings' + rate : ''}
+Instructions: ${rate ? reviewSummaryPromptHightligt : prompt ? prompt : pageSummaryPromptHighlight}
 ${replylanguagePrompt(language)}`
 }

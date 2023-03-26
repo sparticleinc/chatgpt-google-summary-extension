@@ -3,6 +3,7 @@ import $ from 'jquery'
 import copy from 'copy-to-clipboard'
 import { BASE_URL } from '@/config'
 import { config } from './search-engine-configs'
+import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
 
 export function getPossibleElementByQuerySelector<T extends Element>(
   queryArray: string[],
@@ -262,19 +263,6 @@ export function matchSites(site: string) {
   )
 }
 
-export function tabSendMsg(tab) {
-  const { id, url } = tab
-  if (url.includes(`${BASE_URL}/chat`)) {
-    Browser.tabs
-      .sendMessage(id, { type: 'CHATGPT_TAB_CURRENT', data: { isLogin: true } })
-      .catch(() => {})
-  } else {
-    Browser.tabs
-      .sendMessage(id, { type: 'CHATGPT_TAB_CURRENT', data: { isLogin: false } })
-      .catch(() => {})
-  }
-}
-
 export const hostname = location.hostname
 
 export function siteName() {
@@ -300,4 +288,44 @@ export function siteName() {
 
 export function siteConfig() {
   return config[siteName()]
+}
+
+export const getPageSummaryContntent = async () => {
+  const html = document.querySelector('html')?.outerHTML
+  const url = location.href
+  if (!html) {
+    return
+  }
+
+  const article = await extractFromHtml(html, url)
+
+  return article
+}
+
+export const pageSummaryJSON: {
+  title: string | null
+  content: string | null
+  description: string | null
+  rate?: string | null
+} = {
+  title: null,
+  content: null,
+  description: null,
+}
+
+export const getPageSummaryReviews = async () => {
+  const hostname = location.hostname.replace(/^www\./, '')
+
+  switch (hostname) {
+    case 'amazon.com': {
+      const reviews = document.querySelector('.cr-widget-FocalReviews')?.textContent
+      const rate = document.querySelector('.AverageCustomerReviews')?.textContent
+
+      return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+    }
+
+    default: {
+      return { ...pageSummaryJSON }
+    }
+  }
 }

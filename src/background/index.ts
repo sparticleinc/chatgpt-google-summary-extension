@@ -3,8 +3,7 @@ import { getProviderConfigs, ProviderType, BASE_URL } from '@/config'
 import { ChatGPTProvider, getChatGPTAccessToken, sendMessageFeedback } from './providers/chatgpt'
 import { OpenAIProvider } from './providers/openai'
 import { Provider } from './types'
-import { tabSendMsg } from '../content-script/utils'
-import { isFirefox } from '../utils/utils'
+import { isFirefox, tabSendMsg } from '@/utils/utils'
 
 async function generateAnswers(port: Browser.Runtime.Port, question: string) {
   const providerConfigs = await getProviderConfigs()
