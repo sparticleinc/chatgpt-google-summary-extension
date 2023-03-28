@@ -170,7 +170,7 @@ function CustomizePrompt(props: Props) {
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">
-                    Summarize the above content highlights.{' '}
+                    Summarize the above content highlights.
                   </Snippet>
                 </li>
                 <li>

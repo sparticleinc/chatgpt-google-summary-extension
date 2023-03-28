@@ -313,11 +313,24 @@ export const pageSummaryJSON: {
   description: null,
 }
 
+export const amazonHosts = [
+  'amazon.co.jp',
+  'amazon.com',
+  'amazon.de',
+  'amazon.fr',
+  'amazon.it',
+  'amazon.nl',
+  'amazon.pl',
+  'amazon.pt',
+  'amazon.se',
+]
+
 export const getPageSummaryReviews = async () => {
   const hostname = location.hostname.replace(/^www\./, '')
+  const site = /amazon.\w{2,}/gi.test(hostname) ? 'amazon' : hostname
 
-  switch (hostname) {
-    case 'amazon.com': {
+  switch (site) {
+    case 'amazon': {
       const reviews = document.querySelector('.cr-widget-FocalReviews')?.textContent
       const rate = document.querySelector('.AverageCustomerReviews')?.textContent
 
