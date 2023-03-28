@@ -2,7 +2,12 @@ export const articlePromptHighlight = `Please use the above to summarize the hig
 export const pagePromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
 export const googlePatentsPromptHighlight = `Please summarize the highlights of the above article in easy-to-understand terms`
 export const pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
-export const videoSummaryPromptHightligt = `Summarize the above content highlights.`
+export const videoSummaryPromptHightligt = `Instructions: Your output should use the following template:
+### Summary
+### Highlights
+- [Emoji] Bulletpoint
+
+Use up to 3 brief bullet points to summarize the content below, Choose an appropriate emoji for each bullet point. and summarize a short highlight: {{Title}} {{Transcript}}.`
 export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
 export const reviewSummaryPromptHightligt = `Give a summary of the reviews of this item according to the above, and add a rating.Your output should use the following template:
 #### Rating
