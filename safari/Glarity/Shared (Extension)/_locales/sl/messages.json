@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity- Povzetek za Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Prikažite povzetke ChatGPT poleg Googlovih rezultatov iskanja in videoposnetkov YouTube"
-   }
- }
+  "appName": {
+    "message": "Glarity- Povzetek za Google/YouTube"
+  },
+  "appDesc": {
+    "message": "Prikažite povzetke ChatGPT poleg Googlovih rezultatov iskanja in videoposnetkov YouTube"
+  }
+}
