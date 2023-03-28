@@ -9,9 +9,16 @@ export const videoSummaryPromptHightligt = `Instructions: Your output should use
 
 Use up to 3 brief bullet points to summarize the content below, Choose an appropriate emoji for each bullet point. and summarize a short highlight: {{Title}} {{Transcript}}.`
 export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
-export const reviewSummaryPromptHightligt = `Give a summary of the reviews of this item according to the above, and add a rating.Your output should use the following template:
+
+export const reviewSummaryPromptHightligt = (rate: boolean) => {
+  return rate
+    ? `Give a summary of the reviews of this item according to the above, and add a rating.Your output should use the following template:
 #### Rating
-#### Summary`
+#### Review Summary`
+    : `Summarize based on the comments above.Your output should use the following template:
+#### Comment Summary`
+}
+
 export const customizePrompt = `Title: "{{Title}}"
 Transcript: "{{Transcript}}"`
 
@@ -109,10 +116,13 @@ export const pageSummaryPrompt = ({
   content: string
   language: string
   prompt?: string
-  rate?: string | null | string
+  rate?: string | null
 }) => {
+  const isRate = !!(rate && rate !== '-1')
   return `Content: ${content}
-${rate ? 'Customer Ratings:' + rate : ''}
-Instructions: ${rate ? reviewSummaryPromptHightligt : prompt ? prompt : pageSummaryPromptHighlight}
+${isRate ? 'Customer Ratings:' + rate : ''}
+Instructions: ${
+    rate ? reviewSummaryPromptHightligt(isRate) : prompt ? prompt : pageSummaryPromptHighlight
+  }
 ${replylanguagePrompt(language)}`
 }

@@ -313,9 +313,15 @@ export const pageSummaryJSON: {
   description: null,
 }
 
-export const getPageSummaryReviews = async () => {
+export const getReviewsSites = () => {
   const hostname = location.hostname.replace(/^www\./, '')
   const site = /amazon.\w{2,}/gi.test(hostname) ? 'amazon' : hostname
+
+  return site
+}
+
+export const getPageSummaryReviews = async () => {
+  const site = getReviewsSites()
 
   switch (site) {
     case 'amazon': {
@@ -334,6 +340,15 @@ export const getPageSummaryReviews = async () => {
         })
 
       return { ...pageSummaryJSON, ...{ content: reviews + otherCountriesReviews, rate } }
+    }
+
+    case 'youtube.com': {
+      let reviews = ''
+      document.querySelectorAll('.ytd-comments #contents #content-text').forEach((review) => {
+        reviews += review?.textContent || ''
+      })
+
+      return { ...pageSummaryJSON, ...{ content: reviews, rate: '-1' } }
     }
 
     default: {
