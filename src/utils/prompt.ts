@@ -112,7 +112,7 @@ export const pageSummaryPrompt = ({
   rate?: string | null | string
 }) => {
   return `Content: ${content}
-${rate ? 'Customer Ratings' + rate : ''}
+${rate ? 'Customer Ratings:' + rate : ''}
 Instructions: ${rate ? reviewSummaryPromptHightligt : prompt ? prompt : pageSummaryPromptHighlight}
 ${replylanguagePrompt(language)}`
 }

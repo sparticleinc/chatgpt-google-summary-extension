@@ -71,7 +71,10 @@ function PageSummary(props: Props) {
         : pageSummaryPromptHighlight
 
       const prompt = pageSummaryPrompt({
-        content: getSummaryPrompt(content.replace(/<[^>]+>/g, ''), providerConfigs.provider),
+        content: getSummaryPrompt(
+          content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
+          providerConfigs.provider,
+        ),
         language: userConfig.language === Language.Auto ? language : userConfig.language,
         prompt: Instructions,
         rate: article?.['rate'],

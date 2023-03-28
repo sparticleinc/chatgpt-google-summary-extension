@@ -313,28 +313,27 @@ export const pageSummaryJSON: {
   description: null,
 }
 
-export const amazonHosts = [
-  'amazon.co.jp',
-  'amazon.com',
-  'amazon.de',
-  'amazon.fr',
-  'amazon.it',
-  'amazon.nl',
-  'amazon.pl',
-  'amazon.pt',
-  'amazon.se',
-]
-
 export const getPageSummaryReviews = async () => {
   const hostname = location.hostname.replace(/^www\./, '')
   const site = /amazon.\w{2,}/gi.test(hostname) ? 'amazon' : hostname
 
   switch (site) {
     case 'amazon': {
-      const reviews = document.querySelector('.cr-widget-FocalReviews')?.textContent
-      const rate = document.querySelector('.AverageCustomerReviews')?.textContent
+      const reviews = document.querySelector('.cr-widget-FocalReviews')?.textContent || ''
+      const rate = document.querySelector('.AverageCustomerReviews')?.textContent || ''
+      let otherCountriesReviews = ''
 
-      return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+      document
+        .querySelectorAll('#cm-cr-global-review-list div.review.aok-relative')
+        .forEach((review) => {
+          const reviewTitle =
+            review.querySelector('span.review-title.review-title-content')?.textContent || ''
+          const reviewText =
+            review.querySelector('div.reviewText.review-text-content')?.textContent || ''
+          otherCountriesReviews += `${reviewTitle}\n${reviewText}\n\n`
+        })
+
+      return { ...pageSummaryJSON, ...{ content: reviews + otherCountriesReviews, rate } }
     }
 
     default: {
