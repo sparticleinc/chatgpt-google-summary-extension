@@ -77,12 +77,6 @@ function PageSummaryComponent(props: PageSummaryProps) {
     <>
       <Text h3 className="glarity--mt-5">
         Page Summary{' '}
-        <sup>
-          {' '}
-          <Tag scale={1 / 3} type="success">
-            Beta
-          </Tag>
-        </sup>{' '}
         <Toggle
           initialChecked
           scale={2}

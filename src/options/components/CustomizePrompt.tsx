@@ -129,13 +129,6 @@ function CustomizePrompt(props: Props) {
               title={
                 <Text h4 className="glarity--mt-5 glarity--mb-0">
                   YouTube / Bilibili{' '}
-                  <sup>
-                    <Tooltip title="This is because Glarity relies on transcribed subtitles, but Bilibili videos have less support for transcribed subtitles, so the results are less than ideal.">
-                      <Tag scale={1 / 3} type="success">
-                        Beta
-                      </Tag>
-                    </Tooltip>
-                  </sup>
                 </Text>
               }
             >
@@ -285,11 +278,6 @@ function CustomizePrompt(props: Props) {
               title={
                 <Text h4 className="glarity--mt-5 glarity--mb-0">
                   Page Summary{' '}
-                  <sup>
-                    <Tag scale={1 / 3} type="success">
-                      Beta
-                    </Tag>
-                  </sup>
                 </Text>
               }
             >
