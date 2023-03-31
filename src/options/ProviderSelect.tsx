@@ -4,7 +4,7 @@ import useSWR from 'swr'
 import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
 import { Select as Aselect } from 'antd'
 const { Option } = Aselect
-import { isIOS } from '@/utils/utils'
+import { isSafari } from '@/utils/utils'
 
 interface ConfigProps {
   config: ProviderConfigs
@@ -12,7 +12,7 @@ interface ConfigProps {
 }
 
 const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
-  const [tab, setTab] = useState<ProviderType>(isIOS ? ProviderType.GPT3 : config.provider)
+  const [tab, setTab] = useState<ProviderType>(isSafari ? ProviderType.GPT3 : config.provider)
   const { bindings: apiKeyBindings } = useInput(config.configs[ProviderType.GPT3]?.apiKey ?? '')
   const [model, setModel] = useState(config.configs[ProviderType.GPT3]?.model ?? models[0])
   const { setToast } = useToasts()
@@ -47,7 +47,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
       <Card className="glarity--card">
         <div className="glarity--flex glarity--flex-col glarity--gap-3">
           <Radio.Group value={tab} onChange={(v) => setTab(v as ProviderType)}>
-            {!isIOS && (
+            {!isSafari && (
               <>
                 <Radio value={ProviderType.ChatGPT}>
                   ChatGPT webapp
