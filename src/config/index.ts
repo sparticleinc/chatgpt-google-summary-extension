@@ -42,6 +42,7 @@ const userConfigWithDefaultValue: {
   prompt: string
   promptSearch: string
   promptPage: string
+  promptComment: string
   enableSites: string[] | null
   pageSummaryEnable: boolean
   pageSummaryWhitelist: string
@@ -53,6 +54,7 @@ const userConfigWithDefaultValue: {
   prompt: '',
   promptSearch: '',
   promptPage: '',
+  promptComment: '',
   enableSites: null,
   pageSummaryEnable: true,
   pageSummaryWhitelist: '',

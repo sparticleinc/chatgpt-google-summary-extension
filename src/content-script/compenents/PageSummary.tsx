@@ -7,8 +7,8 @@ import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
 import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
-import { getPageSummaryContntent, getPageSummaryReviews } from '@/content-script/utils'
-import { pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
+import { getPageSummaryContntent, getPageSummaryComments } from '@/content-script/utils'
+import { commentSummaryPrompt, pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
 
@@ -50,9 +50,9 @@ function PageSummary(props: Props) {
 
     setQuestion('')
 
-    const reviews = await getPageSummaryReviews()
+    const pageComments = await getPageSummaryComments()
     const pageContent = await getPageSummaryContntent()
-    const article = reviews ? reviews : pageContent
+    const article = pageComments ? pageComments : pageContent
 
     const title = article?.title || document.title || ''
     const description =
@@ -66,19 +66,26 @@ function PageSummary(props: Props) {
       const userConfig = await getUserConfig()
       const providerConfigs = await getProviderConfigs()
 
-      const Instructions = userConfig.promptPage
-        ? userConfig.promptPage
-        : pageSummaryPromptHighlight
+      const promptContent = getSummaryPrompt(
+        content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
+        providerConfigs.provider,
+      )
+      const replyLanguage = userConfig.language === Language.Auto ? language : userConfig.language
 
-      const prompt = pageSummaryPrompt({
-        content: getSummaryPrompt(
-          content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
-          providerConfigs.provider,
-        ),
-        language: userConfig.language === Language.Auto ? language : userConfig.language,
-        prompt: Instructions,
-        rate: article?.['rate'],
-      })
+      const prompt = pageComments?.content
+        ? commentSummaryPrompt({
+            content: promptContent,
+            language: replyLanguage,
+            prompt: userConfig.promptComment
+              ? userConfig.promptComment
+              : pageSummaryPromptHighlight,
+            rate: article?.['rate'],
+          })
+        : pageSummaryPrompt({
+            content: promptContent,
+            language: replyLanguage,
+            prompt: userConfig.promptPage ? userConfig.promptPage : pageSummaryPromptHighlight,
+          })
 
       setQuestion(prompt)
       return

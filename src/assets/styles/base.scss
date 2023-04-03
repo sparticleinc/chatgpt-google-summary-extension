@@ -172,6 +172,13 @@ $font-size-small: 12px;
   }
 }
 
+// text
+.glarity--subtitle {
+  font-size: $font-size-small;
+  color: #999 !important;
+  font-weight: normal;
+}
+
 // Dark
 @media (prefers-color-scheme: dark) {
   .glarity--card {

@@ -1,28 +1,22 @@
 import React from 'react'
 import { useCallback } from 'preact/hooks'
-import {
-  Text,
-  Code,
-  Textarea,
-  Card,
-  Button,
-  Snippet,
-  Tag,
-  Collapse,
-  useToasts,
-} from '@geist-ui/core'
-import { Space, Tooltip } from 'antd'
+import { Text, Code, Textarea, Card, Button, Snippet, Collapse, useToasts } from '@geist-ui/core'
+import { Space } from 'antd'
 import { updateUserConfig } from '@/config'
 import { isIOS, changeToast } from '@/utils/utils'
 import {
   videoSummaryPromptHightligt,
   searchPromptHighlight,
   pageSummaryPromptHighlight,
+  commentSummaryPromptHightligt,
   customizePrompt,
   customizePromptSearch,
   customizePrompt1,
   customizePromptClickbait,
   customizePromptPage,
+  customizePromptComment,
+  customizePromptCommentAmazon,
+  customizePromptCommentYoutube,
 } from '@/utils/prompt'
 
 interface Props {
@@ -32,10 +26,21 @@ interface Props {
   setPromptSearch: (promptSearch: string) => void
   promptPage: string
   setPromptPage: (promptPage: string) => void
+  promptComment: string
+  setPromptComment: (promptComment: string) => void
 }
 
 function CustomizePrompt(props: Props) {
-  const { prompt, setPrompt, promptSearch, setPromptSearch, promptPage, setPromptPage } = props
+  const {
+    prompt,
+    setPrompt,
+    promptSearch,
+    setPromptSearch,
+    promptPage,
+    setPromptPage,
+    promptComment,
+    setPromptComment,
+  } = props
   const { setToast } = useToasts()
 
   const onPromptChange = useCallback(
@@ -52,13 +57,18 @@ function CustomizePrompt(props: Props) {
           break
         }
 
+        case 'comment': {
+          setPromptComment(prompt)
+          break
+        }
+
         default: {
           setPrompt(prompt)
           break
         }
       }
     },
-    [setPrompt, setPromptSearch, setPromptPage],
+    [setPrompt, setPromptSearch, setPromptPage, setPromptComment],
   )
 
   const onSetPrompt = useCallback(
@@ -76,6 +86,12 @@ function CustomizePrompt(props: Props) {
           break
         }
 
+        case 'comment': {
+          setPromptComment(commentSummaryPromptHightligt)
+          updateUserConfig({ promptComment: commentSummaryPromptHightligt })
+          break
+        }
+
         default: {
           setPrompt(videoSummaryPromptHightligt)
           updateUserConfig({ prompt: videoSummaryPromptHightligt })
@@ -85,7 +101,7 @@ function CustomizePrompt(props: Props) {
 
       setToast(changeToast)
     },
-    [setPrompt, setPromptPage, setPromptSearch, setToast],
+    [setPrompt, setPromptComment, setPromptPage, setPromptSearch, setToast],
   )
 
   const onSavePrompt = useCallback(
@@ -103,6 +119,12 @@ function CustomizePrompt(props: Props) {
           break
         }
 
+        case 'comment': {
+          setPromptPage(promptComment)
+          updateUserConfig({ promptComment: promptComment })
+          break
+        }
+
         default: {
           setPrompt(prompt)
           updateUserConfig({ prompt })
@@ -113,7 +135,16 @@ function CustomizePrompt(props: Props) {
       updateUserConfig({ prompt })
       setToast(changeToast)
     },
-    [prompt, setToast, setPromptSearch, promptSearch, setPromptPage, promptPage, setPrompt],
+    [
+      prompt,
+      setToast,
+      setPromptSearch,
+      promptSearch,
+      setPromptPage,
+      promptPage,
+      promptComment,
+      setPrompt,
+    ],
   )
 
   return (
@@ -345,6 +376,74 @@ function CustomizePrompt(props: Props) {
                 <li>
                   <Snippet symbol="" type="secondary">
                     Extract the gist of the above.
+                  </Snippet>
+                </li>
+              </ul>
+            </Collapse>
+
+            {/* Comment Summary */}
+            <Collapse
+              title={
+                <Text h4 className="glarity--mt-5 glarity--mb-0">
+                  Comment Summary{' '}
+                  <Text span font="12px" className="glarity--subtitle">
+                    Summary of support for Amazon products and YouTube video comments.
+                  </Text>
+                </Text>
+              }
+            >
+              <Card className="glarity--card">
+                <Text className="glarity--my-1">
+                  <Code block my={0}>
+                    {customizePromptComment}
+                  </Code>
+                </Text>
+
+                <Textarea
+                  placeholder="Please enter a Prompt."
+                  value={promptComment}
+                  resize={'vertical'}
+                  onChange={(e: React.ChangeEvent) => {
+                    onPromptChange(e, 'comment')
+                  }}
+                />
+
+                <Card.Footer>
+                  <Space>
+                    <Button
+                      type="secondary"
+                      auto
+                      scale={1 / 3}
+                      onClick={() => {
+                        onSavePrompt('comment')
+                      }}
+                    >
+                      Save
+                    </Button>{' '}
+                    <Button
+                      type="secondary"
+                      ghost
+                      auto
+                      scale={1 / 3}
+                      onClick={() => {
+                        onSetPrompt('comment')
+                      }}
+                    >
+                      Use default
+                    </Button>
+                  </Space>
+                </Card.Footer>
+              </Card>
+              <Text className="glarity--my-1">Example Prompts: </Text>
+              <ul className="glarity--prompt__list">
+                <li>
+                  <Snippet symbol="" type="secondary">
+                    {customizePromptCommentAmazon}
+                  </Snippet>
+                </li>
+                <li>
+                  <Snippet symbol="" type="secondary">
+                    {customizePromptCommentYoutube}
                   </Snippet>
                 </li>
               </ul>

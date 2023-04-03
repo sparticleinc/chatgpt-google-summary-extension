@@ -32,6 +32,7 @@ import {
   videoSummaryPromptHightligt,
   searchPromptHighlight,
   pageSummaryPromptHighlight,
+  commentSummaryPromptHightligt,
 } from '@/utils/prompt'
 
 import './styles.scss'
@@ -58,6 +59,7 @@ function OptionsPage(
   const [prompt, setPrompt] = useState<string>('')
   const [promptSearch, setPromptSearch] = useState<string>('')
   const [promptPage, setPromptPage] = useState<string>('')
+  const [promptComment, setPromptComment] = useState<string>('')
 
   const onTriggerModeChange = useCallback(
     (mode: TriggerMode) => {
@@ -101,6 +103,7 @@ function OptionsPage(
       setPrompt(config.prompt ? config.prompt : videoSummaryPromptHightligt)
       setPromptSearch(config.promptSearch ? config.promptSearch : searchPromptHighlight)
       setPromptPage(config.promptPage ? config.promptPage : pageSummaryPromptHighlight)
+      setPromptComment(config.promptComment ? config.promptComment : commentSummaryPromptHightligt)
 
       const sites =
         Object.values(supportSites).map((site) => {
@@ -189,6 +192,8 @@ function OptionsPage(
           setPromptSearch={setPromptSearch}
           promptPage={promptPage}
           setPromptPage={setPromptPage}
+          promptComment={promptComment}
+          setPromptComment={setPromptComment}
         />
 
         {/* Enable/Disable Glarity */}

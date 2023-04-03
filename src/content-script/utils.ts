@@ -320,7 +320,7 @@ export const getReviewsSites = () => {
   return site
 }
 
-export const getPageSummaryReviews = async () => {
+export const getPageSummaryComments = async () => {
   const site = getReviewsSites()
 
   switch (site) {

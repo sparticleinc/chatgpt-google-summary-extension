@@ -10,7 +10,7 @@ export const videoSummaryPromptHightligt = `Instructions: Your output should use
 Use up to 3 brief bullet points to summarize the content below, Choose an appropriate emoji for each bullet point. and summarize a short highlight: {{Title}} {{Transcript}}.`
 export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
 
-export const reviewSummaryPromptHightligt = (rate: boolean) => {
+export const commentSummaryPromptHightligt_bak = (rate: boolean) => {
   return rate
     ? `Give a summary of the reviews of this item according to the above, and add a rating.Your output should use the following template:
 #### Rating
@@ -19,12 +19,16 @@ export const reviewSummaryPromptHightligt = (rate: boolean) => {
 #### Comment Summary`
 }
 
+export const commentSummaryPromptHightligt = `Give a concise summary of the review content (perhaps a video, topic, or product), including both positive and negative points. If the review is about an item, give the pros, cons, ratings, and recommendations for buying the item.`
+
 export const customizePrompt = `Title: "{{Title}}"
 Transcript: "{{Transcript}}"`
 
 export const customizePromptSearch = `Web search results: {{Search Results}}`
 
 export const customizePromptPage = `Content: {{content}}`
+
+export const customizePromptComment = `Comments: {{comments}}`
 
 export const customizePrompt1 = `Your output should use the following template:
 #### Summary
@@ -43,6 +47,14 @@ Example response:
 #### Explanation:
 The title is a bit exaggerated.
 `
+export const customizePromptCommentAmazon = `Give a summary of the reviews of this item according to the above, and pros, cons, ratings.Your output should use the following template:
+#### Rating
+#### Review Summary
+#### Pros
+#### Cons
+`
+
+export const customizePromptCommentYoutube = `Give a summary of the comments for this video, including the different points of view.`
 
 export const replylanguagePrompt = (language: string) => {
   return `Please write in ${language} language.`
@@ -111,6 +123,20 @@ export const pageSummaryPrompt = ({
   content,
   language,
   prompt,
+}: {
+  content: string
+  language: string
+  prompt?: string
+}) => {
+  return `Content: ${content}
+Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
+${replylanguagePrompt(language)}`
+}
+
+export const commentSummaryPrompt = ({
+  content,
+  language,
+  prompt,
   rate,
 }: {
   content: string
@@ -119,10 +145,8 @@ export const pageSummaryPrompt = ({
   rate?: string | null
 }) => {
   const isRate = !!(rate && rate !== '-1')
-  return `Content: ${content}
+  return `Comments: ${content}
 ${isRate ? 'Customer Ratings:' + rate : ''}
-Instructions: ${
-    rate ? reviewSummaryPromptHightligt(isRate) : prompt ? prompt : pageSummaryPromptHighlight
-  }
+Instructions: ${prompt ? prompt : commentSummaryPromptHightligt}
 ${replylanguagePrompt(language)}`
 }
