@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'preact/hooks'
+import classNames from 'classnames'
 import { memo, useMemo } from 'react'
 import { Loading, Button } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
@@ -155,18 +156,25 @@ function ChatGPTQuery(props: Props) {
         {isSafari ? (
           <>
             Please set OpenAI API Key in the{' '}
-            <Button type="success" ghost auto scale={0.5} onClick={openOptionsPage}>
+            <button
+              className={classNames('glarity--btn', 'glarity--btn__primary', 'glarity--btn__small')}
+              onClick={openOptionsPage}
+            >
               extension options
-            </Button>
+            </button>
             .
           </>
         ) : (
           <>
             {' '}
             Please login and pass Cloudflare check at{' '}
-            <Button type="success" ghost auto scale={0.5} onClick={newTab}>
+            <button
+              className={classNames('glarity--btn', 'glarity--btn__primary', 'glarity--btn__small')}
+              onClick={newTab}
+            >
               chat.openai.com
-            </Button>
+            </button>
+            .
           </>
         )}
 
@@ -187,9 +195,16 @@ function ChatGPTQuery(props: Props) {
                 <span className="glarity--italic glarity--block glarity--mt-2 glarity--text-xs">
                   OpenAI requires passing a security check every once in a while. If this keeps
                   happening, change AI provider to OpenAI API in the{' '}
-                  <Button type="success" ghost auto scale={0.5} onClick={openOptionsPage}>
+                  <button
+                    className={classNames(
+                      'glarity--btn',
+                      'glarity--btn__primary',
+                      'glarity--btn__small',
+                    )}
+                    onClick={openOptionsPage}
+                  >
                     extension options
-                  </Button>
+                  </button>
                   .
                 </span>
               )
@@ -214,9 +229,12 @@ function ChatGPTQuery(props: Props) {
         </a>
         <br />
         If this keeps happening, change AI provider to OpenAI API in the{' '}
-        <Button type="success" ghost auto scale={0.5} onClick={openOptionsPage}>
+        <button
+          className={classNames('glarity--btn', 'glarity--btn__primary', 'glarity--btn__small')}
+          onClick={openOptionsPage}
+        >
           extension options
-        </Button>
+        </button>
         .
       </p>
     )

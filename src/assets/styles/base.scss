@@ -7,6 +7,7 @@ $secondary-color: #000;
 $gray-color: #444;
 $font-size-large: 16px;
 $font-size-normal: 14px;
+$font-size-small: 12px;
 
 // card
 .glarity--card {
@@ -163,6 +164,11 @@ $font-size-normal: 14px;
   &.glarity--btn__large {
     font-size: $font-size-large;
     padding: 8px 16px;
+  }
+
+  &.glarity--btn__small {
+    font-size: $font-size-small;
+    padding: 4px 8px;
   }
 }
 
