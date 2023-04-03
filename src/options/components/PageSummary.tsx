@@ -5,11 +5,11 @@ import {
   Textarea,
   Card,
   Button,
-  Tag,
   useToasts,
   Divider,
   Toggle,
   Spacer,
+  Description,
 } from '@geist-ui/core'
 import { updateUserConfig } from '@/config'
 import { changeToast } from '@/utils/utils'
@@ -76,16 +76,28 @@ function PageSummaryComponent(props: PageSummaryProps) {
   return (
     <>
       <Text h3 className="glarity--mt-5">
-        Page Summary{' '}
-        <Toggle
-          initialChecked
-          scale={2}
-          checked={pageSummaryEnable}
-          onChange={onPageSummaryEnableChange}
-        />
+        Page Summary
       </Text>
 
       <Card>
+        <Card.Content>
+          <Text
+            h5
+            className="glarity--mb-0 glarity--flex glarity--flex-row glarity--items-center glarity--gap-1"
+          >
+            <Toggle
+              initialChecked
+              checked={pageSummaryEnable}
+              onChange={onPageSummaryEnableChange}
+            />{' '}
+            Show Glarity Icon
+          </Text>
+          <Text className="glarity--mt-0" font="12px">
+            Once hidden, the Glarity icon will no longer appear on the page. However, you can open
+            the page summary by clicking on the browser extension icon.
+          </Text>
+        </Card.Content>
+        <Divider />
         <Card.Content>
           <Text h4 className="glarity--mb-0">
             Whitelist Sites
@@ -121,7 +133,6 @@ https://reddit.com"
             onChange={onPageSummaryBlacklistChange}
           />
         </Card.Content>
-
         <Card.Footer>
           <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={onPageSummarySave}>
             Save
