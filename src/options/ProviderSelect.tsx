@@ -14,6 +14,7 @@ interface ConfigProps {
 const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
   const [tab, setTab] = useState<ProviderType>(isSafari ? ProviderType.GPT3 : config.provider)
   const { bindings: apiKeyBindings } = useInput(config.configs[ProviderType.GPT3]?.apiKey ?? '')
+  const { bindings: apiHostBindings } = useInput(config.configs[ProviderType.GPT3]?.apiHost ?? '')
   const [model, setModel] = useState(config.configs[ProviderType.GPT3]?.model ?? models[0])
   const { setToast } = useToasts()
 
@@ -23,19 +24,25 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
         alert('Please enter your OpenAI API key')
         return
       }
+
       if (!model || !models.includes(model)) {
         alert('Please select a valid model')
         return
       }
     }
+
+    let apiHost = apiHostBindings.value || ''
+    apiHost = apiHost.replace(/^http(s)?:\/\//, '')
+
     await saveProviderConfigs(tab, {
       [ProviderType.GPT3]: {
         model,
         apiKey: apiKeyBindings.value,
+        apiHost: apiHost,
       },
     })
     setToast({ text: 'Changes saved', type: 'success' })
-  }, [apiKeyBindings.value, model, models, setToast, tab])
+  }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab])
 
   useEffect(() => {
     console.log('config', config)
@@ -68,6 +75,14 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                     <span className="glarity--font-semibold">charge by usage</span>
                   </span>
                   <div className="glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select">
+                    <Input
+                      htmlType="text"
+                      placeholder="api.openai.com"
+                      label="API Host"
+                      scale={2 / 3}
+                      clearable
+                      {...apiHostBindings}
+                    />
                     <Aselect
                       defaultValue={model}
                       onChange={(v) => setModel(v as string)}
@@ -86,6 +101,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                       placeholder="sk-********"
                       label="API key"
                       scale={2 / 3}
+                      clearable
                       {...apiKeyBindings}
                     />
                   </div>

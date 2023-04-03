@@ -1,6 +1,6 @@
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
-import { getProviderConfigs, ProviderType } from '@/config'
+import { getProviderConfigs, ProviderType, DEFAULT_MODEL, DEFAULT_API_HOST } from '@/config'
 
 export class OpenAIProvider implements Provider {
   constructor(private token: string, private model: string) {
@@ -22,7 +22,8 @@ export class OpenAIProvider implements Provider {
   async generateAnswer(params: GenerateAnswerParams) {
     const [config] = await Promise.all([getProviderConfigs()])
 
-    const gptModel = config.configs[ProviderType.GPT3]?.model ?? 'gpt-3.5-turbo'
+    const gptModel = config.configs[ProviderType.GPT3]?.model ?? DEFAULT_MODEL
+    const apiHost = config.configs[ProviderType.GPT3]?.apiHost || DEFAULT_API_HOST
 
     let url = ''
     let reqParams = {
@@ -34,10 +35,10 @@ export class OpenAIProvider implements Provider {
       // temperature: 0.5,
     }
     if (gptModel === 'text-davinci-003') {
-      url = 'https://api.openai.com/v1/completions'
+      url = `https://${apiHost}/v1/completions`
       reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(params.prompt) } }
     } else {
-      url = 'https://api.openai.com/v1/chat/completions'
+      url = `https://${apiHost}/v1/chat/completions`
       reqParams = { ...reqParams, ...{ messages: this.buildMessages(params.prompt) } }
     }
 

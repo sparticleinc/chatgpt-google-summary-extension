@@ -1574,6 +1574,8 @@
     };
   }
   var BASE_URL = "https://chat.openai.com";
+  var DEFAULT_MODEL = "gpt-3.5-turbo";
+  var DEFAULT_API_HOST = "api.openai.com";
 
   // src/background/providers/chatgpt.ts
   var import_expiry_map = __toESM(require_dist2());
@@ -1917,9 +1919,10 @@ ChatGPT:`;
       return [{ role: "user", content: prompt }];
     }
     async generateAnswer(params) {
-      var _a, _b;
+      var _a, _b, _c;
       const [config] = await Promise.all([getProviderConfigs()]);
-      const gptModel = (_b = (_a = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.model) != null ? _b : "gpt-3.5-turbo";
+      const gptModel = (_b = (_a = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.model) != null ? _b : DEFAULT_MODEL;
+      const apiHost = ((_c = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _c.apiHost) || DEFAULT_API_HOST;
       let url = "";
       let reqParams = {
         model: this.model,
@@ -1930,10 +1933,10 @@ ChatGPT:`;
         // temperature: 0.5,
       };
       if (gptModel === "text-davinci-003") {
-        url = "https://api.openai.com/v1/completions";
+        url = `https://${apiHost}/v1/completions`;
         reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(params.prompt) } };
       } else {
-        url = "https://api.openai.com/v1/chat/completions";
+        url = `https://${apiHost}/v1/chat/completions`;
         reqParams = { ...reqParams, ...{ messages: this.buildMessages(params.prompt) } };
       }
       let result = "";

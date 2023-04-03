@@ -19838,7 +19838,7 @@ ${reviewText}
   var import_classnames = __toESM(require_classnames());
   var import_webextension_polyfill7 = __toESM(require_browser_polyfill());
 
-  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@18.0.31/node_modules/react-markdown/lib/uri-transformer.js
+  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@17.0.44/node_modules/react-markdown/lib/uri-transformer.js
   var protocols = ["http", "https", "mailto", "tel"];
   function uriTransformer(uri) {
     const url = (uri || "").trim();
@@ -26702,7 +26702,7 @@ ${reviewText}
     return (node2) => toHast(node2, options);
   }
 
-  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@18.0.31/node_modules/react-markdown/lib/react-markdown.js
+  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@17.0.44/node_modules/react-markdown/lib/react-markdown.js
   var import_prop_types2 = __toESM(require_prop_types(), 1);
 
   // node_modules/.pnpm/property-information@6.2.0/node_modules/property-information/lib/util/schema.js
@@ -27919,7 +27919,7 @@ ${reviewText}
   var html3 = merge([xml, xlink, xmlns, aria, html2], "html");
   var svg2 = merge([xml, xlink, xmlns, aria, svg], "svg");
 
-  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@18.0.31/node_modules/react-markdown/lib/rehype-filter.js
+  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@17.0.44/node_modules/react-markdown/lib/rehype-filter.js
   function rehypeFilter(options) {
     if (options.allowedElements && options.disallowedElements) {
       throw new TypeError(
@@ -27956,7 +27956,7 @@ ${reviewText}
     }
   }
 
-  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@18.0.31/node_modules/react-markdown/lib/ast-to-react.js
+  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@17.0.44/node_modules/react-markdown/lib/ast-to-react.js
   var import_react_is = __toESM(require_react_is(), 1);
 
   // node_modules/.pnpm/hast-util-whitespace@2.0.1/node_modules/hast-util-whitespace/index.js
@@ -27989,7 +27989,7 @@ ${reviewText}
   var import_index = __toESM(require_style_to_object(), 1);
   var style_to_object_default = import_index.default;
 
-  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@18.0.31/node_modules/react-markdown/lib/ast-to-react.js
+  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@17.0.44/node_modules/react-markdown/lib/ast-to-react.js
   var own6 = {}.hasOwnProperty;
   var tableElements = /* @__PURE__ */ new Set(["table", "thead", "tbody", "tfoot", "tr"]);
   function childrenToReact(context, node2) {
@@ -28186,7 +28186,7 @@ ${reviewText}
     ].map(String).join("");
   }
 
-  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@18.0.31/node_modules/react-markdown/lib/react-markdown.js
+  // node_modules/.pnpm/react-markdown@8.0.5_@preact+compat@17.1.2_@types+react@17.0.44/node_modules/react-markdown/lib/react-markdown.js
   var own7 = {}.hasOwnProperty;
   var changelog = "https://github.com/remarkjs/react-markdown/blob/main/changelog.md";
   var deprecated = {

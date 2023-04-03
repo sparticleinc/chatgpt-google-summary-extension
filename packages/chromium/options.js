@@ -31987,10 +31987,11 @@ https://www.viki.com
   // src/options/ProviderSelect.tsx
   var { Option: Option3 } = select_default3;
   var ConfigPanel = ({ config: config2, models }) => {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f;
     const [tab, setTab] = h2(isSafari ? "gpt3" /* GPT3 */ : config2.provider);
     const { bindings: apiKeyBindings } = use_input_default2((_b = (_a = config2.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.apiKey) != null ? _b : "");
-    const [model, setModel] = h2((_d = (_c = config2.configs["gpt3" /* GPT3 */]) == null ? void 0 : _c.model) != null ? _d : models[0]);
+    const { bindings: apiHostBindings } = use_input_default2((_d = (_c = config2.configs["gpt3" /* GPT3 */]) == null ? void 0 : _c.apiHost) != null ? _d : "");
+    const [model, setModel] = h2((_f = (_e = config2.configs["gpt3" /* GPT3 */]) == null ? void 0 : _e.model) != null ? _f : models[0]);
     const { setToast } = use_toasts_default();
     const save = T2(async () => {
       if (tab === "gpt3" /* GPT3 */) {
@@ -32003,14 +32004,17 @@ https://www.viki.com
           return;
         }
       }
+      let apiHost = apiHostBindings.value || "";
+      apiHost = apiHost.replace(/^http(s)?:\/\//, "");
       await saveProviderConfigs(tab, {
         ["gpt3" /* GPT3 */]: {
           model,
-          apiKey: apiKeyBindings.value
+          apiKey: apiKeyBindings.value,
+          apiHost
         }
       });
       setToast({ text: "Changes saved", type: "success" });
-    }, [apiKeyBindings.value, model, models, setToast, tab]);
+    }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab]);
     p2(() => {
       console.log("config", config2);
       console.log("models", models);
@@ -32034,6 +32038,17 @@ https://www.viki.com
             ] }),
             /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select", children: [
               /* @__PURE__ */ o3(
+                input_default2,
+                {
+                  htmlType: "text",
+                  placeholder: "api.openai.com",
+                  label: "API Host",
+                  scale: 2 / 3,
+                  clearable: true,
+                  ...apiHostBindings
+                }
+              ),
+              /* @__PURE__ */ o3(
                 select_default3,
                 {
                   defaultValue: model,
@@ -32051,6 +32066,7 @@ https://www.viki.com
                   placeholder: "sk-********",
                   label: "API key",
                   scale: 2 / 3,
+                  clearable: true,
                   ...apiKeyBindings
                 }
               )
