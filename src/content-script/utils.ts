@@ -1,7 +1,6 @@
 import Browser from 'webextension-polyfill'
 import $ from 'jquery'
 import copy from 'copy-to-clipboard'
-import { BASE_URL } from '@/config'
 import { config } from './search-engine-configs'
 import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
 
@@ -293,6 +292,7 @@ export function siteConfig() {
 export const getPageSummaryContntent = async () => {
   const html = document.querySelector('html')?.outerHTML
   const url = location.href
+
   if (!html) {
     return
   }
