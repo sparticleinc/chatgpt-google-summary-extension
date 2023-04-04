@@ -52,7 +52,7 @@ function PageSummary(props: Props) {
 
     const pageComments = await getPageSummaryComments()
     const pageContent = await getPageSummaryContntent()
-    const article = pageComments ? pageComments : pageContent
+    const article = pageComments?.content ? pageComments : pageContent
 
     const title = article?.title || document.title || ''
     const description =
@@ -60,6 +60,8 @@ function PageSummary(props: Props) {
       document.querySelector('meta[name="description"]')?.getAttribute('content') ||
       ''
     const content = article?.content ? description + article?.content : title + description
+
+    console.log('article content', content)
 
     if (article?.content || description) {
       const language = window.navigator.language
