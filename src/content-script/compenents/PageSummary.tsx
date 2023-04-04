@@ -61,8 +61,6 @@ function PageSummary(props: Props) {
       ''
     const content = article?.content ? description + article?.content : title + description
 
-    console.log('article content', content)
-
     if (article?.content || description) {
       const language = window.navigator.language
       const userConfig = await getUserConfig()
@@ -129,7 +127,7 @@ function PageSummary(props: Props) {
   return (
     <>
       {showCard ? (
-        <div className="glarity--card">
+        <div className="glarity--card glarity--page__summary">
           <div className="glarity--card__head ">
             <div className="glarity--card__head--title">
               <a href="https://glarity.app" rel="noreferrer" target="_blank">

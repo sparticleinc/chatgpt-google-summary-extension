@@ -12,6 +12,7 @@ import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
 import { BASE_URL } from '@/config'
 import { isIOS, isSafari } from '@/utils/utils'
 import '@/content-script/styles.scss'
+import Translation from './Translation'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
 
@@ -19,10 +20,11 @@ interface Props {
   question: string
   onStatusChange?: (status: QueryStatus) => void
   currentTime?: number
+  ignoreTranslation?: boolean
 }
 
 function ChatGPTQuery(props: Props) {
-  const { onStatusChange, currentTime, question } = props
+  const { onStatusChange, currentTime, question, ignoreTranslation } = props
 
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
@@ -84,6 +86,7 @@ function ChatGPTQuery(props: Props) {
   }, [onStatusChange, status])
 
   useEffect(() => {
+    setAnswer(null)
     requestGpt()
   }, [question, retry, currentTime, requestGpt])
 
@@ -121,20 +124,22 @@ function ChatGPTQuery(props: Props) {
 
   if (answer) {
     return (
-      <div className="markdown-body gpt-markdown" id="gpt-answer" dir="auto">
-        <div className="glarity--chatgpt--header">
-          <ChatGPTFeedback
-            messageId={answer.messageId}
-            conversationId={answer.conversationId}
-            answerText={answer.text}
-          />
-        </div>
-        <div className="glarity--chatgpt--content" ref={wrapRef}>
-          <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
-            {answer.text}
-          </ReactMarkdown>
-        </div>
-        {/* {done && showTip && (
+      <>
+        <div className="markdown-body gpt-markdown" id="gpt-answer" dir="auto">
+          <div className="glarity--chatgpt--header">
+            <ChatGPTFeedback
+              messageId={answer.messageId}
+              conversationId={answer.conversationId}
+              answerText={answer.text}
+            />
+          </div>
+          <div className="glarity--chatgpt--content" ref={wrapRef}>
+            <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
+              {answer.text}
+            </ReactMarkdown>
+          </div>
+
+          {/* {done && showTip && (
           <p className="glarity--italic glarity--mt-2">
             Enjoy this extension? Give us a 5-star rating at{' '}
             <a
@@ -146,7 +151,12 @@ function ChatGPTQuery(props: Props) {
             </a>
           </p>
         )} */}
-      </div>
+        </div>
+
+        {!ignoreTranslation && (
+          <Translation answerText={answer.text} status={status} onStatusChange={onStatusChange} />
+        )}
+      </>
     )
   }
 

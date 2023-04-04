@@ -136,6 +136,14 @@
       color: #ff6347;
     }
   }
+
+  .glarity--chatgpt--translation {
+    #gpt-answer.markdown-body.gpt-markdown {
+      .glarity--chatgpt--header {
+        margin-top: -22px !important;
+      }
+    }
+  }
 }
 
 .glarity--summary--highlight {
@@ -240,12 +248,43 @@ span.glarity--header__logo {
     overflow-y: auto;
   }
 }
+
+.glarity--chatgpt--footer {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px -10px 0;
+  padding: 10px 10px 0;
+  border-top: 1px solid rgb(238, 238, 238);
+
+  .glarity--select {
+    width: 140px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-right: 6px;
+    padding: 0;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  .gpt-markdown {
+    margin-top: -20px;
+  }
+}
+
 .glarity--main__loading {
   position: absolute;
   z-index: 99;
   width: 100%;
   height: calc(100% - 16px);
   background-color: rgb(249, 249, 249);
+}
+
+.glarity--page__summary {
+  .glarity--chatgpt--translation {
+    .markdown-body {
+      margin-top: -22px !important;
+    }
+  }
 }
 
 .glarity--subtitle {
