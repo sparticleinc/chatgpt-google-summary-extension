@@ -351,6 +351,11 @@ export const getPageSummaryComments = async () => {
       return { ...pageSummaryJSON, ...{ content: reviews, rate: '-1' } }
     }
 
+    case 'temu.com': {
+      const reviews = document.querySelector('#reviewContent')?.textContent || ''
+      return { ...pageSummaryJSON, ...{ content: reviews, rate: '-1' } }
+    }
+
     default: {
       return { ...pageSummaryJSON }
     }
