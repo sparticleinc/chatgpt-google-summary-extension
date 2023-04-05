@@ -1,4 +1,11 @@
-import { ThumbsdownIcon, ThumbsupIcon, CopyIcon, CheckIcon } from '@primer/octicons-react'
+import {
+  ThumbsdownIcon,
+  ThumbsupIcon,
+  CopyIcon,
+  CheckIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+} from '@primer/octicons-react'
 import { memo } from 'react'
 import { useEffect, useCallback, useState } from 'preact/hooks'
 import Browser from 'webextension-polyfill'
@@ -7,9 +14,12 @@ interface Props {
   messageId: string
   conversationId: string
   answerText: string
+  showContent?: boolean
+  setShowContent?: (show: boolean) => void
 }
 
 function ChatGPTFeedback(props: Props) {
+  const { showContent, setShowContent } = props
   const [copied, setCopied] = useState(false)
   const [action, setAction] = useState<'thumbsUp' | 'thumbsDown' | null>(null)
 
@@ -50,6 +60,10 @@ function ChatGPTFeedback(props: Props) {
     setCopied(true)
   }, [props.answerText])
 
+  const switchShowContent = () => {
+    setShowContent((state) => !state)
+  }
+
   useEffect(() => {
     if (copied) {
       const timer = setTimeout(() => {
@@ -75,6 +89,10 @@ function ChatGPTFeedback(props: Props) {
       </span>
       <span onClick={clickCopyToClipboard}>
         {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+      </span>
+
+      <span onClick={switchShowContent}>
+        {showContent ? <ChevronUpIcon size={14} /> : <ChevronDownIcon size={14} />}
       </span>
     </div>
   )

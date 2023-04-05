@@ -1,4 +1,4 @@
-/* temp_stylePlugin:ni:sha-256;Pm54VKXCxSgzUbL25lkXFv3KSoNrkvreH5km7k9KU5I */
+/* temp_stylePlugin:ni:sha-256;N8NhQuvaii724Tp6f7XlzMDVIR_wmq5McfmkK5HH22o */
 *,
 ::before,
 ::after {
@@ -388,6 +388,9 @@
   .glarity--card .glarity--card__head {
     border-bottom-color: #444950;
   }
+  .glarity--card .glarity--chatgpt--footer {
+    border-top-color: #444950;
+  }
   .glarity--card .glarity--card__content,
   .glarity--card .glarity--card__head {
     color: #ccc;
@@ -407,7 +410,7 @@
   }
 }
 
-/* temp_stylePlugin:ni:sha-256;bSaBKEwCDSL4nbjZrChPX0hxxG18LanZ-8vRh6ac0IE */
+/* temp_stylePlugin:ni:sha-256;ZHZJxtPy-WDOSx4HVYTgnfldg4A0jyUDh9AewcWGt9I */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -420,7 +423,8 @@
   border-color: #fff;
   background-color: #fff;
 }
-.glarity--container.gpt--light.glarity--chatgpt--newspicks .glarity--main {
+.glarity--container.gpt--light.glarity--chatgpt--newspicks .glarity--main,
+.glarity--container.gpt--light.glarity--chatgpt--newspicks .glarity--chatgpt--footer {
   border-top-color: #eee;
 }
 .glarity--container.gpt--light.glarity--chatgpt--bilibili .glarity--chatgpt {
@@ -1346,7 +1350,8 @@
 .glarity--container.gpt--dark a.glarity--header__logo:visited {
   color: #fff;
 }
-.glarity--container.gpt--dark .glarity--main {
+.glarity--container.gpt--dark .glarity--main,
+.glarity--container.gpt--dark .glarity--chatgpt--footer {
   border-top-color: #3c4043;
 }
 .glarity--container.gpt--dark .glarity--main__header {
@@ -2353,7 +2358,7 @@
 }
 .glarity--container .glarity--chatgpt--header {
   margin-top: -42px !important;
-  margin-left: calc(100% - 58px);
+  margin-left: calc(100% - 68px);
   margin-bottom: 10px;
   padding-bottom: 6px;
   display: flex;
@@ -2382,7 +2387,7 @@
   padding: 2px 0 10px;
   justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  font-size: 15px;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -2468,9 +2473,10 @@ span.glarity--header__logo {
 .glarity--chatgpt--footer {
   display: flex;
   justify-content: flex-start;
-  margin: 10px -10px 0;
-  padding: 10px 10px 0;
+  margin: 10px -8px 0;
+  padding: 10px 0 0;
   border-top: 1px solid rgb(238, 238, 238);
+  border-top: 0.5px solid rgb(238, 238, 238);
 }
 .glarity--chatgpt--footer .glarity--select {
   width: 140px;

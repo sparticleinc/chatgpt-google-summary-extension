@@ -1,4 +1,4 @@
-/* temp_stylePlugin:ni:sha-256;Pm54VKXCxSgzUbL25lkXFv3KSoNrkvreH5km7k9KU5I */
+/* temp_stylePlugin:ni:sha-256;N8NhQuvaii724Tp6f7XlzMDVIR_wmq5McfmkK5HH22o */
 *,
 ::before,
 ::after {
@@ -387,6 +387,9 @@
   }
   .glarity--card .glarity--card__head {
     border-bottom-color: #444950;
+  }
+  .glarity--card .glarity--chatgpt--footer {
+    border-top-color: #444950;
   }
   .glarity--card .glarity--card__content,
   .glarity--card .glarity--card__head {

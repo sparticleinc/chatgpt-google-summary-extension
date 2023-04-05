@@ -41493,6 +41493,7 @@ ${reviewText}
   // src/content-script/compenents/ChatGPTFeedback.tsx
   var import_webextension_polyfill4 = __toESM(require_browser_polyfill());
   function ChatGPTFeedback(props) {
+    const { showContent, setShowContent } = props;
     const [copied, setCopied] = h2(false);
     const [action, setAction] = h2(null);
     const clickThumbsUp = T2(async () => {
@@ -41529,6 +41530,9 @@ ${reviewText}
       await navigator.clipboard.writeText(props.answerText);
       setCopied(true);
     }, [props.answerText]);
+    const switchShowContent = () => {
+      setShowContent((state) => !state);
+    };
     p2(() => {
       if (copied) {
         const timer = setTimeout(() => {
@@ -41554,7 +41558,8 @@ ${reviewText}
           children: /* @__PURE__ */ o3(ThumbsdownIcon, { size: 14 })
         }
       ),
-      /* @__PURE__ */ o3("span", { onClick: clickCopyToClipboard, children: copied ? /* @__PURE__ */ o3(CheckIcon, { size: 14 }) : /* @__PURE__ */ o3(CopyIcon, { size: 14 }) })
+      /* @__PURE__ */ o3("span", { onClick: clickCopyToClipboard, children: copied ? /* @__PURE__ */ o3(CheckIcon, { size: 14 }) : /* @__PURE__ */ o3(CopyIcon, { size: 14 }) }),
+      /* @__PURE__ */ o3("span", { onClick: switchShowContent, children: showContent ? /* @__PURE__ */ o3(ChevronUpIcon, { size: 14 }) : /* @__PURE__ */ o3(ChevronDownIcon, { size: 14 }) })
     ] });
   }
   var ChatGPTFeedback_default = x3(ChatGPTFeedback);
@@ -41700,10 +41705,15 @@ ${replylanguagePrompt(language2)}`;
     const [showTip, setShowTip] = h2(false);
     const [status, setStatus] = h2();
     const wrapRef = _2(null);
+    const [showContent, setShowContent] = h2(true);
     const requestGpt = F2(() => {
       console.log("question", question);
       return debounce_default(() => {
         setStatus(void 0);
+        setDone(true);
+        setStatus("done");
+        setAnswer({ text: "123123123123123" });
+        return;
         const port = import_webextension_polyfill6.default.runtime.connect();
         const listener = (msg) => {
           if (msg.text) {
@@ -41780,10 +41790,22 @@ ${replylanguagePrompt(language2)}`;
             {
               messageId: answer.messageId,
               conversationId: answer.conversationId,
-              answerText: answer.text
+              answerText: answer.text,
+              showContent,
+              setShowContent
             }
           ) }),
-          /* @__PURE__ */ o3("div", { className: "glarity--chatgpt--content", ref: wrapRef, children: /* @__PURE__ */ o3(ReactMarkdown, { rehypePlugins: [[rehypeHighlight, { detect: true }]], children: answer.text }) })
+          /* @__PURE__ */ o3(
+            "div",
+            {
+              className: "glarity--chatgpt--content",
+              ref: wrapRef,
+              style: {
+                display: showContent ? "block" : "none"
+              },
+              children: /* @__PURE__ */ o3(ReactMarkdown, { rehypePlugins: [[rehypeHighlight, { detect: true }]], children: answer.text })
+            }
+          )
         ] }),
         !ignoreTranslation && /* @__PURE__ */ o3(Translation_default, { answerText: answer.text, status, onStatusChange })
       ] });

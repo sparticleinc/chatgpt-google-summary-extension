@@ -115,7 +115,7 @@
 
   .glarity--chatgpt--header {
     margin-top: -42px !important;
-    margin-left: calc(100% - 58px);
+    margin-left: calc(100% - 68px);
     margin-bottom: 10px;
     padding-bottom: 6px;
     display: flex;
@@ -156,7 +156,7 @@
   padding: 2px 0 10px;
   justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  font-size: 15px;
   user-select: none;
   cursor: pointer;
 }
@@ -252,9 +252,10 @@ span.glarity--header__logo {
 .glarity--chatgpt--footer {
   display: flex;
   justify-content: flex-start;
-  margin: 10px -10px 0;
-  padding: 10px 10px 0;
+  margin: 10px -8px 0;
+  padding: 10px 0 0;
   border-top: 1px solid rgb(238, 238, 238);
+  border-top: 0.5px solid rgb(238, 238, 238);
 
   .glarity--select {
     width: 140px;

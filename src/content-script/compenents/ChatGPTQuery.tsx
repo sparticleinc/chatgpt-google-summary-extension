@@ -33,6 +33,7 @@ function ChatGPTQuery(props: Props) {
   const [showTip, setShowTip] = useState(false)
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
+  const [showContent, setShowContent] = useState(true)
 
   const requestGpt = useMemo(() => {
     console.log('question', question)
@@ -42,6 +43,10 @@ function ChatGPTQuery(props: Props) {
       // setError('error')
       // setStatus('error')
       // return
+      setDone(true)
+      setStatus('done')
+      setAnswer({ text: '123123123123123' })
+      return
 
       const port = Browser.runtime.connect()
       const listener = (msg: any) => {
@@ -131,9 +136,17 @@ function ChatGPTQuery(props: Props) {
               messageId={answer.messageId}
               conversationId={answer.conversationId}
               answerText={answer.text}
+              showContent={showContent}
+              setShowContent={setShowContent}
             />
           </div>
-          <div className="glarity--chatgpt--content" ref={wrapRef}>
+          <div
+            className="glarity--chatgpt--content"
+            ref={wrapRef}
+            style={{
+              display: showContent ? 'block' : 'none',
+            }}
+          >
             <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
               {answer.text}
             </ReactMarkdown>

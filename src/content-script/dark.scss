@@ -1,7 +1,9 @@
+$border-color: #3c4043;
+
 .glarity--container.gpt--dark {
   .glarity--chatgpt {
     color: white;
-    border-color: #3c4043;
+    border-color: $border-color;
     background-color: #0d1117;
 
     .glarity--main__loading {
@@ -19,12 +21,13 @@
     }
   }
 
-  .glarity--main {
-    border-top-color: #3c4043;
+  .glarity--main,
+  .glarity--chatgpt--footer {
+    border-top-color: $border-color;
   }
 
   .glarity--main__header {
-    border-bottom-color: #3c4043;
+    border-bottom-color: $border-color;
   }
 
   .glarity--main__container {

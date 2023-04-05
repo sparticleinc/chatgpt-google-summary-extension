@@ -1,3 +1,5 @@
+$border-color: #eee;
+
 .glarity--container.gpt--light {
   .glarity--chatgpt {
     color: black;
@@ -12,8 +14,9 @@
       background-color: #fff;
     }
 
-    .glarity--main {
-      border-top-color: #eee;
+    .glarity--main,
+    .glarity--chatgpt--footer {
+      border-top-color: $border-color;
     }
   }
 
