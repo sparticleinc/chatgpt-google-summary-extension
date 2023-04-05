@@ -2,9 +2,17 @@ $border-color: #3c4043;
 
 .glarity--container.gpt--dark {
   .glarity--chatgpt {
-    color: white;
     border-color: $border-color;
     background-color: #0d1117;
+
+    &,
+    div,
+    p,
+    section,
+    ul,
+    li {
+      color: white;
+    }
 
     .glarity--main__loading {
       background-color: #0d1117;

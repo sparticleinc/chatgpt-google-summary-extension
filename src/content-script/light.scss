@@ -2,9 +2,17 @@ $border-color: #eee;
 
 .glarity--container.gpt--light {
   .glarity--chatgpt {
-    color: black;
     border-color: #e8e8e8;
     background-color: #f9f9f9;
+
+    &,
+    div,
+    p,
+    section,
+    ul,
+    li {
+      color: black;
+    }
   }
 
   &.glarity--chatgpt--newspicks {

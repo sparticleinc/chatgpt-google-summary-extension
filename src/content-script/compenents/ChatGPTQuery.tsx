@@ -43,10 +43,10 @@ function ChatGPTQuery(props: Props) {
       // setError('error')
       // setStatus('error')
       // return
-      setDone(true)
-      setStatus('done')
-      setAnswer({ text: '123123123123123' })
-      return
+      // setDone(true)
+      // setStatus('done')
+      // setAnswer({ text: '123123123123123' })
+      // return
 
       const port = Browser.runtime.connect()
       const listener = (msg: any) => {

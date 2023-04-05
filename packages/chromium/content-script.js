@@ -41710,10 +41710,6 @@ ${replylanguagePrompt(language2)}`;
       console.log("question", question);
       return debounce_default(() => {
         setStatus(void 0);
-        setDone(true);
-        setStatus("done");
-        setAnswer({ text: "123123123123123" });
-        return;
         const port = import_webextension_polyfill6.default.runtime.connect();
         const listener = (msg) => {
           if (msg.text) {

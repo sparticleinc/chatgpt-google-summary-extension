@@ -45,6 +45,15 @@
     line-height: 1.5;
     word-wrap: break-word;
     // word-break:break-all;
+
+    &,
+    div,
+    p,
+    section,
+    ul,
+    li {
+      color: black;
+    }
   }
 
   &.sidebar--free {
