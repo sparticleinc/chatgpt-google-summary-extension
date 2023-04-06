@@ -195,7 +195,14 @@ $font-size-small: 12px;
 
     .glarity--card__content,
     .glarity--card__head {
-      color: #ccc;
+      &,
+      div,
+      p,
+      section,
+      ul,
+      li {
+        color: #ccc !important;
+      }
 
       .glarity--card__head--title {
         a {

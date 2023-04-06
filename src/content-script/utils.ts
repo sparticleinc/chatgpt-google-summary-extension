@@ -297,9 +297,12 @@ export const getPageSummaryContntent = async () => {
     return
   }
 
-  const article = await extractFromHtml(html, url)
-
-  return article
+  try {
+    const article = await extractFromHtml(html, url)
+    return article
+  } catch (error) {
+    return
+  }
 }
 
 export const pageSummaryJSON: {
