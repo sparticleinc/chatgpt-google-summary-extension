@@ -255,6 +255,10 @@ span.glarity--header__logo {
     height: 260px;
     overflow: hidden;
     overflow-y: auto;
+
+    li {
+      list-style: disc;
+    }
   }
 }
 
