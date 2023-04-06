@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'preact/hooks'
+import classNames from 'classnames'
 import { TRANSLATION_LANGUAGES } from '@/config'
 import ChatGPTQuery, { QueryStatus } from './ChatGPTQuery'
 import { replylanguagePrompt } from '@/utils/prompt'
@@ -7,15 +8,19 @@ interface Props {
   answerText: string
   onStatusChange?: (status: QueryStatus) => void
   status?: QueryStatus
+  showContent?: boolean
 }
 
 function Translation(props: Props) {
-  const { answerText, onStatusChange, status } = props
+  const { answerText, onStatusChange, status, showContent } = props
   const [newQuestion, setNewQuestion] = useState<string>('')
   const [lang, setLang] = useState<string>('')
+  const [translationStatus, setTranslationStatus] = useState<QueryStatus>()
 
   useEffect(() => {
     onStatusChange?.(status)
+
+    setTranslationStatus(status)
   }, [onStatusChange, status])
 
   const onChange = useCallback(
@@ -30,12 +35,17 @@ function Translation(props: Props) {
 
   return (
     <>
-      <div className="glarity--chatgpt--footer">
+      <div
+        className={classNames(
+          'glarity--chatgpt--footer',
+          !showContent && 'glarity--chatgpt--footer__noborder',
+        )}
+      >
         <select
           className="glarity--select"
           value={lang}
           onChange={onChange}
-          disabled={status !== 'done'}
+          disabled={translationStatus !== 'done'}
         >
           <option key={'translation'} value={''}>
             Translation
@@ -54,6 +64,7 @@ function Translation(props: Props) {
             question={newQuestion}
             ignoreTranslation={true}
             onStatusChange={onStatusChange}
+            setTranslationStatus={setTranslationStatus}
           />
         </div>
       )}

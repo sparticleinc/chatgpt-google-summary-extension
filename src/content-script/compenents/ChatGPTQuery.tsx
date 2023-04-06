@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'preact/hooks'
 import classNames from 'classnames'
 import { memo, useMemo } from 'react'
-import { Loading, Button } from '@geist-ui/core'
+import { Loading } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
@@ -21,10 +21,11 @@ interface Props {
   onStatusChange?: (status: QueryStatus) => void
   currentTime?: number
   ignoreTranslation?: boolean
+  setTranslationStatus?: (status: QueryStatus) => void
 }
 
 function ChatGPTQuery(props: Props) {
-  const { onStatusChange, currentTime, question, ignoreTranslation } = props
+  const { onStatusChange, currentTime, question, ignoreTranslation, setTranslationStatus } = props
 
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
@@ -45,7 +46,9 @@ function ChatGPTQuery(props: Props) {
       // return
       // setDone(true)
       // setStatus('done')
-      // setAnswer({ text: '123123123123123' })
+      // setAnswer({
+      //   text: `Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.`,
+      // })
       // return
 
       const port = Browser.runtime.connect()
@@ -88,7 +91,8 @@ function ChatGPTQuery(props: Props) {
 
   useEffect(() => {
     onStatusChange?.(status)
-  }, [onStatusChange, status])
+    setTranslationStatus?.(status)
+  }, [onStatusChange, setTranslationStatus, status])
 
   useEffect(() => {
     setAnswer(null)
@@ -167,7 +171,12 @@ function ChatGPTQuery(props: Props) {
         </div>
 
         {!ignoreTranslation && (
-          <Translation answerText={answer.text} status={status} onStatusChange={onStatusChange} />
+          <Translation
+            answerText={answer.text}
+            status={status}
+            showContent={showContent}
+            onStatusChange={onStatusChange}
+          />
         )}
       </>
     )

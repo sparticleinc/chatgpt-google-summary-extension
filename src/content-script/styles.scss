@@ -261,10 +261,14 @@ span.glarity--header__logo {
 .glarity--chatgpt--footer {
   display: flex;
   justify-content: flex-start;
-  margin: 10px -8px 0;
+  margin: 0;
   padding: 10px 0 0;
   border-top: 1px solid rgb(238, 238, 238);
   border-top: 0.5px solid rgb(238, 238, 238);
+
+  &.glarity--chatgpt--footer__noborder {
+    border-top: none;
+  }
 
   .glarity--select {
     width: 140px;
@@ -290,9 +294,17 @@ span.glarity--header__logo {
 }
 
 .glarity--page__summary {
+  .glarity--chatgpt--footer {
+    margin: 0 -8px 0;
+  }
+
   .glarity--chatgpt--translation {
     .markdown-body {
       margin-top: -22px !important;
+    }
+
+    .glarity--chatgpt--content {
+      padding-top: 5px;
     }
   }
 }
