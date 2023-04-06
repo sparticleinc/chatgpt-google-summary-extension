@@ -7,6 +7,7 @@ import {
   searchPrompt,
   videoSummaryPromptHightligt,
   searchPromptHighlight,
+  githubPromptHighlight,
 } from '@/utils/prompt'
 import {
   getPossibleElementByQuerySelector,
@@ -186,6 +187,7 @@ export default async function getQuestion() {
 
     const queryText = articlePrompt({
       title: articleTitle,
+      prompt: githubPromptHighlight,
       content: content,
       language: userConfig.language === Language.Auto ? language : userConfig.language,
     })

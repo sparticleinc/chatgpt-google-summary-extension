@@ -22,6 +22,8 @@ export const commentSummaryPromptHightligt_bak = (rate: boolean) => {
 
 export const commentSummaryPromptHightligt = `Give a concise summary of the review content (perhaps a video, topic, or product), including both positive and negative points. If the review is about an item, give the pros, cons, ratings, and recommendations for buying the item.`
 
+export const githubPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences,usage and download address not included.`
+
 export const customizePrompt = `Title: "{{Title}}"
 Transcript: "{{Transcript}}"`
 

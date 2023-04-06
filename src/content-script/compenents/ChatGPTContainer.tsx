@@ -245,14 +245,15 @@ function ChatGPTContainer(props: Props) {
                           value={selectedOption}
                           onChange={handleChange}
                         >
-                          {questionProps.langOptionsWithLink &&
-                            Array.from(questionProps.langOptionsWithLink).map((v, i) => {
-                              return (
-                                <option key={i} value={i}>
-                                  {v.language}
-                                </option>
-                              )
-                            })}
+                          {questionProps.langOptionsWithLink
+                            ? Array.from(questionProps.langOptionsWithLink).map((v, i) => {
+                                return (
+                                  <option key={i} value={i}>
+                                    {v.language}
+                                  </option>
+                                )
+                              })
+                            : ''}
                         </select>
                       </>
                     )}
