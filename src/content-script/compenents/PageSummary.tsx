@@ -8,7 +8,12 @@ import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
 import { getPageSummaryContntent, getPageSummaryComments } from '@/content-script/utils'
-import { commentSummaryPrompt, pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
+import {
+  commentSummaryPrompt,
+  commentSummaryPromptHightligt,
+  pageSummaryPrompt,
+  pageSummaryPromptHighlight,
+} from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
 
@@ -78,7 +83,7 @@ function PageSummary(props: Props) {
             language: replyLanguage,
             prompt: userConfig.promptComment
               ? userConfig.promptComment
-              : pageSummaryPromptHighlight,
+              : commentSummaryPromptHightligt,
             rate: article?.['rate'],
           })
         : pageSummaryPrompt({

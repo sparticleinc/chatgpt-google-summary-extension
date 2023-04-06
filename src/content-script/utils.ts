@@ -359,6 +359,18 @@ export const getPageSummaryComments = async () => {
       return { ...pageSummaryJSON, ...{ content: reviews, rate: '-1' } }
     }
 
+    case 'tiktok.com': {
+      const reviews =
+        document.querySelector('div.tiktok-3q30id-DivContentContainer')?.textContent || ''
+      return { ...pageSummaryJSON, ...{ content: reviews, rate: '-1' } }
+    }
+
+    case 'ebay.com': {
+      const rate = document.querySelector('#rwid .ebay-content-wrapper')?.textContent || ''
+      const reviews = document.querySelector('div#rwid .reviews')?.textContent || ''
+      return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+    }
+
     default: {
       return { ...pageSummaryJSON }
     }
