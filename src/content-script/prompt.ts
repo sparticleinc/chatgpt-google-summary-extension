@@ -10,7 +10,11 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
         .replace(/(\r\n)+/g, '\r\n')
         .replace(/(\s{2,})/g, ' ')
         .replace(/^(\s)+|(\s)$/g, '')
-        .replace(/\[[^\]]*\]/g, '')
+        .replace(/\[[^\]\d]*([^\]\d\s]*)[^\]\d]*\]/g, (match, p1) => {
+          const numericContent = p1.replace(/\D/g, '')
+          return numericContent.length > 0 ? `[${numericContent}]` : ''
+        })
+        .replace(/\[\]/g, '')
     : ''
 
   return truncateTranscript(text, providerConfigs)

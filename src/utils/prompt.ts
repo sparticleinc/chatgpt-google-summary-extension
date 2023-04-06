@@ -8,7 +8,8 @@ export const videoSummaryPromptHightligt = `Your output should use the following
 - [Emoji] Bulletpoint
 
 Use up to 3 brief bullet points to summarize the content below, Choose an appropriate emoji for each bullet point. and summarize a short highlight: {{Title}} {{Transcript}}.`
-export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
+export const searchPromptHighlight_bak = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
+export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query.Make sure to cite results using [[number](URL)] notation after the reference.If the query is a company name, write the answer using only the contents of [1]. Otherwise if the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
 
 export const commentSummaryPromptHightligt_bak = (rate: boolean) => {
   return rate
@@ -113,9 +114,9 @@ export const searchPrompt = ({
   const day = date.getDate()
 
   return `Web search results: ${results}
+Query: ${query}
 Current date: ${year}/${month}/${day}
 Instructions: ${prompt}
-Query: ${query}
 ${replylanguagePrompt(language)}`
 }
 
