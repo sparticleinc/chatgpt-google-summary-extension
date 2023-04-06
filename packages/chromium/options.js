@@ -37578,7 +37578,7 @@ and ensure you are accounting for this risk.
 
   // src/utils/prompt.ts
   var pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`;
-  var videoSummaryPromptHightligt = `Instructions: Your output should use the following template:
+  var videoSummaryPromptHightligt = `Your output should use the following template:
 ### Summary
 ### Highlights
 - [Emoji] Bulletpoint

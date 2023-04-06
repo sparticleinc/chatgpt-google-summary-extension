@@ -2,7 +2,7 @@ export const articlePromptHighlight = `Please use the above to summarize the hig
 export const pagePromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
 export const googlePatentsPromptHighlight = `Please summarize the highlights of the above article in easy-to-understand terms`
 export const pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
-export const videoSummaryPromptHightligt = `Instructions: Your output should use the following template:
+export const videoSummaryPromptHightligt = `Your output should use the following template:
 ### Summary
 ### Highlights
 - [Emoji] Bulletpoint

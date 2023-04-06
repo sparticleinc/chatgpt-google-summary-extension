@@ -6,9 +6,11 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
   const text = transcript
     ? transcript
         .replace(/&#39;/g, "'")
+        .replace(/&gt;/g, "'")
         .replace(/(\r\n)+/g, '\r\n')
         .replace(/(\s{2,})/g, ' ')
         .replace(/^(\s)+|(\s)$/g, '')
+        .replace(/\[[^\]]*\]/g, '')
     : ''
 
   return truncateTranscript(text, providerConfigs)
@@ -16,8 +18,8 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
 
 // Seems like 15,000 bytes is the limit for the prompt
 const textLimit = 14000
-const limit = 1100 // 1000 is a buffer
-const apiLimit = 2000
+const limit = 1020 // 1000 is a buffer
+const apiLimit = 1920
 
 export function getChunckedTranscripts(textData, textDataOriginal) {
   // [Thought Process]

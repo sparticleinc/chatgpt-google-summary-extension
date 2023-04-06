@@ -41580,7 +41580,7 @@ ${reviewText}
   var articlePromptHighlight = `Please use the above to summarize the highlights.`;
   var googlePatentsPromptHighlight = `Please summarize the highlights of the above article in easy-to-understand terms`;
   var pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`;
-  var videoSummaryPromptHightligt = `Instructions: Your output should use the following template:
+  var videoSummaryPromptHightligt = `Your output should use the following template:
 ### Summary
 ### Highlights
 - [Emoji] Bulletpoint
@@ -92162,12 +92162,12 @@ om inated
   // src/content-script/prompt.ts
   var tokenizer = new gpt3_tokenizer_default({ type: "gpt3" });
   function getSummaryPrompt(transcript = "", providerConfigs) {
-    const text4 = transcript ? transcript.replace(/&#39;/g, "'").replace(/(\r\n)+/g, "\r\n").replace(/(\s{2,})/g, " ").replace(/^(\s)+|(\s)$/g, "") : "";
+    const text4 = transcript ? transcript.replace(/&#39;/g, "'").replace(/&gt;/g, "'").replace(/(\r\n)+/g, "\r\n").replace(/(\s{2,})/g, " ").replace(/^(\s)+|(\s)$/g, "").replace(/\[[^\]]*\]/g, "") : "";
     return truncateTranscript(text4, providerConfigs);
   }
   var textLimit = 14e3;
-  var limit = 1100;
-  var apiLimit = 2e3;
+  var limit = 1020;
+  var apiLimit = 1920;
   function truncateTranscript(str, providerConfigs) {
     let textStr = str;
     const textBytes = textToBinaryString(str).length;
