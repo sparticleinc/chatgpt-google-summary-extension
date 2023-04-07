@@ -19629,11 +19629,13 @@ and ensure you are accounting for this risk.
   };
   var getReviewsSites = () => {
     const hostname2 = location.hostname.replace(/^www\./, "");
-    const site = /amazon.\w{2,}/gi.test(hostname2) ? "amazon" : hostname2;
+    const href = location.href.replace(/^https?:\/\//, "");
+    const bookingHotelRegex = new RegExp(`${hostname2}/hotel/`, "g");
+    const site = /amazon.\w{2,}/gi.test(hostname2) ? "amazon" : hostname2.includes(".douban.com") ? "douban" : bookingHotelRegex.test(href) ? "bookingHotel" : hostname2;
     return site;
   };
   var getPageSummaryComments = async () => {
-    var _a, _b, _c, _d, _e2, _f;
+    var _a, _b, _c, _d, _e2, _f, _g, _h, _i, _j, _k, _l, _m, _n2, _o, _p, _q, _r2, _s, _t2, _u;
     const site = getReviewsSites();
     switch (site) {
       case "amazon": {
@@ -19667,9 +19669,31 @@ ${reviewText}
         return { ...pageSummaryJSON, ...{ content: reviews, rate: "-1" } };
       }
       case "ebay.com": {
-        const rate = ((_e2 = document.querySelector("#rwid .ebay-content-wrapper")) == null ? void 0 : _e2.textContent) || "";
-        const reviews = ((_f = document.querySelector("div#rwid .reviews")) == null ? void 0 : _f.textContent) || "";
+        const features = ((_e2 = document.querySelector("div.ux-layout-section.ux-layout-section--features")) == null ? void 0 : _e2.textContent) || "";
+        const rate = ((_f = document.querySelector("#rwid .ebay-content-wrapper")) == null ? void 0 : _f.textContent) || ((_g = document.querySelector("div.reviews--wrapper .rating--details")) == null ? void 0 : _g.textContent) || -1;
+        const reviews = ((_h = document.querySelector("div#rwid .reviews")) == null ? void 0 : _h.textContent) || ((_i = document.querySelector("div.reviews--wrapper .reviews--details")) == null ? void 0 : _i.textContent) || "";
+        return { ...pageSummaryJSON, ...{ content: reviews ? reviews : features, rate } };
+      }
+      case "douban": {
+        const rate = ((_j = document.querySelector("#interest_sectl div.rating_self")) == null ? void 0 : _j.textContent) || -1;
+        const content3 = ((_k = document.querySelector("#link-report-intra")) == null ? void 0 : _k.textContent) || "";
+        const reviews = ((_l = document.querySelector("#comments-section")) == null ? void 0 : _l.textContent) || "";
+        return { ...pageSummaryJSON, ...{ content: content3 + reviews, rate } };
+      }
+      case "tripadvisor.com": {
+        const reviewElement = document.querySelector("#tab-data-qa-reviews-0");
+        const rate = ((_m = document.querySelector("div.ui_columns.MXlSZ div.grdwI")) == null ? void 0 : _m.textContent) || ((_n2 = document.querySelector("div.QEQvp")) == null ? void 0 : _n2.textContent) || ((_o = reviewElement == null ? void 0 : reviewElement.querySelector("div.yFKLG")) == null ? void 0 : _o.textContent) || -1;
+        const reviews = ((_p = document.querySelector("div.ppr_rup.ppr_priv_hr_community_content")) == null ? void 0 : _p.textContent) || ((_q = document.querySelector("#REVIEWS")) == null ? void 0 : _q.textContent) || ((_r2 = reviewElement == null ? void 0 : reviewElement.querySelector("div.LbPSX")) == null ? void 0 : _r2.textContent) || "";
         return { ...pageSummaryJSON, ...{ content: reviews, rate } };
+      }
+      case "bookingHotel": {
+        const reviewElement = document.querySelector(
+          "div.reviews-snippet-sidebar.hp-social-proof-review_score"
+        );
+        const rate = ((_s = reviewElement == null ? void 0 : reviewElement.querySelector('[data-testid="review-score-component"]')) == null ? void 0 : _s.textContent) || -1;
+        const reviews = ((_t2 = reviewElement == null ? void 0 : reviewElement.querySelector('[role="region"]')) == null ? void 0 : _t2.textContent) || "";
+        const reviewGategories = (_u = reviewElement == null ? void 0 : reviewElement.querySelector("div.bui-spacer--larger")) == null ? void 0 : _u.textContent;
+        return { ...pageSummaryJSON, ...{ content: reviewGategories + reviews, rate } };
       }
       default: {
         return { ...pageSummaryJSON };

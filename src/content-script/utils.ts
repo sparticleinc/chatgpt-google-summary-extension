@@ -318,7 +318,16 @@ export const pageSummaryJSON: {
 
 export const getReviewsSites = () => {
   const hostname = location.hostname.replace(/^www\./, '')
-  const site = /amazon.\w{2,}/gi.test(hostname) ? 'amazon' : hostname
+  const href = location.href.replace(/^https?:\/\//, '')
+  const bookingHotelRegex = new RegExp(`${hostname}\/hotel\/`, 'g')
+
+  const site = /amazon.\w{2,}/gi.test(hostname)
+    ? 'amazon'
+    : hostname.includes('.douban.com')
+    ? 'douban'
+    : bookingHotelRegex.test(href)
+    ? 'bookingHotel'
+    : hostname
 
   return site
 }
@@ -366,9 +375,53 @@ export const getPageSummaryComments = async () => {
     }
 
     case 'ebay.com': {
-      const rate = document.querySelector('#rwid .ebay-content-wrapper')?.textContent || ''
-      const reviews = document.querySelector('div#rwid .reviews')?.textContent || ''
+      const features =
+        document.querySelector('div.ux-layout-section.ux-layout-section--features')?.textContent ||
+        ''
+
+      const rate =
+        document.querySelector('#rwid .ebay-content-wrapper')?.textContent ||
+        document.querySelector('div.reviews--wrapper .rating--details')?.textContent ||
+        -1
+      const reviews =
+        document.querySelector('div#rwid .reviews')?.textContent ||
+        document.querySelector('div.reviews--wrapper .reviews--details')?.textContent ||
+        ''
+      return { ...pageSummaryJSON, ...{ content: reviews ? reviews : features, rate } }
+    }
+
+    case 'douban': {
+      const rate = document.querySelector('#interest_sectl div.rating_self')?.textContent || -1
+      const content = document.querySelector('#link-report-intra')?.textContent || ''
+      const reviews = document.querySelector('#comments-section')?.textContent || ''
+      return { ...pageSummaryJSON, ...{ content: content + reviews, rate } }
+    }
+
+    case 'tripadvisor.com': {
+      const reviewElement = document.querySelector('#tab-data-qa-reviews-0')
+
+      const rate =
+        document.querySelector('div.ui_columns.MXlSZ div.grdwI')?.textContent ||
+        document.querySelector('div.QEQvp')?.textContent ||
+        reviewElement?.querySelector('div.yFKLG')?.textContent ||
+        -1
+      const reviews =
+        document.querySelector('div.ppr_rup.ppr_priv_hr_community_content')?.textContent ||
+        document.querySelector('#REVIEWS')?.textContent ||
+        reviewElement?.querySelector('div.LbPSX')?.textContent ||
+        ''
       return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+    }
+
+    case 'bookingHotel': {
+      const reviewElement = document.querySelector(
+        'div.reviews-snippet-sidebar.hp-social-proof-review_score',
+      )
+      const rate =
+        reviewElement?.querySelector('[data-testid="review-score-component"]')?.textContent || -1
+      const reviews = reviewElement?.querySelector('[role="region"]')?.textContent || ''
+      const reviewGategories = reviewElement?.querySelector('div.bui-spacer--larger')?.textContent
+      return { ...pageSummaryJSON, ...{ content: reviewGategories + reviews, rate } }
     }
 
     default: {
