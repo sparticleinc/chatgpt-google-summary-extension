@@ -52,7 +52,7 @@ function PageSummary(props: Props) {
 
     const pageComments = await getPageSummaryComments()
     const pageContent = await getPageSummaryContntent()
-    const article = pageComments ? pageComments : pageContent
+    const article = pageComments && pageComments.content ? pageComments : pageContent
 
     const title = article?.title || document.title || ''
     const description =
