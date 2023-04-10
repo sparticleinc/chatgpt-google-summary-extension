@@ -1,4 +1,4 @@
-import { Button, Input, Spinner, useInput, useToasts, Radio, Card } from '@geist-ui/core'
+import { Button, Input, Spinner, useInput, useToasts, Radio, Card, Grid } from '@geist-ui/core'
 import { FC, useCallback, useState, useEffect } from 'react'
 import useSWR from 'swr'
 import {
@@ -107,35 +107,43 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                     <span className="glarity--font-semibold">charge by usage</span>
                   </span>
                   <div className="glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select">
-                    <Input
-                      htmlType="text"
-                      placeholder="api.openai.com"
-                      label="API Host"
-                      scale={2 / 3}
-                      clearable
-                      {...apiHostBindings}
-                    />
-                    <Aselect
-                      defaultValue={model}
-                      onChange={(v) => setModel(v as string)}
-                      placeholder="model"
-                      optionLabelProp="label"
-                      style={{ width: '170px' }}
-                    >
-                      {models.map((m) => (
-                        <Option key={m} value={m} label={m}>
-                          {m}
-                        </Option>
-                      ))}
-                    </Aselect>
-                    <Input
-                      htmlType="password"
-                      placeholder="sk-********"
-                      label="API key"
-                      scale={2 / 3}
-                      clearable
-                      {...apiKeyBindings}
-                    />
+                    <Grid.Container gap={2}>
+                      <Grid md={8} sm={24}>
+                        <Input
+                          htmlType="text"
+                          placeholder="api.openai.com"
+                          label="API Host"
+                          scale={2 / 3}
+                          clearable
+                          {...apiHostBindings}
+                        />
+                      </Grid>
+                      <Grid md={8} sm={24}>
+                        <Aselect
+                          defaultValue={model}
+                          onChange={(v) => setModel(v as string)}
+                          placeholder="model"
+                          optionLabelProp="label"
+                          style={{ width: '170px' }}
+                        >
+                          {models.map((m) => (
+                            <Option key={m} value={m} label={m}>
+                              {m}
+                            </Option>
+                          ))}
+                        </Aselect>
+                      </Grid>
+                      <Grid md={8} sm={24}>
+                        <Input
+                          htmlType="password"
+                          placeholder="sk-********"
+                          label="API key"
+                          scale={2 / 3}
+                          clearable
+                          {...apiKeyBindings}
+                        />
+                      </Grid>
+                    </Grid.Container>
                   </div>
                   <span className="glarity--italic glarity--text-xs">
                     You can find or create your API key{' '}

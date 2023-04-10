@@ -461,4 +461,10 @@ span.glarity--header__logo {
       width: calc(100vw - 30px);
     }
   }
+
+  .glarity--chatgpt--content {
+    max-height: calc(100vh - 380px);
+    overflow: hidden;
+    overflow-y: auto;
+  }
 }
