@@ -42,6 +42,10 @@ export function removeHtmlTags(str: string) {
   return str.replace(/<[^>]+>/g, '')
 }
 
+export function sleep(fn, ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 export async function getLangOptionsWithLink(videoId) {
   // Get a transcript URL
   const videoPageResponse = await fetch('https://www.youtube.com/watch?v=' + videoId)
@@ -422,6 +426,27 @@ export const getPageSummaryComments = async () => {
       const reviews = reviewElement?.querySelector('[role="region"]')?.textContent || ''
       const reviewGategories = reviewElement?.querySelector('div.bui-spacer--larger')?.textContent
       return { ...pageSummaryJSON, ...{ content: reviewGategories + reviews, rate } }
+    }
+
+    case 'item.jd.com': {
+      const reviewElement = document.querySelector('#comment')
+
+      reviewElement?.scrollIntoView()
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const rate = reviewElement?.querySelector('div.comment-percent')?.textContent || -1
+          let reviews = ''
+
+          reviewElement?.querySelectorAll('p.comment-con').forEach((review) => {
+            reviews += review?.textContent || ''
+          })
+
+          resolve({ ...pageSummaryJSON, ...{ content: reviews, rate } })
+        }, 1000)
+      }).then((res) => {
+        return res
+      })
     }
 
     default: {

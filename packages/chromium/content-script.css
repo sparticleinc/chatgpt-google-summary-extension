@@ -1,4 +1,4 @@
-/* temp_stylePlugin:ni:sha-256;ymhf-3-e7fk7rTEv0p6obOyaQElwbQbcyoPJwdhHSUo */
+/* temp_stylePlugin:ni:sha-256;Smpp8MCdGz3dd8a3mix6fHb-mpFBaCqLp4z1utV-9pA */
 *,
 ::before,
 ::after {
@@ -198,11 +198,11 @@
 .glarity--gap-4 {
   gap: 1rem;
 }
-.glarity--gap-3 {
-  gap: 0.75rem;
-}
 .glarity--gap-2 {
   gap: 0.5rem;
+}
+.glarity--gap-3 {
+  gap: 0.75rem;
 }
 .glarity--gap-1 {
   gap: 0.25rem;
@@ -224,13 +224,13 @@
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
-.glarity--text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
 .glarity--text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+.glarity--text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 .glarity--font-semibold {
   font-weight: 600;
@@ -423,7 +423,7 @@
   }
 }
 
-/* temp_stylePlugin:ni:sha-256;dEN3vFdyur7yWR0pHF37cwmLz4A6i_2SCaqFMXRwoig */
+/* temp_stylePlugin:ni:sha-256;q986DxjUG0Bhr0vDdvs2uPw7zYf8UK4a9ml1EfqHgiY */
 .glarity--container.gpt--light {
 }
 .glarity--container.gpt--light .glarity--chatgpt {
@@ -2662,5 +2662,10 @@ span.glarity--header__logo {
 @media screen and (max-width: 600px) {
   .glarity--summary .glarity--card {
     width: calc(100vw - 30px);
+  }
+  .glarity--chatgpt--content {
+    max-height: calc(100vh - 380px);
+    overflow: hidden;
+    overflow-y: auto;
   }
 }

@@ -14662,17 +14662,20 @@
     const { provider = "chatgpt" /* ChatGPT */ } = await import_webextension_polyfill.default.storage.local.get("provider");
     const configKey = `provider:${"gpt3" /* GPT3 */}`;
     const result = await import_webextension_polyfill.default.storage.local.get(configKey);
+    const chatModel = await import_webextension_polyfill.default.storage.local.get("chatModel");
     return {
       provider,
       configs: {
         ["gpt3" /* GPT3 */]: result[configKey]
-      }
+      },
+      chatModel: chatModel.chatModel
     };
   }
-  async function saveProviderConfigs(provider, configs) {
+  async function saveProviderConfigs(provider, configs, chatModel) {
     return import_webextension_polyfill.default.storage.local.set({
       provider,
-      [`provider:${"gpt3" /* GPT3 */}`]: configs["gpt3" /* GPT3 */]
+      [`provider:${"gpt3" /* GPT3 */}`]: configs["gpt3" /* GPT3 */],
+      chatModel
     });
   }
   var DEFAULT_PAGE_SUMMARY_BLACKLIST = `https://translate.google.com
@@ -14696,8 +14699,20 @@ https://www.crunchyroll.com
 https://www.funimation.com
 https://www.viki.com
 `;
+  var CHAT_MODEL = [
+    {
+      name: "GPT-3.5 Turbo",
+      code: "GPT-3.5 Turbo" /* GPT35 */,
+      desc: "GPT-3.5 is unlimited for Free and Plus users."
+    },
+    {
+      name: "GPT-4",
+      code: "auto" /* GPT40 */,
+      desc: "GPT-4 is for Plus users and has a very limited quota."
+    }
+  ];
 
-  // src/options/ProviderSelect.tsx
+  // src/options/components/ProviderSelect.tsx
   init_compat();
 
   // node_modules/.pnpm/swr@2.0.3_@preact+compat@17.1.2/node_modules/swr/core/dist/index.mjs
@@ -31985,14 +32000,18 @@ https://www.viki.com
     return l.vnode && l.vnode(i4), i4;
   }
 
-  // src/options/ProviderSelect.tsx
+  // src/options/components/ProviderSelect.tsx
   var { Option: Option3 } = select_default3;
   var ConfigPanel = ({ config: config2, models }) => {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
     const [tab, setTab] = h2(isSafari ? "gpt3" /* GPT3 */ : config2.provider);
     const { bindings: apiKeyBindings } = use_input_default2((_b = (_a = config2.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.apiKey) != null ? _b : "");
     const { bindings: apiHostBindings } = use_input_default2((_d = (_c = config2.configs["gpt3" /* GPT3 */]) == null ? void 0 : _c.apiHost) != null ? _d : "");
     const [model, setModel] = h2((_f = (_e = config2.configs["gpt3" /* GPT3 */]) == null ? void 0 : _e.model) != null ? _f : models[0]);
+    const [chatModel, setChatModel] = h2((_h = config2.chatModel) != null ? _h : (_g = CHAT_MODEL[0]) == null ? void 0 : _g.code);
+    const [chatModelDesc, setChatModelDesc] = h2(
+      (_k = (_i = CHAT_MODEL[chatModel]) == null ? void 0 : _i.desc) != null ? _k : (_j = CHAT_MODEL[0]) == null ? void 0 : _j.desc
+    );
     const { setToast } = use_toasts_default();
     const save = T2(async () => {
       if (tab === "gpt3" /* GPT3 */) {
@@ -32007,15 +32026,24 @@ https://www.viki.com
       }
       let apiHost = apiHostBindings.value || "";
       apiHost = apiHost.replace(/^http(s)?:\/\//, "");
-      await saveProviderConfigs(tab, {
-        ["gpt3" /* GPT3 */]: {
-          model,
-          apiKey: apiKeyBindings.value,
-          apiHost
-        }
-      });
+      await saveProviderConfigs(
+        tab,
+        {
+          ["gpt3" /* GPT3 */]: {
+            model,
+            apiKey: apiKeyBindings.value,
+            apiHost
+          }
+        },
+        chatModel
+      );
       setToast({ text: "Changes saved", type: "success" });
-    }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab]);
+    }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab, chatModel]);
+    p2(() => {
+      var _a2, _b2;
+      const chatModelObj = CHAT_MODEL.find((v3) => v3.code === chatModel);
+      setChatModelDesc((_b2 = chatModelObj == null ? void 0 : chatModelObj.desc) != null ? _b2 : (_a2 = CHAT_MODEL[0]) == null ? void 0 : _a2.desc);
+    }, [chatModel]);
     p2(() => {
       console.log("config", config2);
       console.log("models", models);
@@ -32025,8 +32053,19 @@ https://www.viki.com
         !isSafari && /* @__PURE__ */ o3(_, { children: /* @__PURE__ */ o3(radio_default2, { value: "chatgpt" /* ChatGPT */, children: [
           "ChatGPT webapp",
           /* @__PURE__ */ o3(radio_default2.Desc, { children: [
+            /* @__PURE__ */ o3(
+              select_default3,
+              {
+                defaultValue: chatModel,
+                onChange: (v3) => setChatModel(v3),
+                placeholder: "model",
+                optionLabelProp: "label",
+                style: { width: "140px" },
+                children: CHAT_MODEL.map((m3) => /* @__PURE__ */ o3(Option3, { value: m3.code, label: m3.name, children: m3.name }, m3.code))
+              }
+            ),
             " ",
-            "The API that powers ChatGPT webapp, free, but sometimes unstable"
+            chatModelDesc
           ] })
         ] }) }),
         /* @__PURE__ */ o3(radio_default2, { value: "gpt3" /* GPT3 */, children: [
@@ -32037,8 +32076,8 @@ https://www.viki.com
               " ",
               /* @__PURE__ */ o3("span", { className: "glarity--font-semibold", children: "charge by usage" })
             ] }),
-            /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select", children: [
-              /* @__PURE__ */ o3(
+            /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select", children: /* @__PURE__ */ o3(grid_default2.Container, { gap: 2, children: [
+              /* @__PURE__ */ o3(grid_default2, { md: 8, sm: 24, children: /* @__PURE__ */ o3(
                 input_default2,
                 {
                   htmlType: "text",
@@ -32048,8 +32087,8 @@ https://www.viki.com
                   clearable: true,
                   ...apiHostBindings
                 }
-              ),
-              /* @__PURE__ */ o3(
+              ) }),
+              /* @__PURE__ */ o3(grid_default2, { md: 8, sm: 24, children: /* @__PURE__ */ o3(
                 select_default3,
                 {
                   defaultValue: model,
@@ -32059,8 +32098,8 @@ https://www.viki.com
                   style: { width: "170px" },
                   children: models.map((m3) => /* @__PURE__ */ o3(Option3, { value: m3, label: m3, children: m3 }, m3))
                 }
-              ),
-              /* @__PURE__ */ o3(
+              ) }),
+              /* @__PURE__ */ o3(grid_default2, { md: 8, sm: 24, children: /* @__PURE__ */ o3(
                 input_default2,
                 {
                   htmlType: "password",
@@ -32070,8 +32109,8 @@ https://www.viki.com
                   clearable: true,
                   ...apiKeyBindings
                 }
-              )
-            ] }),
+              ) })
+            ] }) }),
             /* @__PURE__ */ o3("span", { className: "glarity--italic glarity--text-xs", children: [
               "You can find or create your API key",
               " ",

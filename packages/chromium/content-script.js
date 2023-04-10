@@ -10962,11 +10962,13 @@
     const { provider = "chatgpt" /* ChatGPT */ } = await import_webextension_polyfill.default.storage.local.get("provider");
     const configKey = `provider:${"gpt3" /* GPT3 */}`;
     const result = await import_webextension_polyfill.default.storage.local.get(configKey);
+    const chatModel = await import_webextension_polyfill.default.storage.local.get("chatModel");
     return {
       provider,
       configs: {
         ["gpt3" /* GPT3 */]: result[configKey]
-      }
+      },
+      chatModel: chatModel.chatModel
     };
   }
   var BASE_URL = "https://chat.openai.com";
@@ -19694,6 +19696,23 @@ ${reviewText}
         const reviews = ((_t2 = reviewElement == null ? void 0 : reviewElement.querySelector('[role="region"]')) == null ? void 0 : _t2.textContent) || "";
         const reviewGategories = (_u = reviewElement == null ? void 0 : reviewElement.querySelector("div.bui-spacer--larger")) == null ? void 0 : _u.textContent;
         return { ...pageSummaryJSON, ...{ content: reviewGategories + reviews, rate } };
+      }
+      case "item.jd.com": {
+        const reviewElement = document.querySelector("#comment");
+        reviewElement == null ? void 0 : reviewElement.scrollIntoView();
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            var _a2;
+            const rate = ((_a2 = reviewElement == null ? void 0 : reviewElement.querySelector("div.comment-percent")) == null ? void 0 : _a2.textContent) || -1;
+            let reviews = "";
+            reviewElement == null ? void 0 : reviewElement.querySelectorAll("p.comment-con").forEach((review) => {
+              reviews += (review == null ? void 0 : review.textContent) || "";
+            });
+            resolve({ ...pageSummaryJSON, ...{ content: reviews, rate } });
+          }, 1e3);
+        }).then((res) => {
+          return res;
+        });
       }
       default: {
         return { ...pageSummaryJSON };

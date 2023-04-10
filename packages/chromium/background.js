@@ -1177,7 +1177,7 @@
   });
 
   // src/background/index.ts
-  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
+  var import_webextension_polyfill4 = __toESM(require_browser_polyfill());
 
   // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_freeGlobal.js
   var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
@@ -1566,16 +1566,19 @@
     const { provider = "chatgpt" /* ChatGPT */ } = await import_webextension_polyfill.default.storage.local.get("provider");
     const configKey = `provider:${"gpt3" /* GPT3 */}`;
     const result = await import_webextension_polyfill.default.storage.local.get(configKey);
+    const chatModel = await import_webextension_polyfill.default.storage.local.get("chatModel");
     return {
       provider,
       configs: {
         ["gpt3" /* GPT3 */]: result[configKey]
-      }
+      },
+      chatModel: chatModel.chatModel
     };
   }
   var BASE_URL = "https://chat.openai.com";
   var DEFAULT_MODEL = "gpt-3.5-turbo";
   var DEFAULT_API_HOST = "api.openai.com";
+  var CHAT_DEFAULT_MODEL = "text-davinci-002-render-sha";
 
   // src/background/providers/chatgpt.ts
   var import_expiry_map = __toESM(require_dist2());
@@ -1784,6 +1787,7 @@
   }
 
   // src/background/providers/chatgpt.ts
+  var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
   async function request(token, method, path, data) {
     return fetch(`${BASE_URL}/backend-api${path}`, {
       method,
@@ -1827,12 +1831,18 @@
       return resp.models;
     }
     async getModelName() {
+      var _a, _b;
       try {
+        const chatModel = (_b = (_a = await import_webextension_polyfill2.default.storage.local.get("chatModel")) == null ? void 0 : _a.chatModel) != null ? _b : "GPT-3.5 Turbo";
         const models = await this.fetchModels();
+        if (chatModel === "auto") {
+          const gpt4Model = models.find((model) => model.slug === "gpt-4");
+          return (gpt4Model == null ? void 0 : gpt4Model.slug) || models[0].slug;
+        }
         return models[0].slug;
       } catch (err) {
         console.error(err);
-        return "text-davinci-002-render-sha";
+        return CHAT_DEFAULT_MODEL;
       }
     }
     async generateAnswer(params) {
@@ -1980,17 +1990,17 @@ ChatGPT:`;
   };
 
   // src/utils/utils.ts
-  var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
+  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
   var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   var isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
   var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   function tabSendMsg(tab) {
     const { id, url } = tab;
     if (url.includes(`${BASE_URL}/chat`)) {
-      import_webextension_polyfill2.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: true } }).catch(() => {
+      import_webextension_polyfill3.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: true } }).catch(() => {
       });
     } else {
-      import_webextension_polyfill2.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: false } }).catch(() => {
+      import_webextension_polyfill3.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: false } }).catch(() => {
       });
     }
   }
@@ -2026,34 +2036,34 @@ ChatGPT:`;
     });
   }
   async function createTab(url) {
-    import_webextension_polyfill3.default.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+    import_webextension_polyfill4.default.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
       console.log("getCurrent", tabs);
       const tab2 = tabs[0];
       if (tab2.id) {
-        import_webextension_polyfill3.default.storage.local.set({ glarityTabId: tab2.id });
+        import_webextension_polyfill4.default.storage.local.set({ glarityTabId: tab2.id });
       }
     });
-    const oldTabId = await import_webextension_polyfill3.default.storage.local.get("pinnedTabId");
+    const oldTabId = await import_webextension_polyfill4.default.storage.local.get("pinnedTabId");
     let tab;
     if (oldTabId.pinnedTabId) {
       try {
-        tab = await import_webextension_polyfill3.default.tabs.get(oldTabId.pinnedTabId);
-        import_webextension_polyfill3.default.tabs.update(tab.id, { active: true, pinned: true });
+        tab = await import_webextension_polyfill4.default.tabs.get(oldTabId.pinnedTabId);
+        import_webextension_polyfill4.default.tabs.update(tab.id, { active: true, pinned: true });
       } catch (error) {
         console.error(error);
       }
     }
     if (!tab) {
-      tab = await import_webextension_polyfill3.default.tabs.create({
+      tab = await import_webextension_polyfill4.default.tabs.create({
         url,
         pinned: true,
         active: true
       });
     }
-    import_webextension_polyfill3.default.storage.local.set({ pinnedTabId: tab.id });
+    import_webextension_polyfill4.default.storage.local.set({ pinnedTabId: tab.id });
     return { pinnedTabId: tab.id };
   }
-  import_webextension_polyfill3.default.runtime.onConnect.addListener(async (port) => {
+  import_webextension_polyfill4.default.runtime.onConnect.addListener(async (port) => {
     port.onMessage.addListener(async (msg) => {
       console.debug("received msg", msg);
       try {
@@ -2063,35 +2073,35 @@ ChatGPT:`;
       }
     });
   });
-  import_webextension_polyfill3.default.runtime.onMessage.addListener(async (message) => {
+  import_webextension_polyfill4.default.runtime.onMessage.addListener(async (message) => {
     if (message.type === "FEEDBACK") {
       const token = await getChatGPTAccessToken();
       await sendMessageFeedback(token, message.data);
     } else if (message.type === "OPEN_OPTIONS_PAGE") {
-      import_webextension_polyfill3.default.runtime.openOptionsPage();
+      import_webextension_polyfill4.default.runtime.openOptionsPage();
     } else if (message.type === "GET_ACCESS_TOKEN") {
       return getChatGPTAccessToken();
     } else if (message.type === "NEW_TAB") {
       return createTab(message.data.url);
     } else if (message.type === "GO_BACK") {
-      const tab = await import_webextension_polyfill3.default.storage.local.get("glarityTabId");
+      const tab = await import_webextension_polyfill4.default.storage.local.get("glarityTabId");
       if (tab.glarityTabId) {
-        import_webextension_polyfill3.default.tabs.update(tab.glarityTabId, { active: true }).catch(() => {
-          import_webextension_polyfill3.default.tabs.create({ url: "about:newtab", active: true });
+        import_webextension_polyfill4.default.tabs.update(tab.glarityTabId, { active: true }).catch(() => {
+          import_webextension_polyfill4.default.tabs.create({ url: "about:newtab", active: true });
         });
       } else {
-        import_webextension_polyfill3.default.tabs.create({ url: "about:newtab", active: true });
+        import_webextension_polyfill4.default.tabs.create({ url: "about:newtab", active: true });
       }
     }
   });
-  import_webextension_polyfill3.default.runtime.onInstalled.addListener(async (details) => {
+  import_webextension_polyfill4.default.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === "install") {
-      import_webextension_polyfill3.default.runtime.openOptionsPage();
+      import_webextension_polyfill4.default.runtime.openOptionsPage();
     }
   });
-  import_webextension_polyfill3.default.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
-    const oldTabId = await import_webextension_polyfill3.default.storage.local.get("pinnedTabId");
-    import_webextension_polyfill3.default.tabs.get(tabId).then((tab) => {
+  import_webextension_polyfill4.default.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
+    const oldTabId = await import_webextension_polyfill4.default.storage.local.get("pinnedTabId");
+    import_webextension_polyfill4.default.tabs.get(tabId).then((tab) => {
       var _a;
       console.log("tabId", tabId, tab, changeInfo);
       if (((_a = tab.url) == null ? void 0 : _a.includes(BASE_URL)) && changeInfo.status === "complete" && tab.id && oldTabId.pinnedTabId === tab.id) {
@@ -2105,15 +2115,15 @@ ChatGPT:`;
     if (!id) {
       return;
     }
-    import_webextension_polyfill3.default.tabs.sendMessage(id, { type: "OPEN_WEB_SUMMARY", data: {} }).catch(() => {
+    import_webextension_polyfill4.default.tabs.sendMessage(id, { type: "OPEN_WEB_SUMMARY", data: {} }).catch(() => {
     });
   }
   if (isFirefox) {
-    import_webextension_polyfill3.default.browserAction.onClicked.addListener(async (tab) => {
+    import_webextension_polyfill4.default.browserAction.onClicked.addListener(async (tab) => {
       await openPageSummary(tab);
     });
   } else {
-    import_webextension_polyfill3.default.action.onClicked.addListener(async (tab) => {
+    import_webextension_polyfill4.default.action.onClicked.addListener(async (tab) => {
       await openPageSummary(tab);
     });
   }
