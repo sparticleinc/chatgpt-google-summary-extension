@@ -20,7 +20,7 @@ import {
   DEFAULT_PAGE_SUMMARY_BLACKLIST,
 } from '@/config'
 import { PageSummaryProps } from './components/PageSummary'
-import ProviderSelect from './ProviderSelect'
+import ProviderSelect from './components/ProviderSelect'
 import { config as supportSites } from '@/content-script/search-engine-configs'
 import { isIOS } from '@/utils/utils'
 import Header from './components/Header'

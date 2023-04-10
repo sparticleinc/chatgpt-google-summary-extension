@@ -1,7 +1,14 @@
 import { Button, Input, Spinner, useInput, useToasts, Radio, Card } from '@geist-ui/core'
 import { FC, useCallback, useState, useEffect } from 'react'
 import useSWR from 'swr'
-import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
+import {
+  CHAT_MODEL,
+  ChatModelType,
+  getProviderConfigs,
+  ProviderConfigs,
+  ProviderType,
+  saveProviderConfigs,
+} from '@/config'
 import { Select as Aselect } from 'antd'
 const { Option } = Aselect
 import { isSafari } from '@/utils/utils'
@@ -16,6 +23,10 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
   const { bindings: apiKeyBindings } = useInput(config.configs[ProviderType.GPT3]?.apiKey ?? '')
   const { bindings: apiHostBindings } = useInput(config.configs[ProviderType.GPT3]?.apiHost ?? '')
   const [model, setModel] = useState(config.configs[ProviderType.GPT3]?.model ?? models[0])
+  const [chatModel, setChatModel] = useState(config.chatModel ?? CHAT_MODEL[0]?.code)
+  const [chatModelDesc, setChatModelDesc] = useState(
+    CHAT_MODEL[chatModel]?.desc ?? CHAT_MODEL[0]?.desc,
+  )
   const { setToast } = useToasts()
 
   const save = useCallback(async () => {
@@ -34,15 +45,24 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
     let apiHost = apiHostBindings.value || ''
     apiHost = apiHost.replace(/^http(s)?:\/\//, '')
 
-    await saveProviderConfigs(tab, {
-      [ProviderType.GPT3]: {
-        model,
-        apiKey: apiKeyBindings.value,
-        apiHost: apiHost,
+    await saveProviderConfigs(
+      tab,
+      {
+        [ProviderType.GPT3]: {
+          model,
+          apiKey: apiKeyBindings.value,
+          apiHost: apiHost,
+        },
       },
-    })
+      chatModel,
+    )
     setToast({ text: 'Changes saved', type: 'success' })
-  }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab])
+  }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab, chatModel])
+
+  useEffect(() => {
+    const chatModelObj = CHAT_MODEL.find((v) => v.code === chatModel)
+    setChatModelDesc(chatModelObj?.desc ?? CHAT_MODEL[0]?.desc)
+  }, [chatModel])
 
   useEffect(() => {
     console.log('config', config)
@@ -59,8 +79,20 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                 <Radio value={ProviderType.ChatGPT}>
                   ChatGPT webapp
                   <Radio.Desc>
-                    {' '}
-                    The API that powers ChatGPT webapp, free, but sometimes unstable
+                    <Aselect
+                      defaultValue={chatModel}
+                      onChange={(v) => setChatModel(v as ChatModelType)}
+                      placeholder="model"
+                      optionLabelProp="label"
+                      style={{ width: '140px' }}
+                    >
+                      {CHAT_MODEL.map((m) => (
+                        <Option key={m.code} value={m.code} label={m.name}>
+                          {m.name}
+                        </Option>
+                      ))}
+                    </Aselect>{' '}
+                    {chatModelDesc}
                   </Radio.Desc>
                 </Radio>
               </>

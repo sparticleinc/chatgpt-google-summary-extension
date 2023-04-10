@@ -78,6 +78,11 @@ export enum ProviderType {
   GPT3 = 'gpt3',
 }
 
+export enum ChatModelType {
+  GPT35 = 'GPT-3.5 Turbo',
+  GPT40 = 'auto',
+}
+
 interface GPT3ProviderConfig {
   model: string
   apiKey: string
@@ -89,27 +94,38 @@ export interface ProviderConfigs {
   configs: {
     [ProviderType.GPT3]: GPT3ProviderConfig | undefined
   }
+  chatModel: ChatModelType | undefined
+}
+
+export interface ChatModel {
+  name: string
+  code: ChatModelType
+  desc: string
 }
 
 export async function getProviderConfigs(): Promise<ProviderConfigs> {
   const { provider = ProviderType.ChatGPT } = await Browser.storage.local.get('provider')
   const configKey = `provider:${ProviderType.GPT3}`
   const result = await Browser.storage.local.get(configKey)
+  const chatModel = await Browser.storage.local.get('chatModel')
   return {
     provider,
     configs: {
       [ProviderType.GPT3]: result[configKey],
     },
+    chatModel: chatModel.chatModel,
   }
 }
 
 export async function saveProviderConfigs(
   provider: ProviderType,
   configs: ProviderConfigs['configs'],
+  chatModel: ChatModelType | undefined,
 ) {
   return Browser.storage.local.set({
     provider,
     [`provider:${ProviderType.GPT3}`]: configs[ProviderType.GPT3],
+    chatModel,
   })
 }
 
@@ -185,4 +201,17 @@ export const TRANSLATION_LANGUAGES = [
   { name: 'Igbo', code: 'ig-NG' },
   { name: 'Azerbaijani', code: 'az-AZ' },
   { name: 'Awadhi', code: 'awa-IN' },
+]
+
+export const CHAT_MODEL: [ChatModel] = [
+  {
+    name: 'GPT-3.5 Turbo',
+    code: ChatModelType.GPT35,
+    desc: 'GPT-3.5 is unlimited for Free and Plus users.',
+  },
+  {
+    name: 'GPT-4',
+    code: ChatModelType.GPT40,
+    desc: 'GPT-4 is for Plus users and has a very limited quota.',
+  },
 ]
