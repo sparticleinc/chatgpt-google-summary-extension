@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		557C70EB29E3F93600B1B0EA /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 557C70EA29E3F93600B1B0EA /* _locales */; };
 		55905B4E29C458A7007DF3AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4D29C458A7007DF3AF /* AppDelegate.swift */; };
 		55905B5029C458A7007DF3AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55905B4F29C458A7007DF3AF /* SceneDelegate.swift */; };
 		55905B5329C458A7007DF3AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55905B5129C458A7007DF3AF /* LaunchScreen.storyboard */; };
@@ -59,7 +60,6 @@
 		55905BC629C458A8007DF3AF /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA629C458A8007DF3AF /* popup.css */; };
 		55905BC829C458A8007DF3AF /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 55905BA829C458A8007DF3AF /* options.css */; };
 		55B48A6829C458E200029E03 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 55B48A6729C458E200029E03 /* manifest.json */; };
-		55D459AF29CAD39400B2A51B /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55D459AE29CAD39400B2A51B /* _locales */; };
 		55D459B029CAD39400B2A51B /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 55D459AE29CAD39400B2A51B /* _locales */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +106,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		557C70EA29E3F93600B1B0EA /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = iOS/_locales; sourceTree = "<group>"; };
 		55905B3E29C458A5007DF3AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
 		55905B3F29C458A5007DF3AF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		55905B4029C458A5007DF3AF /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
@@ -278,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				55D459AE29CAD39400B2A51B /* _locales */,
+				557C70EA29E3F93600B1B0EA /* _locales */,
 				55905B9929C458A8007DF3AF /* content-script.css */,
 				55905B9A29C458A8007DF3AF /* logo-128.png */,
 				55905B9B29C458A8007DF3AF /* popup.js */,
@@ -461,7 +463,7 @@
 				55905BBB29C458A8007DF3AF /* popup.js in Resources */,
 				55905BC629C458A8007DF3AF /* popup.css in Resources */,
 				55905BBF29C458A8007DF3AF /* options.js in Resources */,
-				55D459AF29CAD39400B2A51B /* _locales in Resources */,
+				557C70EB29E3F93600B1B0EA /* _locales in Resources */,
 				55905BB929C458A8007DF3AF /* content-script.css in Resources */,
 				55905BBC29C458A8007DF3AF /* logo-16.png in Resources */,
 				55905BC329C458A8007DF3AF /* content-script.js in Resources */,
