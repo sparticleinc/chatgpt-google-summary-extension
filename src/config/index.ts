@@ -157,6 +157,8 @@ export const APP_TITLE = `Glarity Summary`
 export const DEFAULT_MODEL = 'gpt-3.5-turbo'
 export const DEFAULT_API_HOST = 'api.openai.com'
 
+export const CHAT_DEFAULT_MODEL = 'text-davinci-002-render-sha'
+
 export const TRANSLATION_LANGUAGES = [
   { name: 'Chinese (Simplified)', code: 'zh-Hans' },
   { name: 'Chinese (Traditional)', code: 'zh-Hant' },
@@ -203,7 +205,7 @@ export const TRANSLATION_LANGUAGES = [
   { name: 'Awadhi', code: 'awa-IN' },
 ]
 
-export const CHAT_MODEL: [ChatModel] = [
+export const CHAT_MODEL: ChatModel[] = [
   {
     name: 'GPT-3.5 Turbo',
     code: ChatModelType.GPT35,

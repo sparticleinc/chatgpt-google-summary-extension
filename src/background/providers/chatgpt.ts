@@ -2,7 +2,8 @@ import ExpiryMap from 'expiry-map'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
-import { BASE_URL } from '@/config'
+import { BASE_URL, CHAT_DEFAULT_MODEL, DEFAULT_MODEL } from '@/config'
+import Browser from 'webextension-polyfill'
 
 async function request(token: string, method: string, path: string, data?: unknown) {
   return fetch(`${BASE_URL}/backend-api${path}`, {
@@ -61,11 +62,18 @@ export class ChatGPTProvider implements Provider {
 
   private async getModelName(): Promise<string> {
     try {
+      const chatModel = (await Browser.storage.local.get('chatModel'))?.chatModel ?? 'GPT-3.5 Turbo'
       const models = await this.fetchModels()
+
+      if (chatModel === 'auto') {
+        const gpt4Model = models.find((model) => model.slug === 'gpt-4')
+        return gpt4Model?.slug || models[0].slug
+      }
+
       return models[0].slug
     } catch (err) {
       console.error(err)
-      return 'text-davinci-002-render-sha'
+      return CHAT_DEFAULT_MODEL
     }
   }
 
