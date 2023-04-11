@@ -538,11 +538,29 @@ export const getPageSummaryComments = async () => {
         .forEach((review) => {
           reviews += review?.textContent || ''
         })
-
-      document.querySelectorAll('div.comment div.user-comment').forEach((review) => {
-        reviews += review?.textContent || ''
-      })
       return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+    }
+
+    case 'zhihu.com': {
+      const content = document.querySelector('div.AnswerCard div.RichContent-inner')?.textContent
+      const reviewElement = document.querySelector('div.AnswerCard')
+      const reviewBtn = reviewElement?.querySelector(
+        'div.ContentItem-actions > button.ContentItem-action',
+      ) as HTMLButtonElement
+      reviewBtn?.click()
+
+      return new Promise<GetReviewsProps>((resolve) => {
+        setTimeout(() => {
+          let reviews = ''
+          document.querySelectorAll('div.Comments-container .CommentContent').forEach((review) => {
+            reviews += review?.textContent || ''
+          })
+
+          resolve({ content: reviews + content, rate: '-1' })
+        }, 1200)
+      }).then((res) => {
+        return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } }
+      })
     }
 
     default: {

@@ -1,8 +1,2130 @@
-"use strict";(()=>{var St=Object.create;var Ee=Object.defineProperty;var kt=Object.getOwnPropertyDescriptor;var Et=Object.getOwnPropertyNames;var Ct=Object.getPrototypeOf,jt=Object.prototype.hasOwnProperty;var H=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var It=(e,t,r,o)=>{if(t&&typeof t=="object"||typeof t=="function")for(let a of Et(t))!jt.call(e,a)&&a!==r&&Ee(e,a,{get:()=>t[a],enumerable:!(o=kt(t,a))||o.enumerable});return e};var q=(e,t,r)=>(r=e!=null?St(Ct(e)):{},It(t||!e||!e.__esModule?Ee(r,"default",{value:e,enumerable:!0}):r,e));var K=H((ge,Ce)=>{(function(e,t){if(typeof define=="function"&&define.amd)define("webextension-polyfill",["module"],t);else if(typeof ge<"u")t(Ce);else{var r={exports:{}};t(r),e.browser=r.exports}})(typeof globalThis<"u"?globalThis:typeof self<"u"?self:ge,function(e){"use strict";if(!globalThis.chrome?.runtime?.id)throw new Error("This script should only be loaded in a browser extension.");if(typeof globalThis.browser>"u"||Object.getPrototypeOf(globalThis.browser)!==Object.prototype){let t="The message port closed before a response was received.",r=o=>{let a={alarms:{clear:{minArgs:0,maxArgs:1},clearAll:{minArgs:0,maxArgs:0},get:{minArgs:0,maxArgs:1},getAll:{minArgs:0,maxArgs:0}},bookmarks:{create:{minArgs:1,maxArgs:1},get:{minArgs:1,maxArgs:1},getChildren:{minArgs:1,maxArgs:1},getRecent:{minArgs:1,maxArgs:1},getSubTree:{minArgs:1,maxArgs:1},getTree:{minArgs:0,maxArgs:0},move:{minArgs:2,maxArgs:2},remove:{minArgs:1,maxArgs:1},removeTree:{minArgs:1,maxArgs:1},search:{minArgs:1,maxArgs:1},update:{minArgs:2,maxArgs:2}},browserAction:{disable:{minArgs:0,maxArgs:1,fallbackToNoCallback:!0},enable:{minArgs:0,maxArgs:1,fallbackToNoCallback:!0},getBadgeBackgroundColor:{minArgs:1,maxArgs:1},getBadgeText:{minArgs:1,maxArgs:1},getPopup:{minArgs:1,maxArgs:1},getTitle:{minArgs:1,maxArgs:1},openPopup:{minArgs:0,maxArgs:0},setBadgeBackgroundColor:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setBadgeText:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setIcon:{minArgs:1,maxArgs:1},setPopup:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setTitle:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0}},browsingData:{remove:{minArgs:2,maxArgs:2},removeCache:{minArgs:1,maxArgs:1},removeCookies:{minArgs:1,maxArgs:1},removeDownloads:{minArgs:1,maxArgs:1},removeFormData:{minArgs:1,maxArgs:1},removeHistory:{minArgs:1,maxArgs:1},removeLocalStorage:{minArgs:1,maxArgs:1},removePasswords:{minArgs:1,maxArgs:1},removePluginData:{minArgs:1,maxArgs:1},settings:{minArgs:0,maxArgs:0}},commands:{getAll:{minArgs:0,maxArgs:0}},contextMenus:{remove:{minArgs:1,maxArgs:1},removeAll:{minArgs:0,maxArgs:0},update:{minArgs:2,maxArgs:2}},cookies:{get:{minArgs:1,maxArgs:1},getAll:{minArgs:1,maxArgs:1},getAllCookieStores:{minArgs:0,maxArgs:0},remove:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}},devtools:{inspectedWindow:{eval:{minArgs:1,maxArgs:2,singleCallbackArg:!1}},panels:{create:{minArgs:3,maxArgs:3,singleCallbackArg:!0},elements:{createSidebarPane:{minArgs:1,maxArgs:1}}}},downloads:{cancel:{minArgs:1,maxArgs:1},download:{minArgs:1,maxArgs:1},erase:{minArgs:1,maxArgs:1},getFileIcon:{minArgs:1,maxArgs:2},open:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},pause:{minArgs:1,maxArgs:1},removeFile:{minArgs:1,maxArgs:1},resume:{minArgs:1,maxArgs:1},search:{minArgs:1,maxArgs:1},show:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0}},extension:{isAllowedFileSchemeAccess:{minArgs:0,maxArgs:0},isAllowedIncognitoAccess:{minArgs:0,maxArgs:0}},history:{addUrl:{minArgs:1,maxArgs:1},deleteAll:{minArgs:0,maxArgs:0},deleteRange:{minArgs:1,maxArgs:1},deleteUrl:{minArgs:1,maxArgs:1},getVisits:{minArgs:1,maxArgs:1},search:{minArgs:1,maxArgs:1}},i18n:{detectLanguage:{minArgs:1,maxArgs:1},getAcceptLanguages:{minArgs:0,maxArgs:0}},identity:{launchWebAuthFlow:{minArgs:1,maxArgs:1}},idle:{queryState:{minArgs:1,maxArgs:1}},management:{get:{minArgs:1,maxArgs:1},getAll:{minArgs:0,maxArgs:0},getSelf:{minArgs:0,maxArgs:0},setEnabled:{minArgs:2,maxArgs:2},uninstallSelf:{minArgs:0,maxArgs:1}},notifications:{clear:{minArgs:1,maxArgs:1},create:{minArgs:1,maxArgs:2},getAll:{minArgs:0,maxArgs:0},getPermissionLevel:{minArgs:0,maxArgs:0},update:{minArgs:2,maxArgs:2}},pageAction:{getPopup:{minArgs:1,maxArgs:1},getTitle:{minArgs:1,maxArgs:1},hide:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setIcon:{minArgs:1,maxArgs:1},setPopup:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},setTitle:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0},show:{minArgs:1,maxArgs:1,fallbackToNoCallback:!0}},permissions:{contains:{minArgs:1,maxArgs:1},getAll:{minArgs:0,maxArgs:0},remove:{minArgs:1,maxArgs:1},request:{minArgs:1,maxArgs:1}},runtime:{getBackgroundPage:{minArgs:0,maxArgs:0},getPlatformInfo:{minArgs:0,maxArgs:0},openOptionsPage:{minArgs:0,maxArgs:0},requestUpdateCheck:{minArgs:0,maxArgs:0},sendMessage:{minArgs:1,maxArgs:3},sendNativeMessage:{minArgs:2,maxArgs:2},setUninstallURL:{minArgs:1,maxArgs:1}},sessions:{getDevices:{minArgs:0,maxArgs:1},getRecentlyClosed:{minArgs:0,maxArgs:1},restore:{minArgs:0,maxArgs:1}},storage:{local:{clear:{minArgs:0,maxArgs:0},get:{minArgs:0,maxArgs:1},getBytesInUse:{minArgs:0,maxArgs:1},remove:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}},managed:{get:{minArgs:0,maxArgs:1},getBytesInUse:{minArgs:0,maxArgs:1}},sync:{clear:{minArgs:0,maxArgs:0},get:{minArgs:0,maxArgs:1},getBytesInUse:{minArgs:0,maxArgs:1},remove:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}}},tabs:{captureVisibleTab:{minArgs:0,maxArgs:2},create:{minArgs:1,maxArgs:1},detectLanguage:{minArgs:0,maxArgs:1},discard:{minArgs:0,maxArgs:1},duplicate:{minArgs:1,maxArgs:1},executeScript:{minArgs:1,maxArgs:2},get:{minArgs:1,maxArgs:1},getCurrent:{minArgs:0,maxArgs:0},getZoom:{minArgs:0,maxArgs:1},getZoomSettings:{minArgs:0,maxArgs:1},goBack:{minArgs:0,maxArgs:1},goForward:{minArgs:0,maxArgs:1},highlight:{minArgs:1,maxArgs:1},insertCSS:{minArgs:1,maxArgs:2},move:{minArgs:2,maxArgs:2},query:{minArgs:1,maxArgs:1},reload:{minArgs:0,maxArgs:2},remove:{minArgs:1,maxArgs:1},removeCSS:{minArgs:1,maxArgs:2},sendMessage:{minArgs:2,maxArgs:3},setZoom:{minArgs:1,maxArgs:2},setZoomSettings:{minArgs:1,maxArgs:2},update:{minArgs:1,maxArgs:2}},topSites:{get:{minArgs:0,maxArgs:0}},webNavigation:{getAllFrames:{minArgs:1,maxArgs:1},getFrame:{minArgs:1,maxArgs:1}},webRequest:{handlerBehaviorChanged:{minArgs:0,maxArgs:0}},windows:{create:{minArgs:0,maxArgs:1},get:{minArgs:1,maxArgs:2},getAll:{minArgs:0,maxArgs:1},getCurrent:{minArgs:0,maxArgs:1},getLastFocused:{minArgs:0,maxArgs:1},remove:{minArgs:1,maxArgs:1},update:{minArgs:2,maxArgs:2}}};if(Object.keys(a).length===0)throw new Error("api-metadata.json has not been included in browser-polyfill");class l extends WeakMap{constructor(n,m=void 0){super(m),this.createItem=n}get(n){return this.has(n)||this.set(n,this.createItem(n)),super.get(n)}}let i=s=>s&&typeof s=="object"&&typeof s.then=="function",g=(s,n)=>(...m)=>{o.runtime.lastError?s.reject(new Error(o.runtime.lastError.message)):n.singleCallbackArg||m.length<=1&&n.singleCallbackArg!==!1?s.resolve(m[0]):s.resolve(m)},x=s=>s==1?"argument":"arguments",h=(s,n)=>function(u,...b){if(b.length<n.minArgs)throw new Error(`Expected at least ${n.minArgs} ${x(n.minArgs)} for ${s}(), got ${b.length}`);if(b.length>n.maxArgs)throw new Error(`Expected at most ${n.maxArgs} ${x(n.maxArgs)} for ${s}(), got ${b.length}`);return new Promise((k,C)=>{if(n.fallbackToNoCallback)try{u[s](...b,g({resolve:k,reject:C},n))}catch{u[s](...b),n.fallbackToNoCallback=!1,n.noCallback=!0,k()}else n.noCallback?(u[s](...b),k()):u[s](...b,g({resolve:k,reject:C},n))})},v=(s,n,m)=>new Proxy(n,{apply(u,b,k){return m.call(b,s,...k)}}),P=Function.call.bind(Object.prototype.hasOwnProperty),A=(s,n={},m={})=>{let u=Object.create(null),b={has(C,f){return f in s||f in u},get(C,f,j){if(f in u)return u[f];if(!(f in s))return;let y=s[f];if(typeof y=="function")if(typeof n[f]=="function")y=v(s,s[f],n[f]);else if(P(m,f)){let G=h(f,m[f]);y=v(s,s[f],G)}else y=y.bind(s);else if(typeof y=="object"&&y!==null&&(P(n,f)||P(m,f)))y=A(y,n[f],m[f]);else if(P(m,"*"))y=A(y,n[f],m["*"]);else return Object.defineProperty(u,f,{configurable:!0,enumerable:!0,get(){return s[f]},set(G){s[f]=G}}),y;return u[f]=y,y},set(C,f,j,y){return f in u?u[f]=j:s[f]=j,!0},defineProperty(C,f,j){return Reflect.defineProperty(u,f,j)},deleteProperty(C,f){return Reflect.deleteProperty(u,f)}},k=Object.create(s);return new Proxy(k,b)},d=s=>({addListener(n,m,...u){n.addListener(s.get(m),...u)},hasListener(n,m){return n.hasListener(s.get(m))},removeListener(n,m){n.removeListener(s.get(m))}}),O=new l(s=>typeof s!="function"?s:function(m){let u=A(m,{},{getContent:{minArgs:0,maxArgs:0}});s(u)}),E=new l(s=>typeof s!="function"?s:function(m,u,b){let k=!1,C,f=new Promise($=>{C=function(R){k=!0,$(R)}}),j;try{j=s(m,u,C)}catch($){j=Promise.reject($)}let y=j!==!0&&i(j);if(j!==!0&&!y&&!k)return!1;let G=$=>{$.then(R=>{b(R)},R=>{let ce;R&&(R instanceof Error||typeof R.message=="string")?ce=R.message:ce="An unexpected error occurred",b({__mozWebExtensionPolyfillReject__:!0,message:ce})}).catch(R=>{})};return G(y?j:f),!0}),I=({reject:s,resolve:n},m)=>{o.runtime.lastError?o.runtime.lastError.message===t?n():s(new Error(o.runtime.lastError.message)):m&&m.__mozWebExtensionPolyfillReject__?s(new Error(m.message)):n(m)},S=(s,n,m,...u)=>{if(u.length<n.minArgs)throw new Error(`Expected at least ${n.minArgs} ${x(n.minArgs)} for ${s}(), got ${u.length}`);if(u.length>n.maxArgs)throw new Error(`Expected at most ${n.maxArgs} ${x(n.maxArgs)} for ${s}(), got ${u.length}`);return new Promise((b,k)=>{let C=I.bind(null,{resolve:b,reject:k});u.push(C),m.sendMessage(...u)})},M={devtools:{network:{onRequestFinished:d(O)}},runtime:{onMessage:d(E),onMessageExternal:d(E),sendMessage:S.bind(null,"sendMessage",{minArgs:1,maxArgs:3})},tabs:{sendMessage:S.bind(null,"sendMessage",{minArgs:2,maxArgs:3})}},W={clear:{minArgs:1,maxArgs:1},get:{minArgs:1,maxArgs:1},set:{minArgs:1,maxArgs:1}};return a.privacy={network:{"*":W},services:{"*":W},websites:{"*":W}},A(o,M,a)};e.exports=r(chrome)}else e.exports=globalThis.browser})});var lt=H((Es,mt)=>{"use strict";mt.exports=()=>{let e={};return e.promise=new Promise((t,r)=>{e.resolve=t,e.reject=r}),e}});var ut=H((Cs,dt)=>{"use strict";var Po=lt();function So(e,t="maxAge"){let r,o,a,l=async()=>{if(r!==void 0)return;let x=async h=>{a=Po();let v=h[1][t]-Date.now();if(v<=0){e.delete(h[0]),a.resolve();return}return r=h[0],o=setTimeout(()=>{e.delete(h[0]),a&&a.resolve()},v),typeof o.unref=="function"&&o.unref(),a.promise};try{for(let h of e)await x(h)}catch{}r=void 0},i=()=>{r=void 0,o!==void 0&&(clearTimeout(o),o=void 0),a!==void 0&&(a.reject(void 0),a=void 0)},g=e.set.bind(e);return e.set=(x,h)=>{e.has(x)&&e.delete(x);let v=g(x,h);return r&&r===x&&i(),l(),v},l(),e}dt.exports=So});var ct=H((js,pt)=>{"use strict";var ko=ut(),be=class{constructor(t,r){if(this.maxAge=t,this[Symbol.toStringTag]="Map",this.data=new Map,ko(this.data),r)for(let[o,a]of r)this.set(o,a)}get size(){return this.data.size}clear(){this.data.clear()}delete(t){return this.data.delete(t)}has(t){return this.data.has(t)}get(t){let r=this.data.get(t);if(r)return r.data}set(t,r){return this.data.set(t,{maxAge:Date.now()+this.maxAge,data:r}),this}values(){return this.createIterator(t=>t[1].data)}keys(){return this.data.keys()}entries(){return this.createIterator(t=>[t[0],t[1].data])}forEach(t,r){for(let[o,a]of this.entries())t.apply(r,[a,o,this])}[Symbol.iterator](){return this.entries()}*createIterator(t){for(let r of this.data.entries())yield t(r)}};pt.exports=be});var c=q(K());var Mt=typeof global=="object"&&global&&global.Object===Object&&global,J=Mt;var Ot=typeof self=="object"&&self&&self.Object===Object&&self,Nt=J||Ot||Function("return this")(),w=Nt;var Rt=w.Symbol,D=Rt;var je=Object.prototype,_t=je.hasOwnProperty,Bt=je.toString,z=D?D.toStringTag:void 0;function Ut(e){var t=_t.call(e,z),r=e[z];try{e[z]=void 0;var o=!0}catch{}var a=Bt.call(e);return o&&(t?e[z]=r:delete e[z]),a}var Ie=Ut;var Lt=Object.prototype,Gt=Lt.toString;function Dt(e){return Gt.call(e)}var Me=Dt;var Ft="[object Null]",Wt="[object Undefined]",Oe=D?D.toStringTag:void 0;function $t(e){return e==null?e===void 0?Wt:Ft:Oe&&Oe in Object(e)?Ie(e):Me(e)}var _=$t;function qt(e){return e!=null&&typeof e=="object"}var F=qt;var Kt=Array.isArray,Ne=Kt;function zt(e){var t=typeof e;return e!=null&&(t=="object"||t=="function")}var Z=zt;var Vt="[object AsyncFunction]",Ht="[object Function]",Jt="[object GeneratorFunction]",Zt="[object Proxy]";function Yt(e){if(!Z(e))return!1;var t=_(e);return t==Ht||t==Jt||t==Vt||t==Zt}var Y=Yt;var Xt=w["__core-js_shared__"],X=Xt;var Re=function(){var e=/[^.]+$/.exec(X&&X.keys&&X.keys.IE_PROTO||"");return e?"Symbol(src)_1."+e:""}();function Qt(e){return!!Re&&Re in e}var _e=Qt;var er=Function.prototype,tr=er.toString;function rr(e){if(e!=null){try{return tr.call(e)}catch{}try{return e+""}catch{}}return""}var B=rr;var or=/[\\^$.*+?()[\]{}|]/g,ar=/^\[object .+?Constructor\]$/,sr=Function.prototype,nr=Object.prototype,ir=sr.toString,fr=nr.hasOwnProperty,mr=RegExp("^"+ir.call(fr).replace(or,"\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$");function lr(e){if(!Z(e)||_e(e))return!1;var t=Y(e)?mr:ar;return t.test(B(e))}var Be=lr;function dr(e,t){return e?.[t]}var Ue=dr;function ur(e,t){var r=Ue(e,t);return Be(r)?r:void 0}var N=ur;var pr=N(w,"WeakMap"),Q=pr;var cr=9007199254740991;function gr(e){return typeof e=="number"&&e>-1&&e%1==0&&e<=cr}var ee=gr;function xr(e){return e!=null&&ee(e.length)&&!Y(e)}var Le=xr;var Ar=Object.prototype;function hr(e){var t=e&&e.constructor,r=typeof t=="function"&&t.prototype||Ar;return e===r}var te=hr;var yr="[object Arguments]";function br(e){return F(e)&&_(e)==yr}var xe=br;var Ge=Object.prototype,Tr=Ge.hasOwnProperty,wr=Ge.propertyIsEnumerable,vr=xe(function(){return arguments}())?xe:function(e){return F(e)&&Tr.call(e,"callee")&&!wr.call(e,"callee")},De=vr;function Pr(){return!1}var Fe=Pr;var qe=typeof exports=="object"&&exports&&!exports.nodeType&&exports,We=qe&&typeof module=="object"&&module&&!module.nodeType&&module,Sr=We&&We.exports===qe,$e=Sr?w.Buffer:void 0,kr=$e?$e.isBuffer:void 0,Er=kr||Fe,Ke=Er;var Cr="[object Arguments]",jr="[object Array]",Ir="[object Boolean]",Mr="[object Date]",Or="[object Error]",Nr="[object Function]",Rr="[object Map]",_r="[object Number]",Br="[object Object]",Ur="[object RegExp]",Lr="[object Set]",Gr="[object String]",Dr="[object WeakMap]",Fr="[object ArrayBuffer]",Wr="[object DataView]",$r="[object Float32Array]",qr="[object Float64Array]",Kr="[object Int8Array]",zr="[object Int16Array]",Vr="[object Int32Array]",Hr="[object Uint8Array]",Jr="[object Uint8ClampedArray]",Zr="[object Uint16Array]",Yr="[object Uint32Array]",p={};p[$r]=p[qr]=p[Kr]=p[zr]=p[Vr]=p[Hr]=p[Jr]=p[Zr]=p[Yr]=!0;p[Cr]=p[jr]=p[Fr]=p[Ir]=p[Wr]=p[Mr]=p[Or]=p[Nr]=p[Rr]=p[_r]=p[Br]=p[Ur]=p[Lr]=p[Gr]=p[Dr]=!1;function Xr(e){return F(e)&&ee(e.length)&&!!p[_(e)]}var ze=Xr;function Qr(e){return function(t){return e(t)}}var Ve=Qr;var He=typeof exports=="object"&&exports&&!exports.nodeType&&exports,V=He&&typeof module=="object"&&module&&!module.nodeType&&module,eo=V&&V.exports===He,Ae=eo&&J.process,to=function(){try{var e=V&&V.require&&V.require("util").types;return e||Ae&&Ae.binding&&Ae.binding("util")}catch{}}(),he=to;var Je=he&&he.isTypedArray,ro=Je?Ve(Je):ze,Ze=ro;function oo(e,t){return function(r){return e(t(r))}}var Ye=oo;var ao=Ye(Object.keys,Object),Xe=ao;var so=Object.prototype,no=so.hasOwnProperty;function io(e){if(!te(e))return Xe(e);var t=[];for(var r in Object(e))no.call(e,r)&&r!="constructor"&&t.push(r);return t}var Qe=io;var fo=N(w,"Map"),re=fo;var mo=N(w,"DataView"),oe=mo;var lo=N(w,"Promise"),ae=lo;var uo=N(w,"Set"),se=uo;var et="[object Map]",po="[object Object]",tt="[object Promise]",rt="[object Set]",ot="[object WeakMap]",at="[object DataView]",co=B(oe),go=B(re),xo=B(ae),Ao=B(se),ho=B(Q),L=_;(oe&&L(new oe(new ArrayBuffer(1)))!=at||re&&L(new re)!=et||ae&&L(ae.resolve())!=tt||se&&L(new se)!=rt||Q&&L(new Q)!=ot)&&(L=function(e){var t=_(e),r=t==po?e.constructor:void 0,o=r?B(r):"";if(o)switch(o){case co:return at;case go:return et;case xo:return tt;case Ao:return rt;case ho:return ot}return t});var st=L;var yo="[object Map]",bo="[object Set]",To=Object.prototype,wo=To.hasOwnProperty;function vo(e){if(e==null)return!0;if(Le(e)&&(Ne(e)||typeof e=="string"||typeof e.splice=="function"||Ke(e)||Ze(e)||De(e)))return!e.length;var t=st(e);if(t==yo||t==bo)return!e.size;if(te(e))return!Qe(e).length;for(var r in e)if(wo.call(e,r))return!1;return!0}var ye=vo;var ne=q(K());async function ie(){let{provider:e="chatgpt"}=await ne.default.storage.local.get("provider"),t="provider:gpt3",r=await ne.default.storage.local.get(t),o=await ne.default.storage.local.get("chatModel");return{provider:e,configs:{["gpt3"]:r[t]},chatModel:o.chatModel}}var U="https://chat.openai.com";var nt="gpt-3.5-turbo",it="api.openai.com",ft="text-davinci-002-render-sha";var yt=q(ct());var fe,Eo=new Uint8Array(16);function Te(){if(!fe&&(fe=typeof crypto<"u"&&crypto.getRandomValues&&crypto.getRandomValues.bind(crypto),!fe))throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");return fe(Eo)}var T=[];for(let e=0;e<256;++e)T.push((e+256).toString(16).slice(1));function gt(e,t=0){return(T[e[t+0]]+T[e[t+1]]+T[e[t+2]]+T[e[t+3]]+"-"+T[e[t+4]]+T[e[t+5]]+"-"+T[e[t+6]]+T[e[t+7]]+"-"+T[e[t+8]]+T[e[t+9]]+"-"+T[e[t+10]]+T[e[t+11]]+T[e[t+12]]+T[e[t+13]]+T[e[t+14]]+T[e[t+15]]).toLowerCase()}var Co=typeof crypto<"u"&&crypto.randomUUID&&crypto.randomUUID.bind(crypto),we={randomUUID:Co};function jo(e,t,r){if(we.randomUUID&&!t&&!e)return we.randomUUID();e=e||{};let o=e.random||(e.rng||Te)();if(o[6]=o[6]&15|64,o[8]=o[8]&63|128,t){r=r||0;for(let a=0;a<16;++a)t[r+a]=o[a];return t}return gt(o)}var me=jo;function xt(e){let t,r,o,a,l,i,g;return x(),{feed:h,reset:x};function x(){t=!0,r="",o=0,a=-1,l=void 0,i=void 0,g=""}function h(P){r=r?r+P:P,t&&Io(r)&&(r=r.slice(At.length)),t=!1;let A=r.length,d=0,O=!1;for(;d<A;){O&&(r[d]===`
-`&&++d,O=!1);let E=-1,I=a,S;for(let M=o;E<0&&M<A;++M)S=r[M],S===":"&&I<0?I=M-d:S==="\r"?(O=!0,E=M-d):S===`
-`&&(E=M-d);if(E<0){o=A-d,a=I;break}else o=0,a=-1;v(r,d,I,E),d+=E+1}d===A?r="":d>0&&(r=r.slice(d))}function v(P,A,d,O){if(O===0){g.length>0&&(e({type:"event",id:l,event:i||void 0,data:g.slice(0,-1)}),g="",l=void 0),i=void 0;return}let E=d<0,I=P.slice(A,A+(E?O:d)),S=0;E?S=O:P[A+d+1]===" "?S=d+2:S=d+1;let M=A+S,W=O-S,s=P.slice(M,M+W).toString();if(I==="data")g+=s?"".concat(s,`
-`):`
-`;else if(I==="event")i=s;else if(I==="id"&&!s.includes("\0"))l=s;else if(I==="retry"){let n=parseInt(s,10);Number.isNaN(n)||e({type:"reconnect-interval",value:n})}}}var At=[239,187,191];function Io(e){return At.every((t,r)=>e.charCodeAt(r)===t)}async function*ht(e){let t=e.getReader();try{for(;;){let{done:r,value:o}=await t.read();if(r)return;yield o}}finally{t.releaseLock()}}async function le(e,t){let{onMessage:r,...o}=t,a=await fetch(e,o);if(!a.ok){let i=await a.json().catch(()=>({}));throw new Error(ye(i)?`${a.status} ${a.statusText}`:JSON.stringify(i))}let l=xt(i=>{i.type==="event"&&r(i.data)});for await(let i of ht(a.body)){let g=new TextDecoder().decode(i);l.feed(g)}}var bt=q(K());async function Se(e,t,r,o){return fetch(`${U}/backend-api${r}`,{method:t,headers:{"Content-Type":"application/json",Authorization:`Bearer ${e}`},body:o===void 0?void 0:JSON.stringify(o)})}async function Tt(e,t){await Se(e,"POST","/conversation/message_feedback",t)}async function Mo(e,t,r){await Se(e,"PATCH",`/conversation/${t}`,r)}var ve="accessToken",Pe=new yt.default(10*1e3);async function ue(){if(Pe.get(ve))return Pe.get(ve);let e=await fetch(`${U}/api/auth/session`);if(e.status===403)throw new Error("CLOUDFLARE");let t=await e.json().catch(()=>({}));if(!t.accessToken)throw new Error("UNAUTHORIZED");return Pe.set(ve,t.accessToken),t.accessToken}var de=class{constructor(t){this.token=t;this.token=t}async fetchModels(){return(await Se(this.token,"GET","/models").then(r=>r.json())).models}async getModelName(){var t,r;try{let o=(r=(t=await bt.default.storage.local.get("chatModel"))==null?void 0:t.chatModel)!=null?r:"GPT-3.5 Turbo",a=await this.fetchModels();if(o==="auto"){let l=a.find(i=>i.slug==="gpt-4");return(l==null?void 0:l.slug)||a[0].slug}return a[0].slug}catch(o){return ft}}async generateAnswer(t){let r,o=()=>{r&&Mo(this.token,r,{is_visible:!1})},a=await this.getModelName();return await le(`${U}/backend-api/conversation`,{method:"POST",signal:t.signal,headers:{"Content-Type":"application/json",Authorization:`Bearer ${this.token}`},body:JSON.stringify({action:"next",messages:[{id:me(),role:"user",content:{content_type:"text",parts:[t.prompt]}}],model:a,parent_message_id:me()}),onMessage(l){var x,h,v;if(l==="[DONE]"){t.onEvent({type:"done"}),o();return}let i;try{i=JSON.parse(l)}catch(P){return}let g=(v=(h=(x=i.message)==null?void 0:x.content)==null?void 0:h.parts)==null?void 0:v[0];g&&(r=i.conversation_id,t.onEvent({type:"answer",data:{text:g,messageId:i.message.id,conversationId:i.conversation_id}}))}}),{cleanup:o}}};var pe=class{constructor(t,r){this.token=t;this.model=r;this.token=t,this.model=r}buildPrompt(t){return this.model.startsWith("text-chat-davinci")?`Respond conversationally.<|im_end|>
+"use strict";
+(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
 
-User: ${t}<|im_sep|>
-ChatGPT:`:t}buildMessages(t){return[{role:"user",content:t}]}async generateAnswer(t){var x,h,v;let[r]=await Promise.all([ie()]),o=(h=(x=r.configs["gpt3"])==null?void 0:x.model)!=null?h:nt,a=((v=r.configs["gpt3"])==null?void 0:v.apiHost)||it,l="",i={model:this.model,stream:!0,max_tokens:800};o==="text-davinci-003"?(l=`https://${a}/v1/completions`,i={...i,prompt:this.buildPrompt(t.prompt)}):(l=`https://${a}/v1/chat/completions`,i={...i,messages:this.buildMessages(t.prompt)});let g="";return await le(l,{method:"POST",signal:t.signal,headers:{"Content-Type":"application/json",Authorization:`Bearer ${this.token}`},body:JSON.stringify(i),onMessage(P){if(P==="[DONE]"){t.onEvent({type:"done"});return}let A;try{A=JSON.parse(P);let d=o==="text-davinci-003"?A.choices[0].text:A.choices[0].delta.content;if(d===void 0||d==="<|im_end|>"||d==="<|im_sep|>")return;g+=d,t.onEvent({type:"answer",data:{text:g,messageId:A.id,conversationId:A.id}})}catch(d){return}}}),{}}};var ke=q(K());var tn=/^((?!chrome|android).)*safari/i.test(navigator.userAgent),wt=navigator.userAgent.indexOf("Firefox")!=-1,rn=/iPad|iPhone|iPod/.test(navigator.userAgent);function vt(e){let{id:t,url:r}=e;r.includes(`${U}/chat`)?ke.default.tabs.sendMessage(t,{type:"CHATGPT_TAB_CURRENT",data:{isLogin:!0}}).catch(()=>{}):ke.default.tabs.sendMessage(t,{type:"CHATGPT_TAB_CURRENT",data:{isLogin:!1}}).catch(()=>{})}async function No(e,t){let r=await ie(),o;if(r.provider==="chatgpt"){let i=await ue();o=new de(i)}else if(r.provider==="gpt3"){let{apiKey:i,model:g}=r.configs["gpt3"];o=new pe(i,g)}else throw new Error(`Unknown provider ${r.provider}`);let a=new AbortController;e.onDisconnect.addListener(()=>{a.abort(),l==null||l()});let{cleanup:l}=await o.generateAnswer({prompt:t,signal:a.signal,onEvent(i){if(i.type==="done"){e.postMessage({event:"DONE"});return}e.postMessage(i.data)}})}async function Ro(e){c.default.tabs.query({currentWindow:!0,active:!0}).then(o=>{let a=o[0];a.id&&c.default.storage.local.set({glarityTabId:a.id})});let t=await c.default.storage.local.get("pinnedTabId"),r;if(t.pinnedTabId)try{r=await c.default.tabs.get(t.pinnedTabId),c.default.tabs.update(r.id,{active:!0,pinned:!0})}catch(o){}return r||(r=await c.default.tabs.create({url:e,pinned:!0,active:!0})),c.default.storage.local.set({pinnedTabId:r.id}),{pinnedTabId:r.id}}c.default.runtime.onConnect.addListener(async e=>{e.onMessage.addListener(async t=>{try{await No(e,t.question)}catch(r){e.postMessage({error:r.message})}})});c.default.runtime.onMessage.addListener(async e=>{if(e.type==="FEEDBACK"){let t=await ue();await Tt(t,e.data)}else if(e.type==="OPEN_OPTIONS_PAGE")c.default.runtime.openOptionsPage();else{if(e.type==="GET_ACCESS_TOKEN")return ue();if(e.type==="NEW_TAB")return Ro(e.data.url);if(e.type==="GO_BACK"){let t=await c.default.storage.local.get("glarityTabId");t.glarityTabId?c.default.tabs.update(t.glarityTabId,{active:!0}).catch(()=>{c.default.tabs.create({url:"about:newtab",active:!0})}):c.default.tabs.create({url:"about:newtab",active:!0})}}});c.default.runtime.onInstalled.addListener(async e=>{e.reason==="install"&&c.default.runtime.openOptionsPage()});c.default.tabs.onUpdated.addListener(async(e,t)=>{let r=await c.default.storage.local.get("pinnedTabId");c.default.tabs.get(e).then(o=>{var a;(a=o.url)!=null&&a.includes(U)&&t.status==="complete"&&o.id&&r.pinnedTabId===o.id&&vt(o)})});async function Pt(e){let{id:t}=e;t&&c.default.tabs.sendMessage(t,{type:"OPEN_WEB_SUMMARY",data:{}}).catch(()=>{})}wt?c.default.browserAction.onClicked.addListener(async e=>{await Pt(e)}):c.default.action.onClicked.addListener(async e=>{await Pt(e)});})();
+  // node_modules/.pnpm/webextension-polyfill@0.10.0/node_modules/webextension-polyfill/dist/browser-polyfill.js
+  var require_browser_polyfill = __commonJS({
+    "node_modules/.pnpm/webextension-polyfill@0.10.0/node_modules/webextension-polyfill/dist/browser-polyfill.js"(exports2, module2) {
+      (function(global2, factory) {
+        if (typeof define === "function" && define.amd) {
+          define("webextension-polyfill", ["module"], factory);
+        } else if (typeof exports2 !== "undefined") {
+          factory(module2);
+        } else {
+          var mod = {
+            exports: {}
+          };
+          factory(mod);
+          global2.browser = mod.exports;
+        }
+      })(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : exports2, function(module3) {
+        "use strict";
+        if (!globalThis.chrome?.runtime?.id) {
+          throw new Error("This script should only be loaded in a browser extension.");
+        }
+        if (typeof globalThis.browser === "undefined" || Object.getPrototypeOf(globalThis.browser) !== Object.prototype) {
+          const CHROME_SEND_MESSAGE_CALLBACK_NO_RESPONSE_MESSAGE = "The message port closed before a response was received.";
+          const wrapAPIs = (extensionAPIs) => {
+            const apiMetadata = {
+              "alarms": {
+                "clear": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "clearAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "get": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "bookmarks": {
+                "create": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getChildren": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getRecent": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getSubTree": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getTree": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "move": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeTree": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "search": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              },
+              "browserAction": {
+                "disable": {
+                  "minArgs": 0,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "enable": {
+                  "minArgs": 0,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "getBadgeBackgroundColor": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getBadgeText": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "openPopup": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "setBadgeBackgroundColor": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setBadgeText": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setIcon": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "setPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                }
+              },
+              "browsingData": {
+                "remove": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "removeCache": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeCookies": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeDownloads": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeFormData": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeHistory": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeLocalStorage": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removePasswords": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removePluginData": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "settings": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "commands": {
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "contextMenus": {
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              },
+              "cookies": {
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAllCookieStores": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "set": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "devtools": {
+                "inspectedWindow": {
+                  "eval": {
+                    "minArgs": 1,
+                    "maxArgs": 2,
+                    "singleCallbackArg": false
+                  }
+                },
+                "panels": {
+                  "create": {
+                    "minArgs": 3,
+                    "maxArgs": 3,
+                    "singleCallbackArg": true
+                  },
+                  "elements": {
+                    "createSidebarPane": {
+                      "minArgs": 1,
+                      "maxArgs": 1
+                    }
+                  }
+                }
+              },
+              "downloads": {
+                "cancel": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "download": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "erase": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getFileIcon": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "open": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "pause": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeFile": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "resume": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "search": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "show": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                }
+              },
+              "extension": {
+                "isAllowedFileSchemeAccess": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "isAllowedIncognitoAccess": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "history": {
+                "addUrl": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "deleteAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "deleteRange": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "deleteUrl": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getVisits": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "search": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "i18n": {
+                "detectLanguage": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAcceptLanguages": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "identity": {
+                "launchWebAuthFlow": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "idle": {
+                "queryState": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "management": {
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getSelf": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "setEnabled": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "uninstallSelf": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                }
+              },
+              "notifications": {
+                "clear": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "create": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getPermissionLevel": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              },
+              "pageAction": {
+                "getPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "hide": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setIcon": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "setPopup": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "setTitle": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                },
+                "show": {
+                  "minArgs": 1,
+                  "maxArgs": 1,
+                  "fallbackToNoCallback": true
+                }
+              },
+              "permissions": {
+                "contains": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "request": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "runtime": {
+                "getBackgroundPage": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getPlatformInfo": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "openOptionsPage": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "requestUpdateCheck": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "sendMessage": {
+                  "minArgs": 1,
+                  "maxArgs": 3
+                },
+                "sendNativeMessage": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "setUninstallURL": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "sessions": {
+                "getDevices": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getRecentlyClosed": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "restore": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                }
+              },
+              "storage": {
+                "local": {
+                  "clear": {
+                    "minArgs": 0,
+                    "maxArgs": 0
+                  },
+                  "get": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "getBytesInUse": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "remove": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  },
+                  "set": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  }
+                },
+                "managed": {
+                  "get": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "getBytesInUse": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  }
+                },
+                "sync": {
+                  "clear": {
+                    "minArgs": 0,
+                    "maxArgs": 0
+                  },
+                  "get": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "getBytesInUse": {
+                    "minArgs": 0,
+                    "maxArgs": 1
+                  },
+                  "remove": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  },
+                  "set": {
+                    "minArgs": 1,
+                    "maxArgs": 1
+                  }
+                }
+              },
+              "tabs": {
+                "captureVisibleTab": {
+                  "minArgs": 0,
+                  "maxArgs": 2
+                },
+                "create": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "detectLanguage": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "discard": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "duplicate": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "executeScript": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getCurrent": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                },
+                "getZoom": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getZoomSettings": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "goBack": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "goForward": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "highlight": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "insertCSS": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "move": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                },
+                "query": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "reload": {
+                  "minArgs": 0,
+                  "maxArgs": 2
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "removeCSS": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "sendMessage": {
+                  "minArgs": 2,
+                  "maxArgs": 3
+                },
+                "setZoom": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "setZoomSettings": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "update": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                }
+              },
+              "topSites": {
+                "get": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "webNavigation": {
+                "getAllFrames": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "getFrame": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                }
+              },
+              "webRequest": {
+                "handlerBehaviorChanged": {
+                  "minArgs": 0,
+                  "maxArgs": 0
+                }
+              },
+              "windows": {
+                "create": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "get": {
+                  "minArgs": 1,
+                  "maxArgs": 2
+                },
+                "getAll": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getCurrent": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "getLastFocused": {
+                  "minArgs": 0,
+                  "maxArgs": 1
+                },
+                "remove": {
+                  "minArgs": 1,
+                  "maxArgs": 1
+                },
+                "update": {
+                  "minArgs": 2,
+                  "maxArgs": 2
+                }
+              }
+            };
+            if (Object.keys(apiMetadata).length === 0) {
+              throw new Error("api-metadata.json has not been included in browser-polyfill");
+            }
+            class DefaultWeakMap extends WeakMap {
+              constructor(createItem, items = void 0) {
+                super(items);
+                this.createItem = createItem;
+              }
+              get(key) {
+                if (!this.has(key)) {
+                  this.set(key, this.createItem(key));
+                }
+                return super.get(key);
+              }
+            }
+            const isThenable = (value) => {
+              return value && typeof value === "object" && typeof value.then === "function";
+            };
+            const makeCallback = (promise, metadata) => {
+              return (...callbackArgs) => {
+                if (extensionAPIs.runtime.lastError) {
+                  promise.reject(new Error(extensionAPIs.runtime.lastError.message));
+                } else if (metadata.singleCallbackArg || callbackArgs.length <= 1 && metadata.singleCallbackArg !== false) {
+                  promise.resolve(callbackArgs[0]);
+                } else {
+                  promise.resolve(callbackArgs);
+                }
+              };
+            };
+            const pluralizeArguments = (numArgs) => numArgs == 1 ? "argument" : "arguments";
+            const wrapAsyncFunction = (name, metadata) => {
+              return function asyncFunctionWrapper(target, ...args) {
+                if (args.length < metadata.minArgs) {
+                  throw new Error(`Expected at least ${metadata.minArgs} ${pluralizeArguments(metadata.minArgs)} for ${name}(), got ${args.length}`);
+                }
+                if (args.length > metadata.maxArgs) {
+                  throw new Error(`Expected at most ${metadata.maxArgs} ${pluralizeArguments(metadata.maxArgs)} for ${name}(), got ${args.length}`);
+                }
+                return new Promise((resolve, reject) => {
+                  if (metadata.fallbackToNoCallback) {
+                    try {
+                      target[name](...args, makeCallback({
+                        resolve,
+                        reject
+                      }, metadata));
+                    } catch (cbError) {
+                      console.warn(`${name} API method doesn't seem to support the callback parameter, falling back to call it without a callback: `, cbError);
+                      target[name](...args);
+                      metadata.fallbackToNoCallback = false;
+                      metadata.noCallback = true;
+                      resolve();
+                    }
+                  } else if (metadata.noCallback) {
+                    target[name](...args);
+                    resolve();
+                  } else {
+                    target[name](...args, makeCallback({
+                      resolve,
+                      reject
+                    }, metadata));
+                  }
+                });
+              };
+            };
+            const wrapMethod = (target, method, wrapper) => {
+              return new Proxy(method, {
+                apply(targetMethod, thisObj, args) {
+                  return wrapper.call(thisObj, target, ...args);
+                }
+              });
+            };
+            let hasOwnProperty6 = Function.call.bind(Object.prototype.hasOwnProperty);
+            const wrapObject = (target, wrappers = {}, metadata = {}) => {
+              let cache2 = /* @__PURE__ */ Object.create(null);
+              let handlers = {
+                has(proxyTarget2, prop) {
+                  return prop in target || prop in cache2;
+                },
+                get(proxyTarget2, prop, receiver) {
+                  if (prop in cache2) {
+                    return cache2[prop];
+                  }
+                  if (!(prop in target)) {
+                    return void 0;
+                  }
+                  let value = target[prop];
+                  if (typeof value === "function") {
+                    if (typeof wrappers[prop] === "function") {
+                      value = wrapMethod(target, target[prop], wrappers[prop]);
+                    } else if (hasOwnProperty6(metadata, prop)) {
+                      let wrapper = wrapAsyncFunction(prop, metadata[prop]);
+                      value = wrapMethod(target, target[prop], wrapper);
+                    } else {
+                      value = value.bind(target);
+                    }
+                  } else if (typeof value === "object" && value !== null && (hasOwnProperty6(wrappers, prop) || hasOwnProperty6(metadata, prop))) {
+                    value = wrapObject(value, wrappers[prop], metadata[prop]);
+                  } else if (hasOwnProperty6(metadata, "*")) {
+                    value = wrapObject(value, wrappers[prop], metadata["*"]);
+                  } else {
+                    Object.defineProperty(cache2, prop, {
+                      configurable: true,
+                      enumerable: true,
+                      get() {
+                        return target[prop];
+                      },
+                      set(value2) {
+                        target[prop] = value2;
+                      }
+                    });
+                    return value;
+                  }
+                  cache2[prop] = value;
+                  return value;
+                },
+                set(proxyTarget2, prop, value, receiver) {
+                  if (prop in cache2) {
+                    cache2[prop] = value;
+                  } else {
+                    target[prop] = value;
+                  }
+                  return true;
+                },
+                defineProperty(proxyTarget2, prop, desc) {
+                  return Reflect.defineProperty(cache2, prop, desc);
+                },
+                deleteProperty(proxyTarget2, prop) {
+                  return Reflect.deleteProperty(cache2, prop);
+                }
+              };
+              let proxyTarget = Object.create(target);
+              return new Proxy(proxyTarget, handlers);
+            };
+            const wrapEvent = (wrapperMap) => ({
+              addListener(target, listener, ...args) {
+                target.addListener(wrapperMap.get(listener), ...args);
+              },
+              hasListener(target, listener) {
+                return target.hasListener(wrapperMap.get(listener));
+              },
+              removeListener(target, listener) {
+                target.removeListener(wrapperMap.get(listener));
+              }
+            });
+            const onRequestFinishedWrappers = new DefaultWeakMap((listener) => {
+              if (typeof listener !== "function") {
+                return listener;
+              }
+              return function onRequestFinished(req) {
+                const wrappedReq = wrapObject(
+                  req,
+                  {},
+                  {
+                    getContent: {
+                      minArgs: 0,
+                      maxArgs: 0
+                    }
+                  }
+                );
+                listener(wrappedReq);
+              };
+            });
+            const onMessageWrappers = new DefaultWeakMap((listener) => {
+              if (typeof listener !== "function") {
+                return listener;
+              }
+              return function onMessage(message, sender, sendResponse) {
+                let didCallSendResponse = false;
+                let wrappedSendResponse;
+                let sendResponsePromise = new Promise((resolve) => {
+                  wrappedSendResponse = function(response) {
+                    didCallSendResponse = true;
+                    resolve(response);
+                  };
+                });
+                let result;
+                try {
+                  result = listener(message, sender, wrappedSendResponse);
+                } catch (err) {
+                  result = Promise.reject(err);
+                }
+                const isResultThenable = result !== true && isThenable(result);
+                if (result !== true && !isResultThenable && !didCallSendResponse) {
+                  return false;
+                }
+                const sendPromisedResult = (promise) => {
+                  promise.then((msg) => {
+                    sendResponse(msg);
+                  }, (error) => {
+                    let message2;
+                    if (error && (error instanceof Error || typeof error.message === "string")) {
+                      message2 = error.message;
+                    } else {
+                      message2 = "An unexpected error occurred";
+                    }
+                    sendResponse({
+                      __mozWebExtensionPolyfillReject__: true,
+                      message: message2
+                    });
+                  }).catch((err) => {
+                    console.error("Failed to send onMessage rejected reply", err);
+                  });
+                };
+                if (isResultThenable) {
+                  sendPromisedResult(result);
+                } else {
+                  sendPromisedResult(sendResponsePromise);
+                }
+                return true;
+              };
+            });
+            const wrappedSendMessageCallback = ({
+              reject,
+              resolve
+            }, reply) => {
+              if (extensionAPIs.runtime.lastError) {
+                if (extensionAPIs.runtime.lastError.message === CHROME_SEND_MESSAGE_CALLBACK_NO_RESPONSE_MESSAGE) {
+                  resolve();
+                } else {
+                  reject(new Error(extensionAPIs.runtime.lastError.message));
+                }
+              } else if (reply && reply.__mozWebExtensionPolyfillReject__) {
+                reject(new Error(reply.message));
+              } else {
+                resolve(reply);
+              }
+            };
+            const wrappedSendMessage = (name, metadata, apiNamespaceObj, ...args) => {
+              if (args.length < metadata.minArgs) {
+                throw new Error(`Expected at least ${metadata.minArgs} ${pluralizeArguments(metadata.minArgs)} for ${name}(), got ${args.length}`);
+              }
+              if (args.length > metadata.maxArgs) {
+                throw new Error(`Expected at most ${metadata.maxArgs} ${pluralizeArguments(metadata.maxArgs)} for ${name}(), got ${args.length}`);
+              }
+              return new Promise((resolve, reject) => {
+                const wrappedCb = wrappedSendMessageCallback.bind(null, {
+                  resolve,
+                  reject
+                });
+                args.push(wrappedCb);
+                apiNamespaceObj.sendMessage(...args);
+              });
+            };
+            const staticWrappers = {
+              devtools: {
+                network: {
+                  onRequestFinished: wrapEvent(onRequestFinishedWrappers)
+                }
+              },
+              runtime: {
+                onMessage: wrapEvent(onMessageWrappers),
+                onMessageExternal: wrapEvent(onMessageWrappers),
+                sendMessage: wrappedSendMessage.bind(null, "sendMessage", {
+                  minArgs: 1,
+                  maxArgs: 3
+                })
+              },
+              tabs: {
+                sendMessage: wrappedSendMessage.bind(null, "sendMessage", {
+                  minArgs: 2,
+                  maxArgs: 3
+                })
+              }
+            };
+            const settingMetadata = {
+              clear: {
+                minArgs: 1,
+                maxArgs: 1
+              },
+              get: {
+                minArgs: 1,
+                maxArgs: 1
+              },
+              set: {
+                minArgs: 1,
+                maxArgs: 1
+              }
+            };
+            apiMetadata.privacy = {
+              network: {
+                "*": settingMetadata
+              },
+              services: {
+                "*": settingMetadata
+              },
+              websites: {
+                "*": settingMetadata
+              }
+            };
+            return wrapObject(extensionAPIs, staticWrappers, apiMetadata);
+          };
+          module3.exports = wrapAPIs(chrome);
+        } else {
+          module3.exports = globalThis.browser;
+        }
+      });
+    }
+  });
+
+  // node_modules/.pnpm/p-defer@1.0.0/node_modules/p-defer/index.js
+  var require_p_defer = __commonJS({
+    "node_modules/.pnpm/p-defer@1.0.0/node_modules/p-defer/index.js"(exports2, module2) {
+      "use strict";
+      module2.exports = () => {
+        const ret = {};
+        ret.promise = new Promise((resolve, reject) => {
+          ret.resolve = resolve;
+          ret.reject = reject;
+        });
+        return ret;
+      };
+    }
+  });
+
+  // node_modules/.pnpm/map-age-cleaner@0.2.0/node_modules/map-age-cleaner/dist/index.js
+  var require_dist = __commonJS({
+    "node_modules/.pnpm/map-age-cleaner@0.2.0/node_modules/map-age-cleaner/dist/index.js"(exports2, module2) {
+      "use strict";
+      var pDefer = require_p_defer();
+      function mapAgeCleaner(map, property = "maxAge") {
+        let processingKey;
+        let processingTimer;
+        let processingDeferred;
+        const cleanup = async () => {
+          if (processingKey !== void 0) {
+            return;
+          }
+          const setupTimer = async (item) => {
+            processingDeferred = pDefer();
+            const delay = item[1][property] - Date.now();
+            if (delay <= 0) {
+              map.delete(item[0]);
+              processingDeferred.resolve();
+              return;
+            }
+            processingKey = item[0];
+            processingTimer = setTimeout(() => {
+              map.delete(item[0]);
+              if (processingDeferred) {
+                processingDeferred.resolve();
+              }
+            }, delay);
+            if (typeof processingTimer.unref === "function") {
+              processingTimer.unref();
+            }
+            return processingDeferred.promise;
+          };
+          try {
+            for (const entry of map) {
+              await setupTimer(entry);
+            }
+          } catch (_a) {
+          }
+          processingKey = void 0;
+        };
+        const reset = () => {
+          processingKey = void 0;
+          if (processingTimer !== void 0) {
+            clearTimeout(processingTimer);
+            processingTimer = void 0;
+          }
+          if (processingDeferred !== void 0) {
+            processingDeferred.reject(void 0);
+            processingDeferred = void 0;
+          }
+        };
+        const originalSet = map.set.bind(map);
+        map.set = (key, value) => {
+          if (map.has(key)) {
+            map.delete(key);
+          }
+          const result = originalSet(key, value);
+          if (processingKey && processingKey === key) {
+            reset();
+          }
+          cleanup();
+          return result;
+        };
+        cleanup();
+        return map;
+      }
+      module2.exports = mapAgeCleaner;
+    }
+  });
+
+  // node_modules/.pnpm/expiry-map@2.0.0/node_modules/expiry-map/dist/index.js
+  var require_dist2 = __commonJS({
+    "node_modules/.pnpm/expiry-map@2.0.0/node_modules/expiry-map/dist/index.js"(exports2, module2) {
+      "use strict";
+      var mapAgeCleaner = require_dist();
+      var ExpiryMap2 = class {
+        constructor(maxAge, data) {
+          this.maxAge = maxAge;
+          this[Symbol.toStringTag] = "Map";
+          this.data = /* @__PURE__ */ new Map();
+          mapAgeCleaner(this.data);
+          if (data) {
+            for (const [key, value] of data) {
+              this.set(key, value);
+            }
+          }
+        }
+        get size() {
+          return this.data.size;
+        }
+        clear() {
+          this.data.clear();
+        }
+        delete(key) {
+          return this.data.delete(key);
+        }
+        has(key) {
+          return this.data.has(key);
+        }
+        get(key) {
+          const value = this.data.get(key);
+          if (value) {
+            return value.data;
+          }
+          return;
+        }
+        set(key, value) {
+          this.data.set(key, {
+            maxAge: Date.now() + this.maxAge,
+            data: value
+          });
+          return this;
+        }
+        values() {
+          return this.createIterator((item) => item[1].data);
+        }
+        keys() {
+          return this.data.keys();
+        }
+        entries() {
+          return this.createIterator((item) => [item[0], item[1].data]);
+        }
+        forEach(callbackfn, thisArg) {
+          for (const [key, value] of this.entries()) {
+            callbackfn.apply(thisArg, [value, key, this]);
+          }
+        }
+        [Symbol.iterator]() {
+          return this.entries();
+        }
+        *createIterator(projection) {
+          for (const item of this.data.entries()) {
+            yield projection(item);
+          }
+        }
+      };
+      module2.exports = ExpiryMap2;
+    }
+  });
+
+  // src/background/index.ts
+  var import_webextension_polyfill4 = __toESM(require_browser_polyfill());
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_freeGlobal.js
+  var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+  var freeGlobal_default = freeGlobal;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_root.js
+  var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+  var root = freeGlobal_default || freeSelf || Function("return this")();
+  var root_default = root;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Symbol.js
+  var Symbol2 = root_default.Symbol;
+  var Symbol_default = Symbol2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getRawTag.js
+  var objectProto = Object.prototype;
+  var hasOwnProperty = objectProto.hasOwnProperty;
+  var nativeObjectToString = objectProto.toString;
+  var symToStringTag = Symbol_default ? Symbol_default.toStringTag : void 0;
+  function getRawTag(value) {
+    var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+    try {
+      value[symToStringTag] = void 0;
+      var unmasked = true;
+    } catch (e) {
+    }
+    var result = nativeObjectToString.call(value);
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag] = tag;
+      } else {
+        delete value[symToStringTag];
+      }
+    }
+    return result;
+  }
+  var getRawTag_default = getRawTag;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_objectToString.js
+  var objectProto2 = Object.prototype;
+  var nativeObjectToString2 = objectProto2.toString;
+  function objectToString(value) {
+    return nativeObjectToString2.call(value);
+  }
+  var objectToString_default = objectToString;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseGetTag.js
+  var nullTag = "[object Null]";
+  var undefinedTag = "[object Undefined]";
+  var symToStringTag2 = Symbol_default ? Symbol_default.toStringTag : void 0;
+  function baseGetTag(value) {
+    if (value == null) {
+      return value === void 0 ? undefinedTag : nullTag;
+    }
+    return symToStringTag2 && symToStringTag2 in Object(value) ? getRawTag_default(value) : objectToString_default(value);
+  }
+  var baseGetTag_default = baseGetTag;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isObjectLike.js
+  function isObjectLike(value) {
+    return value != null && typeof value == "object";
+  }
+  var isObjectLike_default = isObjectLike;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isArray.js
+  var isArray = Array.isArray;
+  var isArray_default = isArray;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isObject.js
+  function isObject(value) {
+    var type = typeof value;
+    return value != null && (type == "object" || type == "function");
+  }
+  var isObject_default = isObject;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isFunction.js
+  var asyncTag = "[object AsyncFunction]";
+  var funcTag = "[object Function]";
+  var genTag = "[object GeneratorFunction]";
+  var proxyTag = "[object Proxy]";
+  function isFunction(value) {
+    if (!isObject_default(value)) {
+      return false;
+    }
+    var tag = baseGetTag_default(value);
+    return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+  }
+  var isFunction_default = isFunction;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_coreJsData.js
+  var coreJsData = root_default["__core-js_shared__"];
+  var coreJsData_default = coreJsData;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_isMasked.js
+  var maskSrcKey = function() {
+    var uid = /[^.]+$/.exec(coreJsData_default && coreJsData_default.keys && coreJsData_default.keys.IE_PROTO || "");
+    return uid ? "Symbol(src)_1." + uid : "";
+  }();
+  function isMasked(func) {
+    return !!maskSrcKey && maskSrcKey in func;
+  }
+  var isMasked_default = isMasked;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_toSource.js
+  var funcProto = Function.prototype;
+  var funcToString = funcProto.toString;
+  function toSource(func) {
+    if (func != null) {
+      try {
+        return funcToString.call(func);
+      } catch (e) {
+      }
+      try {
+        return func + "";
+      } catch (e) {
+      }
+    }
+    return "";
+  }
+  var toSource_default = toSource;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseIsNative.js
+  var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+  var reIsHostCtor = /^\[object .+?Constructor\]$/;
+  var funcProto2 = Function.prototype;
+  var objectProto3 = Object.prototype;
+  var funcToString2 = funcProto2.toString;
+  var hasOwnProperty2 = objectProto3.hasOwnProperty;
+  var reIsNative = RegExp(
+    "^" + funcToString2.call(hasOwnProperty2).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+  );
+  function baseIsNative(value) {
+    if (!isObject_default(value) || isMasked_default(value)) {
+      return false;
+    }
+    var pattern = isFunction_default(value) ? reIsNative : reIsHostCtor;
+    return pattern.test(toSource_default(value));
+  }
+  var baseIsNative_default = baseIsNative;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getValue.js
+  function getValue(object, key) {
+    return object == null ? void 0 : object[key];
+  }
+  var getValue_default = getValue;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getNative.js
+  function getNative(object, key) {
+    var value = getValue_default(object, key);
+    return baseIsNative_default(value) ? value : void 0;
+  }
+  var getNative_default = getNative;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_WeakMap.js
+  var WeakMap2 = getNative_default(root_default, "WeakMap");
+  var WeakMap_default = WeakMap2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isLength.js
+  var MAX_SAFE_INTEGER = 9007199254740991;
+  function isLength(value) {
+    return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+  }
+  var isLength_default = isLength;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isArrayLike.js
+  function isArrayLike(value) {
+    return value != null && isLength_default(value.length) && !isFunction_default(value);
+  }
+  var isArrayLike_default = isArrayLike;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_isPrototype.js
+  var objectProto4 = Object.prototype;
+  function isPrototype(value) {
+    var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto4;
+    return value === proto;
+  }
+  var isPrototype_default = isPrototype;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseIsArguments.js
+  var argsTag = "[object Arguments]";
+  function baseIsArguments(value) {
+    return isObjectLike_default(value) && baseGetTag_default(value) == argsTag;
+  }
+  var baseIsArguments_default = baseIsArguments;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isArguments.js
+  var objectProto5 = Object.prototype;
+  var hasOwnProperty3 = objectProto5.hasOwnProperty;
+  var propertyIsEnumerable = objectProto5.propertyIsEnumerable;
+  var isArguments = baseIsArguments_default(function() {
+    return arguments;
+  }()) ? baseIsArguments_default : function(value) {
+    return isObjectLike_default(value) && hasOwnProperty3.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+  };
+  var isArguments_default = isArguments;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/stubFalse.js
+  function stubFalse() {
+    return false;
+  }
+  var stubFalse_default = stubFalse;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isBuffer.js
+  var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+  var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+  var moduleExports = freeModule && freeModule.exports === freeExports;
+  var Buffer2 = moduleExports ? root_default.Buffer : void 0;
+  var nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : void 0;
+  var isBuffer = nativeIsBuffer || stubFalse_default;
+  var isBuffer_default = isBuffer;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseIsTypedArray.js
+  var argsTag2 = "[object Arguments]";
+  var arrayTag = "[object Array]";
+  var boolTag = "[object Boolean]";
+  var dateTag = "[object Date]";
+  var errorTag = "[object Error]";
+  var funcTag2 = "[object Function]";
+  var mapTag = "[object Map]";
+  var numberTag = "[object Number]";
+  var objectTag = "[object Object]";
+  var regexpTag = "[object RegExp]";
+  var setTag = "[object Set]";
+  var stringTag = "[object String]";
+  var weakMapTag = "[object WeakMap]";
+  var arrayBufferTag = "[object ArrayBuffer]";
+  var dataViewTag = "[object DataView]";
+  var float32Tag = "[object Float32Array]";
+  var float64Tag = "[object Float64Array]";
+  var int8Tag = "[object Int8Array]";
+  var int16Tag = "[object Int16Array]";
+  var int32Tag = "[object Int32Array]";
+  var uint8Tag = "[object Uint8Array]";
+  var uint8ClampedTag = "[object Uint8ClampedArray]";
+  var uint16Tag = "[object Uint16Array]";
+  var uint32Tag = "[object Uint32Array]";
+  var typedArrayTags = {};
+  typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+  typedArrayTags[argsTag2] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag2] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+  function baseIsTypedArray(value) {
+    return isObjectLike_default(value) && isLength_default(value.length) && !!typedArrayTags[baseGetTag_default(value)];
+  }
+  var baseIsTypedArray_default = baseIsTypedArray;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseUnary.js
+  function baseUnary(func) {
+    return function(value) {
+      return func(value);
+    };
+  }
+  var baseUnary_default = baseUnary;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_nodeUtil.js
+  var freeExports2 = typeof exports == "object" && exports && !exports.nodeType && exports;
+  var freeModule2 = freeExports2 && typeof module == "object" && module && !module.nodeType && module;
+  var moduleExports2 = freeModule2 && freeModule2.exports === freeExports2;
+  var freeProcess = moduleExports2 && freeGlobal_default.process;
+  var nodeUtil = function() {
+    try {
+      var types = freeModule2 && freeModule2.require && freeModule2.require("util").types;
+      if (types) {
+        return types;
+      }
+      return freeProcess && freeProcess.binding && freeProcess.binding("util");
+    } catch (e) {
+    }
+  }();
+  var nodeUtil_default = nodeUtil;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isTypedArray.js
+  var nodeIsTypedArray = nodeUtil_default && nodeUtil_default.isTypedArray;
+  var isTypedArray = nodeIsTypedArray ? baseUnary_default(nodeIsTypedArray) : baseIsTypedArray_default;
+  var isTypedArray_default = isTypedArray;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_overArg.js
+  function overArg(func, transform) {
+    return function(arg) {
+      return func(transform(arg));
+    };
+  }
+  var overArg_default = overArg;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_nativeKeys.js
+  var nativeKeys = overArg_default(Object.keys, Object);
+  var nativeKeys_default = nativeKeys;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseKeys.js
+  var objectProto6 = Object.prototype;
+  var hasOwnProperty4 = objectProto6.hasOwnProperty;
+  function baseKeys(object) {
+    if (!isPrototype_default(object)) {
+      return nativeKeys_default(object);
+    }
+    var result = [];
+    for (var key in Object(object)) {
+      if (hasOwnProperty4.call(object, key) && key != "constructor") {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+  var baseKeys_default = baseKeys;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Map.js
+  var Map2 = getNative_default(root_default, "Map");
+  var Map_default = Map2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_DataView.js
+  var DataView = getNative_default(root_default, "DataView");
+  var DataView_default = DataView;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Promise.js
+  var Promise2 = getNative_default(root_default, "Promise");
+  var Promise_default = Promise2;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_Set.js
+  var Set = getNative_default(root_default, "Set");
+  var Set_default = Set;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getTag.js
+  var mapTag2 = "[object Map]";
+  var objectTag2 = "[object Object]";
+  var promiseTag = "[object Promise]";
+  var setTag2 = "[object Set]";
+  var weakMapTag2 = "[object WeakMap]";
+  var dataViewTag2 = "[object DataView]";
+  var dataViewCtorString = toSource_default(DataView_default);
+  var mapCtorString = toSource_default(Map_default);
+  var promiseCtorString = toSource_default(Promise_default);
+  var setCtorString = toSource_default(Set_default);
+  var weakMapCtorString = toSource_default(WeakMap_default);
+  var getTag = baseGetTag_default;
+  if (DataView_default && getTag(new DataView_default(new ArrayBuffer(1))) != dataViewTag2 || Map_default && getTag(new Map_default()) != mapTag2 || Promise_default && getTag(Promise_default.resolve()) != promiseTag || Set_default && getTag(new Set_default()) != setTag2 || WeakMap_default && getTag(new WeakMap_default()) != weakMapTag2) {
+    getTag = function(value) {
+      var result = baseGetTag_default(value), Ctor = result == objectTag2 ? value.constructor : void 0, ctorString = Ctor ? toSource_default(Ctor) : "";
+      if (ctorString) {
+        switch (ctorString) {
+          case dataViewCtorString:
+            return dataViewTag2;
+          case mapCtorString:
+            return mapTag2;
+          case promiseCtorString:
+            return promiseTag;
+          case setCtorString:
+            return setTag2;
+          case weakMapCtorString:
+            return weakMapTag2;
+        }
+      }
+      return result;
+    };
+  }
+  var getTag_default = getTag;
+
+  // node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isEmpty.js
+  var mapTag3 = "[object Map]";
+  var setTag3 = "[object Set]";
+  var objectProto7 = Object.prototype;
+  var hasOwnProperty5 = objectProto7.hasOwnProperty;
+  function isEmpty(value) {
+    if (value == null) {
+      return true;
+    }
+    if (isArrayLike_default(value) && (isArray_default(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer_default(value) || isTypedArray_default(value) || isArguments_default(value))) {
+      return !value.length;
+    }
+    var tag = getTag_default(value);
+    if (tag == mapTag3 || tag == setTag3) {
+      return !value.size;
+    }
+    if (isPrototype_default(value)) {
+      return !baseKeys_default(value).length;
+    }
+    for (var key in value) {
+      if (hasOwnProperty5.call(value, key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  var isEmpty_default = isEmpty;
+
+  // src/config/index.ts
+  var import_webextension_polyfill = __toESM(require_browser_polyfill());
+  async function getProviderConfigs() {
+    const { provider = "chatgpt" /* ChatGPT */ } = await import_webextension_polyfill.default.storage.local.get("provider");
+    const configKey = `provider:${"gpt3" /* GPT3 */}`;
+    const result = await import_webextension_polyfill.default.storage.local.get(configKey);
+    const chatModel = await import_webextension_polyfill.default.storage.local.get("chatModel");
+    return {
+      provider,
+      configs: {
+        ["gpt3" /* GPT3 */]: result[configKey]
+      },
+      chatModel: chatModel.chatModel
+    };
+  }
+  var BASE_URL = "https://chat.openai.com";
+  var DEFAULT_MODEL = "gpt-3.5-turbo";
+  var DEFAULT_API_HOST = "api.openai.com";
+  var CHAT_DEFAULT_MODEL = "text-davinci-002-render-sha";
+
+  // src/background/providers/chatgpt.ts
+  var import_expiry_map = __toESM(require_dist2());
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/rng.js
+  var getRandomValues;
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    if (!getRandomValues) {
+      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+      if (!getRandomValues) {
+        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+      }
+    }
+    return getRandomValues(rnds8);
+  }
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/stringify.js
+  var byteToHex = [];
+  for (let i = 0; i < 256; ++i) {
+    byteToHex.push((i + 256).toString(16).slice(1));
+  }
+  function unsafeStringify(arr, offset = 0) {
+    return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+  }
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/native.js
+  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+  var native_default = {
+    randomUUID
+  };
+
+  // node_modules/.pnpm/uuid@9.0.0/node_modules/uuid/dist/esm-browser/v4.js
+  function v4(options, buf, offset) {
+    if (native_default.randomUUID && !buf && !options) {
+      return native_default.randomUUID();
+    }
+    options = options || {};
+    const rnds = options.random || (options.rng || rng)();
+    rnds[6] = rnds[6] & 15 | 64;
+    rnds[8] = rnds[8] & 63 | 128;
+    if (buf) {
+      offset = offset || 0;
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = rnds[i];
+      }
+      return buf;
+    }
+    return unsafeStringify(rnds);
+  }
+  var v4_default = v4;
+
+  // node_modules/.pnpm/eventsource-parser@0.0.5/node_modules/eventsource-parser/dist/index.mjs
+  function createParser(onParse) {
+    let isFirstChunk;
+    let buffer;
+    let startingPosition;
+    let startingFieldLength;
+    let eventId;
+    let eventName;
+    let data;
+    reset();
+    return {
+      feed,
+      reset
+    };
+    function reset() {
+      isFirstChunk = true;
+      buffer = "";
+      startingPosition = 0;
+      startingFieldLength = -1;
+      eventId = void 0;
+      eventName = void 0;
+      data = "";
+    }
+    function feed(chunk) {
+      buffer = buffer ? buffer + chunk : chunk;
+      if (isFirstChunk && hasBom(buffer)) {
+        buffer = buffer.slice(BOM.length);
+      }
+      isFirstChunk = false;
+      const length = buffer.length;
+      let position = 0;
+      let discardTrailingNewline = false;
+      while (position < length) {
+        if (discardTrailingNewline) {
+          if (buffer[position] === "\n") {
+            ++position;
+          }
+          discardTrailingNewline = false;
+        }
+        let lineLength = -1;
+        let fieldLength = startingFieldLength;
+        let character;
+        for (let index = startingPosition; lineLength < 0 && index < length; ++index) {
+          character = buffer[index];
+          if (character === ":" && fieldLength < 0) {
+            fieldLength = index - position;
+          } else if (character === "\r") {
+            discardTrailingNewline = true;
+            lineLength = index - position;
+          } else if (character === "\n") {
+            lineLength = index - position;
+          }
+        }
+        if (lineLength < 0) {
+          startingPosition = length - position;
+          startingFieldLength = fieldLength;
+          break;
+        } else {
+          startingPosition = 0;
+          startingFieldLength = -1;
+        }
+        parseEventStreamLine(buffer, position, fieldLength, lineLength);
+        position += lineLength + 1;
+      }
+      if (position === length) {
+        buffer = "";
+      } else if (position > 0) {
+        buffer = buffer.slice(position);
+      }
+    }
+    function parseEventStreamLine(lineBuffer, index, fieldLength, lineLength) {
+      if (lineLength === 0) {
+        if (data.length > 0) {
+          onParse({
+            type: "event",
+            id: eventId,
+            event: eventName || void 0,
+            data: data.slice(0, -1)
+          });
+          data = "";
+          eventId = void 0;
+        }
+        eventName = void 0;
+        return;
+      }
+      const noValue = fieldLength < 0;
+      const field = lineBuffer.slice(index, index + (noValue ? lineLength : fieldLength));
+      let step = 0;
+      if (noValue) {
+        step = lineLength;
+      } else if (lineBuffer[index + fieldLength + 1] === " ") {
+        step = fieldLength + 2;
+      } else {
+        step = fieldLength + 1;
+      }
+      const position = index + step;
+      const valueLength = lineLength - step;
+      const value = lineBuffer.slice(position, position + valueLength).toString();
+      if (field === "data") {
+        data += value ? "".concat(value, "\n") : "\n";
+      } else if (field === "event") {
+        eventName = value;
+      } else if (field === "id" && !value.includes("\0")) {
+        eventId = value;
+      } else if (field === "retry") {
+        const retry = parseInt(value, 10);
+        if (!Number.isNaN(retry)) {
+          onParse({
+            type: "reconnect-interval",
+            value: retry
+          });
+        }
+      }
+    }
+  }
+  var BOM = [239, 187, 191];
+  function hasBom(buffer) {
+    return BOM.every((charCode, index) => buffer.charCodeAt(index) === charCode);
+  }
+
+  // src/background/stream-async-iterable.ts
+  async function* streamAsyncIterable(stream) {
+    const reader = stream.getReader();
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          return;
+        }
+        yield value;
+      }
+    } finally {
+      reader.releaseLock();
+    }
+  }
+
+  // src/background/fetch-sse.ts
+  async function fetchSSE(resource, options) {
+    const { onMessage, ...fetchOptions } = options;
+    const resp = await fetch(resource, fetchOptions);
+    if (!resp.ok) {
+      const error = await resp.json().catch(() => ({}));
+      throw new Error(!isEmpty_default(error) ? JSON.stringify(error) : `${resp.status} ${resp.statusText}`);
+    }
+    const parser = createParser((event) => {
+      if (event.type === "event") {
+        onMessage(event.data);
+      }
+    });
+    for await (const chunk of streamAsyncIterable(resp.body)) {
+      const str = new TextDecoder().decode(chunk);
+      parser.feed(str);
+    }
+  }
+
+  // src/background/providers/chatgpt.ts
+  var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
+  async function request(token, method, path, data) {
+    return fetch(`${BASE_URL}/backend-api${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: data === void 0 ? void 0 : JSON.stringify(data)
+    });
+  }
+  async function sendMessageFeedback(token, data) {
+    await request(token, "POST", "/conversation/message_feedback", data);
+  }
+  async function setConversationProperty(token, conversationId, propertyObject) {
+    await request(token, "PATCH", `/conversation/${conversationId}`, propertyObject);
+  }
+  var KEY_ACCESS_TOKEN = "accessToken";
+  var cache = new import_expiry_map.default(10 * 1e3);
+  async function getChatGPTAccessToken() {
+    if (cache.get(KEY_ACCESS_TOKEN)) {
+      return cache.get(KEY_ACCESS_TOKEN);
+    }
+    const resp = await fetch(`${BASE_URL}/api/auth/session`);
+    if (resp.status === 403) {
+      throw new Error("CLOUDFLARE");
+    }
+    const data = await resp.json().catch(() => ({}));
+    if (!data.accessToken) {
+      throw new Error("UNAUTHORIZED");
+    }
+    cache.set(KEY_ACCESS_TOKEN, data.accessToken);
+    return data.accessToken;
+  }
+  var ChatGPTProvider = class {
+    constructor(token) {
+      this.token = token;
+      this.token = token;
+    }
+    async fetchModels() {
+      const resp = await request(this.token, "GET", "/models").then((r) => r.json());
+      return resp.models;
+    }
+    async getModelName() {
+      var _a, _b;
+      try {
+        const chatModel = (_b = (_a = await import_webextension_polyfill2.default.storage.local.get("chatModel")) == null ? void 0 : _a.chatModel) != null ? _b : "GPT-3.5 Turbo";
+        const models = await this.fetchModels();
+        if (chatModel === "auto") {
+          const gpt4Model = models.find((model) => model.slug === "gpt-4");
+          return (gpt4Model == null ? void 0 : gpt4Model.slug) || models[0].slug;
+        }
+        return models[0].slug;
+      } catch (err) {
+        console.error(err);
+        return CHAT_DEFAULT_MODEL;
+      }
+    }
+    async generateAnswer(params) {
+      let conversationId;
+      const cleanup = () => {
+        if (conversationId) {
+          setConversationProperty(this.token, conversationId, { is_visible: false });
+        }
+      };
+      const modelName = await this.getModelName();
+      await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
+        method: "POST",
+        signal: params.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify({
+          action: "next",
+          messages: [
+            {
+              id: v4_default(),
+              role: "user",
+              content: {
+                content_type: "text",
+                parts: [params.prompt]
+              }
+            }
+          ],
+          model: modelName,
+          parent_message_id: v4_default()
+        }),
+        onMessage(message) {
+          var _a, _b, _c;
+          console.debug("sse message", message);
+          if (message === "[DONE]") {
+            params.onEvent({ type: "done" });
+            cleanup();
+            return;
+          }
+          let data;
+          try {
+            data = JSON.parse(message);
+          } catch (err) {
+            console.error(err);
+            return;
+          }
+          const text = (_c = (_b = (_a = data.message) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0];
+          if (text) {
+            conversationId = data.conversation_id;
+            params.onEvent({
+              type: "answer",
+              data: {
+                text,
+                messageId: data.message.id,
+                conversationId: data.conversation_id
+              }
+            });
+          }
+        }
+      });
+      return { cleanup };
+    }
+  };
+
+  // src/background/providers/openai.ts
+  var OpenAIProvider = class {
+    constructor(token, model) {
+      this.token = token;
+      this.model = model;
+      this.token = token;
+      this.model = model;
+    }
+    buildPrompt(prompt) {
+      if (this.model.startsWith("text-chat-davinci")) {
+        return `Respond conversationally.<|im_end|>
+
+User: ${prompt}<|im_sep|>
+ChatGPT:`;
+      }
+      return prompt;
+    }
+    buildMessages(prompt) {
+      return [{ role: "user", content: prompt }];
+    }
+    async generateAnswer(params) {
+      var _a, _b, _c;
+      const [config] = await Promise.all([getProviderConfigs()]);
+      const gptModel = (_b = (_a = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.model) != null ? _b : DEFAULT_MODEL;
+      const apiHost = ((_c = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _c.apiHost) || DEFAULT_API_HOST;
+      let url = "";
+      let reqParams = {
+        model: this.model,
+        // prompt: this.buildPrompt(params.prompt),
+        // messages: this.buildMessages(params.prompt),
+        stream: true,
+        max_tokens: 800
+        // temperature: 0.5,
+      };
+      if (gptModel === "text-davinci-003") {
+        url = `https://${apiHost}/v1/completions`;
+        reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(params.prompt) } };
+      } else {
+        url = `https://${apiHost}/v1/chat/completions`;
+        reqParams = { ...reqParams, ...{ messages: this.buildMessages(params.prompt) } };
+      }
+      let result = "";
+      await fetchSSE(url, {
+        method: "POST",
+        signal: params.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify(reqParams),
+        onMessage(message) {
+          console.debug("sse message", message);
+          if (message === "[DONE]") {
+            params.onEvent({ type: "done" });
+            return;
+          }
+          let data;
+          try {
+            data = JSON.parse(message);
+            const text = gptModel === "text-davinci-003" ? data.choices[0].text : data.choices[0].delta.content;
+            if (text === void 0 || text === "<|im_end|>" || text === "<|im_sep|>") {
+              return;
+            }
+            result += text;
+            params.onEvent({
+              type: "answer",
+              data: {
+                text: result,
+                messageId: data.id,
+                conversationId: data.id
+              }
+            });
+          } catch (err) {
+            return;
+          }
+        }
+      });
+      return {};
+    }
+  };
+
+  // src/utils/utils.ts
+  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  function tabSendMsg(tab) {
+    const { id, url } = tab;
+    if (url.includes(`${BASE_URL}/chat`)) {
+      import_webextension_polyfill3.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: true } }).catch(() => {
+      });
+    } else {
+      import_webextension_polyfill3.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: false } }).catch(() => {
+      });
+    }
+  }
+
+  // src/background/index.ts
+  async function generateAnswers(port, question) {
+    const providerConfigs = await getProviderConfigs();
+    let provider;
+    if (providerConfigs.provider === "chatgpt" /* ChatGPT */) {
+      const token = await getChatGPTAccessToken();
+      provider = new ChatGPTProvider(token);
+    } else if (providerConfigs.provider === "gpt3" /* GPT3 */) {
+      const { apiKey, model } = providerConfigs.configs["gpt3" /* GPT3 */];
+      provider = new OpenAIProvider(apiKey, model);
+    } else {
+      throw new Error(`Unknown provider ${providerConfigs.provider}`);
+    }
+    const controller = new AbortController();
+    port.onDisconnect.addListener(() => {
+      controller.abort();
+      cleanup == null ? void 0 : cleanup();
+    });
+    const { cleanup } = await provider.generateAnswer({
+      prompt: question,
+      signal: controller.signal,
+      onEvent(event) {
+        if (event.type === "done") {
+          port.postMessage({ event: "DONE" });
+          return;
+        }
+        port.postMessage(event.data);
+      }
+    });
+  }
+  async function createTab(url) {
+    import_webextension_polyfill4.default.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+      console.log("getCurrent", tabs);
+      const tab2 = tabs[0];
+      if (tab2.id) {
+        import_webextension_polyfill4.default.storage.local.set({ glarityTabId: tab2.id });
+      }
+    });
+    const oldTabId = await import_webextension_polyfill4.default.storage.local.get("pinnedTabId");
+    let tab;
+    if (oldTabId.pinnedTabId) {
+      try {
+        tab = await import_webextension_polyfill4.default.tabs.get(oldTabId.pinnedTabId);
+        import_webextension_polyfill4.default.tabs.update(tab.id, { active: true, pinned: true });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    if (!tab) {
+      tab = await import_webextension_polyfill4.default.tabs.create({
+        url,
+        pinned: true,
+        active: true
+      });
+    }
+    import_webextension_polyfill4.default.storage.local.set({ pinnedTabId: tab.id });
+    return { pinnedTabId: tab.id };
+  }
+  import_webextension_polyfill4.default.runtime.onConnect.addListener(async (port) => {
+    port.onMessage.addListener(async (msg) => {
+      console.debug("received msg", msg);
+      try {
+        await generateAnswers(port, msg.question);
+      } catch (err) {
+        port.postMessage({ error: err.message });
+      }
+    });
+  });
+  import_webextension_polyfill4.default.runtime.onMessage.addListener(async (message) => {
+    if (message.type === "FEEDBACK") {
+      const token = await getChatGPTAccessToken();
+      await sendMessageFeedback(token, message.data);
+    } else if (message.type === "OPEN_OPTIONS_PAGE") {
+      import_webextension_polyfill4.default.runtime.openOptionsPage();
+    } else if (message.type === "GET_ACCESS_TOKEN") {
+      return getChatGPTAccessToken();
+    } else if (message.type === "NEW_TAB") {
+      return createTab(message.data.url);
+    } else if (message.type === "GO_BACK") {
+      const tab = await import_webextension_polyfill4.default.storage.local.get("glarityTabId");
+      if (tab.glarityTabId) {
+        import_webextension_polyfill4.default.tabs.update(tab.glarityTabId, { active: true }).catch(() => {
+          import_webextension_polyfill4.default.tabs.create({ url: "about:newtab", active: true });
+        });
+      } else {
+        import_webextension_polyfill4.default.tabs.create({ url: "about:newtab", active: true });
+      }
+    }
+  });
+  import_webextension_polyfill4.default.runtime.onInstalled.addListener(async (details) => {
+    if (details.reason === "install") {
+      import_webextension_polyfill4.default.runtime.openOptionsPage();
+    }
+  });
+  import_webextension_polyfill4.default.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
+    const oldTabId = await import_webextension_polyfill4.default.storage.local.get("pinnedTabId");
+    import_webextension_polyfill4.default.tabs.get(tabId).then((tab) => {
+      var _a;
+      console.log("tabId", tabId, tab, changeInfo);
+      if (((_a = tab.url) == null ? void 0 : _a.includes(BASE_URL)) && changeInfo.status === "complete" && tab.id && oldTabId.pinnedTabId === tab.id) {
+        console.log("onUpdated", oldTabId, tab);
+        tabSendMsg(tab);
+      }
+    });
+  });
+  async function openPageSummary(tab) {
+    const { id } = tab;
+    if (!id) {
+      return;
+    }
+    import_webextension_polyfill4.default.tabs.sendMessage(id, { type: "OPEN_WEB_SUMMARY", data: {} }).catch(() => {
+    });
+  }
+  if (isFirefox) {
+    import_webextension_polyfill4.default.browserAction.onClicked.addListener(async (tab) => {
+      await openPageSummary(tab);
+    });
+  } else {
+    import_webextension_polyfill4.default.action.onClicked.addListener(async (tab) => {
+      await openPageSummary(tab);
+    });
+  }
+})();
