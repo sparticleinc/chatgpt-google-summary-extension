@@ -493,6 +493,25 @@ export const getPageSummaryComments = async () => {
       })
     }
 
+    case 'yelp.com': {
+      const reviewElement = document.querySelector('#reviews')
+
+      const rate =
+        document
+          .querySelector('div.photoHeader__09f24__nPvHp')
+          ?.querySelector(
+            '.arrange-unit__09f24__rqHTg.arrange-unit-fill__09f24__CUubG.border-color--default__09f24__NPAKY.nowrap__09f24__lBkC2',
+          )?.textContent ||
+        reviewElement
+          ?.querySelector('[data-testid="review-summary"]')
+          ?.querySelector('div.five-stars__09f24__mBKym')
+          ?.getAttribute('aria-label') ||
+        '-1'
+
+      const reviews = reviewElement?.querySelector('ul.list__09f24__ynIEd')?.textContent || ''
+      return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+    }
+
     default: {
       return { ...pageSummaryJSON }
     }
