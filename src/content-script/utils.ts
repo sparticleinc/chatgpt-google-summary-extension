@@ -4,6 +4,11 @@ import copy from 'copy-to-clipboard'
 import { config } from './search-engine-configs'
 import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
 
+export interface GetReviewsProps {
+  content: string
+  rate: string
+}
+
 export function getPossibleElementByQuerySelector<T extends Element>(
   queryArray: string[],
 ): T | undefined {
@@ -386,7 +391,7 @@ export const getPageSummaryComments = async () => {
       const rate =
         document.querySelector('#rwid .ebay-content-wrapper')?.textContent ||
         document.querySelector('div.reviews--wrapper .rating--details')?.textContent ||
-        -1
+        '-1'
       const reviews =
         document.querySelector('div#rwid .reviews')?.textContent ||
         document.querySelector('div.reviews--wrapper .reviews--details')?.textContent ||
@@ -395,7 +400,7 @@ export const getPageSummaryComments = async () => {
     }
 
     case 'douban': {
-      const rate = document.querySelector('#interest_sectl div.rating_self')?.textContent || -1
+      const rate = document.querySelector('#interest_sectl div.rating_self')?.textContent || '-1'
       const content = document.querySelector('#link-report-intra')?.textContent || ''
       const reviews = document.querySelector('#comments-section')?.textContent || ''
       return { ...pageSummaryJSON, ...{ content: content + reviews, rate } }
@@ -408,7 +413,7 @@ export const getPageSummaryComments = async () => {
         document.querySelector('div.ui_columns.MXlSZ div.grdwI')?.textContent ||
         document.querySelector('div.QEQvp')?.textContent ||
         reviewElement?.querySelector('div.yFKLG')?.textContent ||
-        -1
+        '-1'
       const reviews =
         document.querySelector('div.ppr_rup.ppr_priv_hr_community_content')?.textContent ||
         document.querySelector('#REVIEWS')?.textContent ||
@@ -422,7 +427,7 @@ export const getPageSummaryComments = async () => {
         'div.reviews-snippet-sidebar.hp-social-proof-review_score',
       )
       const rate =
-        reviewElement?.querySelector('[data-testid="review-score-component"]')?.textContent || -1
+        reviewElement?.querySelector('[data-testid="review-score-component"]')?.textContent || '-1'
       const reviews = reviewElement?.querySelector('[role="region"]')?.textContent || ''
       const reviewGategories = reviewElement?.querySelector('div.bui-spacer--larger')?.textContent
       return { ...pageSummaryJSON, ...{ content: reviewGategories + reviews, rate } }
@@ -430,22 +435,61 @@ export const getPageSummaryComments = async () => {
 
     case 'item.jd.com': {
       const reviewElement = document.querySelector('#comment')
-
       reviewElement?.scrollIntoView()
 
-      return new Promise((resolve) => {
+      return new Promise<GetReviewsProps>((resolve) => {
         setTimeout(() => {
-          const rate = reviewElement?.querySelector('div.comment-percent')?.textContent || -1
+          const rate = reviewElement?.querySelector('div.comment-percent')?.textContent || '-1'
           let reviews = ''
 
           reviewElement?.querySelectorAll('p.comment-con').forEach((review) => {
             reviews += review?.textContent || ''
           })
 
-          resolve({ ...pageSummaryJSON, ...{ content: reviews, rate } })
+          resolve({ content: reviews, rate })
         }, 1000)
       }).then((res) => {
-        return res
+        return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } }
+      })
+    }
+
+    case 'detail.tmall.com': {
+      const reviewElement = document.querySelector('div.Tabs--root--19lTSCU')
+      const reviewBtn = reviewElement?.querySelectorAll(
+        'div.Tabs--title--1Ov7S5f',
+      )[1] as HTMLDivElement
+      reviewBtn?.click()
+
+      return new Promise<GetReviewsProps>((resolve) => {
+        setTimeout(() => {
+          let reviews = ''
+          reviewElement?.querySelectorAll('div.Comment--content--15w7fKj').forEach((review) => {
+            reviews += review?.textContent || ''
+          })
+
+          resolve({ content: reviews, rate: '-1' })
+        }, 1000)
+      }).then((res) => {
+        return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } }
+      })
+    }
+
+    case 'item.taobao.com': {
+      const reviewElement = document.querySelector('#reviews')
+      const reviewBtn = document.querySelectorAll('#J_TabBar > li > a')[1] as HTMLLIElement
+      reviewBtn?.click()
+
+      return new Promise<GetReviewsProps>((resolve) => {
+        setTimeout(() => {
+          let reviews = ''
+          reviewElement?.querySelectorAll('div.tb-tbcr-content').forEach((review) => {
+            reviews += review?.textContent || ''
+          })
+
+          resolve({ content: reviews, rate: '-1' })
+        }, 1000)
+      }).then((res) => {
+        return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } }
       })
     }
 

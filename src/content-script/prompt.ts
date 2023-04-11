@@ -23,6 +23,7 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
 // Seems like 15,000 bytes is the limit for the prompt
 const textLimit = 14000
 const limit = 1020 // 1000 is a buffer
+// const limit = 1820
 const apiLimit = 1920
 
 export function getChunckedTranscripts(textData, textDataOriginal) {
