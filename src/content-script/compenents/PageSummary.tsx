@@ -75,6 +75,11 @@ function PageSummary(props: Props) {
         content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
         providerConfigs.provider,
       )
+
+      const promptRate = getSummaryPrompt(
+        article?.['rate']?.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
+        providerConfigs.provider,
+      )
       const replyLanguage = userConfig.language === Language.Auto ? language : userConfig.language
 
       const prompt = pageComments?.content
@@ -84,7 +89,7 @@ function PageSummary(props: Props) {
             prompt: userConfig.promptComment
               ? userConfig.promptComment
               : commentSummaryPromptHightligt,
-            rate: article?.['rate'],
+            rate: promptRate || '-1',
           })
         : pageSummaryPrompt({
             content: promptContent,

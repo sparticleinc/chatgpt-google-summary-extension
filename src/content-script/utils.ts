@@ -512,6 +512,39 @@ export const getPageSummaryComments = async () => {
       return { ...pageSummaryJSON, ...{ content: reviews, rate } }
     }
 
+    case 'meituan.com': {
+      let reviews = ''
+      const rate =
+        document.querySelector('div.details')?.querySelector('div.score')?.textContent ||
+        document.querySelector('div.poi-detail')?.querySelector('span.score')?.textContent ||
+        '-1'
+
+      document.querySelectorAll('div.comment div.list div.desc').forEach((review) => {
+        reviews += review?.textContent || ''
+      })
+
+      document.querySelectorAll('div.comment div.user-comment').forEach((review) => {
+        reviews += review?.textContent || ''
+      })
+      return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+    }
+
+    case 'dianping.com': {
+      let reviews = ''
+      const rate = document.querySelector('div.brief-info')?.textContent || '-1'
+
+      document
+        .querySelectorAll('#reviewlist-wrapper > li.comment-item div.info.J-info-short p.desc')
+        .forEach((review) => {
+          reviews += review?.textContent || ''
+        })
+
+      document.querySelectorAll('div.comment div.user-comment').forEach((review) => {
+        reviews += review?.textContent || ''
+      })
+      return { ...pageSummaryJSON, ...{ content: reviews, rate } }
+    }
+
     default: {
       return { ...pageSummaryJSON }
     }
