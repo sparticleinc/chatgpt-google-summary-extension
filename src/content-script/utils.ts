@@ -533,13 +533,23 @@ export const getPageSummaryComments = async () => {
 
     case 'dianping.com': {
       let reviews = ''
-      const rate = document.querySelector('div.brief-info')?.textContent || '-1'
+      const rate =
+        document.querySelector('div.brief-info')?.textContent ||
+        document.querySelector('div.shop-dish-aside div.comment-rst')?.textContent ||
+        '-1'
 
       document
         .querySelectorAll('#reviewlist-wrapper > li.comment-item div.info.J-info-short p.desc')
         .forEach((review) => {
           reviews += review?.textContent || ''
         })
+
+      document
+        .querySelectorAll('div.dish-comment-list  li.comment-list-item div.comment-content')
+        .forEach((review) => {
+          reviews += review?.textContent || ''
+        })
+
       return { ...pageSummaryJSON, ...{ content: reviews, rate } }
     }
 
