@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity-Tóm tắt cho Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Hiển thị tóm tắt ChatGPT cùng với kết quả tìm kiếm của Google và video trên YouTube"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, Tóm tắt YouTube và Google"
+  },
+  "appDesc": {
+    "message": "Tóm tắt kết quả tìm kiếm trên YouTube và Google với ChatGPT. Glarity cho phép bạn dễ dàng tóm tắt bất kỳ trang web nào."
+  }
+}

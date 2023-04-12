@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity-Ringkasan untuk Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Tampilkan ringkasan ChatGPT bersama hasil penelusuran Google dan video YouTube"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, Ringkas YouTube dan Google"
+  },
+  "appDesc": {
+    "message": "Ringkasan hasil pencarian YouTube dan Google dengan ChatGPT. Glarity memungkinkan Anda dengan mudah merangkum halaman web apa pun."
+  }
+}

@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity-Резюме за Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Показвайте резюмета на ChatGPT заедно с резултатите от търсенето с Google и видеоклиповете в YouTube"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, Резюмета на YouTube и Google"
+  },
+  "appDesc": {
+    "message": "Резюмета на резултатите от търсенето в Google и видеоклиповете в YouTube с ChatGPT. Glarity ви позволява лесно да резюмирате всяка уеб страница."
+  }
+}

@@ -1,8 +1,8 @@
 {
   "appName": {
-    "message": "Glarity-自动为谷歌搜索结果及YouTube视频生成摘要 (ChatGPT)"
+    "message": "Glarity -利用ChatGPT4生成摘要，支持Youtube视频和谷歌（免费无广告）"
   },
   "appDesc": {
-    "message": "Google 搜索结果和 YouTube 视频旁边展示 ChatGPT 摘要（支持自动翻译成中文）"
+    "message": "Glarity Summary 利用ChatGPT4实现快速为谷歌搜索和YouTube视频等内容生成摘要。Glarity支持为任意网页生成摘要总结。"
   }
 }

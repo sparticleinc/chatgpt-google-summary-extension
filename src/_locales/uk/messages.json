@@ -1,8 +1,8 @@
 {
   "appName": {
-    "message": "Glarity-Summary for Google/YouTube (ChatGPT)"
+    "message": "ChatGPT Glarity, Підсумуйте YouTube та Google"
   },
   "appDesc": {
-    "message": "Відображати підсумки ChatGPT разом із результатами пошуку Google і відео YouTube"
+    "message": "Підсумки результатів пошуку на YouTube та Google за допомогою ChatGPT. Glarity також дозволяє легко підсумувати будь-яку веб-сторінку."
   }
 }

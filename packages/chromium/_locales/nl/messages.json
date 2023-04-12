@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity-Samenvatting voor Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Toon ChatGPT-samenvattingen naast Google-zoekresultaten en YouTube-video's"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, Samenvatting van YouTube en Google"
+  },
+  "appDesc": {
+    "message": "Samenvattingen van zoekresultaten op YouTube en Google met ChatGPT. Glarity stelt u ook in staat om gemakkelijk elke webpagina samen te vatten."
+  }
+}

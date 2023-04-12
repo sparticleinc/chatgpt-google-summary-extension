@@ -1,8 +1,8 @@
 {
   "appName": {
-    "message": "Glarity-Summary for Google/YouTube (ChatGPT)"
+    "message": "ChatGPT Glarity, YouTube és Google összefoglalása"
   },
   "appDesc": {
-    "message": "Jelenítse meg a ChatGPT-összefoglalókat a Google keresési eredményei és a YouTube-videók mellett"
+    "message": "YouTube és Google keresési eredmények összefoglalása a ChatGPT-vel. A Glarity lehetővé teszi bármely weboldal könnyű összefoglalását is."
   }
 }

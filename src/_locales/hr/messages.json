@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity-sažetak za Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Prikažite ChatGPT sažetke uz rezultate Google pretraživanja i YouTube videozapise"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, Sažmite YouTube i Google"
+  },
+  "appDesc": {
+    "message": "Sažeci rezultata pretrage YouTubea i Googlea pomoću ChatGPT-a. Glarity vam omogućuje jednostavno sažimanje bilo koje web stranice."
+  }
+}

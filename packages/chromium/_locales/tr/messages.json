@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity- Google/YouTube için Özet (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Google arama sonuçlarının ve YouTube videolarının yanında ChatGPT özetlerini görüntüleyin"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, YouTube ve Google'ı Özetleyin"
+  },
+  "appDesc": {
+    "message": "ChatGPT ile YouTube ve Google arama sonuçlarının özetlerini yapın. Glarity, herhangi bir web sayfasını kolayca özetleyebilmenizi sağlar."
+  }
+}

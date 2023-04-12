@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity- Súhrn pre Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Zobrazte súhrny ChatGPT vedľa výsledkov vyhľadávania Google a videí YouTube"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, Zhrnutie YouTube a Google"
+  },
+  "appDesc": {
+    "message": "Zhrnutia výsledkov vyhľadávania YouTube a Google s ChatGPT. Glarity vám umožňuje jednoducho zhrnúť akúkoľvek webovú stránku."
+  }
+}

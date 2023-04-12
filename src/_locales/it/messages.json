@@ -1,8 +1,8 @@
 {
-   "appName": {
-     "message": "Glarity-Riepilogo per Google/YouTube (ChatGPT)"
-   },
-   "appDesc": {
-     "message": "Visualizza i riepiloghi di ChatGPT accanto ai risultati di ricerca di Google e ai video di YouTube"
-   }
- }
+  "appName": {
+    "message": "ChatGPT Glarity, Riassumi YouTube e Google"
+  },
+  "appDesc": {
+    "message": "Riassunti dei risultati di ricerca di YouTube e Google con ChatGPT. Glarity ti consente di riassumere facilmente qualsiasi pagina web."
+  }
+}
