@@ -19714,7 +19714,9 @@ ${reviewText}
           return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } };
         });
       }
-      case "detail.tmall.com": {
+      case "detail.tmall.com":
+      case "chaoshi.detail.tmall.com":
+      case "detail.tmall.hk": {
         const reviewElement = document.querySelector("div.Tabs--root--19lTSCU");
         const reviewBtn = reviewElement == null ? void 0 : reviewElement.querySelectorAll(
           "div.Tabs--title--1Ov7S5f"

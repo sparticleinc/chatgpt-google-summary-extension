@@ -453,7 +453,9 @@ export const getPageSummaryComments = async () => {
       })
     }
 
-    case 'detail.tmall.com': {
+    case 'detail.tmall.com':
+    case 'chaoshi.detail.tmall.com':
+    case 'detail.tmall.hk': {
       const reviewElement = document.querySelector('div.Tabs--root--19lTSCU')
       const reviewBtn = reviewElement?.querySelectorAll(
         'div.Tabs--title--1Ov7S5f',
