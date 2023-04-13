@@ -299,18 +299,47 @@ export function siteConfig() {
 }
 
 export const getPageSummaryContntent = async () => {
-  const html = document.querySelector('html')?.outerHTML
-  const url = location.href
+  const site = getReviewsSites()
+  switch (site) {
+    case 'xiaohongshu.com': {
+      const title = document.title || ''
+      const description =
+        document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
+      const contentElement = document.querySelector('div.user-page')
+      const userInfo = contentElement?.querySelector('div.user-info')?.textContent || ''
+      const list = contentElement?.querySelectorAll(
+        'div.feeds-tab-container section.note-item div.footer',
+      )
 
-  if (!html) {
-    return
-  }
+      let post = ''
+      list?.forEach((item) => {
+        const postTitle = item?.querySelector('a.title')?.textContent || ''
+        const postLike = item?.querySelector('span.like-wrapper')?.textContent || ''
+        post += `笔记(点赞:${postLike}):${postTitle}` + '\n'
+      })
 
-  try {
-    const article = await extractFromHtml(html, url)
-    return article
-  } catch (error) {
-    return
+      return {
+        title: document.title,
+        content: title + description + userInfo + post,
+        description,
+      }
+    }
+
+    default: {
+      const html = document.querySelector('html')?.outerHTML
+      const url = location.href
+
+      if (!html) {
+        return
+      }
+
+      try {
+        const article = await extractFromHtml(html, url)
+        return article
+      } catch (error) {
+        return
+      }
+    }
   }
 }
 
