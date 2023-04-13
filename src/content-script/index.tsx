@@ -47,7 +47,10 @@ async function Run() {
         container.className = 'glarity--chatgpt--tips'
         container.id = 'glarity--chatgpt--tips'
         document.body.prepend(container)
-        render(<ChatGPTTip isLogin={data.isLogin} />, container)
+        render(
+          <ChatGPTTip isLogin={data.isLogin} showChatGPTTip={userConfig.showChatGPTTip} />,
+          container,
+        )
         break
       }
       case 'GET_DOM': {

@@ -2,18 +2,22 @@ import { useState } from 'preact/hooks'
 import { Note, Description, Button, Divider } from '@geist-ui/core'
 import { XCircleFillIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
-import { APP_TITLE } from '@/config'
+import { APP_TITLE, updateUserConfig } from '@/config'
 
 interface Props {
   isLogin: boolean
+  showChatGPTTip: boolean
 }
 
 function ChatGPTTip(props: Props) {
-  const isLogin = props?.isLogin
+  const { isLogin, showChatGPTTip } = props
   const [showTip, setShowTip] = useState(true)
 
   const onClose = () => {
     setShowTip(false)
+    updateUserConfig({
+      showChatGPTTip: false,
+    })
   }
 
   const onBack = () => {
@@ -24,7 +28,7 @@ function ChatGPTTip(props: Props) {
 
   return (
     <>
-      {showTip && (
+      {showChatGPTTip && showTip && (
         <>
           <Note type="success" label={false}>
             <Description

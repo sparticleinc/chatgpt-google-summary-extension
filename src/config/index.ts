@@ -35,6 +35,31 @@ export enum Language {
   Russian = 'ru-RU',
 }
 
+export const BASE_URL = 'https://chat.openai.com'
+
+export const DEFAULT_PAGE_SUMMARY_BLACKLIST = `https://translate.google.com
+https://www.deepl.com
+https://www.youtube.com
+https://youku.com
+https://v.qq.com
+https://www.iqiyi.com
+https://www.bilibili.com
+https://www.tudou.com
+https://www.tiktok.com
+https://vimeo.com
+https://www.dailymotion.com
+https://www.twitch.tv
+https://www.hulu.com
+https://www.netflix.com
+https://www.hbomax.com
+https://www.disneyplus.com
+https://www.peacocktv.com
+https://www.crunchyroll.com
+https://www.funimation.com
+https://www.viki.com
+https://chat.openai.com 
+`
+
 const userConfigWithDefaultValue: {
   triggerMode: TriggerMode
   theme: Theme
@@ -47,6 +72,7 @@ const userConfigWithDefaultValue: {
   pageSummaryEnable: boolean
   pageSummaryWhitelist: string
   pageSummaryBlacklist: string
+  showChatGPTTip: boolean
 } = {
   triggerMode: TriggerMode.Always,
   theme: Theme.Auto,
@@ -58,7 +84,8 @@ const userConfigWithDefaultValue: {
   enableSites: null,
   pageSummaryEnable: true,
   pageSummaryWhitelist: '',
-  pageSummaryBlacklist: '',
+  pageSummaryBlacklist: DEFAULT_PAGE_SUMMARY_BLACKLIST,
+  showChatGPTTip: true,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
@@ -128,30 +155,6 @@ export async function saveProviderConfigs(
     chatModel,
   })
 }
-
-export const BASE_URL = 'https://chat.openai.com'
-
-export const DEFAULT_PAGE_SUMMARY_BLACKLIST = `https://translate.google.com
-https://www.deepl.com
-https://www.youtube.com
-https://youku.com
-https://v.qq.com
-https://www.iqiyi.com
-https://www.bilibili.com
-https://www.tudou.com
-https://www.tiktok.com
-https://vimeo.com
-https://www.dailymotion.com
-https://www.twitch.tv
-https://www.hulu.com
-https://www.netflix.com
-https://www.hbomax.com
-https://www.disneyplus.com
-https://www.peacocktv.com
-https://www.crunchyroll.com
-https://www.funimation.com
-https://www.viki.com
-`
 export const APP_TITLE = `Glarity Summary`
 
 export const DEFAULT_MODEL = 'gpt-3.5-turbo'
