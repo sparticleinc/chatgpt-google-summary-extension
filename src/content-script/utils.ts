@@ -316,11 +316,11 @@ export const getPageContent = async () => {
 
 export const getPageSummaryContntent = async () => {
   const site = getReviewsSites()
+  const title = document.title || ''
+  const description =
+    document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
   switch (site) {
     case 'xiaohongshu.com': {
-      const title = document.title || ''
-      const description =
-        document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
       const contentElement = document.querySelector('div.user-page')
       const userInfo = contentElement?.querySelector('div.user-info')?.textContent || ''
       const list =
@@ -345,6 +345,20 @@ export const getPageSummaryContntent = async () => {
       return {
         title: document.title,
         content: title + description + userInfo + (details || post),
+        description,
+      }
+    }
+
+    case 'tiktok.com': {
+      const details = document.querySelector('#main-content-others_homepage')?.textContent
+
+      if (!details) {
+        return await getPageContent()
+      }
+
+      return {
+        title: document.title,
+        content: title + description + details,
         description,
       }
     }
