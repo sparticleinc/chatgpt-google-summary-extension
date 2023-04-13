@@ -33,6 +33,12 @@
   word-wrap: break-word;
 }
 
+.glarity--custom__prompt {
+  textarea {
+    min-height: 200px;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .glarity--w-\[900px\] {
     max-width: 100%;

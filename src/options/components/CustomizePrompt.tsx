@@ -154,7 +154,7 @@ function CustomizePrompt(props: Props) {
           <Text h3 className="glarity--mt-5 glarity--mb-0">
             Customize Prompt for Summary
           </Text>
-          <Collapse.Group>
+          <Collapse.Group className="glarity--custom__prompt">
             {/* YouTube */}
             <Collapse
               title={
