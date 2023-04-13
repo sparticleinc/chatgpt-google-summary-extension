@@ -698,6 +698,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Glarity Extension";
@@ -713,7 +714,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity.Extension;
 				PRODUCT_NAME = "Glarity Extension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -728,6 +729,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Glarity Extension";
@@ -743,7 +745,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity.Extension;
 				PRODUCT_NAME = "Glarity Extension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -762,6 +764,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Glarity;
@@ -782,7 +785,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity;
 				PRODUCT_NAME = Glarity;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -799,6 +802,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Glarity;
@@ -819,7 +823,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity;
 				PRODUCT_NAME = Glarity;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -835,6 +839,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Glarity.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -851,7 +856,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity.Extension;
 				PRODUCT_NAME = "Glarity Extension";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -866,6 +871,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Glarity.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -882,7 +888,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity.Extension;
 				PRODUCT_NAME = "Glarity Extension";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -900,6 +906,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Glarity.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
@@ -918,7 +925,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity;
 				PRODUCT_NAME = Glarity;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -935,6 +942,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Glarity.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAYUACVU82;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
@@ -953,7 +961,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.Glarity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.givebest.Glarity;
 				PRODUCT_NAME = Glarity;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;

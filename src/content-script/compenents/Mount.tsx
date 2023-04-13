@@ -140,8 +140,6 @@ export default async function mount(props: MountProps) {
       break
     }
     case 'bilibili': {
-      container.classList.add('glarity--chatgpt--bilibili')
-
       waitForElm(siteConfig.extabarContainerQuery?.[0]).then(() => {
         container.classList.add('glarity--chatgpt--bilibili')
         const appendContainer = getPossibleElementByQuerySelector(
@@ -149,6 +147,27 @@ export default async function mount(props: MountProps) {
         )
         appendContainer?.insertAdjacentElement('beforebegin', container)
       })
+      break
+    }
+    case 'presearch': {
+      container.classList.add(
+        'glarity--chatgpt--presearch',
+        'md:mx-0',
+        'mx-2',
+        'md:mr-0',
+        'md:max-w-xl',
+        'lg:max-w-2xl',
+        'rounded',
+        'shadow',
+      )
+
+      waitForElm(siteConfig.appendContainerQuery?.[0]).then(() => {
+        const appendContainer = getPossibleElementByQuerySelector(siteConfig.appendContainerQuery)
+        if (appendContainer) {
+          appendContainer?.insertAdjacentElement('afterbegin', container)
+        }
+      })
+
       break
     }
     default: {

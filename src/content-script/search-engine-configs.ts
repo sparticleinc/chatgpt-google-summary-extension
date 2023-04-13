@@ -268,4 +268,13 @@ export const config: Record<string, SearchEngine> = {
       }, 1000)
     },
   },
+  presearch: {
+    inputQuery: ["[name='q']"],
+    sidebarContainerQuery: ['div.infoSection'],
+    appendContainerQuery: ['div.results-div div.text-gray-300'],
+    contentContainerQuery: [],
+    siteName: 'Presearch',
+    siteValue: 'presearch',
+    regex: '(^(www.)?presearch.com)',
+  },
 }

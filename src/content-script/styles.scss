@@ -184,9 +184,11 @@ span.glarity--header__logo {
 
   img {
     margin-right: 5px;
+    display: inline-block;
     width: 20px;
     height: 20px;
     vertical-align: middle;
+    max-width: 20px;
   }
 }
 
@@ -452,6 +454,13 @@ span.glarity--header__logo {
     .glarity--main {
       border-top-color: var(--line_regular);
     }
+  }
+}
+
+.glarity--chatgpt--presearch {
+  margin-bottom: 20px;
+  .glarity--chatgpt {
+    border: none;
   }
 }
 

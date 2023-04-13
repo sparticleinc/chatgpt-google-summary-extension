@@ -371,6 +371,69 @@ export default async function getQuestion() {
     }
   }
 
+  // Presearch
+  if (siteName === 'presearch') {
+    const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
+    if (!searchInput) return null
+    const searchValueWithLanguageOption =
+      userConfig.language === Language.Auto
+        ? searchInput.value
+        : `${searchInput.value}(in ${userConfig.language})`
+
+    let searchList = ''
+
+    //  Result list
+    const listElms =
+      document
+        .querySelector('div.results-div div.text-gray-300')
+        ?.querySelectorAll(
+          'div.shadow.rounded:not(.relative):not(.hidden):not(.text-gray-800):not(.dark\\:text-presearch-dark)',
+        ) || ([] as HTMLDivElement[])
+
+    if (listElms.length > 0) {
+      for (let i = 0; i < listElms.length; i++) {
+        const v = listElms[i]
+        const text =
+          v.querySelector('div.text-base')?.textContent ||
+          v.querySelector('.b_lineclamp3')?.textContent
+        const index = i + 1
+
+        const link = (v.querySelector('a.text-base') ||
+          v.querySelector('h2.b_topTitle > a') ||
+          v.querySelector('.b_title  a') ||
+          v.querySelector('h2  a')) as HTMLLinkElement
+
+        let url = link?.href
+
+        if (text && url && index <= 6) {
+          url = url.replace(/https?:/, '')
+          searchList =
+            searchList +
+            `
+  [${index}] ${text}\r\n
+  [${index}] URL: ${url}\r\n`
+        } else {
+          break
+        }
+      }
+    }
+
+    const Instructions = userConfig.promptSearch
+      ? `${userConfig.promptSearch}`
+      : searchPromptHighlight
+
+    const queryText = searchPrompt({
+      query: searchInput.value,
+      results: getSummaryPrompt(searchList, providerConfigs.provider),
+      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      prompt: Instructions,
+    })
+
+    return {
+      question: searchList ? queryText : searchValueWithLanguageOption,
+    }
+  }
+
   // Google
   await waitForElm(siteConfig.inputQuery[0])
   const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
