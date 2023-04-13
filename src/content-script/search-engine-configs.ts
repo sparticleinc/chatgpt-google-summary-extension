@@ -154,9 +154,9 @@ export const config: Record<string, SearchEngine> = {
   },
   yahooJpNews: {
     inputQuery: ["input[name='q']"],
-    sidebarContainerQuery: ['#rhs'],
-    appendContainerQuery: ['#rcnt'],
-    extabarContainerQuery: ['#yjnFixableArea.sc-feJyhm'],
+    sidebarContainerQuery: ['#yjnSub'],
+    appendContainerQuery: ['#yjnMain'],
+    extabarContainerQuery: ['#yjnSub'],
     contentContainerQuery: ['div.article_body'],
     name: 'yahooJpNews',
     siteName: 'Yahoo! JAPAN ニュース',
