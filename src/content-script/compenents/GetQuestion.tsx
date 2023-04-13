@@ -382,7 +382,8 @@ export default async function getQuestion() {
 
     let searchList = ''
 
-    //  Result list
+    await waitForElm('div.results-div div.text-gray-300')
+
     const listElms =
       document
         .querySelector('div.results-div div.text-gray-300')
