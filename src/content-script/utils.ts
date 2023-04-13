@@ -298,6 +298,22 @@ export function siteConfig() {
   return config[siteName()]
 }
 
+export const getPageContent = async () => {
+  const html = document.querySelector('html')?.outerHTML
+  const url = location.href
+
+  if (!html) {
+    return
+  }
+
+  try {
+    const article = await extractFromHtml(html, url)
+    return article
+  } catch (error) {
+    return
+  }
+}
+
 export const getPageSummaryContntent = async () => {
   const site = getReviewsSites()
   switch (site) {
@@ -307,9 +323,17 @@ export const getPageSummaryContntent = async () => {
         document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
       const contentElement = document.querySelector('div.user-page')
       const userInfo = contentElement?.querySelector('div.user-info')?.textContent || ''
-      const list = contentElement?.querySelectorAll(
-        'div.feeds-tab-container section.note-item div.footer',
-      )
+      const list =
+        contentElement?.querySelectorAll('div.feeds-tab-container section.note-item div.footer') ||
+        document.querySelectorAll('div.feeds-page section.note-item div.footer') ||
+        []
+      const details = document.querySelector(
+        'div.note-detail-mask div.interaction-container',
+      )?.textContent
+
+      if (list.length <= 0) {
+        return await getPageContent()
+      }
 
       let post = ''
       list?.forEach((item) => {
@@ -320,25 +344,13 @@ export const getPageSummaryContntent = async () => {
 
       return {
         title: document.title,
-        content: title + description + userInfo + post,
+        content: title + description + userInfo + (details || post),
         description,
       }
     }
 
     default: {
-      const html = document.querySelector('html')?.outerHTML
-      const url = location.href
-
-      if (!html) {
-        return
-      }
-
-      try {
-        const article = await extractFromHtml(html, url)
-        return article
-      } catch (error) {
-        return
-      }
+      return await getPageContent()
     }
   }
 }
