@@ -100,6 +100,15 @@ export async function updateUserConfig(updates: Partial<UserConfig>) {
   return Browser.storage.local.set(updates)
 }
 
+export async function getSessionTask(): Promise<string> {
+  const result = await Browser.storage.local.get('taskId')
+  return result.taskId
+}
+
+export async function setSessionTask(taskId: string) {
+  return Browser.storage.local.set({ taskId })
+}
+
 export enum ProviderType {
   ChatGPT = 'chatgpt',
   GPT3 = 'gpt3',

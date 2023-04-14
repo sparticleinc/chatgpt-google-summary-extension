@@ -8,6 +8,8 @@ export class OpenAIProvider implements Provider {
     this.model = model
   }
 
+  tasks = {}
+
   private buildPrompt(prompt: string): string {
     if (this.model.startsWith('text-chat-davinci')) {
       return `Respond conversationally.<|im_end|>\n\nUser: ${prompt}<|im_sep|>\nChatGPT:`
@@ -25,6 +27,8 @@ export class OpenAIProvider implements Provider {
     const gptModel = config.configs[ProviderType.GPT3]?.model ?? DEFAULT_MODEL
     const apiHost = config.configs[ProviderType.GPT3]?.apiHost || DEFAULT_API_HOST
 
+    const { taskId, prompt } = params
+
     let url = ''
     let reqParams = {
       model: this.model,
@@ -36,16 +40,23 @@ export class OpenAIProvider implements Provider {
     }
     if (gptModel === 'text-davinci-003') {
       url = `https://${apiHost}/v1/completions`
-      reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(params.prompt) } }
+      reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(prompt) } }
     } else {
       url = `https://${apiHost}/v1/chat/completions`
-      reqParams = { ...reqParams, ...{ messages: this.buildMessages(params.prompt) } }
+      reqParams = { ...reqParams, ...{ messages: this.buildMessages(prompt) } }
     }
 
     let result = ''
+
+    const abortController = new AbortController()
+
+    this.tasks[taskId] = {
+      abortController,
+    }
+
     await fetchSSE(url, {
       method: 'POST',
-      signal: params.signal,
+      signal: abortController.signal,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.token}`,
@@ -82,5 +93,14 @@ export class OpenAIProvider implements Provider {
       },
     })
     return {}
+  }
+
+  cancelTask(taskId: string) {
+    const taskInfo = this.tasks[taskId]
+    console.log('cancel task', taskId, taskInfo)
+    if (!taskInfo) {
+      return
+    }
+    taskInfo.abortController.abort()
   }
 }

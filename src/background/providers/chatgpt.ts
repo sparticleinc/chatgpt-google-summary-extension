@@ -53,6 +53,8 @@ export class ChatGPTProvider implements Provider {
     this.token = token
   }
 
+  tasks = {}
+
   private async fetchModels(): Promise<
     { slug: string; title: string; description: string; max_tokens: number }[]
   > {
@@ -79,6 +81,9 @@ export class ChatGPTProvider implements Provider {
 
   async generateAnswer(params: GenerateAnswerParams) {
     let conversationId: string | undefined
+    const { taskId, prompt } = params
+
+    const messageId = uuidv4()
 
     const cleanup = () => {
       if (conversationId) {
@@ -88,9 +93,15 @@ export class ChatGPTProvider implements Provider {
 
     const modelName = await this.getModelName()
 
+    const abortController = new AbortController()
+
+    this.tasks[taskId] = {
+      abortController,
+    }
+
     await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
       method: 'POST',
-      signal: params.signal,
+      signal: abortController.signal,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.token}`,
@@ -99,11 +110,11 @@ export class ChatGPTProvider implements Provider {
         action: 'next',
         messages: [
           {
-            id: uuidv4(),
+            id: messageId,
             role: 'user',
             content: {
               content_type: 'text',
-              parts: [params.prompt],
+              parts: [prompt],
             },
           },
         ],
@@ -139,5 +150,23 @@ export class ChatGPTProvider implements Provider {
       },
     })
     return { cleanup }
+  }
+
+  cancelTask(taskId: string) {
+    const taskInfo = this.tasks[taskId]
+    if (!taskInfo) {
+      return
+    }
+    taskInfo.abortController.abort()
+  }
+
+  async updateTitle(params) {
+    const { conversationId, messageId } = params
+    const modelName = await this.getModelName()
+
+    return await request(this.token, 'POST', `/conversation/gen_title/${conversationId}`, {
+      message_id: messageId,
+      model: modelName,
+    })
   }
 }

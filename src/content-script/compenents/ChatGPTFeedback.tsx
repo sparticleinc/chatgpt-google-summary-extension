@@ -5,23 +5,29 @@ import {
   CheckIcon,
   ChevronUpIcon,
   ChevronDownIcon,
+  SkipFillIcon,
 } from '@primer/octicons-react'
 import { memo } from 'react'
 import { useEffect, useCallback, useState } from 'preact/hooks'
 import Browser from 'webextension-polyfill'
+import type { QueryStatus } from './ChatGPTQuery'
+import { getSessionTask } from '@/config'
 
 interface Props {
   messageId: string
   conversationId: string
   answerText: string
   showContent?: boolean
-  setShowContent?: (show: boolean) => void
+  setShowContent?: (state: boolean) => void
+  status: QueryStatus
+  setStatus: (status: QueryStatus) => void
 }
 
 function ChatGPTFeedback(props: Props) {
-  const { showContent, setShowContent } = props
+  const { showContent, setShowContent, status, setStatus } = props
   const [copied, setCopied] = useState(false)
   const [action, setAction] = useState<'thumbsUp' | 'thumbsDown' | null>(null)
+  const [stopStatus, setStopStatus] = useState<QueryStatus>(status)
 
   const clickThumbsUp = useCallback(async () => {
     if (action) {
@@ -64,6 +70,20 @@ function ChatGPTFeedback(props: Props) {
     setShowContent((state) => !state)
   }
 
+  const clickStop = useCallback(async () => {
+    const taskId = await getSessionTask()
+
+    setStatus('done')
+    setStopStatus('done')
+
+    await Browser.runtime.sendMessage({
+      type: 'STOP_TASK',
+      data: {
+        taskId,
+      },
+    })
+  }, [setStatus])
+
   useEffect(() => {
     if (copied) {
       const timer = setTimeout(() => {
@@ -75,21 +95,32 @@ function ChatGPTFeedback(props: Props) {
 
   return (
     <div className="gpt--feedback">
-      <span
-        onClick={clickThumbsUp}
-        className={action === 'thumbsUp' ? 'gpt--feedback--selected' : undefined}
-      >
-        <ThumbsupIcon size={14} />
-      </span>
-      <span
-        onClick={clickThumbsDown}
-        className={action === 'thumbsDown' ? 'gpt--feedback--selected' : undefined}
-      >
-        <ThumbsdownIcon size={14} />
-      </span>
-      <span onClick={clickCopyToClipboard}>
-        {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
-      </span>
+      {stopStatus === 'success' && (
+        <span onClick={clickStop}>
+          <SkipFillIcon size={14} /> Stop
+        </span>
+      )}
+
+      {stopStatus === 'done' && (
+        <>
+          <span
+            onClick={clickThumbsUp}
+            className={action === 'thumbsUp' ? 'gpt--feedback--selected' : undefined}
+          >
+            <ThumbsupIcon size={14} />
+          </span>
+          <span
+            onClick={clickThumbsDown}
+            className={action === 'thumbsDown' ? 'gpt--feedback--selected' : undefined}
+          >
+            <ThumbsdownIcon size={14} />
+          </span>
+
+          <span onClick={clickCopyToClipboard}>
+            {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+          </span>
+        </>
+      )}
 
       <span onClick={switchShowContent}>
         {showContent ? <ChevronUpIcon size={14} /> : <ChevronDownIcon size={14} />}

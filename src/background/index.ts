@@ -1,14 +1,15 @@
 import Browser from 'webextension-polyfill'
-import { getProviderConfigs, ProviderType, BASE_URL } from '@/config'
+import { getProviderConfigs, ProviderType, BASE_URL, setSessionTask } from '@/config'
 import { ChatGPTProvider, getChatGPTAccessToken, sendMessageFeedback } from './providers/chatgpt'
 import { OpenAIProvider } from './providers/openai'
 import { Provider } from './types'
 import { isFirefox, tabSendMsg } from '@/utils/utils'
+import { v4 as uuidv4 } from 'uuid'
 
+let provider: Provider
 async function generateAnswers(port: Browser.Runtime.Port, question: string) {
   const providerConfigs = await getProviderConfigs()
 
-  let provider: Provider
   if (providerConfigs.provider === ProviderType.ChatGPT) {
     const token = await getChatGPTAccessToken()
     provider = new ChatGPTProvider(token)
@@ -19,15 +20,19 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
     throw new Error(`Unknown provider ${providerConfigs.provider}`)
   }
 
-  const controller = new AbortController()
+  const taskId = uuidv4()
+
   port.onDisconnect.addListener(() => {
-    controller.abort()
+    provider.cancelTask(taskId)
     cleanup?.()
   })
 
+  await setSessionTask(taskId)
+
   const { cleanup } = await provider.generateAnswer({
     prompt: question,
-    signal: controller.signal,
+    // signal: controller.signal,
+    taskId,
     onEvent(event) {
       if (event.type === 'done') {
         port.postMessage({ event: 'DONE' })
@@ -36,6 +41,10 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
       port.postMessage(event.data)
     },
   })
+}
+
+async function cancelTask(taskId: string) {
+  provider.cancelTask(taskId)
 }
 
 async function createTab(url) {
@@ -101,6 +110,8 @@ Browser.runtime.onMessage.addListener(async (message) => {
     } else {
       Browser.tabs.create({ url: 'about:newtab', active: true })
     }
+  } else if (message.type === 'STOP_TASK') {
+    await cancelTask(message.data.taskId)
   }
 })
 
