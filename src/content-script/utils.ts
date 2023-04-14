@@ -630,6 +630,35 @@ export const getPageSummaryComments = async () => {
       })
     }
 
+    case 'tabelog.com': {
+      const rate =
+        document.querySelector('#rstdtl-head div.rdheader-title-data')?.textContent || '-1'
+
+      return new Promise<GetReviewsProps>((resolve) => {
+        setTimeout(() => {
+          let reviews = ''
+          const reviewsList = document.querySelectorAll(
+            '#contents-review ul.rstdtl-top-rvwlst__list > li div.rstdtl-rvw',
+          )
+
+          reviewsList.forEach((review) => {
+            reviews += review?.textContent || ''
+          })
+
+          const reviewsDetail = document.querySelectorAll(
+            '#column-main div.rvw-item__visit-contents',
+          )
+          reviewsDetail.forEach((review) => {
+            reviews += review?.textContent || ''
+          })
+
+          resolve({ content: reviews, rate })
+        }, 1000)
+      }).then((res) => {
+        return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } }
+      })
+    }
+
     default: {
       return { ...pageSummaryJSON }
     }
