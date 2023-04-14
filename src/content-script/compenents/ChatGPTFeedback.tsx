@@ -93,6 +93,10 @@ function ChatGPTFeedback(props: Props) {
     }
   }, [copied])
 
+  useEffect(() => {
+    setStopStatus(status)
+  }, [status])
+
   return (
     <div className="gpt--feedback">
       {stopStatus === 'success' && (

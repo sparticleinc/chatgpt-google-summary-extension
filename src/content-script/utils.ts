@@ -653,7 +653,7 @@ export const getPageSummaryComments = async () => {
           })
 
           resolve({ content: reviews, rate })
-        }, 1000)
+        }, 100)
       }).then((res) => {
         return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } }
       })
