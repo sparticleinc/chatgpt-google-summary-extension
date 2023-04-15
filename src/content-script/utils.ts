@@ -659,6 +659,34 @@ export const getPageSummaryComments = async () => {
       })
     }
 
+    case 'mercari.com': {
+      const rate =
+        document.querySelector('#rstdtl-head div.rdheader-title-data')?.textContent || '-1'
+
+      return new Promise<GetReviewsProps>((resolve) => {
+        setTimeout(() => {
+          let reviews = ''
+
+          const seller =
+            document.querySelector(
+              'div.ItemDesktop__ShowBelowDesktopContainer-sc-5aa50ac7-7 div.Seller__Wrapper-sc-5f0c056a-0.iveEdW a.Link__StyledAnchor-sc-7a98b4dd-0.gvgXcw.cqqxNU',
+            )?.textContent || ''
+
+          const reviewsList = document.querySelectorAll(
+            'div.BodyContainer__ResponsiveContainer-sc-f13ab940-1 div.Grid--i32bvx.OwPTk div.GridCol--v8c949.fwjAA-d',
+          )
+
+          reviewsList.forEach((review) => {
+            reviews += review?.textContent || ''
+          })
+
+          resolve({ content: seller + reviews, rate })
+        }, 100)
+      }).then((res) => {
+        return { ...pageSummaryJSON, ...{ content: res.content, rate: res.rate } }
+      })
+    }
+
     default: {
       return { ...pageSummaryJSON }
     }
