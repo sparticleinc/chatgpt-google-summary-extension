@@ -9,6 +9,7 @@ import {
 } from '@primer/octicons-react'
 import { memo } from 'react'
 import { useEffect, useCallback, useState } from 'preact/hooks'
+import classNames from 'classnames'
 import Browser from 'webextension-polyfill'
 import type { QueryStatus } from './ChatGPTQuery'
 import { getSessionTask } from '@/config'
@@ -100,12 +101,15 @@ function ChatGPTFeedback(props: Props) {
   return (
     <div className="gpt--feedback">
       {stopStatus === 'success' && (
-        <span onClick={clickStop}>
-          <SkipFillIcon size={14} /> Stop
+        <span
+          onClick={clickStop}
+          className={classNames('glarity--blink', 'glarity--btn', 'glarity--btn__default')}
+        >
+          <SkipFillIcon size={13} /> Stop
         </span>
       )}
 
-      {stopStatus === 'done' && (
+      {(stopStatus === 'done' || stopStatus === 'error') && (
         <>
           <span
             onClick={clickThumbsUp}

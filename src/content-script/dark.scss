@@ -1083,4 +1083,10 @@ $border-color: #3c4043;
   .markdown-body ::-webkit-calendar-picker-indicator {
     filter: invert(50%);
   }
+
+  // button
+  .glarity--btn.glarity--btn__default {
+    border-color: #555;
+    background: #444;
+  }
 }
