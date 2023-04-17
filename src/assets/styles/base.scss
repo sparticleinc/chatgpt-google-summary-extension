@@ -88,6 +88,23 @@ $font-size-small: 12px;
 
     .glarity--chatgpt--content {
       margin-bottom: 10px;
+      line-height: 1.4;
+      font-size: 12px;
+      letter-spacing: normal !important;
+
+      h5,
+      h6 {
+        margin: 1em 0 0.5em;
+        text-transform: none;
+        font-size: 14px;
+        letter-spacing: normal !important;
+        font-weight: bold;
+      }
+
+      blockquote {
+        border-left-width: 2px;
+        padding: 0 0.5em;
+      }
     }
   }
 }
