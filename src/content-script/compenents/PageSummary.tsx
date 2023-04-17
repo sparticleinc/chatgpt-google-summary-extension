@@ -16,6 +16,7 @@ import {
 } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
+import Draggable from 'react-draggable'
 
 interface Props {
   pageSummaryEnable: boolean
@@ -31,6 +32,7 @@ function PageSummary(props: Props) {
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState<boolean>(false)
+  const [isDrag, setIsDrag] = useState<boolean>(false)
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -136,74 +138,105 @@ function PageSummary(props: Props) {
 
   return (
     <>
-      {showCard ? (
-        <div className="glarity--card glarity--page__summary">
-          <div className="glarity--card__head ">
-            <div className="glarity--card__head--title">
-              <a href="https://glarity.app" rel="noreferrer" target="_blank">
-                <img src={logo} alt={APP_TITLE} /> {APP_TITLE}
-              </a>{' '}
-              <button
-                className={classNames('glarity--btn', 'glarity--btn__icon')}
-                onClick={openOptionsPage}
-              >
-                <GearIcon size={14} />
-              </button>
-            </div>
+      <Draggable
+        axis="y"
+        onMouseDown={(e) => {
+          e.preventDefault()
+          setIsDrag(true)
+        }}
+        onStart={(e) => {
+          e.preventDefault()
+          setIsDrag(true)
+        }}
+        onStop={(e) => {
+          e.preventDefault()
+          setIsDrag(false)
+        }}
+      >
+        <div className={'glarity--page__summary'}>
+          {showCard ? (
+            <div
+              className={classNames(
+                'glarity--card',
+                'glarity--page__summary',
+                isDrag && 'glarity--move',
+              )}
+            >
+              <div className="glarity--card__head ">
+                <div className="glarity--card__head--title">
+                  <a href="https://glarity.app" rel="noreferrer" target="_blank">
+                    <img src={logo} alt={APP_TITLE} /> {APP_TITLE}
+                  </a>{' '}
+                  <button
+                    className={classNames('glarity--btn', 'glarity--btn__icon')}
+                    onClick={openOptionsPage}
+                  >
+                    <GearIcon size={14} />
+                  </button>
+                </div>
 
-            <div className="glarity--card__head--action">
-              <button
-                className={classNames('glarity--btn', 'glarity--btn__icon')}
-                onClick={onSwitch}
-              >
-                <XCircleFillIcon />
-              </button>
-            </div>
-          </div>
-
-          <div className="glarity--card__content">
-            {question ? (
-              <div className="glarity--container">
-                <div className="glarity--chatgpt">
-                  <ChatGPTQuery question={question} />
+                <div className="glarity--card__head--action">
+                  <button
+                    className={classNames('glarity--btn', 'glarity--btn__icon')}
+                    onClick={onSwitch}
+                  >
+                    <XCircleFillIcon />
+                  </button>
                 </div>
               </div>
-            ) : (
-              <div className="glarity--card__empty ">
-                {!supportSummary ? (
-                  'Sorry, the summary of this page is not supported.'
+
+              <div className="glarity--card__content">
+                {question ? (
+                  <div className="glarity--container">
+                    <div className="glarity--chatgpt">
+                      <ChatGPTQuery question={question} />
+                    </div>
+                  </div>
                 ) : (
-                  <button
-                    className={classNames(
-                      'glarity--btn',
-                      'glarity--btn__primary',
-                      // 'glarity--btn__large',
-                      'glarity--btn__block',
+                  <div className="glarity--card__empty ">
+                    {!supportSummary ? (
+                      'Sorry, the summary of this page is not supported.'
+                    ) : (
+                      <button
+                        className={classNames(
+                          'glarity--btn',
+                          'glarity--btn__primary',
+                          // 'glarity--btn__large',
+                          'glarity--btn__block',
+                        )}
+                        onClick={onSummary}
+                        disabled={loading}
+                      >
+                        Summary
+                      </button>
                     )}
-                    onClick={onSummary}
-                    disabled={loading}
-                  >
-                    Summary
-                  </button>
+                  </div>
                 )}
               </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            show && (
+              <>
+                <button
+                  onClick={onSwitch}
+                  className={classNames(
+                    'glarity--btn',
+                    'glarity--btn__launch',
+                    'glarity--btn__primary',
+                    isDrag && 'glarity--move',
+                  )}
+                >
+                  <img
+                    src={logoWhite}
+                    alt={APP_TITLE}
+                    className="glarity--w-5 glarity--h-5 glarity--rounded-sm"
+                  />
+                </button>{' '}
+              </>
+            )
+          )}
         </div>
-      ) : (
-        show && (
-          <button
-            onClick={onSwitch}
-            className={classNames('glarity--btn', 'glarity--btn__launch', 'glarity--btn__primary')}
-          >
-            <img
-              src={logoWhite}
-              alt={APP_TITLE}
-              className="glarity--w-5 glarity--h-5 glarity--rounded-sm"
-            />
-          </button>
-        )
-      )}
+      </Draggable>
     </>
   )
 }

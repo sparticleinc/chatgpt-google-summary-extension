@@ -193,6 +193,13 @@ $font-size-small: 12px;
   font-weight: normal;
 }
 
+// page--summary
+.glarity--page__summary {
+  .glarity--move {
+    cursor: ns-resize;
+  }
+}
+
 /* blink */
 @keyframes glarity-blink {
   0% {
