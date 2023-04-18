@@ -145,11 +145,11 @@ function ChatGPTQuery(props: Props) {
               setShowContent={setShowContent}
               status={status}
               setStatus={setStatus}
-              onStatusChange={onStatusChange}
+              // onStatusChange={onStatusChange}
             />
           </div>
           <div
-            className="glarity--chatgpt--content"
+            className="glarity--chatgpt--content glarity--nodrag"
             ref={wrapRef}
             style={{
               display: showContent ? 'block' : 'none',
@@ -166,17 +166,17 @@ function ChatGPTQuery(props: Props) {
           </div>
 
           {/* {done && showTip && (
-          <p className="glarity--italic glarity--mt-2">
-            Enjoy this extension? Give us a 5-star rating at{' '}
-            <a
-              href="https://chatgpt4google.com/chrome?utm_source=rating_tip"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Chrome Web Store
-            </a>
-          </p>
-        )} */}
+            <p className="glarity--italic glarity--mt-2">
+              Enjoy this extension? Give us a 5-star rating at{' '}
+              <a
+                href="https://chrome.google.com/webstore/detail/chatgpt-glarity%EF%BC%8Csummarize/cmnlolelipjlhfkhpohphpedmkfbobjc"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Chrome Web Store
+              </a>
+            </p>
+          )} */}
         </div>
 
         {!ignoreTranslation && (
@@ -193,7 +193,7 @@ function ChatGPTQuery(props: Props) {
 
   if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE') {
     return (
-      <p>
+      <p className={'glarity--nodrag'}>
         {isSafari ? (
           <>
             Please set OpenAI API Key in the{' '}
@@ -256,7 +256,7 @@ function ChatGPTQuery(props: Props) {
   }
   if (error) {
     return (
-      <p>
+      <p className={'glarity--nodrag'}>
         Failed to load response from ChatGPT:
         <span className="glarity--break-all glarity--block">{error}</span>
         <a

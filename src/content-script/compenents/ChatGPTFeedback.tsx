@@ -99,7 +99,7 @@ function ChatGPTFeedback(props: Props) {
   }, [status])
 
   return (
-    <div className="gpt--feedback">
+    <div className="gpt--feedback glarity--nodrag">
       {stopStatus === 'success' && (
         <span
           onClick={clickStop}

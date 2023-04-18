@@ -16,7 +16,7 @@ import {
 } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
-import Draggable from 'react-draggable'
+import Draggable from '@camdarragh/react-draggable'
 
 interface Props {
   pageSummaryEnable: boolean
@@ -52,6 +52,7 @@ function PageSummary(props: Props) {
   }, [])
 
   const onSummary = useCallback(async () => {
+    console.log('onSummary')
     setLoading(true)
     setSupportSummary(true)
 
@@ -140,18 +141,31 @@ function PageSummary(props: Props) {
     <>
       <Draggable
         axis="y"
-        onMouseDown={(e) => {
-          e.preventDefault()
-          setIsDrag(true)
-        }}
-        onStart={(e) => {
-          e.preventDefault()
-          setIsDrag(true)
-        }}
+        // onMouseDown={(e) => {
+        //   e.preventDefault()
+        //   setIsDrag(true)
+        // }}
+        // onStart={(e) => {
+        //   e.preventDefault()
+        //   setIsDrag(true)
+        // }}
         onStop={(e) => {
-          e.preventDefault()
           setIsDrag(false)
+          const { target, type } = e
+
+          if (target && type === 'touchend') {
+            try {
+              target.click()
+            } catch (error) {
+              console.error(error)
+            }
+          }
         }}
+        onDrag={(e) => {
+          e.preventDefault()
+          setIsDrag(true)
+        }}
+        cancel={'[class*="glarity--nodrag"]'}
       >
         <div className={'glarity--page__summary'}>
           {showCard ? (
@@ -164,18 +178,23 @@ function PageSummary(props: Props) {
             >
               <div className="glarity--card__head ">
                 <div className="glarity--card__head--title">
-                  <a href="https://glarity.app" rel="noreferrer" target="_blank">
+                  <a
+                    href="https://glarity.app"
+                    rel="noreferrer"
+                    target="_blank"
+                    className={'glarity--nodrag'}
+                  >
                     <img src={logo} alt={APP_TITLE} /> {APP_TITLE}
                   </a>{' '}
                   <button
-                    className={classNames('glarity--btn', 'glarity--btn__icon')}
+                    className={classNames('glarity--btn', 'glarity--btn__icon', 'glarity--nodrag')}
                     onClick={openOptionsPage}
                   >
                     <GearIcon size={14} />
                   </button>
                 </div>
 
-                <div className="glarity--card__head--action">
+                <div className="glarity--card__head--action glarity--nodrag">
                   <button
                     className={classNames('glarity--btn', 'glarity--btn__icon')}
                     onClick={onSwitch}
@@ -185,7 +204,7 @@ function PageSummary(props: Props) {
                 </div>
               </div>
 
-              <div className="glarity--card__content">
+              <div className="glarity--card__content glarity--nodrag">
                 {question ? (
                   <div className="glarity--container">
                     <div className="glarity--chatgpt">
@@ -193,7 +212,7 @@ function PageSummary(props: Props) {
                     </div>
                   </div>
                 ) : (
-                  <div className="glarity--card__empty ">
+                  <div className="glarity--card__empty">
                     {!supportSummary ? (
                       'Sorry, the summary of this page is not supported.'
                     ) : (
@@ -203,6 +222,8 @@ function PageSummary(props: Props) {
                           'glarity--btn__primary',
                           // 'glarity--btn__large',
                           'glarity--btn__block',
+                          'need-interaction',
+                          'glarity--nodrag',
                         )}
                         onClick={onSummary}
                         disabled={loading}
@@ -229,7 +250,7 @@ function PageSummary(props: Props) {
                   <img
                     src={logoWhite}
                     alt={APP_TITLE}
-                    className="glarity--w-5 glarity--h-5 glarity--rounded-sm"
+                    className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
                   />
                 </button>{' '}
               </>

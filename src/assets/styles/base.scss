@@ -24,6 +24,7 @@ $font-size-small: 12px;
     padding: 10px 12px;
     border-bottom: 1px solid #eee;
     font-size: $font-size-large;
+    cursor: ns-resize;
 
     .glarity--card__head--title {
       display: inline-flex;
@@ -59,6 +60,7 @@ $font-size-small: 12px;
     overflow-y: auto;
     overflow-wrap: break-word;
     min-height: 110px;
+    // cursor: auto;
 
     .glarity--container {
       margin-bottom: 0;

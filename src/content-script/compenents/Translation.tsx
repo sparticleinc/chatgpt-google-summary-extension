@@ -38,11 +38,12 @@ function Translation(props: Props) {
       <div
         className={classNames(
           'glarity--chatgpt--footer',
+          'glarity--nodrag',
           !showContent && 'glarity--chatgpt--footer__noborder',
         )}
       >
         <select
-          className="glarity--select"
+          className="glarity--select glarity--nodrag"
           value={lang}
           onChange={onChange}
           disabled={translationStatus !== 'done'}
