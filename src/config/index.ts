@@ -90,6 +90,8 @@ const userConfigWithDefaultValue: {
 
 export type UserConfig = typeof userConfigWithDefaultValue
 
+export const BOX_HEIGHT = 260
+
 export async function getUserConfig(): Promise<UserConfig> {
   const result = await Browser.storage.local.get(Object.keys(userConfigWithDefaultValue))
   return defaults(result, userConfigWithDefaultValue)
@@ -100,13 +102,13 @@ export async function updateUserConfig(updates: Partial<UserConfig>) {
   return Browser.storage.local.set(updates)
 }
 
-export async function getSessionTask(): Promise<string> {
-  const result = await Browser.storage.local.get('taskId')
-  return result.taskId
+export async function getSessionValue(key: string): Promise<string | number> {
+  const result = await Browser.storage.local.get(key)
+  return result[key]
 }
 
-export async function setSessionTask(taskId: string) {
-  return Browser.storage.local.set({ taskId })
+export async function setSessionValue({ key, value }: { key: string; value: string | number }) {
+  return Browser.storage.local.set({ [key]: value })
 }
 
 export enum ProviderType {

@@ -262,22 +262,6 @@ span.glarity--header__logo {
     li {
       list-style: disc;
     }
-
-    .glarity--chatgpt__footer {
-      position: absolute;
-      right: 2px;
-      bottom: 2px;
-      display: flex;
-      padding: 2px;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-
-      button {
-        margin: 0 2px;
-        vertical-align: middle;
-      }
-    }
   }
 }
 
@@ -305,6 +289,22 @@ span.glarity--header__logo {
 
   .gpt-markdown {
     margin-top: -20px;
+  }
+}
+
+.glarity--chatgpt__footer {
+  position: absolute;
+  right: -10px;
+  bottom: 2px;
+  display: flex;
+  padding: 2px;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+
+  button {
+    margin: 0 2px;
+    vertical-align: middle;
   }
 }
 

@@ -17,6 +17,7 @@ import {
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
 import Draggable from 'react-draggable'
+import { AppProvider } from '@/content-script/model/AppProvider/Provider'
 // import Draggable from '@camdarragh/react-draggable'
 
 interface Props {
@@ -140,125 +141,131 @@ function PageSummary(props: Props) {
 
   return (
     <>
-      <Draggable
-        axis="y"
-        // onMouseDown={(e) => {
-        //   e.preventDefault()
-        //   setIsDrag(true)
-        // }}
-        // onStart={(e) => {
-        //   e.preventDefault()
-        //   setIsDrag(true)
-        // }}
-        onStop={(e) => {
-          setIsDrag(false)
-          const { target, type } = e
+      <AppProvider>
+        <Draggable
+          axis="y"
+          // onMouseDown={(e) => {
+          //   e.preventDefault()
+          //   setIsDrag(true)
+          // }}
+          // onStart={(e) => {
+          //   e.preventDefault()
+          //   setIsDrag(true)
+          // }}
+          onStop={(e) => {
+            setIsDrag(false)
+            const { target, type } = e
 
-          if (target && type === 'touchend') {
-            try {
-              target?.click()
-            } catch (error) {
-              console.error(error)
+            if (target && type === 'touchend') {
+              try {
+                target?.click()
+              } catch (error) {
+                console.error(error)
+              }
             }
-          }
-        }}
-        onDrag={(e) => {
-          e.preventDefault()
-          setIsDrag(true)
-        }}
-        cancel={'[class*="glarity--nodrag"]'}
-      >
-        <div className={'glarity--page__summary'}>
-          {showCard ? (
-            <div
-              className={classNames(
-                'glarity--card',
-                'glarity--page__summary',
-                isDrag && 'glarity--move',
-              )}
-            >
-              <div className="glarity--card__head ">
-                <div className="glarity--card__head--title">
-                  <a
-                    href="https://glarity.app"
-                    rel="noreferrer"
-                    target="_blank"
-                    className={'glarity--nodrag'}
-                  >
-                    <img src={logo} alt={APP_TITLE} /> {APP_TITLE}
-                  </a>{' '}
-                  <button
-                    className={classNames('glarity--btn', 'glarity--btn__icon', 'glarity--nodrag')}
-                    onClick={openOptionsPage}
-                  >
-                    <GearIcon size={14} />
-                  </button>
-                </div>
-
-                <div className="glarity--card__head--action glarity--nodrag">
-                  <button
-                    className={classNames('glarity--btn', 'glarity--btn__icon')}
-                    onClick={onSwitch}
-                  >
-                    <XCircleFillIcon />
-                  </button>
-                </div>
-              </div>
-
-              <div className="glarity--card__content glarity--nodrag">
-                {question ? (
-                  <div className="glarity--container">
-                    <div className="glarity--chatgpt">
-                      <ChatGPTQuery question={question} />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="glarity--card__empty">
-                    {!supportSummary ? (
-                      'Sorry, the summary of this page is not supported.'
-                    ) : (
-                      <button
-                        className={classNames(
-                          'glarity--btn',
-                          'glarity--btn__primary',
-                          // 'glarity--btn__large',
-                          'glarity--btn__block',
-                          'need-interaction',
-                          'glarity--nodrag',
-                        )}
-                        onClick={onSummary}
-                        disabled={loading}
-                      >
-                        Summary
-                      </button>
-                    )}
-                  </div>
+          }}
+          onDrag={(e) => {
+            e.preventDefault()
+            setIsDrag(true)
+          }}
+          cancel={'[class*="glarity--nodrag"]'}
+        >
+          <div className={'glarity--page__summary'}>
+            {showCard ? (
+              <div
+                className={classNames(
+                  'glarity--card',
+                  'glarity--page__summary',
+                  isDrag && 'glarity--move',
                 )}
-              </div>
-            </div>
-          ) : (
-            show && (
-              <>
-                <button
-                  onClick={onSwitch}
-                  className={classNames(
-                    'glarity--btn',
-                    'glarity--btn__launch',
-                    'glarity--btn__primary',
-                    isDrag && 'glarity--move',
+              >
+                <div className="glarity--card__head ">
+                  <div className="glarity--card__head--title">
+                    <a
+                      href="https://glarity.app"
+                      rel="noreferrer"
+                      target="_blank"
+                      className={'glarity--nodrag'}
+                    >
+                      <img src={logo} alt={APP_TITLE} /> {APP_TITLE}
+                    </a>{' '}
+                    <button
+                      className={classNames(
+                        'glarity--btn',
+                        'glarity--btn__icon',
+                        'glarity--nodrag',
+                      )}
+                      onClick={openOptionsPage}
+                    >
+                      <GearIcon size={14} />
+                    </button>
+                  </div>
+
+                  <div className="glarity--card__head--action glarity--nodrag">
+                    <button
+                      className={classNames('glarity--btn', 'glarity--btn__icon')}
+                      onClick={onSwitch}
+                    >
+                      <XCircleFillIcon />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="glarity--card__content glarity--nodrag">
+                  {question ? (
+                    <div className="glarity--container">
+                      <div className="glarity--chatgpt">
+                        <ChatGPTQuery question={question} />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="glarity--card__empty">
+                      {!supportSummary ? (
+                        'Sorry, the summary of this page is not supported.'
+                      ) : (
+                        <button
+                          className={classNames(
+                            'glarity--btn',
+                            'glarity--btn__primary',
+                            // 'glarity--btn__large',
+                            'glarity--btn__block',
+                            'need-interaction',
+                            'glarity--nodrag',
+                          )}
+                          onClick={onSummary}
+                          disabled={loading}
+                        >
+                          Summary
+                        </button>
+                      )}
+                    </div>
                   )}
-                >
-                  <img
-                    src={logoWhite}
-                    alt={APP_TITLE}
-                    className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
-                  />
-                </button>{' '}
-              </>
-            )
-          )}
-        </div>
-      </Draggable>
+                </div>
+              </div>
+            ) : (
+              show && (
+                <>
+                  <button
+                    onClick={onSwitch}
+                    className={classNames(
+                      'glarity--btn',
+                      'glarity--btn__launch',
+                      'glarity--btn__primary',
+                      isDrag && 'glarity--move',
+                    )}
+                  >
+                    <img
+                      src={logoWhite}
+                      alt={APP_TITLE}
+                      className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
+                    />
+                  </button>{' '}
+                </>
+              )
+            )}
+          </div>
+        </Draggable>
+      </AppProvider>
     </>
   )
 }

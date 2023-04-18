@@ -12,7 +12,7 @@ import { useEffect, useCallback, useState } from 'preact/hooks'
 import classNames from 'classnames'
 import Browser from 'webextension-polyfill'
 import type { QueryStatus } from './ChatGPTQuery'
-import { getSessionTask } from '@/config'
+import { getSessionValue } from '@/config'
 
 interface Props {
   messageId: string
@@ -72,7 +72,7 @@ function ChatGPTFeedback(props: Props) {
   }
 
   const clickStop = useCallback(async () => {
-    const taskId = await getSessionTask()
+    const taskId = await getSessionValue('taskId')
 
     setStatus('done')
     setStopStatus('done')

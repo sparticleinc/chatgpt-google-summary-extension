@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'preact/hooks'
+import { useEffect, useState, useCallback, useRef, useContext } from 'preact/hooks'
 import classNames from 'classnames'
 import { memo, useMemo } from 'react'
 import { Loading } from '@geist-ui/core'
@@ -10,10 +10,11 @@ import { Answer } from '@/messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
 import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
-import { BASE_URL } from '@/config'
+import { BASE_URL, BOX_HEIGHT, getSessionValue, setSessionValue } from '@/config'
 import { isIOS, isSafari } from '@/utils/utils'
 import '@/content-script/styles.scss'
 import Translation from './Translation'
+import { AppContext } from '@/content-script/model/AppProvider/Context'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
 
@@ -36,7 +37,7 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [showContent, setShowContent] = useState<boolean>(true)
-  const [boxHeight, setBoxHeight] = useState<number>(260)
+  const { boxHeight, setBoxHeight } = useContext(AppContext)
 
   const stepValue = 50
 
@@ -94,7 +95,7 @@ function ChatGPTQuery(props: Props) {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
-  const onChangeBoxHeight = useCallback((type?: string) => {
+  const onChangeBoxHeight = useCallback(async (type?: string) => {
     const wrap: HTMLDivElement | null = wrapRef.current
     if (!wrap) {
       return
@@ -102,14 +103,18 @@ function ChatGPTQuery(props: Props) {
 
     if (type === 'plus') {
       setBoxHeight((value) => {
-        return value + stepValue
+        const height = value + stepValue
+        setSessionValue({ key: 'boxHeight', value: height })
+        return height
       })
     } else {
       setBoxHeight((value) => {
-        if (value <= 60) {
+        const height = value - stepValue
+        setSessionValue({ key: 'boxHeight', value: height })
+        if (height <= 60) {
           return 60
         }
-        return value - stepValue
+        return height
       })
     }
   }, [])
@@ -140,7 +145,11 @@ function ChatGPTQuery(props: Props) {
 
   useEffect(() => {
     shouldShowRatingTip().then((show) => setShowTip(show))
-  }, [])
+
+    getSessionValue('boxHeight').then((value) => {
+      setBoxHeight(Number(value || BOX_HEIGHT))
+    })
+  }, [setBoxHeight])
 
   useEffect(() => {
     const wrap: HTMLDivElement | null = wrapRef.current
@@ -189,27 +198,6 @@ function ChatGPTQuery(props: Props) {
             >
               Stop responding
             </button> */}
-
-            <div className="glarity--chatgpt__footer">
-              <button
-                onClick={() => {
-                  onChangeBoxHeight()
-                }}
-                disabled={boxHeight <= 60 ? true : false}
-                className={classNames('glarity--btn', 'glarity--btn__icon')}
-              >
-                <NoEntryIcon size={14} />
-              </button>
-
-              <button
-                onClick={() => {
-                  onChangeBoxHeight('plus')
-                }}
-                className={classNames('glarity--btn', 'glarity--btn__icon')}
-              >
-                <PlusCircleIcon size={14} />
-              </button>
-            </div>
           </div>
 
           {/* {done && showTip && (
@@ -232,7 +220,31 @@ function ChatGPTQuery(props: Props) {
             status={status}
             showContent={showContent}
             onStatusChange={onStatusChange}
+            boxHeight={boxHeight}
           />
+        )}
+
+        {!ignoreTranslation && (
+          <div className="glarity--chatgpt__footer glarity--nodrag">
+            <button
+              onClick={() => {
+                onChangeBoxHeight()
+              }}
+              disabled={boxHeight <= 60 ? true : false}
+              className={classNames('glarity--btn', 'glarity--btn__icon')}
+            >
+              <NoEntryIcon size={14} />
+            </button>
+
+            <button
+              onClick={() => {
+                onChangeBoxHeight('plus')
+              }}
+              className={classNames('glarity--btn', 'glarity--btn__icon')}
+            >
+              <PlusCircleIcon size={14} />
+            </button>
+          </div>
         )}
       </>
     )

@@ -1,5 +1,5 @@
 import Browser from 'webextension-polyfill'
-import { getProviderConfigs, ProviderType, BASE_URL, setSessionTask } from '@/config'
+import { getProviderConfigs, ProviderType, BASE_URL, setSessionValue } from '@/config'
 import { ChatGPTProvider, getChatGPTAccessToken, sendMessageFeedback } from './providers/chatgpt'
 import { OpenAIProvider } from './providers/openai'
 import { Provider } from './types'
@@ -27,7 +27,7 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
     cleanup?.()
   })
 
-  await setSessionTask(taskId)
+  await setSessionValue({ key: 'taskId', value: taskId })
 
   const { cleanup } = await provider.generateAnswer({
     prompt: question,
