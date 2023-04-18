@@ -16,7 +16,8 @@ import {
 } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
-import Draggable from '@camdarragh/react-draggable'
+import Draggable from 'react-draggable'
+// import Draggable from '@camdarragh/react-draggable'
 
 interface Props {
   pageSummaryEnable: boolean
@@ -155,7 +156,7 @@ function PageSummary(props: Props) {
 
           if (target && type === 'touchend') {
             try {
-              target.click()
+              target?.click()
             } catch (error) {
               console.error(error)
             }
