@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'preact/hooks'
 import classNames from 'classnames'
 import { memo, useMemo } from 'react'
 import { Loading } from '@geist-ui/core'
+import { PlusCircleIcon, NoEntryIcon } from '@primer/octicons-react'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
@@ -35,6 +36,9 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [showContent, setShowContent] = useState<boolean>(true)
+  const [boxHeight, setBoxHeight] = useState<number>(260)
+
+  const stepValue = 50
 
   const requestGpt = useMemo(() => {
     console.log('question', question)
@@ -45,12 +49,12 @@ function ChatGPTQuery(props: Props) {
       // setStatus('error')
       // return
 
-      // setDone(true)
-      // setStatus('done')
-      // setAnswer({
-      //   text: `Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.`,
-      // })
-      // return
+      setDone(true)
+      setStatus('done')
+      setAnswer({
+        text: `Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.`,
+      })
+      return
 
       const port = Browser.runtime.connect()
       const listener = (msg: any) => {
@@ -88,6 +92,26 @@ function ChatGPTQuery(props: Props) {
 
   const openOptionsPage = useCallback(() => {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
+  }, [])
+
+  const onChangeBoxHeight = useCallback((type?: string) => {
+    const wrap: HTMLDivElement | null = wrapRef.current
+    if (!wrap) {
+      return
+    }
+
+    if (type === 'plus') {
+      setBoxHeight((value) => {
+        return value + stepValue
+      })
+    } else {
+      setBoxHeight((value) => {
+        if (value <= 60) {
+          return 60
+        }
+        return value - stepValue
+      })
+    }
   }, [])
 
   useEffect(() => {
@@ -153,6 +177,8 @@ function ChatGPTQuery(props: Props) {
             ref={wrapRef}
             style={{
               display: showContent ? 'block' : 'none',
+              height: boxHeight + 'px',
+              maxHeight: boxHeight + 'px',
             }}
           >
             <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
@@ -163,6 +189,27 @@ function ChatGPTQuery(props: Props) {
             >
               Stop responding
             </button> */}
+
+            <div className="glarity--chatgpt__footer">
+              <button
+                onClick={() => {
+                  onChangeBoxHeight()
+                }}
+                disabled={boxHeight <= 60 ? true : false}
+                className={classNames('glarity--btn', 'glarity--btn__icon')}
+              >
+                <NoEntryIcon size={14} />
+              </button>
+
+              <button
+                onClick={() => {
+                  onChangeBoxHeight('plus')
+                }}
+                className={classNames('glarity--btn', 'glarity--btn__icon')}
+              >
+                <PlusCircleIcon size={14} />
+              </button>
+            </div>
           </div>
 
           {/* {done && showTip && (
