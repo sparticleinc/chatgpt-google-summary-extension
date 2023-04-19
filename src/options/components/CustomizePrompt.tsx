@@ -358,6 +358,13 @@ function CustomizePrompt(props: Props) {
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">
+                    {`List the highlights of the content in the form of Q&As, no less than 3 Q&As. Here is an example of the template output you should use:
+##### Who are you?
+I am AI.`}
+                  </Snippet>
+                </li>
+                <li>
+                  <Snippet symbol="" type="secondary">
                     Summarize the above content highlights.{' '}
                   </Snippet>
                 </li>
