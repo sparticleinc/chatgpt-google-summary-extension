@@ -290,7 +290,7 @@ export function siteConfig() {
   return config[siteName()]
 }
 
-export const getPageSummaryContntent = async () => {
+export const getPageSummaryContent = async () => {
   const html = document.querySelector('html')?.outerHTML
   const url = location.href
   if (!html) {

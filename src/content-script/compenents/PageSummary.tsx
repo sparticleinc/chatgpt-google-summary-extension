@@ -7,7 +7,7 @@ import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
 import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
-import { getPageSummaryContntent, getPageSummaryComments } from '@/content-script/utils'
+import { getPageSummaryContent, getPageSummaryComments } from '@/content-script/utils'
 import { commentSummaryPrompt, pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
@@ -51,7 +51,7 @@ function PageSummary(props: Props) {
     setQuestion('')
 
     const pageComments = await getPageSummaryComments()
-    const pageContent = await getPageSummaryContntent()
+    const pageContent = await getPageSummaryContent()
     const article = pageComments ? pageComments : pageContent
 
     const title = article?.title || document.title || ''
