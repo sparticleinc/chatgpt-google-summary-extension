@@ -326,7 +326,7 @@ function PageSummary(props: Props) {
                       }}
                       disabled={loading}
                     >
-                      3 bullet points.
+                      3 bullet points
                     </button>
                   </div>
 

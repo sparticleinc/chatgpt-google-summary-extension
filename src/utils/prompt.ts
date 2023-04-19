@@ -61,12 +61,15 @@ export const customizePromptCommentYoutube = `Give a summary of the comments for
 
 export const customizePromptQA = `List the highlights of the content in the form of Q&As, no less than 3 Q&As. Here is an example of the template output you should use:
 ##### Who are you?
-I am AI.`
+I am AI.
+
+Be sure not to write out the template examples.`
 
 export const customizePromptBulletPoints = `Summarize the above in 3 bullet points.`
 export const customizePromptTweet = `Use the above to summarise a catchy tweet and add it if you have the URL.`
 export const replylanguagePrompt = (language: string) => {
-  return `Please write in ${language} language.`
+  return `
+Please write in ${language} language.`
 }
 
 export const translatePrompt = (language: string) => {
