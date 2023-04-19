@@ -53,7 +53,7 @@ function ChatGPTQuery(props: Props) {
       // setDone(true)
       // setStatus('done')
       // setAnswer({
-      //   text: `Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.`,
+      //   text: `Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.`,
       // })
       // return
 
@@ -220,7 +220,6 @@ function ChatGPTQuery(props: Props) {
             status={status}
             showContent={showContent}
             onStatusChange={onStatusChange}
-            boxHeight={boxHeight}
           />
         )}
 

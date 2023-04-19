@@ -63,6 +63,10 @@ export const replylanguagePrompt = (language: string) => {
   return `Please write in ${language} language.`
 }
 
+export const translatePrompt = (language: string) => {
+  return `Please translate into ${language} language.`
+}
+
 export const articlePrompt = ({
   title,
   url,

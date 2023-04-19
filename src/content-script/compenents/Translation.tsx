@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { TRANSLATION_LANGUAGES } from '@/config'
 import ChatGPTQuery, { QueryStatus } from './ChatGPTQuery'
-import { replylanguagePrompt } from '@/utils/prompt'
+import { translatePrompt } from '@/utils/prompt'
 
 interface Props {
   answerText: string
@@ -28,7 +28,7 @@ function Translation(props: Props) {
       onStatusChange?.(undefined)
       const val = event.target.value || ''
       setLang(val)
-      setNewQuestion(answerText + replylanguagePrompt(val))
+      setNewQuestion(answerText + translatePrompt(val))
     },
     [answerText, onStatusChange],
   )
