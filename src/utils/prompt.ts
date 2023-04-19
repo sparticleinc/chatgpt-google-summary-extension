@@ -59,6 +59,12 @@ export const customizePromptCommentAmazon = `Give a summary of the reviews of th
 
 export const customizePromptCommentYoutube = `Give a summary of the comments for this video, including the different points of view.`
 
+export const customizePromptQA = `List the highlights of the content in the form of Q&As, no less than 3 Q&As. Here is an example of the template output you should use:
+##### Who are you?
+I am AI.`
+
+export const customizePromptBulletPoints = `Summarize the above in 3 bullet points.`
+export const customizePromptTweet = `Use the above to summarise a catchy tweet and add it if you have the URL.`
 export const replylanguagePrompt = (language: string) => {
   return `Please write in ${language} language.`
 }
@@ -130,12 +136,15 @@ export const pageSummaryPrompt = ({
   content,
   language,
   prompt,
+  url,
 }: {
   content: string
   language: string
   prompt?: string
+  url?: string | null
 }) => {
   return `Content: ${content}
+${url ? `URL: ${url}` : ''}
 Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
 ${replylanguagePrompt(language)}`
 }
@@ -145,14 +154,17 @@ export const commentSummaryPrompt = ({
   language,
   prompt,
   rate,
+  url,
 }: {
   content: string
   language: string
   prompt?: string
   rate?: string | null
+  url?: string | null
 }) => {
   const isRate = !!(rate && rate !== '-1')
   return `Comments: ${content}
+${url ? `URL: ${url}` : ''}
 ${isRate ? 'Customer Ratings:' + rate : ''}
 Instructions: ${prompt ? prompt : commentSummaryPromptHightligt}
 ${replylanguagePrompt(language)}`

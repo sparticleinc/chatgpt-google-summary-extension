@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
-import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
+import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
 // import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
 import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
@@ -13,12 +13,14 @@ import {
   commentSummaryPromptHightligt,
   pageSummaryPrompt,
   pageSummaryPromptHighlight,
+  customizePromptQA,
+  customizePromptBulletPoints,
+  customizePromptTweet,
 } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
 import Draggable from 'react-draggable'
 import { AppProvider } from '@/content-script/model/AppProvider/Provider'
-// import Draggable from '@camdarragh/react-draggable'
 
 interface Props {
   pageSummaryEnable: boolean
@@ -35,6 +37,8 @@ function PageSummary(props: Props) {
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState<boolean>(false)
   const [isDrag, setIsDrag] = useState<boolean>(false)
+  const [activeButton, setActiveButton] = useState<string>('')
+  const [status, setStatus] = useState<QueryStatus>()
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -53,12 +57,48 @@ function PageSummary(props: Props) {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
-  const onSummary = useCallback(async () => {
+  const onSummary = useCallback(async (type?: string) => {
     console.log('onSummary')
     setLoading(true)
     setSupportSummary(true)
 
+    setActiveButton(type ?? '')
+
     setQuestion('')
+
+    const userConfig = await getUserConfig()
+
+    let promptPage = ''
+    let promptComment = ''
+
+    switch (type) {
+      case 'qa': {
+        promptPage = customizePromptQA
+        promptComment = customizePromptQA
+        break
+      }
+
+      case 'points': {
+        promptPage = customizePromptBulletPoints
+        promptComment = customizePromptBulletPoints
+        break
+      }
+
+      case 'tweet': {
+        promptPage = customizePromptTweet
+        promptComment = customizePromptTweet
+        break
+      }
+
+      default: {
+        promptPage = userConfig.promptComment
+          ? userConfig.promptComment
+          : commentSummaryPromptHightligt
+
+        promptComment = userConfig.promptPage ? userConfig.promptPage : pageSummaryPromptHighlight
+        break
+      }
+    }
 
     const pageComments = await getPageSummaryComments()
     const pageContent = await getPageSummaryContntent()
@@ -73,7 +113,6 @@ function PageSummary(props: Props) {
 
     if (article?.content || description) {
       const language = window.navigator.language
-      const userConfig = await getUserConfig()
       const providerConfigs = await getProviderConfigs()
 
       const promptContent = getSummaryPrompt(
@@ -87,25 +126,28 @@ function PageSummary(props: Props) {
       )
       const replyLanguage = userConfig.language === Language.Auto ? language : userConfig.language
 
+      const url = type === 'tweet' ? location.href : null
+
       const prompt = pageComments?.content
         ? commentSummaryPrompt({
             content: promptContent,
+            url,
             language: replyLanguage,
-            prompt: userConfig.promptComment
-              ? userConfig.promptComment
-              : commentSummaryPromptHightligt,
+            prompt: promptPage,
             rate: promptRate || '-1',
           })
         : pageSummaryPrompt({
             content: promptContent,
+            url,
             language: replyLanguage,
-            prompt: userConfig.promptPage ? userConfig.promptPage : pageSummaryPromptHighlight,
+            prompt: promptComment,
           })
 
       setQuestion(prompt)
       return
     }
 
+    setLoading(false)
     setSupportSummary(false)
   }, [])
 
@@ -138,6 +180,12 @@ function PageSummary(props: Props) {
 
     setShow(show)
   }, [pageSummaryBlacklist, pageSummaryEnable, pageSummaryWhitelist, siteRegex])
+
+  useEffect(() => {
+    if (status === 'done' || status === 'error') {
+      setLoading(false)
+    }
+  }, [status])
 
   return (
     <>
@@ -212,33 +260,84 @@ function PageSummary(props: Props) {
                 </div>
 
                 <div className="glarity--card__content glarity--nodrag">
+                  <div className="glarity--card__content--head">
+                    <button
+                      className={classNames(
+                        'glarity--btn',
+                        activeButton === 'summary'
+                          ? 'glarity--btn__primary'
+                          : 'glarity--btn__primary--ghost',
+                        'glarity--btn__small',
+                        'glarity--nodrag',
+                      )}
+                      onClick={() => {
+                        onSummary('summary')
+                      }}
+                      disabled={loading}
+                    >
+                      Summary
+                    </button>
+
+                    <button
+                      className={classNames(
+                        'glarity--btn',
+                        activeButton === 'tweet'
+                          ? 'glarity--btn__primary'
+                          : 'glarity--btn__primary--ghost',
+                        'glarity--btn__small',
+                        'glarity--nodrag',
+                      )}
+                      onClick={() => {
+                        onSummary('tweet')
+                      }}
+                      disabled={loading}
+                    >
+                      Create a tweet
+                    </button>
+
+                    <button
+                      className={classNames(
+                        'glarity--btn',
+                        activeButton === 'qa'
+                          ? 'glarity--btn__primary'
+                          : 'glarity--btn__primary--ghost',
+                        'glarity--btn__small',
+                        'glarity--nodrag',
+                      )}
+                      onClick={() => {
+                        onSummary('qa')
+                      }}
+                      disabled={loading}
+                    >
+                      Q&A
+                    </button>
+
+                    <button
+                      className={classNames(
+                        'glarity--btn',
+                        activeButton === 'points'
+                          ? 'glarity--btn__primary'
+                          : 'glarity--btn__primary--ghost',
+                        'glarity--btn__small',
+                        'glarity--nodrag',
+                      )}
+                      onClick={() => {
+                        onSummary('points')
+                      }}
+                      disabled={loading}
+                    >
+                      3 bullet points.
+                    </button>
+                  </div>
+
                   {question ? (
                     <div className="glarity--container">
                       <div className="glarity--chatgpt">
-                        <ChatGPTQuery question={question} />
+                        <ChatGPTQuery question={question} onStatusChange={setStatus} />
                       </div>
                     </div>
                   ) : (
-                    <div className="glarity--card__empty">
-                      {!supportSummary ? (
-                        'Sorry, the summary of this page is not supported.'
-                      ) : (
-                        <button
-                          className={classNames(
-                            'glarity--btn',
-                            'glarity--btn__primary',
-                            // 'glarity--btn__large',
-                            'glarity--btn__block',
-                            'need-interaction',
-                            'glarity--nodrag',
-                          )}
-                          onClick={onSummary}
-                          disabled={loading}
-                        >
-                          Summary
-                        </button>
-                      )}
-                    </div>
+                    <>{!supportSummary && 'Sorry, the summary of this page is not supported.'}</>
                   )}
                 </div>
               </div>

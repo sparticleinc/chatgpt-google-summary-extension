@@ -105,7 +105,7 @@ function ChatGPTFeedback(props: Props) {
           onClick={clickStop}
           className={classNames('glarity--blink', 'glarity--btn', 'glarity--btn__default')}
         >
-          <SkipFillIcon size={13} /> Stop
+          <SkipFillIcon size={12} /> Stop
         </span>
       )}
 
@@ -115,13 +115,13 @@ function ChatGPTFeedback(props: Props) {
             onClick={clickThumbsUp}
             className={action === 'thumbsUp' ? 'gpt--feedback--selected' : undefined}
           >
-            <ThumbsupIcon size={14} />
+            <ThumbsupIcon size={13} />
           </span>
           <span
             onClick={clickThumbsDown}
             className={action === 'thumbsDown' ? 'gpt--feedback--selected' : undefined}
           >
-            <ThumbsdownIcon size={14} />
+            <ThumbsdownIcon size={13} />
           </span>
 
           <span onClick={clickCopyToClipboard}>

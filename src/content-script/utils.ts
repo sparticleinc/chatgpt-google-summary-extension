@@ -370,11 +370,13 @@ export const getPageSummaryContntent = async () => {
 }
 
 export const pageSummaryJSON: {
+  url: string | null
   title: string | null
-  content: string | null
   description: string | null
+  content: string | null
   rate?: string | null
 } = {
+  url: location.href,
   title: null,
   content: null,
   description: null,

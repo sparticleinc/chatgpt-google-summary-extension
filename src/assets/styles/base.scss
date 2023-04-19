@@ -13,7 +13,7 @@ $font-size-small: 12px;
 .glarity--card {
   font-size: $font-size-normal;
   border: 1px solid #ddd;
-  box-shadow: 0 3px 8px rgb(0 0 0 / 35%);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 15%);
   border-radius: 6px !important;
   background: #fff;
 
@@ -59,7 +59,7 @@ $font-size-small: 12px;
     max-height: 500px;
     overflow-y: auto;
     overflow-wrap: break-word;
-    min-height: 110px;
+    min-height: 50px;
     // cursor: auto;
 
     .glarity--container {
@@ -68,6 +68,12 @@ $font-size-small: 12px;
       .glarity--chatgpt {
         border: none;
       }
+    }
+    .glarity--card__content--head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
     .glarity--card__empty {
