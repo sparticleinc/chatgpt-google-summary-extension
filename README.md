@@ -129,7 +129,7 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 1. Go to `chrome://extensions/`.
 2. At the top right, turn on `Developer mode`.
 3. Click `Load unpacked`.
-4. Find and select extension folder(`build/chromium/`).
+4. Find and select extension unzip folder(`Glarity-chromium/`).
 
 ### Firefox
 

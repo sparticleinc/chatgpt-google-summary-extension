@@ -67,6 +67,7 @@ $font-size-small: 12px;
 
       .glarity--chatgpt {
         border: none;
+        padding: 0;
       }
     }
     .glarity--card__content--head {
@@ -90,8 +91,30 @@ $font-size-small: 12px;
       min-height: 70px;
     }
 
+    .glarity--card__content--body {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .glarity--card__content--title {
+      margin: 0 0 8px;
+      padding: 0;
+      font-size: 14px;
+      font-weight: bold;
+
+      &.glarity--card__content--title__summary {
+        margin-bottom: -20px;
+      }
+    }
+
+    .glarity--card__content--text {
+      height: 60px;
+      overflow: hidden auto;
+    }
+
     .glarity--container #gpt-answer.markdown-body.gpt-markdown .glarity--chatgpt--header {
       margin: -13px -12px 0 0 !important;
+      padding-bottom: 10px;
     }
 
     .glarity--chatgpt--content {
@@ -198,7 +221,7 @@ $font-size-small: 12px;
 
   &.glarity--btn__small {
     font-size: $font-size-small;
-    padding: 4px 8px;
+    padding: 4px 4px;
   }
 
   &.glarity--btn__default {
@@ -224,6 +247,47 @@ $font-size-small: 12px;
   .glarity--move {
     cursor: ns-resize;
   }
+}
+
+// selection menu
+.glarity--selection__menu {
+  position: fixed;
+  z-index: 999999;
+  left: 0;
+  right: auto;
+  top: 0;
+  bottom: auto;
+  width: 24px;
+  height: 24px;
+  &.glarity--selection__menu__hidden {
+    top: -99999em !important;
+  }
+}
+
+// list
+.glarity--list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+
+  .glarity--list__item {
+    display: flex;
+    padding: 2px 0;
+    margin: 0;
+    cursor: pointer;
+  }
+}
+
+// reset antd
+.glarity--popover-content {
+  width: 100px !important;
+}
+.glarity--popover-inner {
+  padding: 6px !important;
+}
+.glarity--divider-horizontal {
+  margin: 15px 0 !important;
 }
 
 /* blink */

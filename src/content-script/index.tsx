@@ -7,6 +7,7 @@ import Browser from 'webextension-polyfill'
 import PageSummary from '@/content-script/compenents/PageSummary'
 import mount from '@/content-script/compenents/Mount'
 import getQuestion from './compenents/GetQuestion'
+import { AppProvider } from '@/content-script/model/AppProvider/Provider'
 import { siteConfig as sietConfigFn } from './utils'
 import '@/content-script/styles.scss'
 
@@ -25,12 +26,14 @@ async function Run() {
   container.className = 'glarity--summary'
   document.body.prepend(container)
   render(
-    <PageSummary
-      pageSummaryEnable={userConfig.pageSummaryEnable}
-      pageSummaryWhitelist={userConfig.pageSummaryWhitelist}
-      pageSummaryBlacklist={userConfig.pageSummaryBlacklist}
-      siteRegex={siteRegex}
-    />,
+    <AppProvider>
+      <PageSummary
+        pageSummaryEnable={userConfig.pageSummaryEnable}
+        pageSummaryWhitelist={userConfig.pageSummaryWhitelist}
+        pageSummaryBlacklist={userConfig.pageSummaryBlacklist}
+        siteRegex={siteRegex}
+      />
+    </AppProvider>,
     container,
   )
 

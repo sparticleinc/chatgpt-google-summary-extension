@@ -76,6 +76,8 @@ export const translatePrompt = (language: string) => {
   return `Please translate into ${language} language.`
 }
 
+export const explainPrompt = `Explain the above using easy to understand syntax.`
+
 export const articlePrompt = ({
   title,
   url,

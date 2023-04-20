@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect } from 'preact/hooks'
+import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
 import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
+import { ConfigProvider, Popover, Divider } from 'antd'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
 // import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
@@ -16,11 +17,14 @@ import {
   customizePromptQA,
   customizePromptBulletPoints,
   customizePromptTweet,
+  translatePrompt,
+  explainPrompt,
 } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
 import Draggable from 'react-draggable'
-import { AppProvider } from '@/content-script/model/AppProvider/Provider'
+import { debounce } from 'lodash-es'
+import { AppContext } from '@/content-script/model/AppProvider/Context'
 
 interface Props {
   pageSummaryEnable: boolean
@@ -29,9 +33,15 @@ interface Props {
   siteRegex: RegExp
 }
 
+interface MenuPosition {
+  x: number
+  y: number
+}
+
 function PageSummary(props: Props) {
   const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props
-  const [showCard, setShowCard] = useState(false)
+  // const [showCard, setShowCard] = useState(false)
+  const { showCard, setShowCard } = useContext(AppContext)
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
@@ -39,6 +49,9 @@ function PageSummary(props: Props) {
   const [isDrag, setIsDrag] = useState<boolean>(false)
   const [activeButton, setActiveButton] = useState<string>('')
   const [status, setStatus] = useState<QueryStatus>()
+  const [menuPosition, setMenuPosition] = useState<MenuPosition>({ x: 0, y: 0 })
+  const [showSelectionMenu, setShowSelectionMenu] = useState<boolean>(false)
+  const [selectionText, setSelectionText] = useState<string>('')
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -60,6 +73,7 @@ function PageSummary(props: Props) {
   const onSummary = useCallback(async (type?: string) => {
     console.log('onSummary')
     setLoading(true)
+    setShowCard(true)
     setSupportSummary(true)
 
     setActiveButton(type ?? '')
@@ -87,6 +101,18 @@ function PageSummary(props: Props) {
       case 'tweet': {
         promptPage = customizePromptTweet
         promptComment = customizePromptTweet
+        break
+      }
+
+      case 'translation': {
+        promptPage = translatePrompt(userConfig.language)
+        promptComment = translatePrompt(userConfig.language)
+        break
+      }
+
+      case 'explain': {
+        promptPage = explainPrompt
+        promptComment = explainPrompt
         break
       }
 
@@ -164,7 +190,7 @@ function PageSummary(props: Props) {
         setLoading(false)
       }
     })
-  }, [showCard])
+  }, [setShowCard, showCard])
 
   useEffect(() => {
     const hostname = location.hostname
@@ -187,9 +213,50 @@ function PageSummary(props: Props) {
     }
   }, [status])
 
+  useEffect(() => {
+    const second = debounce(() => {
+      const selection = window.getSelection()
+      const selectionText = selection?.toString().trim()
+
+      if (selection && selectionText) {
+        setSelectionText(selectionText)
+
+        const range = selection.getRangeAt(0)
+        const rect = range.getBoundingClientRect()
+        const position = { x: rect.left, y: rect.top }
+        const size = { width: rect.width, height: rect.height }
+
+        setMenuPosition({
+          x: position.x + size.width / 2,
+          y: position.y + size.height + 5,
+        })
+
+        setShowSelectionMenu(true)
+      }
+    }, 500)
+
+    const onMouseDown = () => {
+      setShowSelectionMenu(false)
+    }
+
+    const onScroll = () => {
+      setShowSelectionMenu(false)
+    }
+
+    document.addEventListener('click', onMouseDown)
+    document.addEventListener('selectionchange', second)
+    document.addEventListener('scroll', onScroll)
+
+    return () => {
+      document.removeEventListener('selectionchange', second)
+      document.removeEventListener('click', onMouseDown)
+      document.removeEventListener('scroll', onScroll)
+    }
+  }, [setShowSelectionMenu])
+
   return (
     <>
-      <AppProvider>
+      <ConfigProvider prefixCls="glarity-" iconPrefixCls="glarity--icon-">
         <Draggable
           axis="y"
           // onMouseDown={(e) => {
@@ -330,6 +397,23 @@ function PageSummary(props: Props) {
                     </button>
                   </div>
 
+                  <Divider></Divider>
+
+                  {selectionText && (
+                    <>
+                      <div className="glarity--card__content--body">
+                        <h3 className="glarity--card__content--title">Content</h3>
+                        <div className="glarity--card__content--text">{selectionText}</div>
+                      </div>
+
+                      <Divider></Divider>
+
+                      <h3 className="glarity--card__content--title glarity--card__content--title__summary">
+                        Summary
+                      </h3>
+                    </>
+                  )}
+
                   {question ? (
                     <div className="glarity--container">
                       <div className="glarity--chatgpt">
@@ -364,7 +448,74 @@ function PageSummary(props: Props) {
             )}
           </div>
         </Draggable>
-      </AppProvider>
+
+        <Popover
+          // trigger="click"
+          content={
+            <ul className={'glarity--list'}>
+              <li
+                className="glarity--list__item"
+                onClick={() => {
+                  onSummary('summary')
+                }}
+              >
+                Summary
+              </li>
+              <li
+                className="glarity--list__item"
+                onClick={() => {
+                  onSummary('tweet')
+                }}
+              >
+                Create a tweet
+              </li>
+              <li
+                className="glarity--list__item"
+                onClick={() => {
+                  onSummary('explain')
+                }}
+              >
+                Explain
+              </li>
+              <li
+                className="glarity--list__item"
+                onClick={() => {
+                  onSummary('translation')
+                }}
+              >
+                Translation
+              </li>
+            </ul>
+          }
+        >
+          <div
+            className={classNames(
+              'glarity--selection__menu',
+              !showSelectionMenu && 'glarity--selection__menu__hidden',
+            )}
+            style={{
+              left: `${menuPosition.x}px`,
+              top: `${menuPosition.y}px`,
+              right: 'auto',
+              bottom: 'auto',
+            }}
+          >
+            <button
+              className={classNames(
+                'glarity--btn',
+                'glarity--btn__launch',
+                'glarity--btn__primary',
+              )}
+            >
+              <img
+                src={logoWhite}
+                alt={APP_TITLE}
+                className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
+              />
+            </button>
+          </div>
+        </Popover>
+      </ConfigProvider>
     </>
   )
 }
