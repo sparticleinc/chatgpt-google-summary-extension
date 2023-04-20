@@ -314,7 +314,7 @@ export const getPageContent = async () => {
   }
 }
 
-export const getPageSummaryContntent = async () => {
+export const getPageSummaryContent = async () => {
   const site = getReviewsSites()
   const title = document.title || ''
   const description =

@@ -8,7 +8,7 @@ import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQu
 import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
-import { getPageSummaryContntent, getPageSummaryComments } from '@/content-script/utils'
+import { getPageSummaryContent, getPageSummaryComments } from '@/content-script/utils'
 import {
   commentSummaryPrompt,
   commentSummaryPromptHightligt,
@@ -144,7 +144,7 @@ function PageSummary(props: Props) {
       }
 
       const pageComments = await getPageSummaryComments()
-      const pageContent = await getPageSummaryContntent()
+      const pageContent = await getPageSummaryContent()
       const article = pageComments?.content ? pageComments : pageContent
 
       const title = article?.title || document.title || ''
