@@ -70,112 +70,127 @@ function PageSummary(props: Props) {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
-  const onSummary = useCallback(async (type?: string) => {
-    console.log('onSummary')
-    setLoading(true)
-    setShowCard(true)
-    setSupportSummary(true)
+  const onSummary = useCallback(
+    async (type?: string, isSelection?: boolean) => {
+      console.log('onSummary')
+      setLoading(true)
+      setShowCard(true)
+      setSupportSummary(true)
 
-    setActiveButton(type ?? '')
+      setActiveButton(type ?? '')
 
-    setQuestion('')
+      setQuestion('')
 
-    const userConfig = await getUserConfig()
+      const userConfig = await getUserConfig()
 
-    let promptPage = ''
-    let promptComment = ''
+      let promptPage = ''
+      let promptComment = ''
 
-    switch (type) {
-      case 'qa': {
-        promptPage = customizePromptQA
-        promptComment = customizePromptQA
-        break
+      switch (type) {
+        case 'qa': {
+          promptPage = customizePromptQA
+          promptComment = customizePromptQA
+          break
+        }
+
+        case 'points': {
+          promptPage = customizePromptBulletPoints
+          promptComment = customizePromptBulletPoints
+          break
+        }
+
+        case 'tweet': {
+          promptPage = customizePromptTweet
+          promptComment = customizePromptTweet
+          break
+        }
+
+        case 'translation': {
+          promptPage = translatePrompt(userConfig.language)
+          promptComment = translatePrompt(userConfig.language)
+          break
+        }
+
+        case 'explain': {
+          promptPage = explainPrompt
+          promptComment = explainPrompt
+          break
+        }
+
+        default: {
+          promptPage = userConfig.promptComment
+            ? userConfig.promptComment
+            : commentSummaryPromptHightligt
+
+          promptComment = userConfig.promptPage ? userConfig.promptPage : pageSummaryPromptHighlight
+          break
+        }
       }
 
-      case 'points': {
-        promptPage = customizePromptBulletPoints
-        promptComment = customizePromptBulletPoints
-        break
-      }
-
-      case 'tweet': {
-        promptPage = customizePromptTweet
-        promptComment = customizePromptTweet
-        break
-      }
-
-      case 'translation': {
-        promptPage = translatePrompt(userConfig.language)
-        promptComment = translatePrompt(userConfig.language)
-        break
-      }
-
-      case 'explain': {
-        promptPage = explainPrompt
-        promptComment = explainPrompt
-        break
-      }
-
-      default: {
-        promptPage = userConfig.promptComment
-          ? userConfig.promptComment
-          : commentSummaryPromptHightligt
-
-        promptComment = userConfig.promptPage ? userConfig.promptPage : pageSummaryPromptHighlight
-        break
-      }
-    }
-
-    const pageComments = await getPageSummaryComments()
-    const pageContent = await getPageSummaryContntent()
-    const article = pageComments?.content ? pageComments : pageContent
-
-    const title = article?.title || document.title || ''
-    const description =
-      article?.description ||
-      document.querySelector('meta[name="description"]')?.getAttribute('content') ||
-      ''
-    const content = article?.content ? description + article?.content : title + description
-
-    if (article?.content || description) {
       const language = window.navigator.language
-      const providerConfigs = await getProviderConfigs()
-
-      const promptContent = getSummaryPrompt(
-        content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
-        providerConfigs.provider,
-      )
-
-      const promptRate = getSummaryPrompt(
-        article?.['rate']?.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
-        providerConfigs.provider,
-      )
       const replyLanguage = userConfig.language === Language.Auto ? language : userConfig.language
-
       const url = type === 'tweet' ? location.href : null
 
-      const prompt = pageComments?.content
-        ? commentSummaryPrompt({
-            content: promptContent,
-            url,
-            language: replyLanguage,
-            prompt: promptPage,
-            rate: promptRate || '-1',
-          })
-        : pageSummaryPrompt({
-            content: promptContent,
+      if (isSelection) {
+        setQuestion(
+          pageSummaryPrompt({
+            content: selectionText,
             url,
             language: replyLanguage,
             prompt: promptComment,
-          })
+          }),
+        )
+        return
+      }
 
-      setQuestion(prompt)
-      return
-    }
+      const pageComments = await getPageSummaryComments()
+      const pageContent = await getPageSummaryContntent()
+      const article = pageComments?.content ? pageComments : pageContent
 
-    setLoading(false)
-    setSupportSummary(false)
-  }, [])
+      const title = article?.title || document.title || ''
+      const description =
+        article?.description ||
+        document.querySelector('meta[name="description"]')?.getAttribute('content') ||
+        ''
+      const content = article?.content ? description + article?.content : title + description
+
+      if (article?.content || description) {
+        const providerConfigs = await getProviderConfigs()
+
+        const promptContent = getSummaryPrompt(
+          content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
+          providerConfigs.provider,
+        )
+
+        const promptRate = getSummaryPrompt(
+          article?.['rate']?.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
+          providerConfigs.provider,
+        )
+
+        const prompt = pageComments?.content
+          ? commentSummaryPrompt({
+              content: promptContent,
+              url,
+              language: replyLanguage,
+              prompt: promptPage,
+              rate: promptRate || '-1',
+            })
+          : pageSummaryPrompt({
+              content: promptContent,
+              url,
+              language: replyLanguage,
+              prompt: promptComment,
+            })
+
+        setQuestion(prompt)
+        return
+      }
+
+      setLoading(false)
+      setSupportSummary(false)
+    },
+    [selectionText, setShowCard],
+  )
 
   useEffect(() => {
     Browser.runtime.onMessage.addListener((message) => {
@@ -456,7 +471,7 @@ function PageSummary(props: Props) {
               <li
                 className="glarity--list__item"
                 onClick={() => {
-                  onSummary('summary')
+                  onSummary('summary', true)
                 }}
               >
                 Summary
@@ -464,7 +479,7 @@ function PageSummary(props: Props) {
               <li
                 className="glarity--list__item"
                 onClick={() => {
-                  onSummary('tweet')
+                  onSummary('tweet', true)
                 }}
               >
                 Create a tweet
@@ -472,7 +487,7 @@ function PageSummary(props: Props) {
               <li
                 className="glarity--list__item"
                 onClick={() => {
-                  onSummary('explain')
+                  onSummary('explain', true)
                 }}
               >
                 Explain
@@ -480,7 +495,7 @@ function PageSummary(props: Props) {
               <li
                 className="glarity--list__item"
                 onClick={() => {
-                  onSummary('translation')
+                  onSummary('translation', true)
                 }}
               >
                 Translation
