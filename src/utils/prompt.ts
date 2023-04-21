@@ -78,6 +78,8 @@ export const translatePrompt = (language: string) => {
 
 export const explainPrompt = `Explain the above using easy to understand syntax.`
 
+export const importantListPrompt = `Summarize this content into a bulleted list of the most important information.`
+
 export const articlePrompt = ({
   title,
   url,

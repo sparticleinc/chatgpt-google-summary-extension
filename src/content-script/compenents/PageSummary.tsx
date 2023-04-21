@@ -19,6 +19,7 @@ import {
   customizePromptTweet,
   translatePrompt,
   explainPrompt,
+  importantListPrompt,
 } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
@@ -114,6 +115,12 @@ function PageSummary(props: Props) {
         case 'explain': {
           promptPage = explainPrompt
           promptComment = explainPrompt
+          break
+        }
+
+        case 'important': {
+          promptPage = importantListPrompt
+          promptComment = importantListPrompt
           break
         }
 
@@ -243,7 +250,8 @@ function PageSummary(props: Props) {
 
         setMenuPosition({
           x: position.x + size.width / 2,
-          y: position.y + size.height + 5,
+          // y: position.y + size.height + 5,
+          y: position.y,
         })
 
         setShowSelectionMenu(true)
@@ -404,11 +412,11 @@ function PageSummary(props: Props) {
                         'glarity--nodrag',
                       )}
                       onClick={() => {
-                        onSummary('points')
+                        onSummary('important')
                       }}
                       disabled={loading}
                     >
-                      3 bullet points
+                      Important
                     </button>
                   </div>
 
@@ -466,6 +474,16 @@ function PageSummary(props: Props) {
 
         <Popover
           // trigger="click"
+          className="glarity--popover"
+          open={showSelectionMenu}
+          title={
+            <div className={'glarity--selection__title'}>
+              <a href="https://glarity.app" rel="noreferrer" target="_blank">
+                <img src={logo} alt={APP_TITLE} />
+                Glarity
+              </a>
+            </div>
+          }
           content={
             <ul className={'glarity--list'}>
               <li
@@ -476,6 +494,14 @@ function PageSummary(props: Props) {
               >
                 Summary
               </li>
+              {/* <li
+                className="glarity--list__item"
+                onClick={() => {
+                  onSummary('important', true)
+                }}
+              >
+                Important
+              </li> */}
               <li
                 className="glarity--list__item"
                 onClick={() => {
@@ -515,19 +541,11 @@ function PageSummary(props: Props) {
               bottom: 'auto',
             }}
           >
-            <button
-              className={classNames(
-                'glarity--btn',
-                'glarity--btn__launch',
-                'glarity--btn__primary',
-              )}
-            >
-              <img
-                src={logoWhite}
-                alt={APP_TITLE}
-                className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
-              />
-            </button>
+            <img
+              src={logoWhite}
+              alt={APP_TITLE}
+              className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
+            />
           </div>
         </Popover>
       </ConfigProvider>

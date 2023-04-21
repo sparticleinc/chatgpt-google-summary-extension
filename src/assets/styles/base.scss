@@ -8,6 +8,7 @@ $gray-color: #444;
 $font-size-large: 16px;
 $font-size-normal: 14px;
 $font-size-small: 12px;
+$border-color: rgba(5, 5, 5, 0.06);
 
 // card
 .glarity--card {
@@ -249,7 +250,7 @@ $font-size-small: 12px;
   }
 }
 
-// selection menu
+// selection
 .glarity--selection__menu {
   position: fixed;
   z-index: 999999;
@@ -257,10 +258,29 @@ $font-size-small: 12px;
   right: auto;
   top: 0;
   bottom: auto;
-  width: 24px;
-  height: 24px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
   &.glarity--selection__menu__hidden {
     top: -99999em !important;
+  }
+}
+.glarity--selection__title {
+  display: flex;
+  padding: 3px 6px;
+  align-items: center;
+  font-size: 12px;
+  // background-color: $border-color;
+
+  img {
+    margin-right: 3px;
+    height: 13px;
+    width: 13px;
+  }
+
+  a {
+    display: flex;
+    align-items: inherit;
   }
 }
 
@@ -276,16 +296,54 @@ $font-size-small: 12px;
     padding: 2px 0;
     margin: 0;
     cursor: pointer;
+    border-block-end: 0.5px solid $border-color;
+
+    &:hover {
+      background-color: $border-color;
+    }
+
+    &:last-child {
+      border-block-end: none;
+    }
+  }
+}
+
+// popover
+.glarity--popover {
+  line-height: 1.5;
+  font-size: 12px;
+  .glarity--popover-title {
+    margin-bottom: 0 !important;
+    min-width: auto !important;
+    border-block-end: 1px solid $border-color;
+  }
+  .glarity--popover-content {
+    width: 100px !important;
+  }
+
+  .glarity--popover-inner {
+    padding: 0 !important;
+
+    .glarity--popover-inner-content {
+      padding: 0 8px;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+    }
+  }
+
+  .glarity--list__item {
+    margin: 0 -8px;
+    padding: 2px 8px;
   }
 }
 
 // reset antd
-.glarity--popover-content {
-  width: 100px !important;
-}
-.glarity--popover-inner {
-  padding: 6px !important;
-}
+// .glarity--popover-content {
+//   width: 100px !important;
+// }
+// .glarity--popover-inner {
+//   padding: 6px !important;
+// }
 .glarity--divider-horizontal {
   margin: 15px 0 !important;
 }
