@@ -53,6 +53,7 @@ function PageSummary(props: Props) {
   const [menuPosition, setMenuPosition] = useState<MenuPosition>({ x: 0, y: 0 })
   const [showSelectionMenu, setShowSelectionMenu] = useState<boolean>(false)
   const [selectionText, setSelectionText] = useState<string>('')
+  const [isSelection, setIsSelection] = useState<boolean>(false)
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -60,6 +61,7 @@ function PageSummary(props: Props) {
 
       if (cardState) {
         setQuestion('')
+        setIsSelection(false)
         setLoading(false)
       }
 
@@ -73,6 +75,7 @@ function PageSummary(props: Props) {
 
   const onSummary = useCallback(
     async (type?: string, isSelection?: boolean) => {
+      setIsSelection(isSelection ?? false)
       console.log('onSummary')
       setLoading(true)
       setShowCard(true)
@@ -422,7 +425,7 @@ function PageSummary(props: Props) {
 
                   <Divider></Divider>
 
-                  {selectionText && (
+                  {selectionText && isSelection && (
                     <>
                       <div className="glarity--card__content--body">
                         <h3 className="glarity--card__content--title">Content</h3>
@@ -431,9 +434,11 @@ function PageSummary(props: Props) {
 
                       <Divider></Divider>
 
-                      <h3 className="glarity--card__content--title glarity--card__content--title__summary">
-                        Summary
-                      </h3>
+                      {(status === 'success' || status === 'done') && (
+                        <h3 className="glarity--card__content--title glarity--card__content--title__summary">
+                          Summary
+                        </h3>
+                      )}
                     </>
                   )}
 
