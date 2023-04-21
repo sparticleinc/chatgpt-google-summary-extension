@@ -73,7 +73,7 @@ Please write in ${language} language.`
 }
 
 export const translatePrompt = (language: string) => {
-  return `Please translate into ${language} language.`
+  return `Please translate the above into ${language} language.`
 }
 
 export const explainPrompt = `Explain the above using easy to understand syntax.`
@@ -144,16 +144,18 @@ export const pageSummaryPrompt = ({
   language,
   prompt,
   url,
+  isTranslation,
 }: {
   content: string
   language: string
   prompt?: string
   url?: string | null
+  isTranslation?: boolean
 }) => {
   return `Content: ${content}
 ${url ? `URL: ${url}` : ''}
 Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
-${replylanguagePrompt(language)}`
+${isTranslation ? '' : replylanguagePrompt(language)}`
 }
 
 export const commentSummaryPrompt = ({
@@ -175,4 +177,23 @@ ${url ? `URL: ${url}` : ''}
 ${isRate ? 'Customer Ratings:' + rate : ''}
 Instructions: ${prompt ? prompt : commentSummaryPromptHightligt}
 ${replylanguagePrompt(language)}`
+}
+
+export const selectionSummaryPrompt = ({
+  content,
+  language,
+  prompt,
+  url,
+  isTranslation,
+}: {
+  content: string
+  language: string
+  prompt?: string
+  url?: string | null
+  isTranslation?: boolean
+}) => {
+  return `Content: ${content}
+${url ? `URL: ${url}` : ''}
+${prompt ? prompt : pageSummaryPromptHighlight}
+${isTranslation ? '' : replylanguagePrompt(language)}`
 }

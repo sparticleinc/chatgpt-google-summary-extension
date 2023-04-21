@@ -3,10 +3,24 @@ import $ from 'jquery'
 import copy from 'copy-to-clipboard'
 import { config } from './search-engine-configs'
 import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
+import {
+  customizePromptBulletPoints,
+  customizePromptQA,
+  customizePromptTweet,
+  explainPrompt,
+  importantListPrompt,
+  translatePrompt,
+} from '@/utils/prompt'
 
 export interface GetReviewsProps {
   content: string
   rate: string
+}
+
+export interface PromptItem {
+  key: string
+  name: string
+  prompt: string | ((language: string) => string)
 }
 
 export function getPossibleElementByQuerySelector<T extends Element>(
@@ -694,3 +708,41 @@ export const getPageSummaryComments = async () => {
     }
   }
 }
+
+export const pagePromptList: PromptItem[] = [
+  {
+    key: 'qa',
+    name: 'Q&A',
+    prompt: customizePromptQA,
+  },
+  {
+    key: 'points',
+    name: '3 bullet points',
+    prompt: customizePromptBulletPoints,
+  },
+  {
+    key: 'tweet',
+    name: 'Create a tweet',
+    prompt: customizePromptTweet,
+  },
+  {
+    key: 'translation',
+    name: 'Translation',
+    prompt: translatePrompt,
+  },
+  {
+    key: 'explain',
+    name: 'Explain',
+    prompt: explainPrompt,
+  },
+  {
+    key: 'important',
+    name: 'Important',
+    prompt: importantListPrompt,
+  },
+  {
+    key: 'summary',
+    name: 'Summary',
+    prompt: '',
+  },
+]

@@ -8,18 +8,18 @@ import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQu
 import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
-import { getPageSummaryContent, getPageSummaryComments } from '@/content-script/utils'
+import {
+  getPageSummaryContent,
+  getPageSummaryComments,
+  pagePromptList,
+  PromptItem,
+} from '@/content-script/utils'
 import {
   commentSummaryPrompt,
   commentSummaryPromptHightligt,
   pageSummaryPrompt,
   pageSummaryPromptHighlight,
-  customizePromptQA,
-  customizePromptBulletPoints,
-  customizePromptTweet,
-  translatePrompt,
-  explainPrompt,
-  importantListPrompt,
+  selectionSummaryPrompt,
 } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
@@ -48,12 +48,12 @@ function PageSummary(props: Props) {
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState<boolean>(false)
   const [isDrag, setIsDrag] = useState<boolean>(false)
-  const [activeButton, setActiveButton] = useState<string>('')
   const [status, setStatus] = useState<QueryStatus>()
   const [menuPosition, setMenuPosition] = useState<MenuPosition>({ x: 0, y: 0 })
   const [showSelectionMenu, setShowSelectionMenu] = useState<boolean>(false)
   const [selectionText, setSelectionText] = useState<string>('')
   const [isSelection, setIsSelection] = useState<boolean>(false)
+  const [promptItem, setPromptItem] = useState<PromptItem>()
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -67,7 +67,7 @@ function PageSummary(props: Props) {
 
       return cardState
     })
-  }, [])
+  }, [setShowCard])
 
   const openOptionsPage = useCallback(() => {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
@@ -80,74 +80,43 @@ function PageSummary(props: Props) {
       setLoading(true)
       setShowCard(true)
       setSupportSummary(true)
-
-      setActiveButton(type ?? '')
-
       setQuestion('')
 
       const userConfig = await getUserConfig()
-
-      let promptPage = ''
-      let promptComment = ''
-
-      switch (type) {
-        case 'qa': {
-          promptPage = customizePromptQA
-          promptComment = customizePromptQA
-          break
-        }
-
-        case 'points': {
-          promptPage = customizePromptBulletPoints
-          promptComment = customizePromptBulletPoints
-          break
-        }
-
-        case 'tweet': {
-          promptPage = customizePromptTweet
-          promptComment = customizePromptTweet
-          break
-        }
-
-        case 'translation': {
-          promptPage = translatePrompt(userConfig.language)
-          promptComment = translatePrompt(userConfig.language)
-          break
-        }
-
-        case 'explain': {
-          promptPage = explainPrompt
-          promptComment = explainPrompt
-          break
-        }
-
-        case 'important': {
-          promptPage = importantListPrompt
-          promptComment = importantListPrompt
-          break
-        }
-
-        default: {
-          promptPage = userConfig.promptComment
-            ? userConfig.promptComment
-            : commentSummaryPromptHightligt
-
-          promptComment = userConfig.promptPage ? userConfig.promptPage : pageSummaryPromptHighlight
-          break
-        }
-      }
 
       const language = window.navigator.language
       const replyLanguage = userConfig.language === Language.Auto ? language : userConfig.language
       const url = type === 'tweet' ? location.href : null
 
+      let promptPage = ''
+      let promptComment = ''
+
+      if (type) {
+        const item = pagePromptList.filter((item) => item.key === type)[0]
+        const itemPrompt = item?.prompt as unknown
+        const prompt = itemPrompt instanceof Function ? itemPrompt(replyLanguage) : itemPrompt
+
+        setPromptItem(item)
+
+        if (type === 'summary') {
+          promptComment = userConfig.promptComment
+            ? userConfig.promptComment
+            : commentSummaryPromptHightligt
+
+          promptPage = userConfig.promptPage ? userConfig.promptPage : pageSummaryPromptHighlight
+        } else {
+          promptPage = promptComment = prompt
+        }
+      }
+
       if (isSelection) {
         setQuestion(
-          pageSummaryPrompt({
+          selectionSummaryPrompt({
             content: selectionText,
             url,
             language: replyLanguage,
-            prompt: promptComment,
+            prompt: promptPage,
+            isTranslation: type === 'translation',
           }),
         )
         return
@@ -182,14 +151,14 @@ function PageSummary(props: Props) {
               content: promptContent,
               url,
               language: replyLanguage,
-              prompt: promptPage,
+              prompt: promptComment,
               rate: promptRate || '-1',
             })
           : pageSummaryPrompt({
               content: promptContent,
               url,
               language: replyLanguage,
-              prompt: promptComment,
+              prompt: promptPage,
             })
 
         setQuestion(prompt)
@@ -357,7 +326,7 @@ function PageSummary(props: Props) {
                     <button
                       className={classNames(
                         'glarity--btn',
-                        activeButton === 'summary'
+                        promptItem?.key === 'summary'
                           ? 'glarity--btn__primary'
                           : 'glarity--btn__primary--ghost',
                         'glarity--btn__small',
@@ -374,7 +343,7 @@ function PageSummary(props: Props) {
                     <button
                       className={classNames(
                         'glarity--btn',
-                        activeButton === 'tweet'
+                        promptItem?.key === 'tweet'
                           ? 'glarity--btn__primary'
                           : 'glarity--btn__primary--ghost',
                         'glarity--btn__small',
@@ -391,7 +360,7 @@ function PageSummary(props: Props) {
                     <button
                       className={classNames(
                         'glarity--btn',
-                        activeButton === 'qa'
+                        promptItem?.key === 'qa'
                           ? 'glarity--btn__primary'
                           : 'glarity--btn__primary--ghost',
                         'glarity--btn__small',
@@ -408,7 +377,7 @@ function PageSummary(props: Props) {
                     <button
                       className={classNames(
                         'glarity--btn',
-                        activeButton === 'points'
+                        promptItem?.key === 'important'
                           ? 'glarity--btn__primary'
                           : 'glarity--btn__primary--ghost',
                         'glarity--btn__small',
@@ -436,7 +405,7 @@ function PageSummary(props: Props) {
 
                       {(status === 'success' || status === 'done') && (
                         <h3 className="glarity--card__content--title glarity--card__content--title__summary">
-                          Summary
+                          {promptItem?.name ? promptItem.name : 'Summary'}
                         </h3>
                       )}
                     </>
@@ -499,14 +468,6 @@ function PageSummary(props: Props) {
               >
                 Summary
               </li>
-              {/* <li
-                className="glarity--list__item"
-                onClick={() => {
-                  onSummary('important', true)
-                }}
-              >
-                Important
-              </li> */}
               <li
                 className="glarity--list__item"
                 onClick={() => {
