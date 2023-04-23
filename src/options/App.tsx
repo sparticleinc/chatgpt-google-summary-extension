@@ -26,6 +26,7 @@ import { isIOS } from '@/utils/utils'
 import Header from './components/Header'
 import CustomizePrompt from './components/CustomizePrompt'
 import PageSummaryComponent from './components/PageSummary'
+import PageSelectionComponent, { PageSelectionProps } from './components/PageSelection'
 import EnableGlarity from './components/EnableGlarity'
 import { detectSystemColorScheme } from '@/utils/utils'
 import {
@@ -41,7 +42,8 @@ function OptionsPage(
   props: {
     theme: Theme
     onThemeChange: (theme: Theme) => void
-  } & PageSummaryProps,
+  } & PageSummaryProps &
+    PageSelectionProps,
 ) {
   const {
     setPageSummaryEnable,
@@ -50,6 +52,8 @@ function OptionsPage(
     pageSummaryBlacklist,
     setPageSummaryWhitelist,
     setPageSummaryBlacklist,
+    pageSelectionEnable,
+    setPageSelectionEnable,
   } = props
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
@@ -185,6 +189,12 @@ function OptionsPage(
         </Text>
         <ProviderSelect />
 
+        {/* Page Selection */}
+        <PageSelectionComponent
+          pageSelectionEnable={pageSelectionEnable}
+          setPageSelectionEnable={setPageSelectionEnable}
+        />
+
         <CustomizePrompt
           prompt={prompt}
           promptSearch={promptSearch}
@@ -236,6 +246,7 @@ function App() {
   const [pageSummaryEnable, setPageSummaryEnable] = useState(true)
   const [pageSummaryWhitelist, setPageSummaryWhitelist] = useState<string>('')
   const [pageSummaryBlacklist, setPageSummaryBlacklist] = useState<string>('')
+  const [pageSelectionEnable, setPageSelectionEnable] = useState(true)
 
   const themeType = useMemo(() => {
     if (theme === Theme.Auto) {
@@ -252,6 +263,7 @@ function App() {
       setPageSummaryBlacklist(
         config.pageSummaryBlacklist ? config.pageSummaryBlacklist : DEFAULT_PAGE_SUMMARY_BLACKLIST,
       )
+      setPageSelectionEnable(config.pageSelectionEnable)
     })
   }, [])
 
@@ -267,6 +279,8 @@ function App() {
         pageSummaryBlacklist={pageSummaryBlacklist}
         setPageSummaryWhitelist={setPageSummaryWhitelist}
         setPageSummaryBlacklist={setPageSummaryBlacklist}
+        pageSelectionEnable={pageSelectionEnable}
+        setPageSelectionEnable={setPageSelectionEnable}
       />
     </GeistProvider>
   )

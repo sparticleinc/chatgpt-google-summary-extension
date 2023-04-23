@@ -1,11 +1,18 @@
 import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
 import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
-import { ConfigProvider, Popover, Divider, Modal } from 'antd'
+import { ConfigProvider, Popover, Divider, Modal, Typography } from 'antd'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
 // import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
-import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
+import {
+  getUserConfig,
+  Language,
+  getProviderConfigs,
+  APP_TITLE,
+  updateUserConfig,
+  UserConfig,
+} from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { isIOS } from '@/utils/utils'
 import {
@@ -26,6 +33,8 @@ import logo from '@/assets/img/logo.png'
 import Draggable from 'react-draggable'
 import { debounce } from 'lodash-es'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
+
+const { Paragraph, Text, Link } = Typography
 
 interface Props {
   pageSummaryEnable: boolean
@@ -55,6 +64,8 @@ function PageSummary(props: Props) {
   const [isSelection, setIsSelection] = useState<boolean>(false)
   const [promptItem, setPromptItem] = useState<PromptItem>()
   const [isCloseSelectionOpen, setIsCloseSelectionOpen] = useState(false)
+  const [pageSelectionEnable, setPageSelectionEnable] = useState(true)
+  const [userConfigData, setUserConfigData] = useState<UserConfig>()
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -172,8 +183,10 @@ function PageSummary(props: Props) {
     [selectionText, setShowCard],
   )
 
-  const onCloseSelection = useCallback(() => {
-    // setShowSelectionMenu(false)
+  const onSwitchSelection = useCallback(() => {
+    setPageSelectionEnable(false)
+    updateUserConfig({ pageSelectionEnable: false })
+    setIsCloseSelectionOpen(false)
   }, [])
 
   useEffect(() => {
@@ -253,6 +266,16 @@ function PageSummary(props: Props) {
       document.removeEventListener('scroll', onScroll)
     }
   }, [setShowSelectionMenu])
+
+  useEffect(() => {
+    async function getConfig() {
+      const userConfig = await getUserConfig()
+
+      setPageSelectionEnable(userConfig?.pageSelectionEnable ?? true)
+      setUserConfigData(userConfig)
+    }
+    getConfig()
+  }, [])
 
   return (
     <>
@@ -451,96 +474,108 @@ function PageSummary(props: Props) {
           </div>
         </Draggable>
 
-        <Popover
-          // trigger="click"
-          className="glarity--popover"
-          open={showSelectionMenu}
-          title={
-            <div className={'glarity--selection__title'}>
-              <a href="https://glarity.app" rel="noreferrer" target="_blank">
-                <img src={logo} alt={APP_TITLE} />
-                Glarity
-              </a>
+        {pageSelectionEnable && (
+          <>
+            <Popover
+              // trigger="click"
+              className="glarity--popover"
+              open={showSelectionMenu}
+              title={
+                <div className={'glarity--selection__title'}>
+                  <a href="https://glarity.app" rel="noreferrer" target="_blank">
+                    <img src={logo} alt={APP_TITLE} />
+                    Glarity
+                  </a>
 
-              <button
-                className={classNames('glarity--btn', 'glarity--btn__icon')}
-                onClick={() => {
-                  setIsCloseSelectionOpen(true)
+                  <button
+                    className={classNames('glarity--btn', 'glarity--btn__icon')}
+                    onClick={() => {
+                      setIsCloseSelectionOpen(true)
+                    }}
+                  >
+                    <XCircleFillIcon />
+                  </button>
+                </div>
+              }
+              content={
+                <ul className={'glarity--list'}>
+                  <li
+                    className="glarity--list__item"
+                    onClick={() => {
+                      onSummary('summary', true)
+                    }}
+                  >
+                    Summary
+                  </li>
+                  <li
+                    className="glarity--list__item"
+                    onClick={() => {
+                      onSummary('tweet', true)
+                    }}
+                  >
+                    Create a tweet
+                  </li>
+                  <li
+                    className="glarity--list__item"
+                    onClick={() => {
+                      onSummary('explain', true)
+                    }}
+                  >
+                    Explain
+                  </li>
+                  <li
+                    className="glarity--list__item"
+                    onClick={() => {
+                      onSummary('translation', true)
+                    }}
+                  >
+                    Translation
+                  </li>
+                </ul>
+              }
+            >
+              <div
+                className={classNames(
+                  'glarity--selection__menu',
+                  !showSelectionMenu && 'glarity--selection__menu__hidden',
+                )}
+                style={{
+                  left: `${menuPosition.x}px`,
+                  top: `${menuPosition.y}px`,
+                  right: 'auto',
+                  bottom: 'auto',
                 }}
               >
-                <XCircleFillIcon />
-              </button>
-            </div>
-          }
-          content={
-            <ul className={'glarity--list'}>
-              <li
-                className="glarity--list__item"
-                onClick={() => {
-                  onSummary('summary', true)
-                }}
-              >
-                Summary
-              </li>
-              <li
-                className="glarity--list__item"
-                onClick={() => {
-                  onSummary('tweet', true)
-                }}
-              >
-                Create a tweet
-              </li>
-              <li
-                className="glarity--list__item"
-                onClick={() => {
-                  onSummary('explain', true)
-                }}
-              >
-                Explain
-              </li>
-              <li
-                className="glarity--list__item"
-                onClick={() => {
-                  onSummary('translation', true)
-                }}
-              >
-                Translation
-              </li>
-            </ul>
-          }
-        >
-          <div
-            className={classNames(
-              'glarity--selection__menu',
-              !showSelectionMenu && 'glarity--selection__menu__hidden',
-            )}
-            style={{
-              left: `${menuPosition.x}px`,
-              top: `${menuPosition.y}px`,
-              right: 'auto',
-              bottom: 'auto',
-            }}
-          >
-            <img
-              src={logoWhite}
-              alt={APP_TITLE}
-              className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
-            />
-          </div>
-        </Popover>
+                <img
+                  src={logoWhite}
+                  alt={APP_TITLE}
+                  className="glarity--w-5 glarity--h-5 glarity--rounded-sm glarity--launch__icon"
+                />
+              </div>
+            </Popover>
 
-        <Modal
-          title={`${APP_TITLE}  tips`}
-          open={isCloseSelectionOpen}
-          onOk={onCloseSelection}
-          onCancel={() => {
-            setIsCloseSelectionOpen(false)
-          }}
-          closable={false}
-          okText="Confirm"
-        >
-          <p>Sure to close? You can turn it on in the options.</p>
-        </Modal>
+            <Modal
+              title={`${APP_TITLE}  tips`}
+              open={isCloseSelectionOpen}
+              onOk={onSwitchSelection}
+              onCancel={() => {
+                setIsCloseSelectionOpen(false)
+              }}
+              closable={false}
+              okText="Confirm"
+            >
+              <Typography>
+                <Paragraph>Are you sure you want to close the page selection feature?</Paragraph>
+                <Paragraph>
+                  <Text mark>
+                    You can turn it on in the <Link onClick={openOptionsPage}>Options</Link> {`>>`}{' '}
+                    Page Selection.
+                  </Text>
+                </Paragraph>
+              </Typography>
+            </Modal>
+          </>
+        )}
       </ConfigProvider>
     </>
   )
