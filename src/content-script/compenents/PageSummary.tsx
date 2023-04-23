@@ -180,7 +180,7 @@ function PageSummary(props: Props) {
       setLoading(false)
       setSupportSummary(false)
     },
-    [selectionText, setShowCard],
+    [selectionText, setShowCard, userConfigData],
   )
 
   const onSwitchSelection = useCallback(() => {

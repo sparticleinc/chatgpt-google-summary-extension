@@ -24,6 +24,11 @@ async function Run() {
   )
   const container = document.createElement('section')
   container.className = 'glarity--summary'
+
+  if (document.querySelector('section.glarity--summary')) {
+    document.querySelector('section.glarity--summary')?.remove()
+  }
+
   document.body.prepend(container)
   render(
     <AppProvider>
