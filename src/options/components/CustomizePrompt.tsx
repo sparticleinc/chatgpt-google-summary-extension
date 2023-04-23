@@ -19,6 +19,9 @@ import {
   customizePromptCommentYoutube,
   customizePromptQA,
   customizePromptBulletPoints,
+  customizePromptSummarizeHighlights,
+  customizePromptKeyTakeaways,
+  customizePromptExtractGist,
 } from '@/utils/prompt'
 
 interface Props {
@@ -192,12 +195,6 @@ function CustomizePrompt(props: Props) {
               }
             >
               <Card className="glarity--card">
-                <Text className="glarity--my-1">
-                  <Code block my={0}>
-                    {customizePrompt}
-                  </Code>
-                </Text>
-
                 <Textarea
                   placeholder="Please enter a Prompt."
                   value={prompt}
@@ -206,6 +203,12 @@ function CustomizePrompt(props: Props) {
                     onPromptChange(e)
                   }}
                 />
+
+                <Text className="glarity--my-1">
+                  <Code block my={0}>
+                    {customizePrompt}
+                  </Code>
+                </Text>
 
                 <Card.Footer>
                   <Space>
@@ -222,7 +225,7 @@ function CustomizePrompt(props: Props) {
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">
-                    Summarize the above content highlights.
+                    {customizePromptSummarizeHighlights}
                   </Snippet>
                 </li>
                 <li>
@@ -234,12 +237,12 @@ function CustomizePrompt(props: Props) {
                 <li>
                   {' '}
                   <Snippet symbol="" type="secondary">
-                    {`What's key takeaways from the above?`}
+                    {customizePromptKeyTakeaways}
                   </Snippet>
                 </li>
                 <li>
                   <Snippet symbol="" type="secondary">
-                    Extract the gist of the above.
+                    {customizePromptExtractGist}
                   </Snippet>
                 </li>
                 <li>
@@ -264,12 +267,6 @@ function CustomizePrompt(props: Props) {
               }
             >
               <Card className="glarity--card">
-                <Text className="glarity--my-1">
-                  <Code block my={0}>
-                    {customizePromptSearch}
-                  </Code>
-                </Text>
-
                 <Textarea
                   placeholder="Please enter a Prompt."
                   value={promptSearch}
@@ -278,6 +275,12 @@ function CustomizePrompt(props: Props) {
                     onPromptChange(e, 'search')
                   }}
                 />
+
+                <Text className="glarity--my-1">
+                  <Code block my={0}>
+                    {customizePromptSearch}
+                  </Code>
+                </Text>
 
                 <Card.Footer>
                   <Space>
@@ -309,7 +312,7 @@ function CustomizePrompt(props: Props) {
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">
-                    Summarize the above content highlights.{' '}
+                    {customizePromptSummarizeHighlights}
                   </Snippet>
                 </li>
                 <li>
@@ -321,12 +324,12 @@ function CustomizePrompt(props: Props) {
                 <li>
                   {' '}
                   <Snippet symbol="" type="secondary">
-                    What's key takeaways from the above?{' '}
+                    {customizePromptKeyTakeaways}
                   </Snippet>
                 </li>
                 <li>
                   <Snippet symbol="" type="secondary">
-                    Extract the gist of the above.
+                    {customizePromptExtractGist}
                   </Snippet>
                 </li>
               </ul>
@@ -341,12 +344,6 @@ function CustomizePrompt(props: Props) {
               }
             >
               <Card className="glarity--card">
-                <Text className="glarity--my-1">
-                  <Code block my={0}>
-                    {customizePromptPage}
-                  </Code>
-                </Text>
-
                 <Textarea
                   placeholder="Please enter a Prompt."
                   value={promptPage}
@@ -355,6 +352,12 @@ function CustomizePrompt(props: Props) {
                     onPromptChange(e, 'page')
                   }}
                 />
+
+                <Text className="glarity--my-1">
+                  <Code block my={0}>
+                    {customizePromptPage}
+                  </Code>
+                </Text>
 
                 <Card.Footer>
                   <Space>
@@ -391,7 +394,7 @@ function CustomizePrompt(props: Props) {
                 </li>
                 <li>
                   <Snippet symbol="" type="secondary">
-                    Summarize the above content highlights.{' '}
+                    {customizePromptSummarizeHighlights}
                   </Snippet>
                 </li>
                 <li>
@@ -403,7 +406,7 @@ function CustomizePrompt(props: Props) {
                 <li>
                   {' '}
                   <Snippet symbol="" type="secondary">
-                    What's key takeaways from the above?{' '}
+                    {customizePromptKeyTakeaways}
                   </Snippet>
                 </li>
                 <li>
@@ -426,12 +429,6 @@ function CustomizePrompt(props: Props) {
               }
             >
               <Card className="glarity--card">
-                <Text className="glarity--my-1">
-                  <Code block my={0}>
-                    {customizePromptComment}
-                  </Code>
-                </Text>
-
                 <Textarea
                   placeholder="Please enter a Prompt."
                   value={promptComment}
@@ -440,6 +437,12 @@ function CustomizePrompt(props: Props) {
                     onPromptChange(e, 'comment')
                   }}
                 />
+
+                <Text className="glarity--my-1">
+                  <Code block my={0}>
+                    {customizePromptComment}
+                  </Code>
+                </Text>
 
                 <Card.Footer>
                   <Space>

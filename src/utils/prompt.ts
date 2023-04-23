@@ -50,7 +50,7 @@ Example response:
 #### Explanation:
 The title is a bit exaggerated.
 `
-export const customizePromptCommentAmazon = `Give a summary of the reviews of this item according to the above, and pros, cons, ratings.Your output should use the following template:
+export const customizePromptCommentAmazon = `Give a summary of the reviews of this item according to the below, and pros, cons, ratings.Your output should use the following template:
 #### Rating
 #### Review Summary
 #### Pros
@@ -65,18 +65,25 @@ I am AI.
 
 Be sure not to write out the template examples.`
 
-export const customizePromptBulletPoints = `Summarize the above in 3 bullet points.`
-export const customizePromptTweet = `Use the above to summarise a catchy tweet and add it if you have the URL.`
+export const customizePromptBulletPoints = `Summarize the below content in 3 bullet points.`
+export const customizePromptTweet = `Use the below to summarise a catchy tweet and add it if you have the URL.`
+
+export const customizePromptSummarizeHighlights = `Summarize the below content highlights.`
+
+export const customizePromptKeyTakeaways = `What's key takeaways from the below?`
+
+export const customizePromptExtractGist = `Extract the gist of the below.`
+
 export const replylanguagePrompt = (language: string) => {
   return `
 Please write in ${language} language.`
 }
 
 export const translatePrompt = (language: string) => {
-  return `Please translate the above into ${language} language.`
+  return `Please translate the below into ${language} language.`
 }
 
-export const explainPrompt = `Explain the above using easy to understand syntax.`
+export const explainPrompt = `Explain the below using easy to understand syntax.`
 
 export const importantListPrompt = `Summarize this content into a bulleted list of the most important information.`
 
@@ -93,10 +100,10 @@ export const articlePrompt = ({
   language: string
   prompt?: string
 }) => {
-  return `Title: ${title}
-Content:  ${content}
-Instructions: ${prompt ? prompt : articlePromptHighlight}
-${replylanguagePrompt(language)}`
+  return `Instructions: ${prompt ? prompt : articlePromptHighlight}
+${replylanguagePrompt(language)}
+Title: ${title}
+Content:  ${content}`
 }
 
 export const videoPrompt = ({
@@ -110,10 +117,10 @@ export const videoPrompt = ({
   language: string
   prompt: string
 }) => {
-  return `Title: ${title}
-Transcript: ${transcript}
-Instructions: ${prompt}
-${replylanguagePrompt(language)}`
+  return `Instructions: ${prompt}
+${replylanguagePrompt(language)}
+Title: ${title}
+Transcript: ${transcript}`
 }
 
 export const searchPrompt = ({
@@ -132,11 +139,11 @@ export const searchPrompt = ({
   const month = date.getMonth() + 1
   const day = date.getDate()
 
-  return `Web search results: ${results}
+  return `Instructions: ${prompt}
+${replylanguagePrompt(language)}
 Query: ${query}
 Current date: ${year}/${month}/${day}
-Instructions: ${prompt}
-${replylanguagePrompt(language)}`
+Web search results: ${results}`
 }
 
 export const pageSummaryPrompt = ({
@@ -152,10 +159,10 @@ export const pageSummaryPrompt = ({
   url?: string | null
   isTranslation?: boolean
 }) => {
-  return `Content: ${content}
-${url ? `URL: ${url}` : ''}
-Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
-${isTranslation ? '' : replylanguagePrompt(language)}`
+  return `Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
+${isTranslation ? '' : replylanguagePrompt(language)}
+Content: ${content}
+${url ? `URL: ${url}` : ''}`
 }
 
 export const commentSummaryPrompt = ({
@@ -172,11 +179,11 @@ export const commentSummaryPrompt = ({
   url?: string | null
 }) => {
   const isRate = !!(rate && rate !== '-1')
-  return `Comments: ${content}
+  return `Instructions: ${prompt ? prompt : commentSummaryPromptHightligt}
+${replylanguagePrompt(language)}
+Comments: ${content}
 ${url ? `URL: ${url}` : ''}
-${isRate ? 'Customer Ratings:' + rate : ''}
-Instructions: ${prompt ? prompt : commentSummaryPromptHightligt}
-${replylanguagePrompt(language)}`
+${isRate ? 'Customer Ratings:' + rate : ''}`
 }
 
 export const selectionSummaryPrompt = ({
@@ -192,8 +199,8 @@ export const selectionSummaryPrompt = ({
   url?: string | null
   isTranslation?: boolean
 }) => {
-  return `Content: ${content}
-${url ? `URL: ${url}` : ''}
-${prompt ? prompt : pageSummaryPromptHighlight}
-${isTranslation ? '' : replylanguagePrompt(language)}`
+  return `${prompt ? prompt : pageSummaryPromptHighlight}
+${isTranslation ? '' : replylanguagePrompt(language)}
+Content: ${content}
+${url ? `URL: ${url}` : ''}`
 }
