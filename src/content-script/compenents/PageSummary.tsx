@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
 import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
-import { ConfigProvider, Popover, Divider } from 'antd'
+import { ConfigProvider, Popover, Divider, Modal } from 'antd'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
 // import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
@@ -54,6 +54,7 @@ function PageSummary(props: Props) {
   const [selectionText, setSelectionText] = useState<string>('')
   const [isSelection, setIsSelection] = useState<boolean>(false)
   const [promptItem, setPromptItem] = useState<PromptItem>()
+  const [isCloseSelectionOpen, setIsCloseSelectionOpen] = useState(false)
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -170,6 +171,10 @@ function PageSummary(props: Props) {
     },
     [selectionText, setShowCard],
   )
+
+  const onCloseSelection = useCallback(() => {
+    // setShowSelectionMenu(false)
+  }, [])
 
   useEffect(() => {
     Browser.runtime.onMessage.addListener((message) => {
@@ -456,6 +461,15 @@ function PageSummary(props: Props) {
                 <img src={logo} alt={APP_TITLE} />
                 Glarity
               </a>
+
+              <button
+                className={classNames('glarity--btn', 'glarity--btn__icon')}
+                onClick={() => {
+                  setIsCloseSelectionOpen(true)
+                }}
+              >
+                <XCircleFillIcon />
+              </button>
             </div>
           }
           content={
@@ -514,6 +528,19 @@ function PageSummary(props: Props) {
             />
           </div>
         </Popover>
+
+        <Modal
+          title={`${APP_TITLE}  tips`}
+          open={isCloseSelectionOpen}
+          onOk={onCloseSelection}
+          onCancel={() => {
+            setIsCloseSelectionOpen(false)
+          }}
+          closable={false}
+          okText="Confirm"
+        >
+          <p>Sure to close? You can turn it on in the options.</p>
+        </Modal>
       </ConfigProvider>
     </>
   )

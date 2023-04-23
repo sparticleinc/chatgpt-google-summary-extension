@@ -270,7 +270,14 @@ $border-color: rgba(5, 5, 5, 0.06);
   padding: 3px 6px;
   align-items: center;
   font-size: 12px;
+  justify-content: space-between;
   // background-color: $border-color;
+
+  .glarity--btn__icon {
+    svg {
+      width: 12px;
+    }
+  }
 
   img {
     margin-right: 3px;
