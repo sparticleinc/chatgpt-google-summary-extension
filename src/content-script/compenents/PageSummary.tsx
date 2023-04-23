@@ -281,7 +281,7 @@ function PageSummary(props: Props) {
     <>
       <ConfigProvider prefixCls="glarity-" iconPrefixCls="glarity--icon-">
         <Draggable
-          axis="y"
+          // axis="y"
           // onMouseDown={(e) => {
           //   e.preventDefault()
           //   setIsDrag(true)

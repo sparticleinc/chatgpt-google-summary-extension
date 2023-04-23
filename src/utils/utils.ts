@@ -1,5 +1,7 @@
 import Browser from 'webextension-polyfill'
 import { Theme, BASE_URL } from '@/config'
+import GPT3Tokenizer from 'gpt3-tokenizer'
+const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 
 export const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
@@ -36,4 +38,22 @@ export function tabSendMsg(tab) {
       .sendMessage(id, { type: 'CHATGPT_TAB_CURRENT', data: { isLogin: false } })
       .catch(() => {})
   }
+}
+
+export function isTokenExceedsLimit(text: string, limit: number) {
+  const tokenLimit = limit || 400
+  const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(text)
+  const bytes = encoded.bpe.length
+
+  console.log('isTokenExceedsLimit bytes', bytes)
+
+  if (bytes > tokenLimit) {
+    return true
+  }
+  return false
+}
+
+export const tokenExceedsLimitToast: { type: 'warning'; text: string } = {
+  text: 'Sorry, the Prompt is over the limit, try translating it into English and saving it or reducing the word count.',
+  type: 'warning',
 }

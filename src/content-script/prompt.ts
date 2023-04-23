@@ -24,7 +24,7 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType
 const textLimit = 15000
 // const limit = 1020
 const limit = 2800
-const apiLimit = 3100
+const apiLimit = 2800
 
 export function getChunckedTranscripts(textData, textDataOriginal) {
   // [Thought Process]
@@ -116,15 +116,6 @@ function truncateTranscript(str, providerConfigs) {
   }
 
   return textStr
-  // } else {
-  //   const bytes = textToBinaryString(str).length
-  //   if (bytes > tokenLimit) {
-  //     const ratio = tokenLimit / bytes
-  //     const newStr = str.substring(0, str.length * ratio)
-  //     return newStr
-  //   }
-  //   return str
-  // }
 }
 
 function truncateTranscriptByToken(str, providerConfigs) {

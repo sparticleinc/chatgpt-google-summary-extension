@@ -3,7 +3,7 @@ import { useCallback } from 'preact/hooks'
 import { Text, Code, Textarea, Card, Button, Snippet, Collapse, useToasts } from '@geist-ui/core'
 import { Space } from 'antd'
 import { updateUserConfig } from '@/config'
-import { isIOS, changeToast } from '@/utils/utils'
+import { isIOS, changeToast, isTokenExceedsLimit, tokenExceedsLimitToast } from '@/utils/utils'
 import {
   videoSummaryPromptHightligt,
   searchPromptHighlight,
@@ -48,6 +48,7 @@ function CustomizePrompt(props: Props) {
   const onPromptChange = useCallback(
     (e: React.ChangeEvent, type?: string | undefined) => {
       const prompt = e.target.value || ''
+
       switch (type) {
         case 'search': {
           setPromptSearch(prompt)
@@ -70,7 +71,7 @@ function CustomizePrompt(props: Props) {
         }
       }
     },
-    [setPrompt, setPromptSearch, setPromptPage, setPromptComment],
+    [setPromptSearch, setPromptPage, setPromptComment, setPrompt],
   )
 
   const onSetPrompt = useCallback(
@@ -110,28 +111,53 @@ function CustomizePrompt(props: Props) {
     (type?: string) => {
       switch (type) {
         case 'search': {
+          if (isTokenExceedsLimit(promptSearch, 400)) {
+            setToast(tokenExceedsLimitToast)
+            return
+          }
+
           setPromptSearch(promptSearch)
           updateUserConfig({ promptSearch: promptSearch })
           break
         }
 
         case 'page': {
+          if (isTokenExceedsLimit(promptPage, 400)) {
+            setToast(tokenExceedsLimitToast)
+            return
+          }
+
           setPromptPage(promptPage)
           updateUserConfig({ promptPage: promptPage })
           break
         }
 
         case 'comment': {
+          if (isTokenExceedsLimit(promptComment, 400)) {
+            setToast(tokenExceedsLimitToast)
+            return
+          }
+
           setPromptPage(promptComment)
           updateUserConfig({ promptComment: promptComment })
           break
         }
 
         default: {
+          if (isTokenExceedsLimit(prompt, 400)) {
+            setToast(tokenExceedsLimitToast)
+            return
+          }
+
           setPrompt(prompt)
           updateUserConfig({ prompt })
           break
         }
+      }
+
+      if (isTokenExceedsLimit(prompt, 400)) {
+        setToast(tokenExceedsLimitToast)
+        return
       }
 
       updateUserConfig({ prompt })
