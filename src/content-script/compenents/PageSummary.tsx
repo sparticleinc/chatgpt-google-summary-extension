@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
 import classNames from 'classnames'
-import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
-import { ConfigProvider, Popover, Divider, Modal, Typography } from 'antd'
+import { XCircleFillIcon, GearIcon, CircleSlashIcon } from '@primer/octicons-react'
+import { ConfigProvider, Popover, Divider, Modal, Typography, Tooltip } from 'antd'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
 // import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
@@ -63,7 +63,7 @@ function PageSummary(props: Props) {
   const [selectionText, setSelectionText] = useState<string>('')
   const [isSelection, setIsSelection] = useState<boolean>(false)
   const [promptItem, setPromptItem] = useState<PromptItem>()
-  const [isCloseSelectionOpen, setIsCloseSelectionOpen] = useState(false)
+  const [isShowDisabledPageSelection, setShowIsDisabledPageSelection] = useState(false)
   const [pageSelectionEnable, setPageSelectionEnable] = useState(true)
   const [userConfigData, setUserConfigData] = useState<UserConfig>()
 
@@ -94,7 +94,7 @@ function PageSummary(props: Props) {
       setSupportSummary(true)
       setQuestion('')
 
-      const userConfig = await getUserConfig()
+      const userConfig = userConfigData ?? (await getUserConfig())
 
       const language = window.navigator.language
       const replyLanguage = userConfig.language === Language.Auto ? language : userConfig.language
@@ -186,7 +186,7 @@ function PageSummary(props: Props) {
   const onSwitchSelection = useCallback(() => {
     setPageSelectionEnable(false)
     updateUserConfig({ pageSelectionEnable: false })
-    setIsCloseSelectionOpen(false)
+    setShowIsDisabledPageSelection(false)
   }, [])
 
   useEffect(() => {
@@ -487,14 +487,16 @@ function PageSummary(props: Props) {
                     Glarity
                   </a>
 
-                  <button
-                    className={classNames('glarity--btn', 'glarity--btn__icon')}
-                    onClick={() => {
-                      setIsCloseSelectionOpen(true)
-                    }}
-                  >
-                    <XCircleFillIcon />
-                  </button>
+                  <Tooltip title="Disable Page Selection">
+                    <button
+                      className={classNames('glarity--btn', 'glarity--btn__icon')}
+                      onClick={() => {
+                        setShowIsDisabledPageSelection(true)
+                      }}
+                    >
+                      <CircleSlashIcon size={12} />
+                    </button>
+                  </Tooltip>
                 </div>
               }
               content={
@@ -556,16 +558,16 @@ function PageSummary(props: Props) {
 
             <Modal
               title={`${APP_TITLE}  tips`}
-              open={isCloseSelectionOpen}
+              open={isShowDisabledPageSelection}
               onOk={onSwitchSelection}
               onCancel={() => {
-                setIsCloseSelectionOpen(false)
+                setShowIsDisabledPageSelection(false)
               }}
               closable={false}
               okText="Confirm"
             >
               <Typography>
-                <Paragraph>Are you sure you want to close the page selection feature?</Paragraph>
+                <Paragraph>Do you really want to disable Page Selection?</Paragraph>
                 <Paragraph>
                   <Text mark>
                     You can turn it on in the <Link onClick={openOptionsPage}>Options</Link> {`>>`}{' '}

@@ -355,6 +355,12 @@ $border-color: rgba(5, 5, 5, 0.06);
   margin: 15px 0 !important;
 }
 
+.glarity--modal-root {
+  .glarity--modal-content {
+    padding: 15px;
+  }
+}
+
 /* blink */
 @keyframes glarity-blink {
   0% {
