@@ -14854,7 +14854,7 @@ https://chat.openai.com
   var CHAT_MODEL = [
     {
       name: "GPT-3.5 Turbo",
-      code: "GPT-3.5 Turbo" /* GPT35 */,
+      code: "gpt-3.5-turbo" /* GPT35 */,
       desc: "GPT-3.5 is unlimited for Free and Plus users."
     },
     {
@@ -14863,6 +14863,7 @@ https://chat.openai.com
       desc: "GPT-4 is for Plus users and has a very limited quota."
     }
   ];
+  var PROMPT_MAX_TOKENS = 400;
 
   // src/options/components/ProviderSelect.tsx
   init_compat();
@@ -82403,7 +82404,7 @@ om inated
     type: "success"
   };
   function isTokenExceedsLimit(text, limit) {
-    const tokenLimit = limit || 400;
+    const tokenLimit = limit || PROMPT_MAX_TOKENS;
     const encoded = tokenizer.encode(text);
     const bytes = encoded.bpe.length;
     console.log("isTokenExceedsLimit bytes", bytes);
@@ -82569,6 +82570,8 @@ om inated
     });
     const models = [
       "gpt-3.5-turbo",
+      "gpt-4",
+      "gpt-4-32k",
       "gpt-3.5-turbo-0301",
       "text-davinci-003"
       // 'text-curie-001',

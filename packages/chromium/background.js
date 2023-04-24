@@ -1731,6 +1731,16 @@
   var DEFAULT_MODEL = "gpt-3.5-turbo";
   var DEFAULT_API_HOST = "api.openai.com";
   var CHAT_DEFAULT_MODEL = "text-davinci-002-render-sha";
+  var RESPONSE_MAX_TOKENS = 800;
+  var PROMPT_MAX_TOKENS = 400;
+  var modelMaxToken = {
+    "gpt-3.5-turbo": 4096,
+    "gpt-3.5-turbo-0301": 4096,
+    "gpt-4": 8192,
+    "gpt-4-0314": 8192,
+    "gpt-4-32k": 32768,
+    "gpt-4-32k-0314": 32768
+  };
 
   // src/background/providers/chatgpt.ts
   var import_expiry_map = __toESM(require_dist2());
@@ -1938,247 +1948,8 @@
     }
   }
 
-  // src/background/providers/chatgpt.ts
-  var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
-  async function request(token, method, path, data) {
-    return fetch(`${BASE_URL}/backend-api${path}`, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: data === void 0 ? void 0 : JSON.stringify(data)
-    });
-  }
-  async function sendMessageFeedback(token, data) {
-    await request(token, "POST", "/conversation/message_feedback", data);
-  }
-  async function setConversationProperty(token, conversationId, propertyObject) {
-    await request(token, "PATCH", `/conversation/${conversationId}`, propertyObject);
-  }
-  var KEY_ACCESS_TOKEN = "accessToken";
-  var cache = new import_expiry_map.default(10 * 1e3);
-  async function getChatGPTAccessToken() {
-    if (cache.get(KEY_ACCESS_TOKEN)) {
-      return cache.get(KEY_ACCESS_TOKEN);
-    }
-    const resp = await fetch(`${BASE_URL}/api/auth/session`);
-    if (resp.status === 403) {
-      throw new Error("CLOUDFLARE");
-    }
-    const data = await resp.json().catch(() => ({}));
-    if (!data.accessToken) {
-      throw new Error("UNAUTHORIZED");
-    }
-    cache.set(KEY_ACCESS_TOKEN, data.accessToken);
-    return data.accessToken;
-  }
-  var ChatGPTProvider = class {
-    constructor(token) {
-      this.token = token;
-      this.tasks = {};
-      this.token = token;
-    }
-    async fetchModels() {
-      const resp = await request(this.token, "GET", "/models").then((r) => r.json());
-      return resp.models;
-    }
-    async getModelName() {
-      var _a, _b;
-      try {
-        const chatModel = (_b = (_a = await import_webextension_polyfill2.default.storage.local.get("chatModel")) == null ? void 0 : _a.chatModel) != null ? _b : "GPT-3.5 Turbo";
-        const models = await this.fetchModels();
-        if (chatModel === "auto") {
-          const gpt4Model = models.find((model) => model.slug === "gpt-4");
-          return (gpt4Model == null ? void 0 : gpt4Model.slug) || models[0].slug;
-        }
-        return models[0].slug;
-      } catch (err) {
-        console.error(err);
-        return CHAT_DEFAULT_MODEL;
-      }
-    }
-    async generateAnswer(params) {
-      let conversationId;
-      const { taskId, prompt } = params;
-      const messageId = v4_default();
-      const cleanup = () => {
-        if (conversationId) {
-          setConversationProperty(this.token, conversationId, { is_visible: false });
-        }
-      };
-      const modelName = await this.getModelName();
-      const abortController = new AbortController();
-      this.tasks[taskId] = {
-        abortController
-      };
-      await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
-        method: "POST",
-        signal: abortController.signal,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.token}`
-        },
-        body: JSON.stringify({
-          action: "next",
-          messages: [
-            {
-              id: messageId,
-              role: "user",
-              content: {
-                content_type: "text",
-                parts: [prompt]
-              }
-            }
-          ],
-          model: modelName,
-          parent_message_id: v4_default()
-        }),
-        onMessage(message) {
-          var _a, _b, _c;
-          console.debug("sse message", message);
-          if (message === "[DONE]") {
-            params.onEvent({ type: "done" });
-            cleanup();
-            return;
-          }
-          let data;
-          try {
-            data = JSON.parse(message);
-          } catch (err) {
-            console.error(err);
-            return;
-          }
-          const text = (_c = (_b = (_a = data.message) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0];
-          if (text) {
-            conversationId = data.conversation_id;
-            params.onEvent({
-              type: "answer",
-              data: {
-                text,
-                messageId: data.message.id,
-                conversationId: data.conversation_id
-              }
-            });
-          }
-        }
-      });
-      return { cleanup };
-    }
-    cancelTask(taskId) {
-      const taskInfo = this.tasks[taskId];
-      if (!taskInfo) {
-        return;
-      }
-      taskInfo.abortController.abort();
-    }
-    async updateTitle(params) {
-      const { conversationId, messageId } = params;
-      const modelName = await this.getModelName();
-      return await request(this.token, "POST", `/conversation/gen_title/${conversationId}`, {
-        message_id: messageId,
-        model: modelName
-      });
-    }
-  };
-
-  // src/background/providers/openai.ts
-  var OpenAIProvider = class {
-    constructor(token, model) {
-      this.token = token;
-      this.model = model;
-      this.tasks = {};
-      this.token = token;
-      this.model = model;
-    }
-    buildPrompt(prompt) {
-      if (this.model.startsWith("text-chat-davinci")) {
-        return `Respond conversationally.<|im_end|>
-
-User: ${prompt}<|im_sep|>
-ChatGPT:`;
-      }
-      return prompt;
-    }
-    buildMessages(prompt) {
-      return [{ role: "user", content: prompt }];
-    }
-    async generateAnswer(params) {
-      var _a, _b, _c;
-      const [config] = await Promise.all([getProviderConfigs()]);
-      const gptModel = (_b = (_a = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.model) != null ? _b : DEFAULT_MODEL;
-      const apiHost = ((_c = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _c.apiHost) || DEFAULT_API_HOST;
-      const { taskId, prompt } = params;
-      let url = "";
-      let reqParams = {
-        model: this.model,
-        // prompt: this.buildPrompt(params.prompt),
-        // messages: this.buildMessages(params.prompt),
-        stream: true,
-        max_tokens: 800
-        // temperature: 0.5,
-      };
-      if (gptModel === "text-davinci-003") {
-        url = `https://${apiHost}/v1/completions`;
-        reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(prompt) } };
-      } else {
-        url = `https://${apiHost}/v1/chat/completions`;
-        reqParams = { ...reqParams, ...{ messages: this.buildMessages(prompt) } };
-      }
-      let result = "";
-      const abortController = new AbortController();
-      this.tasks[taskId] = {
-        abortController
-      };
-      await fetchSSE(url, {
-        method: "POST",
-        signal: abortController.signal,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.token}`
-        },
-        body: JSON.stringify(reqParams),
-        onMessage(message) {
-          console.debug("sse message", message);
-          if (message === "[DONE]") {
-            params.onEvent({ type: "done" });
-            return;
-          }
-          let data;
-          try {
-            data = JSON.parse(message);
-            const text = gptModel === "text-davinci-003" ? data.choices[0].text : data.choices[0].delta.content;
-            if (text === void 0 || text === "<|im_end|>" || text === "<|im_sep|>") {
-              return;
-            }
-            result += text;
-            params.onEvent({
-              type: "answer",
-              data: {
-                text: result,
-                messageId: data.id,
-                conversationId: data.id
-              }
-            });
-          } catch (err) {
-            return;
-          }
-        }
-      });
-      return {};
-    }
-    cancelTask(taskId) {
-      const taskInfo = this.tasks[taskId];
-      console.log("cancel task", taskId, taskInfo);
-      if (!taskInfo) {
-        return;
-      }
-      taskInfo.abortController.abort();
-    }
-  };
-
   // src/utils/utils.ts
-  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
+  var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
 
   // node_modules/.pnpm/gpt3-tokenizer@1.1.5/node_modules/gpt3-tokenizer/dist-browser/gpt3-tokenizer.js
   var import_array_keyed_map = __toESM(require_main());
@@ -52451,13 +52222,277 @@ om inated
   function tabSendMsg(tab) {
     const { id, url } = tab;
     if (url.includes(`${BASE_URL}/chat`)) {
-      import_webextension_polyfill3.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: true } }).catch(() => {
+      import_webextension_polyfill2.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: true } }).catch(() => {
       });
     } else {
-      import_webextension_polyfill3.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: false } }).catch(() => {
+      import_webextension_polyfill2.default.tabs.sendMessage(id, { type: "CHATGPT_TAB_CURRENT", data: { isLogin: false } }).catch(() => {
       });
     }
   }
+  function truncateTextByToken({
+    text,
+    providerConfigs,
+    modelName
+  }) {
+    var _a, _b;
+    const model = ((_b = (_a = providerConfigs == null ? void 0 : providerConfigs.configs) == null ? void 0 : _a.gpt3) == null ? void 0 : _b.model) || modelName || DEFAULT_MODEL;
+    const limit = (modelMaxToken[model] || modelMaxToken[DEFAULT_MODEL]) - RESPONSE_MAX_TOKENS - PROMPT_MAX_TOKENS - 50;
+    console.log("truncateTextByToken:" + modelName, limit);
+    const tokenLimit = limit;
+    const encoded = tokenizer.encode(text);
+    const bytes = encoded.bpe.length;
+    if (bytes > tokenLimit) {
+      const ratio = tokenLimit / bytes;
+      const newText = text.substring(0, text.length * ratio);
+      return newText;
+    }
+    return text;
+  }
+
+  // src/background/providers/chatgpt.ts
+  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
+  async function request(token, method, path, data) {
+    return fetch(`${BASE_URL}/backend-api${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: data === void 0 ? void 0 : JSON.stringify(data)
+    });
+  }
+  async function sendMessageFeedback(token, data) {
+    await request(token, "POST", "/conversation/message_feedback", data);
+  }
+  async function setConversationProperty(token, conversationId, propertyObject) {
+    await request(token, "PATCH", `/conversation/${conversationId}`, propertyObject);
+  }
+  var KEY_ACCESS_TOKEN = "accessToken";
+  var cache = new import_expiry_map.default(10 * 1e3);
+  async function getChatGPTAccessToken() {
+    if (cache.get(KEY_ACCESS_TOKEN)) {
+      return cache.get(KEY_ACCESS_TOKEN);
+    }
+    const resp = await fetch(`${BASE_URL}/api/auth/session`);
+    if (resp.status === 403) {
+      throw new Error("CLOUDFLARE");
+    }
+    const data = await resp.json().catch(() => ({}));
+    if (!data.accessToken) {
+      throw new Error("UNAUTHORIZED");
+    }
+    cache.set(KEY_ACCESS_TOKEN, data.accessToken);
+    return data.accessToken;
+  }
+  var ChatGPTProvider = class {
+    constructor(token) {
+      this.token = token;
+      this.tasks = {};
+      this.token = token;
+    }
+    async fetchModels() {
+      const resp = await request(this.token, "GET", "/models").then((r) => r.json());
+      return resp.models;
+    }
+    async getModelName() {
+      var _a, _b;
+      try {
+        const chatModel = (_b = (_a = await import_webextension_polyfill3.default.storage.local.get("chatModel")) == null ? void 0 : _a.chatModel) != null ? _b : "gpt-3.5-turbo";
+        const models = await this.fetchModels();
+        if (chatModel === "auto") {
+          const gpt4Model = models.find((model) => model.slug === "gpt-4");
+          return (gpt4Model == null ? void 0 : gpt4Model.slug) || models[0].slug;
+        }
+        return models[0].slug;
+      } catch (err) {
+        console.error(err);
+        return CHAT_DEFAULT_MODEL;
+      }
+    }
+    async generateAnswer(params) {
+      let conversationId;
+      const { taskId, prompt } = params;
+      const messageId = v4_default();
+      const cleanup = () => {
+        if (conversationId) {
+          setConversationProperty(this.token, conversationId, { is_visible: false });
+        }
+      };
+      const modelName = await this.getModelName();
+      debugger;
+      const truncatePrompt = truncateTextByToken({
+        text: prompt,
+        modelName
+      });
+      const abortController = new AbortController();
+      this.tasks[taskId] = {
+        abortController
+      };
+      await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
+        method: "POST",
+        signal: abortController.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify({
+          action: "next",
+          messages: [
+            {
+              id: messageId,
+              role: "user",
+              content: {
+                content_type: "text",
+                parts: [truncatePrompt]
+              }
+            }
+          ],
+          model: modelName,
+          parent_message_id: v4_default()
+        }),
+        onMessage(message) {
+          var _a, _b, _c;
+          console.debug("sse message", message);
+          if (message === "[DONE]") {
+            params.onEvent({ type: "done" });
+            cleanup();
+            return;
+          }
+          let data;
+          try {
+            data = JSON.parse(message);
+          } catch (err) {
+            console.error(err);
+            return;
+          }
+          const text = (_c = (_b = (_a = data.message) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0];
+          if (text) {
+            conversationId = data.conversation_id;
+            params.onEvent({
+              type: "answer",
+              data: {
+                text,
+                messageId: data.message.id,
+                conversationId: data.conversation_id
+              }
+            });
+          }
+        }
+      });
+      return { cleanup };
+    }
+    cancelTask(taskId) {
+      const taskInfo = this.tasks[taskId];
+      if (!taskInfo) {
+        return;
+      }
+      taskInfo.abortController.abort();
+    }
+    async updateTitle(params) {
+      const { conversationId, messageId } = params;
+      const modelName = await this.getModelName();
+      return await request(this.token, "POST", `/conversation/gen_title/${conversationId}`, {
+        message_id: messageId,
+        model: modelName
+      });
+    }
+  };
+
+  // src/background/providers/openai.ts
+  var OpenAIProvider = class {
+    constructor(token, model) {
+      this.token = token;
+      this.model = model;
+      this.tasks = {};
+      this.token = token;
+      this.model = model;
+    }
+    buildPrompt(prompt) {
+      if (this.model.startsWith("text-chat-davinci")) {
+        return `Respond conversationally.<|im_end|>
+
+User: ${prompt}<|im_sep|>
+ChatGPT:`;
+      }
+      return prompt;
+    }
+    buildMessages(prompt) {
+      return [{ role: "user", content: prompt }];
+    }
+    async generateAnswer(params) {
+      var _a, _b, _c;
+      const [config] = await Promise.all([getProviderConfigs()]);
+      const gptModel = (_b = (_a = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _a.model) != null ? _b : DEFAULT_MODEL;
+      const apiHost = ((_c = config.configs["gpt3" /* GPT3 */]) == null ? void 0 : _c.apiHost) || DEFAULT_API_HOST;
+      const { taskId, prompt } = params;
+      let url = "";
+      let reqParams = {
+        model: this.model,
+        // prompt: this.buildPrompt(params.prompt),
+        // messages: this.buildMessages(params.prompt),
+        stream: true,
+        max_tokens: RESPONSE_MAX_TOKENS
+        // temperature: 0.5,
+      };
+      if (gptModel === "text-davinci-003") {
+        url = `https://${apiHost}/v1/completions`;
+        reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(prompt) } };
+      } else {
+        url = `https://${apiHost}/v1/chat/completions`;
+        reqParams = { ...reqParams, ...{ messages: this.buildMessages(prompt) } };
+      }
+      let result = "";
+      const abortController = new AbortController();
+      this.tasks[taskId] = {
+        abortController
+      };
+      await fetchSSE(url, {
+        method: "POST",
+        signal: abortController.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify(reqParams),
+        onMessage(message) {
+          var _a2, _b2, _c2, _d;
+          console.debug("sse message", message);
+          if (message === "[DONE]") {
+            params.onEvent({ type: "done" });
+            return;
+          }
+          let data;
+          try {
+            data = JSON.parse(message);
+            const text = gptModel === "text-davinci-003" ? data.choices[0].text : gptModel.includes("gpt-4") ? (_b2 = (_a2 = data.choices[0]) == null ? void 0 : _a2.message) == null ? void 0 : _b2.content : (_d = (_c2 = data.choices[0]) == null ? void 0 : _c2.delta) == null ? void 0 : _d.content;
+            if (text === void 0 || text === "<|im_end|>" || text === "<|im_sep|>") {
+              return;
+            }
+            result += text;
+            params.onEvent({
+              type: "answer",
+              data: {
+                text: result,
+                messageId: data.id,
+                conversationId: data.id
+              }
+            });
+          } catch (err) {
+            return;
+          }
+        }
+      });
+      return {};
+    }
+    cancelTask(taskId) {
+      const taskInfo = this.tasks[taskId];
+      console.log("cancel task", taskId, taskInfo);
+      if (!taskInfo) {
+        return;
+      }
+      taskInfo.abortController.abort();
+    }
+  };
 
   // src/background/index.ts
   var provider;

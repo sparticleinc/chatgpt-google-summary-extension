@@ -25,7 +25,7 @@ $border-color: rgba(5, 5, 5, 0.06);
     padding: 10px 12px;
     border-bottom: 1px solid #eee;
     font-size: $font-size-large;
-    cursor: ns-resize;
+    cursor: move;
 
     .glarity--card__head--title {
       display: inline-flex;
@@ -246,7 +246,7 @@ $border-color: rgba(5, 5, 5, 0.06);
 // page--summary
 .glarity--page__summary {
   .glarity--move {
-    cursor: ns-resize;
+    cursor: move;
   }
 }
 

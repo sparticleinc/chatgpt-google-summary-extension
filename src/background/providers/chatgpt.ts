@@ -2,7 +2,8 @@ import ExpiryMap from 'expiry-map'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
-import { BASE_URL, CHAT_DEFAULT_MODEL, DEFAULT_MODEL } from '@/config'
+import { BASE_URL, CHAT_DEFAULT_MODEL } from '@/config'
+import { truncateTextByToken } from '@/utils/utils'
 import Browser from 'webextension-polyfill'
 
 async function request(token: string, method: string, path: string, data?: unknown) {
@@ -64,7 +65,7 @@ export class ChatGPTProvider implements Provider {
 
   private async getModelName(): Promise<string> {
     try {
-      const chatModel = (await Browser.storage.local.get('chatModel'))?.chatModel ?? 'GPT-3.5 Turbo'
+      const chatModel = (await Browser.storage.local.get('chatModel'))?.chatModel ?? 'gpt-3.5-turbo'
       const models = await this.fetchModels()
 
       if (chatModel === 'auto') {
@@ -93,6 +94,13 @@ export class ChatGPTProvider implements Provider {
 
     const modelName = await this.getModelName()
 
+    debugger
+
+    const truncatePrompt = truncateTextByToken({
+      text: prompt,
+      modelName: modelName,
+    })
+
     const abortController = new AbortController()
 
     this.tasks[taskId] = {
@@ -114,7 +122,7 @@ export class ChatGPTProvider implements Provider {
             role: 'user',
             content: {
               content_type: 'text',
-              parts: [prompt],
+              parts: [truncatePrompt],
             },
           },
         ],

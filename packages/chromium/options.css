@@ -1,4 +1,4 @@
-/* temp_stylePlugin:ni:sha-256;LdAhScw67C-BEw0wGTpOhd0e6EsS4-3aTljy3ojWnUQ */
+/* temp_stylePlugin:ni:sha-256;WVqVftI-t7xsjCLwtckRPH65d92OVUAH-T34cP_5ojU */
 *,
 ::before,
 ::after {
@@ -255,7 +255,7 @@
   padding: 10px 12px;
   border-bottom: 1px solid #eee;
   font-size: 16px;
-  cursor: ns-resize;
+  cursor: move;
 }
 .glarity--card .glarity--card__head .glarity--card__head--title {
   display: inline-flex;
@@ -434,7 +434,7 @@
   font-weight: normal;
 }
 .glarity--page__summary .glarity--move {
-  cursor: ns-resize;
+  cursor: move;
 }
 .glarity--selection__menu {
   position: fixed;

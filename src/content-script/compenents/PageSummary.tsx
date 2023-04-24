@@ -150,12 +150,12 @@ function PageSummary(props: Props) {
 
         const promptContent = getSummaryPrompt(
           content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
-          providerConfigs.provider,
+          providerConfigs,
         )
 
         const promptRate = getSummaryPrompt(
           article?.['rate']?.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
-          providerConfigs.provider,
+          providerConfigs,
         )
 
         const prompt = pageComments?.content

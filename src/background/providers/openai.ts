@@ -1,6 +1,12 @@
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
-import { getProviderConfigs, ProviderType, DEFAULT_MODEL, DEFAULT_API_HOST } from '@/config'
+import {
+  getProviderConfigs,
+  ProviderType,
+  DEFAULT_MODEL,
+  DEFAULT_API_HOST,
+  RESPONSE_MAX_TOKENS,
+} from '@/config'
 
 export class OpenAIProvider implements Provider {
   constructor(private token: string, private model: string) {
@@ -35,7 +41,7 @@ export class OpenAIProvider implements Provider {
       // prompt: this.buildPrompt(params.prompt),
       // messages: this.buildMessages(params.prompt),
       stream: true,
-      max_tokens: 800,
+      max_tokens: RESPONSE_MAX_TOKENS,
       // temperature: 0.5,
     }
     if (gptModel === 'text-davinci-003') {
@@ -72,7 +78,11 @@ export class OpenAIProvider implements Provider {
         try {
           data = JSON.parse(message)
           const text =
-            gptModel === 'text-davinci-003' ? data.choices[0].text : data.choices[0].delta.content
+            gptModel === 'text-davinci-003'
+              ? data.choices[0].text
+              : gptModel.includes('gpt-4')
+              ? data.choices[0]?.message?.content
+              : data.choices[0]?.delta?.content
 
           if (text === undefined || text === '<|im_end|>' || text === '<|im_sep|>') {
             return

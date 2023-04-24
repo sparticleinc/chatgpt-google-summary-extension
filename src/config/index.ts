@@ -119,7 +119,7 @@ export enum ProviderType {
 }
 
 export enum ChatModelType {
-  GPT35 = 'GPT-3.5 Turbo',
+  GPT35 = 'gpt-3.5-turbo',
   GPT40 = 'auto',
 }
 
@@ -233,3 +233,15 @@ export const CHAT_MODEL: ChatModel[] = [
     desc: 'GPT-4 is for Plus users and has a very limited quota.',
   },
 ]
+
+export const RESPONSE_MAX_TOKENS = 800
+export const PROMPT_MAX_TOKENS = 400
+
+export const modelMaxToken = {
+  'gpt-3.5-turbo': 4096,
+  'gpt-3.5-turbo-0301': 4096,
+  'gpt-4': 8192,
+  'gpt-4-0314': 8192,
+  'gpt-4-32k': 32768,
+  'gpt-4-32k-0314': 32768,
+}

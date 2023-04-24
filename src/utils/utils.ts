@@ -1,5 +1,13 @@
 import Browser from 'webextension-polyfill'
-import { Theme, BASE_URL } from '@/config'
+import {
+  Theme,
+  BASE_URL,
+  PROMPT_MAX_TOKENS,
+  modelMaxToken,
+  RESPONSE_MAX_TOKENS,
+  ProviderConfigs,
+  DEFAULT_MODEL,
+} from '@/config'
 import GPT3Tokenizer from 'gpt3-tokenizer'
 const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 
@@ -41,7 +49,7 @@ export function tabSendMsg(tab) {
 }
 
 export function isTokenExceedsLimit(text: string, limit: number) {
-  const tokenLimit = limit || 400
+  const tokenLimit = limit || PROMPT_MAX_TOKENS
   const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(text)
   const bytes = encoded.bpe.length
 
@@ -56,4 +64,38 @@ export function isTokenExceedsLimit(text: string, limit: number) {
 export const tokenExceedsLimitToast: { type: 'warning'; text: string } = {
   text: 'Sorry, the Prompt is over the limit, try translating it into English and saving it or reducing the word count.',
   type: 'warning',
+}
+
+export function truncateTextByToken({
+  text,
+  providerConfigs,
+  modelName,
+}: {
+  text: string
+  providerConfigs?: ProviderConfigs
+  modelName?: string
+}) {
+  const model = providerConfigs?.configs?.gpt3?.model || modelName || DEFAULT_MODEL
+
+  const limit =
+    (modelMaxToken[model] || modelMaxToken[DEFAULT_MODEL]) -
+    RESPONSE_MAX_TOKENS -
+    PROMPT_MAX_TOKENS -
+    50
+
+  console.log('truncateTextByToken:' + modelName, limit)
+
+  const tokenLimit = limit
+
+  const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(text)
+  const bytes = encoded.bpe.length
+
+  if (bytes > tokenLimit) {
+    const ratio = tokenLimit / bytes
+    const newText = text.substring(0, text.length * ratio)
+
+    return newText
+  }
+
+  return text
 }

@@ -179,6 +179,8 @@ function ProviderSelect() {
 
   const models = [
     'gpt-3.5-turbo',
+    'gpt-4',
+    'gpt-4-32k',
     'gpt-3.5-turbo-0301',
     'text-davinci-003',
     // 'text-curie-001',

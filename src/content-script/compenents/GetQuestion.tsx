@@ -76,7 +76,7 @@ export default async function getQuestion() {
     if (!articleText) {
       return null
     }
-    const content = getSummaryPrompt(articleText, providerConfigs.provider)
+    const content = getSummaryPrompt(articleText, providerConfigs)
 
     const queryText = articlePrompt({
       title: articleTitle,
@@ -102,7 +102,7 @@ export default async function getQuestion() {
     if (!articleText) {
       return null
     }
-    const content = getSummaryPrompt(articleText, providerConfigs.provider)
+    const content = getSummaryPrompt(articleText, providerConfigs)
 
     const queryText = articlePrompt({
       title: articleTitle,
@@ -129,7 +129,7 @@ export default async function getQuestion() {
       return null
     }
 
-    const content = getSummaryPrompt(articleText, providerConfigs.provider)
+    const content = getSummaryPrompt(articleText, providerConfigs)
 
     const queryText = articlePrompt({
       title: articleTitle,
@@ -156,7 +156,7 @@ export default async function getQuestion() {
       return null
     }
 
-    const content = getSummaryPrompt(articleText, providerConfigs.provider)
+    const content = getSummaryPrompt(articleText, providerConfigs)
 
     const queryText = articlePrompt({
       title: articleTitle,
@@ -183,7 +183,7 @@ export default async function getQuestion() {
       return null
     }
 
-    const content = getSummaryPrompt(articleText, providerConfigs.provider)
+    const content = getSummaryPrompt(articleText, providerConfigs)
 
     const queryText = articlePrompt({
       title: articleTitle,
@@ -220,7 +220,7 @@ export default async function getQuestion() {
       return null
     }
 
-    const content = getSummaryPrompt(articleText, providerConfigs.provider)
+    const content = getSummaryPrompt(articleText, providerConfigs)
 
     const queryText = articlePrompt({
       title: articleTitle,
@@ -258,7 +258,7 @@ export default async function getQuestion() {
 
     const queryText = videoPrompt({
       title: videoTitle,
-      transcript: getSummaryPrompt(transcript, providerConfigs.provider),
+      transcript: getSummaryPrompt(transcript, providerConfigs),
       language: userConfig.language === Language.Auto ? language : userConfig.language,
       prompt: Instructions,
     })
@@ -301,7 +301,7 @@ export default async function getQuestion() {
 
     const queryText = videoPrompt({
       title: videoTitle,
-      transcript: getSummaryPrompt(content, providerConfigs.provider),
+      transcript: getSummaryPrompt(content, providerConfigs),
       language: userConfig.language === Language.Auto ? language : userConfig.language,
       prompt: Instructions,
     })
@@ -361,7 +361,7 @@ export default async function getQuestion() {
 
     const queryText = searchPrompt({
       query: searchInput.value,
-      results: getSummaryPrompt(searchList, providerConfigs.provider),
+      results: getSummaryPrompt(searchList, providerConfigs),
       language: userConfig.language === Language.Auto ? language : userConfig.language,
       prompt: Instructions,
     })
@@ -425,7 +425,7 @@ export default async function getQuestion() {
 
     const queryText = searchPrompt({
       query: searchInput.value,
-      results: getSummaryPrompt(searchList, providerConfigs.provider),
+      results: getSummaryPrompt(searchList, providerConfigs),
       language: userConfig.language === Language.Auto ? language : userConfig.language,
       prompt: Instructions,
     })
@@ -498,7 +498,7 @@ export default async function getQuestion() {
 
     const queryText = searchPrompt({
       query: searchInput.value,
-      results: getSummaryPrompt(searchList, providerConfigs.provider),
+      results: getSummaryPrompt(searchList, providerConfigs),
       language: userConfig.language === Language.Auto ? language : userConfig.language,
       prompt: Instructions,
     })

@@ -13391,6 +13391,7 @@ https://chat.openai.com
     };
   }
   var APP_TITLE = `Glarity Summary`;
+  var DEFAULT_MODEL = "gpt-3.5-turbo";
   var TRANSLATION_LANGUAGES = [
     { name: "Chinese (Simplified)", code: "zh-Hans" },
     { name: "Chinese (Traditional)", code: "zh-Hant" },
@@ -13436,6 +13437,16 @@ https://chat.openai.com
     { name: "Azerbaijani", code: "az-AZ" },
     { name: "Awadhi", code: "awa-IN" }
   ];
+  var RESPONSE_MAX_TOKENS = 800;
+  var PROMPT_MAX_TOKENS = 400;
+  var modelMaxToken = {
+    "gpt-3.5-turbo": 4096,
+    "gpt-3.5-turbo-0301": 4096,
+    "gpt-4": 8192,
+    "gpt-4-0314": 8192,
+    "gpt-4-32k": 32768,
+    "gpt-4-32k-0314": 32768
+  };
 
   // src/content-script/compenents/ChatGPTTip.tsx
   init_hooks_module();
@@ -42196,7 +42207,7 @@ ${reviewText}
 
   // node_modules/.pnpm/micromark-factory-space@1.0.0/node_modules/micromark-factory-space/index.js
   function factorySpace(effects, ok2, type4, max) {
-    const limit2 = max ? max - 1 : Number.POSITIVE_INFINITY;
+    const limit = max ? max - 1 : Number.POSITIVE_INFINITY;
     let size = 0;
     return start;
     function start(code2) {
@@ -42207,7 +42218,7 @@ ${reviewText}
       return ok2(code2);
     }
     function prefix(code2) {
-      if (markdownSpace(code2) && size++ < limit2) {
+      if (markdownSpace(code2) && size++ < limit) {
         effects.consume(code2);
         return prefix;
       }
@@ -43315,8 +43326,8 @@ ${reviewText}
     const context = events[eventIndex][2];
     let startPosition = eventIndex - 1;
     const startPositions = [];
-    const tokenizer3 = token2._tokenizer || context.parser[token2.contentType](token2.start);
-    const childEvents = tokenizer3.events;
+    const tokenizer2 = token2._tokenizer || context.parser[token2.contentType](token2.start);
+    const childEvents = tokenizer2.events;
     const jumps = [];
     const gaps = {};
     let stream;
@@ -43336,14 +43347,14 @@ ${reviewText}
           stream.push(null);
         }
         if (previous2) {
-          tokenizer3.defineSkip(current.start);
+          tokenizer2.defineSkip(current.start);
         }
         if (current._isInFirstContentOfListItem) {
-          tokenizer3._gfmTasklistFirstContentOfListItem = true;
+          tokenizer2._gfmTasklistFirstContentOfListItem = true;
         }
-        tokenizer3.write(stream);
+        tokenizer2.write(stream);
         if (current._isInFirstContentOfListItem) {
-          tokenizer3._gfmTasklistFirstContentOfListItem = void 0;
+          tokenizer2._gfmTasklistFirstContentOfListItem = void 0;
         }
       }
       previous2 = current;
@@ -43362,7 +43373,7 @@ ${reviewText}
         current = current.next;
       }
     }
-    tokenizer3.events = [];
+    tokenizer2.events = [];
     if (current) {
       current._tokenizer = void 0;
       current.previous = void 0;
@@ -43461,7 +43472,7 @@ ${reviewText}
 
   // node_modules/.pnpm/micromark-factory-destination@1.0.0/node_modules/micromark-factory-destination/index.js
   function factoryDestination(effects, ok2, nok, type4, literalType, literalMarkerType, rawType, stringType, max) {
-    const limit2 = max || Number.POSITIVE_INFINITY;
+    const limit = max || Number.POSITIVE_INFINITY;
     let balance = 0;
     return start;
     function start(code2) {
@@ -43520,7 +43531,7 @@ ${reviewText}
     }
     function destinationRaw(code2) {
       if (code2 === 40) {
-        if (++balance > limit2)
+        if (++balance > limit)
           return nok(code2);
         effects.consume(code2);
         return destinationRaw;
@@ -112853,6 +112864,25 @@ om inated
     }
     return "light" /* Light */;
   }
+  function truncateTextByToken({
+    text: text4,
+    providerConfigs,
+    modelName
+  }) {
+    var _a, _b;
+    const model = ((_b = (_a = providerConfigs == null ? void 0 : providerConfigs.configs) == null ? void 0 : _a.gpt3) == null ? void 0 : _b.model) || modelName || DEFAULT_MODEL;
+    const limit = (modelMaxToken[model] || modelMaxToken[DEFAULT_MODEL]) - RESPONSE_MAX_TOKENS - PROMPT_MAX_TOKENS - 50;
+    console.log("truncateTextByToken:" + modelName, limit);
+    const tokenLimit = limit;
+    const encoded = tokenizer.encode(text4);
+    const bytes = encoded.bpe.length;
+    if (bytes > tokenLimit) {
+      const ratio = tokenLimit / bytes;
+      const newText = text4.substring(0, text4.length * ratio);
+      return newText;
+    }
+    return text4;
+  }
 
   // src/content-script/compenents/Translation.tsx
   init_hooks_module();
@@ -113188,42 +113218,15 @@ om inated
   var ChatGPTQuery_default = x3(ChatGPTQuery);
 
   // src/content-script/prompt.ts
-  var tokenizer2 = new gpt3_tokenizer_default({ type: "gpt3" });
   function getSummaryPrompt(transcript = "", providerConfigs) {
     const text4 = transcript ? transcript.replace(/&#39;/g, "'").replace(/&gt;/g, "'").replace(/(\r\n)+/g, "\r\n").replace(/(\s{2,})/g, " ").replace(/^(\s)+|(\s)$/g, "").replace(/\[[^\]\d]*([^\]\d\s]*)[^\]\d]*\]/g, (match2, p1) => {
       const numericContent = p1.replace(/\D/g, "");
       return numericContent.length > 0 ? `[${numericContent}]` : "";
     }).replace(/\[\]/g, "") : "";
-    return truncateTranscript(text4, providerConfigs);
-  }
-  var textLimit = 15e3;
-  var limit = 2800;
-  var apiLimit = 2800;
-  function truncateTranscript(str, providerConfigs) {
-    let textStr = str;
-    const textBytes = textToBinaryString(str).length;
-    if (textBytes > textLimit) {
-      const ratio = textLimit / textBytes;
-      const newStr = str.substring(0, str.length * ratio);
-      textStr = newStr;
-    }
-    const tokenLimit = providerConfigs === "gpt3" /* GPT3 */ ? apiLimit : limit;
-    const encoded = tokenizer2.encode(textStr);
-    const bytes = encoded.bpe.length;
-    if (bytes > tokenLimit) {
-      const ratio = tokenLimit / bytes;
-      const newStr = textStr.substring(0, textStr.length * ratio);
-      return newStr;
-    }
-    return textStr;
-  }
-  function textToBinaryString(str) {
-    const escstr = decodeURIComponent(encodeURIComponent(escape(str)));
-    const binstr = escstr.replace(/%([0-9A-F]{2})/gi, function(match2, hex2) {
-      const i4 = parseInt(hex2, 16);
-      return String.fromCharCode(i4);
+    return truncateTextByToken({
+      text: text4,
+      providerConfigs
     });
-    return binstr;
   }
 
   // src/assets/img/logo-white.png
@@ -113315,11 +113318,11 @@ om inated
           const providerConfigs = await getProviderConfigs();
           const promptContent = getSummaryPrompt(
             content3.replace(/(<[^>]+>|\{[^}]+\})/g, ""),
-            providerConfigs.provider
+            providerConfigs
           );
           const promptRate = getSummaryPrompt(
             (_b = article == null ? void 0 : article["rate"]) == null ? void 0 : _b.replace(/(<[^>]+>|\{[^}]+\})/g, ""),
-            providerConfigs.provider
+            providerConfigs
           );
           const prompt = (pageComments == null ? void 0 : pageComments.content) ? commentSummaryPrompt({
             content: promptContent,
@@ -113809,7 +113812,7 @@ om inated
       if (!articleText) {
         return null;
       }
-      const content3 = getSummaryPrompt(articleText, providerConfigs.provider);
+      const content3 = getSummaryPrompt(articleText, providerConfigs);
       const queryText = articlePrompt({
         title: articleTitle,
         content: content3,
@@ -113828,7 +113831,7 @@ om inated
       if (!articleText) {
         return null;
       }
-      const content3 = getSummaryPrompt(articleText, providerConfigs.provider);
+      const content3 = getSummaryPrompt(articleText, providerConfigs);
       const queryText = articlePrompt({
         title: articleTitle,
         content: content3,
@@ -113847,7 +113850,7 @@ om inated
       if (!articleText) {
         return null;
       }
-      const content3 = getSummaryPrompt(articleText, providerConfigs.provider);
+      const content3 = getSummaryPrompt(articleText, providerConfigs);
       const queryText = articlePrompt({
         title: articleTitle,
         content: content3,
@@ -113866,7 +113869,7 @@ om inated
       if (!articleText) {
         return null;
       }
-      const content3 = getSummaryPrompt(articleText, providerConfigs.provider);
+      const content3 = getSummaryPrompt(articleText, providerConfigs);
       const queryText = articlePrompt({
         title: articleTitle,
         content: content3,
@@ -113885,7 +113888,7 @@ om inated
       if (!articleText) {
         return null;
       }
-      const content3 = getSummaryPrompt(articleText, providerConfigs.provider);
+      const content3 = getSummaryPrompt(articleText, providerConfigs);
       const queryText = articlePrompt({
         title: articleTitle,
         prompt: githubPromptHighlight,
@@ -113910,7 +113913,7 @@ om inated
       if (!articleText) {
         return null;
       }
-      const content3 = getSummaryPrompt(articleText, providerConfigs.provider);
+      const content3 = getSummaryPrompt(articleText, providerConfigs);
       const queryText = articlePrompt({
         title: articleTitle,
         content: content3,
@@ -113933,7 +113936,7 @@ om inated
       const Instructions = userConfig.prompt ? `${userConfig.prompt}` : videoSummaryPromptHightligt;
       const queryText = videoPrompt({
         title: videoTitle,
-        transcript: getSummaryPrompt(transcript, providerConfigs.provider),
+        transcript: getSummaryPrompt(transcript, providerConfigs),
         language: userConfig.language === "auto" /* Auto */ ? language2 : userConfig.language,
         prompt: Instructions
       });
@@ -113962,7 +113965,7 @@ om inated
       const Instructions = userConfig.prompt ? `${userConfig.prompt}` : videoSummaryPromptHightligt;
       const queryText = videoPrompt({
         title: videoTitle,
-        transcript: getSummaryPrompt(content3, providerConfigs.provider),
+        transcript: getSummaryPrompt(content3, providerConfigs),
         language: userConfig.language === "auto" /* Auto */ ? language2 : userConfig.language,
         prompt: Instructions
       });
@@ -114000,7 +114003,7 @@ om inated
       const Instructions = userConfig.promptSearch ? `${userConfig.promptSearch}` : searchPromptHighlight;
       const queryText = searchPrompt({
         query: searchInput2.value,
-        results: getSummaryPrompt(searchList, providerConfigs.provider),
+        results: getSummaryPrompt(searchList, providerConfigs),
         language: userConfig.language === "auto" /* Auto */ ? language2 : userConfig.language,
         prompt: Instructions
       });
@@ -114040,7 +114043,7 @@ om inated
       const Instructions = userConfig.promptSearch ? `${userConfig.promptSearch}` : searchPromptHighlight;
       const queryText = searchPrompt({
         query: searchInput2.value,
-        results: getSummaryPrompt(searchList, providerConfigs.provider),
+        results: getSummaryPrompt(searchList, providerConfigs),
         language: userConfig.language === "auto" /* Auto */ ? language2 : userConfig.language,
         prompt: Instructions
       });
@@ -114094,7 +114097,7 @@ om inated
       const Instructions = userConfig.promptSearch ? `${userConfig.promptSearch}` : searchPromptHighlight;
       const queryText = searchPrompt({
         query: searchInput.value,
-        results: getSummaryPrompt(searchList, providerConfigs.provider),
+        results: getSummaryPrompt(searchList, providerConfigs),
         language: userConfig.language === "auto" /* Auto */ ? language2 : userConfig.language,
         prompt: Instructions
       });
