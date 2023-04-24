@@ -94,8 +94,6 @@ export class ChatGPTProvider implements Provider {
 
     const modelName = await this.getModelName()
 
-    debugger
-
     const truncatePrompt = truncateTextByToken({
       text: prompt,
       modelName: modelName,
@@ -105,6 +103,13 @@ export class ChatGPTProvider implements Provider {
 
     this.tasks[taskId] = {
       abortController,
+    }
+
+    const setTasks = (data) => {
+      this.tasks[taskId] = {
+        ...data,
+        ...this.tasks[taskId],
+      }
     }
 
     await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
@@ -141,11 +146,14 @@ export class ChatGPTProvider implements Provider {
           data = JSON.parse(message)
         } catch (err) {
           console.error(err)
+          cleanup()
           return
         }
         const text = data.message?.content?.parts?.[0]
         if (text) {
           conversationId = data.conversation_id
+          setTasks({ conversationId })
+
           params.onEvent({
             type: 'answer',
             data: {
@@ -166,6 +174,9 @@ export class ChatGPTProvider implements Provider {
       return
     }
     taskInfo.abortController.abort()
+    if (taskInfo.conversationId) {
+      setConversationProperty(this.token, taskInfo.conversationId, { is_visible: false })
+    }
   }
 
   async updateTitle(params) {
