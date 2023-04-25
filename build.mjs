@@ -45,6 +45,7 @@ let buildConfig = {
       },
     }),
   ],
+  external: ['src/pdf/*'],
 }
 
 if (isDev) {
@@ -98,6 +99,7 @@ async function build() {
     { src: 'src/assets/img/logo-128.png', dst: 'logo-128.png' },
     { src: 'src/assets/img/logo.png', dst: 'logo.png' },
     { src: 'src/_locales', dst: '_locales' },
+    { src: 'src/pdf', dst: 'pdf' },
   ]
 
   // chromium
