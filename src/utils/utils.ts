@@ -1,4 +1,7 @@
 import Browser from 'webextension-polyfill'
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist'
+GlobalWorkerOptions.workerSrc = pdfjsWorker
 import {
   Theme,
   BASE_URL,
@@ -98,4 +101,27 @@ export function truncateTextByToken({
   }
 
   return text
+}
+
+// 读取page
+export const readPDFPage = async (doc: any, pageNo: number) => {
+  const page = await doc.getPage(pageNo)
+  const tokenizedText = await page.getTextContent()
+  const pageText = tokenizedText.items.map((token) => token.str).join('')
+  return pageText.replaceAll(/\s+/g, ' ')
+}
+
+// 读取文件
+export const readPDFDoc = async (url: string, resolve?: (res) => void, reject?: (res) => void) => {
+  try {
+    const doc = await getDocument(url).promise
+    const pageTextPromises = []
+    for (let pageNo = 1; pageNo <= doc.numPages; pageNo++) {
+      pageTextPromises.push(readPDFPage(doc, pageNo))
+    }
+    const pageTexts = await Promise.all(pageTextPromises)
+    resolve && resolve(pageTexts.join(''))
+  } catch (err) {
+    reject && reject(err)
+  }
 }

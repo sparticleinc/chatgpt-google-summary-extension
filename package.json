@@ -7,7 +7,7 @@
     "lint": "eslint --ext .js,.mjs,.jsx .",
     "lint:fix": "eslint --ext .js,.mjs,.jsx . --fix",
     "prepare": "husky install",
-    "watch": "chokidar src -c 'npm run dev'"
+    "watch": "chokidar src -c \"npm run dev\""
   },
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
@@ -23,6 +23,7 @@
     "inter-ui": "^3.19.3",
     "jquery": "^3.6.3",
     "lodash-es": "^4.17.21",
+    "pdfjs-dist": "^3.5.141",
     "preact": "^10.13.1",
     "prop-types": "^15.8.1",
     "punycode": "^2.1.1",
