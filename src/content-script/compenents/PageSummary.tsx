@@ -14,7 +14,7 @@ import {
   UserConfig,
 } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
-import { isIOS } from '@/utils/utils'
+import { isIOS, getPDFText } from '@/utils/utils'
 import {
   getPageSummaryContent,
   getPageSummaryComments,
@@ -33,6 +33,7 @@ import logo from '@/assets/img/logo.png'
 import Draggable from 'react-draggable'
 import { debounce } from 'lodash-es'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
+import { queryParam } from 'gb-url'
 
 const { Paragraph, Text, Link } = Typography
 
@@ -68,6 +69,20 @@ function PageSummary(props: Props) {
   const [userConfigData, setUserConfigData] = useState<UserConfig>()
 
   const onSwitch = useCallback(() => {
+    const contentType = document.querySelector('embed')?.type
+    if (contentType === 'application/pdf') {
+      Browser.runtime
+        .sendMessage({
+          type: 'GET_URL',
+        })
+        .then((tabs) => {
+          const tab = tabs[0]
+          console.log('getCurrent tab', tab)
+        })
+
+      return
+    }
+
     setShowCard((state) => {
       const cardState = !state
 
@@ -95,6 +110,7 @@ function PageSummary(props: Props) {
       setQuestion('')
 
       const userConfig = userConfigData ?? (await getUserConfig())
+      const providerConfigs = await getProviderConfigs()
 
       const language = window.navigator.language
       const replyLanguage = userConfig.language === Language.Auto ? language : userConfig.language
@@ -121,10 +137,39 @@ function PageSummary(props: Props) {
         }
       }
 
+      // PDF
+      const pageUrl = location.href
+      const pdfUrl = queryParam('file', pageUrl)
+      if (
+        /^(chrome-extension:\/\/)(\s|\S)+\/pdf\/web\/viewer.html\?file=(\s|\S)+/.test(pageUrl) &&
+        pdfUrl
+      ) {
+        const pdfText = await getPDFText(pdfUrl)
+
+        const promptContent = getSummaryPrompt(
+          pdfText.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
+          providerConfigs,
+        )
+
+        setQuestion(
+          pageSummaryPrompt({
+            content: promptContent,
+            language: replyLanguage,
+            prompt: promptPage,
+          }),
+        )
+        return
+      }
+
       if (isSelection) {
+        const promptContent = getSummaryPrompt(
+          selectionText.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
+          providerConfigs,
+        )
+
         setQuestion(
           selectionSummaryPrompt({
-            content: selectionText,
+            content: promptContent,
             url,
             language: replyLanguage,
             prompt: promptPage,
@@ -146,8 +191,6 @@ function PageSummary(props: Props) {
       const content = article?.content ? description + article?.content : title + description
 
       if (article?.content || description) {
-        const providerConfigs = await getProviderConfigs()
-
         const promptContent = getSummaryPrompt(
           content.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
           providerConfigs,

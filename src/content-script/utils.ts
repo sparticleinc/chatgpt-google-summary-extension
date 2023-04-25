@@ -11,6 +11,9 @@ import {
   importantListPrompt,
   translatePrompt,
 } from '@/utils/prompt'
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist'
+GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 export interface GetReviewsProps {
   content: string
@@ -217,7 +220,7 @@ export async function getTranscriptHTML(rawTranscript: string[], videoId) {
   })
 
   function resetNums() {
-    ;(loop = 0), (chars = []), (charCount = 0), (timeSum = 0), (tempObj = {})
+    ; (loop = 0), (chars = []), (charCount = 0), (timeSum = 0), (tempObj = {})
   }
 }
 
@@ -293,18 +296,18 @@ export function siteName() {
     hostname === 'news.yahoo.co.jp'
       ? 'yahooJpNews'
       : hostname.includes('ncbi.nlm.nih.gov')
-      ? 'pubmed'
-      : hostname === 'newspicks.com'
-      ? 'newspicks'
-      : hostname.includes('nikkei.com')
-      ? 'nikkei'
-      : hostname.includes('github.com')
-      ? 'github'
-      : hostname.includes('patents.google.com')
-      ? 'googlePatents'
-      : hostname.match(siteRegex)
-      ? hostname.match(siteRegex)?.[0] || ''
-      : ''
+        ? 'pubmed'
+        : hostname === 'newspicks.com'
+          ? 'newspicks'
+          : hostname.includes('nikkei.com')
+            ? 'nikkei'
+            : hostname.includes('github.com')
+              ? 'github'
+              : hostname.includes('patents.google.com')
+                ? 'googlePatents'
+                : hostname.match(siteRegex)
+                  ? hostname.match(siteRegex)?.[0] || ''
+                  : ''
   return siteName
 }
 
@@ -404,10 +407,10 @@ export const getReviewsSites = () => {
   const site = /amazon.\w{2,}/gi.test(hostname)
     ? 'amazon'
     : hostname.includes('.douban.com')
-    ? 'douban'
-    : bookingHotelRegex.test(href)
-    ? 'bookingHotel'
-    : hostname
+      ? 'douban'
+      : bookingHotelRegex.test(href)
+        ? 'bookingHotel'
+        : hostname
 
   return site
 }

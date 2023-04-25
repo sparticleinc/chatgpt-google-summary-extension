@@ -4,16 +4,17 @@ import { truncateTextByToken } from '@/utils/utils'
 export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderConfigs) {
   const text = transcript
     ? transcript
-        .replace(/&#39;/g, "'")
-        .replace(/&gt;/g, "'")
-        .replace(/(\r\n)+/g, '\r\n')
-        .replace(/(\s{2,})/g, ' ')
-        .replace(/^(\s)+|(\s)$/g, '')
-        .replace(/\[[^\]\d]*([^\]\d\s]*)[^\]\d]*\]/g, (match, p1) => {
-          const numericContent = p1.replace(/\D/g, '')
-          return numericContent.length > 0 ? `[${numericContent}]` : ''
-        })
-        .replace(/\[\]/g, '')
+      .replace(/&#39;/g, "'")
+      .replace(/&gt;/g, "'")
+      .replace(/(\r\n)+/g, '\r\n')
+      .replace(/(\s{2,})/g, ' ')
+      .replace(/^(\s)+|(\s)$/g, '')
+      .replace(/\.+/g, ".")
+      .replace(/\[[^\]\d]*([^\]\d\s]*)[^\]\d]*\]/g, (match, p1) => {
+        const numericContent = p1.replace(/\D/g, '')
+        return numericContent.length > 0 ? `[${numericContent}]` : ''
+      })
+      .replace(/\[\]/g, '')
     : ''
 
   return truncateTextByToken({

@@ -112,6 +112,16 @@ Browser.runtime.onMessage.addListener(async (message) => {
     }
   } else if (message.type === 'STOP_TASK') {
     await cancelTask(message.data.taskId)
+  } else if (message.type === 'GET_URL') {
+    return Browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+      const tab = tabs[0]
+      if (tab?.url) {
+        Browser.tabs.create({
+          url: `chrome-extension://kaoidigfajdkpjkgnenaieihgknpncoe/pdf/web/viewer.html?file=${tab.url}`,
+          active: true,
+        })
+      }
+    })
   }
 })
 

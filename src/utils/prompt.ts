@@ -66,7 +66,7 @@ I am AI.
 Be sure not to write out the template examples.`
 
 export const customizePromptBulletPoints = `Summarize the below content in 3 bullet points.`
-export const customizePromptTweet = `Use the below to summarise a catchy tweet and add it if you have the URL.`
+export const customizePromptTweet = `Use the below content to summarise a catchy tweet and add it if you have the URL.The word count must not exceed 140 characters.`
 
 export const customizePromptSummarizeHighlights = `Summarize the below content highlights.`
 
