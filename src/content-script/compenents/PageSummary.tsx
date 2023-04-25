@@ -60,6 +60,7 @@ function PageSummary(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
   const [menuPosition, setMenuPosition] = useState<MenuPosition>({ x: 0, y: 0 })
   const [showSelectionMenu, setShowSelectionMenu] = useState<boolean>(false)
+  const [showSelectionMenuPopover, setShowSelectionMenuPopover] = useState<boolean>(false)
   const [selectionText, setSelectionText] = useState<string>('')
   const [isSelection, setIsSelection] = useState<boolean>(false)
   const [promptItem, setPromptItem] = useState<PromptItem>()
@@ -239,21 +240,31 @@ function PageSummary(props: Props) {
         const size = { width: rect.width, height: rect.height }
 
         setMenuPosition({
+          // x: position.x + size.width / 2,
+         
+          // y: position.y,
           x: position.x + size.width / 2,
-          // y: position.y + size.height + 5,
-          y: position.y,
+           y: position.y + size.height + 5,
         })
 
         setShowSelectionMenu(true)
       }
     }, 500)
 
-    const onMouseDown = () => {
+    const onMouseDown = (e: MouseEvent) => {
+      console.log('e', e, e.target)
+
+      if (e.target?.classList?.contains('glarity--launch__icon')) {
+        return
+      }
+
       setShowSelectionMenu(false)
+      setShowSelectionMenuPopover(false)
     }
 
     const onScroll = () => {
       setShowSelectionMenu(false)
+      setShowSelectionMenuPopover(false)
     }
 
     document.addEventListener('click', onMouseDown)
@@ -265,7 +276,7 @@ function PageSummary(props: Props) {
       document.removeEventListener('click', onMouseDown)
       document.removeEventListener('scroll', onScroll)
     }
-  }, [setShowSelectionMenu])
+  }, [setShowSelectionMenu,setShowSelectionMenuPopover])
 
   useEffect(() => {
     async function getConfig() {
@@ -477,9 +488,12 @@ function PageSummary(props: Props) {
         {pageSelectionEnable && (
           <>
             <Popover
-              // trigger="click"
+              trigger="click"
               className="glarity--popover"
-              open={showSelectionMenu}
+              open={showSelectionMenuPopover}
+              onOpenChange={() => {
+                setShowSelectionMenuPopover(true)
+              }}
               title={
                 <div className={'glarity--selection__title'}>
                   <a href="https://glarity.app" rel="noreferrer" target="_blank">
