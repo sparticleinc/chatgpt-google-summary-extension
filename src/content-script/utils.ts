@@ -749,3 +749,6 @@ export const pagePromptList: PromptItem[] = [
     prompt: '',
   },
 ]
+
+// isPDF
+export const isPDF = document?.querySelector('embed')?.type === 'application/pdf'

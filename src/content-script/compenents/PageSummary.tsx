@@ -20,6 +20,7 @@ import {
   getPageSummaryComments,
   pagePromptList,
   PromptItem,
+  isPDF,
 } from '@/content-script/utils'
 import {
   commentSummaryPrompt,
@@ -34,6 +35,7 @@ import Draggable from 'react-draggable'
 import { debounce } from 'lodash-es'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
 import { queryParam } from 'gb-url'
+// import { OpenAI } from "langchain/llms/openai";
 
 const { Paragraph, Text, Link } = Typography
 
@@ -69,16 +71,10 @@ function PageSummary(props: Props) {
   const [userConfigData, setUserConfigData] = useState<UserConfig>()
 
   const onSwitch = useCallback(() => {
-    const contentType = document.querySelector('embed')?.type
-    if (contentType === 'application/pdf') {
-      Browser.runtime
-        .sendMessage({
-          type: 'GET_URL',
-        })
-        .then((tabs) => {
-          const tab = tabs[0]
-          console.log('getCurrent tab', tab)
-        })
+    if (isPDF) {
+      Browser.runtime.sendMessage({
+        type: 'GO_PDF_VIEWER',
+      })
 
       return
     }
@@ -237,6 +233,14 @@ function PageSummary(props: Props) {
       const { type } = message
       if (type === 'OPEN_WEB_SUMMARY') {
         if (showCard) {
+          return
+        }
+
+        if (isPDF) {
+          Browser.runtime.sendMessage({
+            type: 'GO_PDF_VIEWER',
+          })
+
           return
         }
 

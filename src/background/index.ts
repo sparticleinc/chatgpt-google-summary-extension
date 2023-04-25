@@ -112,16 +112,23 @@ Browser.runtime.onMessage.addListener(async (message) => {
     }
   } else if (message.type === 'STOP_TASK') {
     await cancelTask(message.data.taskId)
-  } else if (message.type === 'GET_URL') {
-    return Browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
-      const tab = tabs[0]
-      if (tab?.url) {
-        Browser.tabs.create({
-          url: `chrome-extension://kaoidigfajdkpjkgnenaieihgknpncoe/pdf/web/viewer.html?file=${tab.url}`,
-          active: true,
-        })
-      }
-    })
+  } else if (message.type === 'GO_PDF_VIEWER') {
+
+    const extendId = Browser.runtime.id
+
+    if (extendId) {
+      Browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+        const tab = tabs[0]
+        if (tab?.url) {
+          Browser.tabs.create({
+            url: `chrome-extension://${extendId}/pdf/web/viewer.html?file=${tab.url}`,
+            active: true,
+          })
+        }
+      })
+    }
+
+
   }
 })
 
@@ -169,7 +176,7 @@ async function openPageSummary(tab) {
     return
   }
 
-  Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => {})
+  Browser.tabs.sendMessage(id, { type: 'OPEN_WEB_SUMMARY', data: {} }).catch(() => { })
 }
 
 if (isFirefox) {
