@@ -35,7 +35,6 @@ import Draggable from 'react-draggable'
 import { debounce } from 'lodash-es'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
 import { queryParam } from 'gb-url'
-// import { OpenAI } from "langchain/llms/openai";
 
 const { Paragraph, Text, Link } = Typography
 
@@ -288,10 +287,10 @@ function PageSummary(props: Props) {
 
         setMenuPosition({
           // x: position.x + size.width / 2,
-         
+
           // y: position.y,
           x: position.x + size.width / 2,
-           y: position.y + size.height + 5,
+          y: position.y + size.height + 5,
         })
 
         setShowSelectionMenu(true)
@@ -323,7 +322,7 @@ function PageSummary(props: Props) {
       document.removeEventListener('click', onMouseDown)
       document.removeEventListener('scroll', onScroll)
     }
-  }, [setShowSelectionMenu,setShowSelectionMenuPopover])
+  }, [setShowSelectionMenu, setShowSelectionMenuPopover])
 
   useEffect(() => {
     async function getConfig() {
