@@ -18,6 +18,7 @@ import {
   TRIGGER_MODE_TEXT,
   updateUserConfig,
   DEFAULT_PAGE_SUMMARY_BLACKLIST,
+  t,
 } from '@/config'
 import { PageSummaryProps } from './components/PageSummary'
 import ProviderSelect from './components/ProviderSelect'
@@ -131,7 +132,7 @@ function OptionsPage(
         {!isIOS && (
           <>
             <Text h3 className="glarity--mt-5">
-              Trigger Mode
+              {t('trigger_mode')}
             </Text>
             <Radio.Group
               value={triggerMode}
@@ -151,13 +152,13 @@ function OptionsPage(
 
         {/* Theme */}
         <Text h3 className="glarity--mt-5">
-          Theme
+          {t('theme')}
         </Text>
         <Radio.Group value={props.theme} onChange={(val) => onThemeChange(val as Theme)} useRow>
           {Object.entries(Theme).map(([k, v]) => {
             return (
               <Radio key={v} value={v}>
-                {k}
+                {t(v)}
               </Radio>
             )
           })}
@@ -165,11 +166,12 @@ function OptionsPage(
 
         {/* Language */}
         <Text h3 className="glarity--mt-5 glarity--mb-0">
-          Language
+          {t('language')}
         </Text>
         <Text className="glarity--my-1">
-          The language used in ChatGPT response. <span className="glarity--italic">Auto</span> is
-          recommended.
+          {t('language_tip')}
+          {/* The language used in ChatGPT response. <span className="glarity--italic">Auto</span> is
+          recommended. */}
         </Text>
         <Select
           value={language}
@@ -185,7 +187,7 @@ function OptionsPage(
 
         {/* AI Provider */}
         <Text h3 className="glarity--mt-5 glarity--mb-0">
-          AI Provider
+         {t('aiprovider')}
         </Text>
         <ProviderSelect />
 

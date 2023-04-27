@@ -2,7 +2,7 @@ import React from 'react'
 import { useCallback } from 'preact/hooks'
 import { Text, Code, Textarea, Card, Button, Snippet, Collapse, useToasts } from '@geist-ui/core'
 import { Space } from 'antd'
-import { updateUserConfig } from '@/config'
+import { t, updateUserConfig } from '@/config'
 import { isIOS, changeToast, isTokenExceedsLimit, tokenExceedsLimitToast } from '@/utils/utils'
 import {
   videoSummaryPromptHightligt,
@@ -183,7 +183,7 @@ function CustomizePrompt(props: Props) {
       {!isIOS && (
         <>
           <Text h3 className="glarity--mt-5 glarity--mb-0">
-            Customize Prompt for Summary
+            {t('customize_prompt')}
           </Text>
           <Collapse.Group className="glarity--custom__prompt">
             {/* YouTube */}
@@ -213,15 +213,15 @@ function CustomizePrompt(props: Props) {
                 <Card.Footer>
                   <Space>
                     <Button type="secondary" auto scale={1 / 3} onClick={onSavePrompt}>
-                      Save
+                      {t('save')}
                     </Button>{' '}
                     <Button type="secondary" ghost auto scale={1 / 3} onClick={onSetPrompt}>
-                      Use default
+                      {t('use_default')}
                     </Button>
                   </Space>
                 </Card.Footer>
               </Card>
-              <Text className="glarity--my-1">Example Prompts: </Text>
+              <Text className="glarity--my-1">{t('example_prompts')} </Text>
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">
@@ -292,7 +292,7 @@ function CustomizePrompt(props: Props) {
                         onSavePrompt('search')
                       }}
                     >
-                      Save
+                      {t('save')}
                     </Button>{' '}
                     <Button
                       type="secondary"
@@ -303,12 +303,12 @@ function CustomizePrompt(props: Props) {
                         onSetPrompt('search')
                       }}
                     >
-                      Use default
+                      {t('use_default')}
                     </Button>
                   </Space>
                 </Card.Footer>
               </Card>
-              <Text className="glarity--my-1">Example Prompts: </Text>
+              <Text className="glarity--my-1">{t('example_prompts')} </Text>
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">
@@ -339,7 +339,7 @@ function CustomizePrompt(props: Props) {
             <Collapse
               title={
                 <Text h4 className="glarity--mt-5 glarity--mb-0">
-                  Page Summary{' '}
+                  {t('page_summary')}{' '}
                 </Text>
               }
             >
@@ -369,7 +369,7 @@ function CustomizePrompt(props: Props) {
                         onSavePrompt('page')
                       }}
                     >
-                      Save
+                      {t('save')}
                     </Button>{' '}
                     <Button
                       type="secondary"
@@ -380,12 +380,12 @@ function CustomizePrompt(props: Props) {
                         onSetPrompt('page')
                       }}
                     >
-                      Use default
+                      {t('use_default')}
                     </Button>
                   </Space>
                 </Card.Footer>
               </Card>
-              <Text className="glarity--my-1">Example Prompts: </Text>
+              <Text className="glarity--my-1">{t('example_prompts')} </Text>
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">
@@ -394,7 +394,7 @@ function CustomizePrompt(props: Props) {
                 </li>
                 <li>
                   <Snippet symbol="" type="secondary">
-                    {customizePromptSummarizeHighlights}
+                    {t('summarize_above')}
                   </Snippet>
                 </li>
                 <li>
@@ -411,7 +411,7 @@ function CustomizePrompt(props: Props) {
                 </li>
                 <li>
                   <Snippet symbol="" type="secondary">
-                    Extract the gist of the above.
+                    {t('extract_gist')}
                   </Snippet>
                 </li>
               </ul>
@@ -421,9 +421,9 @@ function CustomizePrompt(props: Props) {
             <Collapse
               title={
                 <Text h4 className="glarity--mt-5 glarity--mb-0">
-                  Comment Summary{' '}
+                  {t('comment_summary')}{' '}
                   <Text span font="12px" className="glarity--subtitle">
-                    Summary of support for Amazon products and YouTube video comments.
+                    {t('summary_support')}
                   </Text>
                 </Text>
               }
@@ -454,7 +454,7 @@ function CustomizePrompt(props: Props) {
                         onSavePrompt('comment')
                       }}
                     >
-                      Save
+                      {t('save')}
                     </Button>{' '}
                     <Button
                       type="secondary"
@@ -465,12 +465,12 @@ function CustomizePrompt(props: Props) {
                         onSetPrompt('comment')
                       }}
                     >
-                      Use default
+                      {t('use_default')}
                     </Button>
                   </Space>
                 </Card.Footer>
               </Card>
-              <Text className="glarity--my-1">Example Prompts: </Text>
+              <Text className="glarity--my-1">{t('example_prompts')} </Text>
               <ul className="glarity--prompt__list">
                 <li>
                   <Snippet symbol="" type="secondary">

@@ -6,12 +6,15 @@ export enum TriggerMode {
   QuestionMark = 'questionMark',
   Manually = 'manually',
 }
-
+export const t = Browser.i18n.getMessage
 export const TRIGGER_MODE_TEXT = {
-  [TriggerMode.Always]: { title: 'Always', desc: 'ChatGPT is queried on every search' },
+  [TriggerMode.Always]: {
+    title: t('always'),
+    desc: t('always_tip'),
+  },
   [TriggerMode.Manually]: {
-    title: 'Manually',
-    desc: 'ChatGPT is queried when you manually click a button',
+    title: t('manually'),
+    desc: t("manually_tip"),
   },
 }
 
@@ -225,12 +228,12 @@ export const CHAT_MODEL: ChatModel[] = [
   {
     name: 'GPT-3.5 Turbo',
     code: ChatModelType.GPT35,
-    desc: 'GPT-3.5 is unlimited for Free and Plus users.',
+    desc:t('gpt3_5tip'),
   },
   {
     name: 'GPT-4',
     code: ChatModelType.GPT40,
-    desc: 'GPT-4 is for Plus users and has a very limited quota.',
+    desc: t('gpt4_tip'),
   },
 ]
 

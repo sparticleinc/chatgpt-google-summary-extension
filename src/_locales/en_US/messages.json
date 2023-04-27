@@ -4,5 +4,143 @@
   },
   "appDesc": {
     "message": "Summaries of YouTube and Google search results with ChatGPT. Glarity lets you easily summarize any webpage as well."
+  },
+  "option": {
+    "message": "Options"
+  },
+  "trigger_mode": {
+    "message": "Trigger Mode"
+  },
+  "always": {
+    "message": "Always"
+  },
+  "always_tip": {
+    "message": "ChatGPT is queried on every search"
+  },
+  "manually": {
+    "message": "Manually"
+  },
+  "manually_tip": {
+    "message": "ChatGPT is queried when you manually click a button"
+  },
+  "language": {
+    "message": "Language"
+  },
+  "language_tip": {
+    "message": "The language used in ChatGPT response. Auto is recommended."
+  },
+  "aiprovider": {
+    "message": "AI Provider"
+  },
+  "gpt3_5tip": {
+    "message": "GPT-3.5 is unlimited for Free and Plus users."
+  },
+  "gpt4_tip": {
+    "message": "GPT-4 is for Plus users and has a very limited quota."
+  },
+  "open_ai_tip": {
+    "message": "OpenAI official API, more stable, charge by usage"
+  },
+  "key_here": {
+    "message": "You can find or create your API key here"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "customize_prompt": {
+    "message": "Customize Prompt for Summary"
+  },
+  "use_default": {
+    "message": "Use default"
+  },
+  "enable_disable_glarity": {
+    "message": "Enable/Disable Glarity"
+  },
+  "enable_disable_tip": {
+    "message": "You can enable/disable the Glarity Summary on the following website."
+  },
+  "select_all": {
+    "message": "Select All / Reverse"
+  },
+  "page_summary": {
+    "message": "Page Summary"
+  },
+  "show_icon": {
+    "message": "Show Glarity Icon"
+  },
+  "show_icon_tip": {
+    "message": "Once hidden, the Glarity icon will no longer appear on the page. However, you can open the page summary by clicking on the browser extension icon."
+  },
+  "whitelist_sites": {
+    "message": "Whitelist Sites"
+  },
+  "whitelist_sites_tip": {
+    "message": "Only display the Glarity icon on these sites (one URL per line)."
+  },
+  "blacklist_sites": {
+    "message": "Blacklist Sites"
+  },
+  "blacklist_sites_tip": {
+    "message": "Do not display Glarity icon on these sites (one URL per line)."
+  },
+  "login_tip": {
+    "message": "Please login and pass Cloudflare check at {{site}}"
+  },
+  "open_tip": {
+    "message": "OpenAI requires passing a security check every once in a while. If this keeps happening, change AI provider to OpenAI API in the {{site}}"
+  },
+  "Summary": {
+    "message": "Summary"
+  },
+  "create_tweet": {
+    "message": "Create a tweet"
+  },
+  "explain": {
+    "message": "Explain"
+  },
+  "translation": {
+    "message": "Translation"
+  },
+  "q_amd_a": {
+    "message": "Q&A"
+  },
+  "important": {
+    "message": "Important"
+  },
+  "theme": {
+    "message": "Theme"
+  },
+  "auto": {
+    "message": "Auto"
+  },
+  "light": {
+    "message": "Light"
+  },
+  "dark": {
+    "message": "Dark"
+  },
+  "example_prompts": {
+    "message": "Example Prompts:"
+  },
+  "summarize_above": {
+    "message": "Summarize the above content highlights."
+  },
+  "extract_gist": {
+    "message": "Extract the gist of the above."
+  },
+  "what_above": {
+    "message": "What's key takeaways from the above?"
+  },
+  "comment_summary": {
+    "message": " Comment Summary"
+  },
+  "summary_support": {
+    "message": "Summary of support for Amazon products and YouTube video comments."
+  },
+  "enable": {
+    "message": "Enable"
+  },
+  "enable.selection": {
+    "message": " Enable/disable page selection feature."
   }
 }

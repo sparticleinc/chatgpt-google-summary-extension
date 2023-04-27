@@ -4,5 +4,137 @@
   },
   "appDesc": {
     "message": "Glarity Summary 利用ChatGPT4实现快速为谷歌搜索和YouTube视频等内容生成摘要。Glarity支持为任意网页生成摘要总结。"
+  },
+  "option": {
+    "message": "选项"
+  },
+  "trigger_mode": {
+    "message": "触发模式"
+  },
+  "always": {
+    "message": "一直"
+  },
+  "always_tip": {
+    "message": "每次搜索都会查询ChatGPT"
+  },
+  "manually": {
+    "message": "手动"
+  },
+  "manually_tip": {
+    "message": "当您手动单击按钮时，ChatGPT会进行查询"
+  },
+  "language": {
+    "message": "语言"
+  },
+  "language_tip": {
+    "message": "ChatGPT响应中使用的语言。建议使用自动。"
+  },
+  "aiprovider": {
+    "message": "AI提供商"
+  },
+  "gpt3_5tip": {
+    "message": "对于免费和Plus用户，GPT-3.5是无限的。"
+  },
+  "gpt4_tip": {
+    "message": "对于Plus用户，GPT-4的配额非常有限。"
+  },
+  "open_ai_tip": {
+    "message": "OpenAI官方API，更稳定，按使用收费"
+  },
+  "key_here": {
+    "message": "您可以在此处找到或创建API密钥"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "customize_prompt": {
+    "message": "自定义摘要提示"
+  },
+  "use_default": {
+    "message": "使用默认值"
+  },
+  "enable_disable_glarity": {
+    "message": "启用/禁用Glarity"
+  },
+  "enable_disable_tip": {
+    "message": "您可以在以下网站上启用/禁用 Glarity 概述。"
+  },
+  "select_all": {
+    "message": "选择所有/反转"
+  },
+  "page_summary": {
+    "message": "页面摘要"
+  },
+  "show_icon": {
+    "message": "显示Glarity图标"
+  },
+  "show_icon_tip": {
+    "message": "一旦隐藏，Glarity图标将不再出现在页面上。但是，您可以通过单击浏览器扩展图标来打开页面摘要。"
+  },
+  "whitelist_sites": {
+    "message": "白名单网站"
+  },
+  "whitelist_sites_tip": {
+    "message": "仅在这些网站上显示Glarity图标（每行一个URL）。"
+  },
+  "blacklist_sites": {
+    "message": "黑名单网站"
+  },
+  "blacklist_sites_tip": {
+    "message": "不要在这些网站上显示Glarity图标（每行一个URL）。"
+  },
+  "login_tip": {
+    "message": "请登录并通过 {{site}} 的 Cloudflare 检查。"
+  },
+  "open_tip": {
+    "message": "OpenAI需要每隔一段时间进行安全检查。如果这一直发生，请将AI提供商更改为 {{site}} 上的OpenAI API"
+  },
+  "Summary": {
+    "message": "概述"
+  },
+  "create_tweet": {
+    "message": "创建一条推特"
+  },
+  "explain": {
+    "message": "解释"
+  },
+  "translation": {
+    "message": "翻译"
+  },
+  "q_amd_a": {
+    "message": "问答"
+  },
+  "important": {
+    "message": "重要"
+  },
+  "theme": {
+    "message": "主题"
+  },
+  "auto": {
+    "message": "自动"
+  },
+  "light": {
+    "message": "浅色"
+  },
+  "dark": {
+    "message": "深色"
+  },
+  "example_prompts": {
+    "message": "示例提示："
+  },
+  "summarize_above": {
+    "message": "概述上述内容的亮点。"
+  },
+  "extract_gist": {
+    "message": "提取上述主旨。"
+  },
+  "what_above": {
+    "message": "上述内容的关键点是什么？"
+  },
+  "comment_summary": {
+    "message": "评论摘要"
+  },
+  "summary_support": {
+    "message": "Amazon产品和YouTube视频评论的概述。"
   }
 }

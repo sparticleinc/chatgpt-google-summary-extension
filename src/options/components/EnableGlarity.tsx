@@ -2,7 +2,7 @@ import React from 'react'
 import { useCallback, useEffect, useState } from 'preact/hooks'
 import { SearchEngine } from '@/content-script/search-engine-configs'
 import { Text, Card, Button, Spacer, useToasts, Checkbox } from '@geist-ui/core'
-import { updateUserConfig } from '@/config'
+import { t, updateUserConfig } from '@/config'
 import { changeToast, isIOS } from '@/utils/utils'
 
 interface Props {
@@ -71,11 +71,11 @@ function EnableGlarity(props: Props) {
             </Card.Content>
             <Card.Footer>
               <Checkbox checked={allSelect} value="selectAll" onChange={onChangeSelectAll}>
-                Select All / Reverse
+                {t('select_all')}
               </Checkbox>
               <Spacer w={2} />
               <Button type="secondary" auto scale={1 / 3} onClick={onSaveSelect}>
-                Save
+                {t('save')}
               </Button>
             </Card.Footer>
           </Card>

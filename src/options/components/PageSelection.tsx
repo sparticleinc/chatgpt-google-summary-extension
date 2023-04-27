@@ -2,7 +2,7 @@ import React from 'react'
 import { useCallback } from 'preact/hooks'
 import { Card, Text, Toggle, useToasts } from '@geist-ui/core'
 import { changeToast } from '@/utils/utils'
-import { updateUserConfig } from '@/config'
+import { t, updateUserConfig } from '@/config'
 
 export interface PageSelectionProps {
   pageSelectionEnable: boolean
@@ -26,7 +26,7 @@ function PageSelectionComponent(props: PageSelectionProps) {
   return (
     <>
       <Text h3 className="glarity--mt-5">
-        Page Selection{' '}
+        {t('page_selection')}
       </Text>
 
       <Card>
@@ -36,10 +36,10 @@ function PageSelectionComponent(props: PageSelectionProps) {
             className="glarity--mb-0 glarity--flex glarity--flex-row glarity--items-center glarity--gap-1"
           >
             <Toggle initialChecked checked={pageSelectionEnable} onChange={onPageSelectionChange} />
-            Enable
+            {t('enable')}
           </Text>
           <Text className="glarity--mt-0" font="12px">
-            Enable/disable page selection feature.
+            {t('enable.selection')}
           </Text>
         </Card.Content>
       </Card>

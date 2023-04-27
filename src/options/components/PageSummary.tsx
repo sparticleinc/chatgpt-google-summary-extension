@@ -11,7 +11,7 @@ import {
   Spacer,
   Description,
 } from '@geist-ui/core'
-import { updateUserConfig } from '@/config'
+import { t, updateUserConfig } from '@/config'
 import { changeToast } from '@/utils/utils'
 
 export interface PageSummaryProps {
@@ -76,7 +76,7 @@ function PageSummaryComponent(props: PageSummaryProps) {
   return (
     <>
       <Text h3 className="glarity--mt-5">
-        Page Summary
+        {t('page_summary')}
       </Text>
 
       <Card>
@@ -90,20 +90,19 @@ function PageSummaryComponent(props: PageSummaryProps) {
               checked={pageSummaryEnable}
               onChange={onPageSummaryEnableChange}
             />{' '}
-            Show Glarity Icon
+            {t('show_icon')}
           </Text>
           <Text className="glarity--mt-0" font="12px">
-            Once hidden, the Glarity icon will no longer appear on the page. However, you can open
-            the page summary by clicking on the browser extension icon.
+            {t('show_icon_tip')}
           </Text>
         </Card.Content>
         <Divider />
         <Card.Content>
           <Text h4 className="glarity--mb-0">
-            Whitelist Sites
+            {t('whitelist_sites')}
           </Text>
           <Text className="glarity--mt-0" font="12px">
-            Only display the Glarity icon on these sites (one URL per line).
+            {t('whitelist_sites_tip')}
           </Text>
           <Spacer h={0.5} />
           <Textarea
@@ -118,10 +117,10 @@ https://reddit.com"
         <Divider />
         <Card.Content>
           <Text h4 className="glarity--mb-0">
-            Blacklist Sites
+            {t('blacklist_sites')}
           </Text>
           <Text className="glarity--mt-0" font="12px">
-            Do not display Glarity icon on these sites (one URL per line).
+            {t('blacklist_sites_tip')}
           </Text>
           <Spacer h={0.5} />
           <Textarea
@@ -135,7 +134,7 @@ https://reddit.com"
         </Card.Content>
         <Card.Footer>
           <Button scale={2 / 3} style={{ width: 20 }} type="success" onClick={onPageSummarySave}>
-            Save
+            {t('save')}
           </Button>
         </Card.Footer>
       </Card>
