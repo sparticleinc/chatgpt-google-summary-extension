@@ -11,7 +11,6 @@ import {
   Input,
   Space,
   Button,
-  Alert,
 } from 'antd'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
@@ -46,13 +45,9 @@ import Draggable from 'react-draggable'
 import { debounce } from 'lodash-es'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
 import { queryParam } from 'gb-url'
-// import { OpenAI } from 'langchain/llms/openai'
-// import { loadSummarizationChain } from 'langchain/chains'
-// import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-// import { PromptTemplate } from 'langchain/prompts'
+import Chat from './Chat'
 
 const { Paragraph, Text, Link } = Typography
-const { TextArea } = Input
 
 interface Props {
   pageSummaryEnable: boolean
@@ -65,13 +60,6 @@ interface MenuPosition {
   x: number
   y: number
 }
-
-// const openAimModel = new OpenAI({
-//   openAIApiKey: '',
-//   temperature: 0,
-//   modelName: 'gpt-3.5-turbo',
-//   // streaming: true,
-// })
 
 function PageSummary(props: Props) {
   const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props
@@ -520,27 +508,7 @@ function PageSummary(props: Props) {
                   )}
 
                   {/* QA */}
-                  <div className="glarity--container">
-                    <div className="glarity--chatgpt glarity--nodrag">
-                      <div className="glarity--chat">
-                        <div className="glarity--chat__item user">
-                          <div className="glarity--chat__item--message">google 是谁</div>
-                        </div>
-
-                        <div className="glarity--chat__item">
-                          <div className="glarity--chat__item--message">
-                            Google 是一家美国跨国科技企业。 $SOURCES$
-                          </div>
-                        </div>
-                      </div>
-                      <Space.Compact style={{ width: '100%' }}>
-                        <Input defaultValue="Combine input and button" />
-                        <Button type="primary">
-                          <RocketIcon size={16} />
-                        </Button>
-                      </Space.Compact>
-                    </div>
-                  </div>
+                  <Chat />
 
                   {question ? (
                     <div className="glarity--container">
