@@ -30,6 +30,7 @@ function Chat(prop: Props) {
   const [loading, setLoading] = useState(false)
   const [answer, setAnswer] = useState('')
   const [config, setConfig] = useState<ProviderConfigs>()
+  const [newChatIndex, setNewChatIndex] = useState(0)
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuestion(e.target.value)
@@ -37,6 +38,7 @@ function Chat(prop: Props) {
 
   const getChat = useCallback(async () => {
     setLoading(true)
+    setAnswer('')
     const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
 
     const openAiModel = new OpenAI({
@@ -97,31 +99,32 @@ function Chat(prop: Props) {
     if (question.trim() === '') {
       return
     }
-    setChatList([
-      ...chatList,
-      { role: 'user', id: '1', content: question },
-      { role: 'robot', id: '1', content: '' },
-    ])
+    setChatList((chatList) => {
+      setNewChatIndex(chatList.length + 1)
+      return [
+        ...chatList,
+        { role: 'user', id: '1', content: question },
+        { role: 'robot', id: '1', content: '' },
+      ]
+    })
     setQuestion('')
     setLoading(true)
 
     await getChat()
-
-    // setChatList((chatList) => {
-    //   return [...chatList, { role: 'robot', id: '1', content: res }]
-    // })
     setLoading(false)
-  }, [chatList, getChat, question])
+  }, [getChat, question])
 
   useEffect(() => {
     if (chatList.length <= 0) {
       return
     }
-    const nss = chatList
-    nss[nss.length - 1].content = answer
 
-    setChatList([...nss])
-  }, [answer, chatList])
+    setChatList((chatList) => {
+      const newChatList = chatList
+      newChatList[newChatIndex].content = answer
+      return [...newChatList]
+    })
+  }, [answer, chatList, newChatIndex])
 
   useEffect(() => {
     async function getConfig() {
