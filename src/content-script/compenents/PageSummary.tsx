@@ -55,7 +55,7 @@ interface MenuPosition {
 }
 
 const openAimModel = new OpenAI({
-  openAIApiKey: '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',
+  openAIApiKey: '',
   temperature: 0,
   modelName: 'gpt-3.5-turbo',
   // streaming: true,
