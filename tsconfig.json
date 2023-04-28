@@ -3,8 +3,8 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
-    "target": "es2018",
+    "module": "nodenext",
+    "target": "ES2020",
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",

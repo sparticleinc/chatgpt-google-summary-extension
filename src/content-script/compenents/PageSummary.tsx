@@ -35,6 +35,10 @@ import Draggable from 'react-draggable'
 import { debounce } from 'lodash-es'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
 import { queryParam } from 'gb-url'
+import { OpenAI } from 'langchain/llms/openai'
+import { loadSummarizationChain } from 'langchain/chains'
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { PromptTemplate } from 'langchain/prompts'
 
 const { Paragraph, Text, Link } = Typography
 
@@ -49,6 +53,13 @@ interface MenuPosition {
   x: number
   y: number
 }
+
+const openAimModel = new OpenAI({
+  openAIApiKey: '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',
+  temperature: 0,
+  modelName: 'gpt-3.5-turbo',
+  // streaming: true,
+})
 
 function PageSummary(props: Props) {
   const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props

@@ -6,6 +6,7 @@ import postcssPlugin from 'esbuild-style-plugin'
 import fs from 'fs-extra'
 import process from 'node:process'
 import tailwindcss from 'tailwindcss'
+import watPlugin from 'esbuild-plugin-wat'
 
 dotenv.config()
 
@@ -44,6 +45,7 @@ let buildConfig = {
         plugins: [tailwindcss, autoprefixer],
       },
     }),
+    watPlugin(),
   ],
   external: ['src/pdf/*'],
 }
