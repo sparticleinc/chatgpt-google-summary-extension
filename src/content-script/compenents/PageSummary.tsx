@@ -1,17 +1,7 @@
 import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
 import classNames from 'classnames'
-import { XCircleFillIcon, GearIcon, CircleSlashIcon, RocketIcon } from '@primer/octicons-react'
-import {
-  ConfigProvider,
-  Popover,
-  Divider,
-  Modal,
-  Typography,
-  Tooltip,
-  Input,
-  Space,
-  Button,
-} from 'antd'
+import { XCircleFillIcon, GearIcon, CircleSlashIcon } from '@primer/octicons-react'
+import { ConfigProvider, Popover, Divider, Modal, Typography, Tooltip } from 'antd'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
 // import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
@@ -507,8 +497,8 @@ function PageSummary(props: Props) {
                     </>
                   )}
 
-                  {/* QA */}
-                  <Chat />
+                  {/* Chat */}
+                  <Chat userConfig={userConfigData} />
 
                   {question ? (
                     <div className="glarity--container">

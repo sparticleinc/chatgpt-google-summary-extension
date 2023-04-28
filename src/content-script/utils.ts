@@ -752,3 +752,5 @@ export const pagePromptList: PromptItem[] = [
 
 // isPDF
 export const isPDF = document?.querySelector('embed')?.type === 'application/pdf'
+
+export const textShort = `卖豆腐的一收了市，一天的事情都完了。家家户户都把晚饭吃过了。吃过了晚饭，看晚霞的看晚霞，不看晚霞的躺到炕上去睡觉的也有。这地方的晚霞是很好看的，有一个土名，叫火烧云。说“晚霞”人们不懂，若一说“火烧云”就连三岁的孩子也会呀呀地往西天空里指给你看。晚饭一过，火烧云就上来了。照得小孩子的脸是红的。把大白狗变成红色的狗了。红公鸡就变成金的了。黑母鸡变成紫檀色的了。喂猪的老头子，往墙根上靠，他笑盈盈地看着他的两匹小白猪，变成小金猪了，他刚想说：“他妈的，你们也变了……”`;
