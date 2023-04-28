@@ -5,7 +5,8 @@ import {
   HumanMessagePromptTemplate,
 } from "langchain/prompts";
 
-export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderConfigs) {
+export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderConfigs, isTruncate = true) {
+
   const text = transcript
     ? transcript
       .replace(/&#39;/g, "'")
@@ -19,7 +20,12 @@ export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderConf
         return numericContent.length > 0 ? `[${numericContent}]` : ''
       })
       .replace(/\[\]/g, '')
+      .replace(/<[^>]+>/g, '')
     : ''
+
+  if (!isTruncate) {
+    return text
+  }
 
   return truncateTextByToken({
     text,

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
+import { useState, useCallback, useEffect, useContext, useRef } from 'preact/hooks'
 import classNames from 'classnames'
 import { XCircleFillIcon, GearIcon, CircleSlashIcon } from '@primer/octicons-react'
 import { ConfigProvider, Popover, Divider, Modal, Typography, Tooltip } from 'antd'
@@ -70,6 +70,9 @@ function PageSummary(props: Props) {
   const [isShowDisabledPageSelection, setShowIsDisabledPageSelection] = useState(false)
   const [pageSelectionEnable, setPageSelectionEnable] = useState(true)
   const [userConfigData, setUserConfigData] = useState<UserConfig>()
+  const [allContent, setAllContent] = useState('')
+  const scrollWrapRef = useRef<HTMLDivElement | null>(null)
+  const [isScroll, setIsScroll] = useState(false)
 
   const onSwitch = useCallback(() => {
     if (isPDF) {
@@ -105,6 +108,7 @@ function PageSummary(props: Props) {
       setShowCard(true)
       setSupportSummary(true)
       setQuestion('')
+      setAllContent('')
 
       const userConfig = userConfigData ?? (await getUserConfig())
       const providerConfigs = await getProviderConfigs()
@@ -141,12 +145,9 @@ function PageSummary(props: Props) {
         /^(chrome-extension:\/\/)(\s|\S)+\/pdf\/web\/viewer.html\?file=(\s|\S)+/.test(pageUrl) &&
         pdfUrl
       ) {
-        const pdfText = await getPDFText(pdfUrl)
-
-        const promptContent = getSummaryPrompt(
-          pdfText.replace(/(<[^>]+>|\{[^}]+\})/g, ''),
-          providerConfigs,
-        )
+        const pdfText = (await getPDFText(pdfUrl))?.replace(/(<[^>]+>|\{[^}]+\})/g, '')
+        setAllContent(getSummaryPrompt(pdfText, providerConfigs, false))
+        const promptContent = getSummaryPrompt(pdfText, providerConfigs)
 
         setQuestion(
           pageSummaryPrompt({
@@ -186,6 +187,8 @@ function PageSummary(props: Props) {
         document.querySelector('meta[name="description"]')?.getAttribute('content') ||
         ''
       const content = article?.content ? description + article?.content : title + description
+
+      setAllContent(getSummaryPrompt(article?.content, providerConfigs, false) || '')
 
       if (article?.content || description) {
         const promptContent = getSummaryPrompt(
@@ -335,6 +338,24 @@ function PageSummary(props: Props) {
     getConfig()
   }, [])
 
+  useEffect(() => {
+    console.log('isScroll', isScroll)
+
+    if (!isScroll) {
+      return
+    }
+
+    const wrap: HTMLDivElement | null = scrollWrapRef.current
+    if (!wrap) {
+      return
+    }
+
+    wrap.scrollTo({
+      top: 10000,
+      behavior: 'smooth',
+    })
+  }, [isScroll])
+
   return (
     <>
       <ConfigProvider prefixCls="glarity-" iconPrefixCls="glarity--icon-">
@@ -407,7 +428,7 @@ function PageSummary(props: Props) {
                   </div>
                 </div>
 
-                <div className="glarity--card__content glarity--nodrag">
+                <div ref={scrollWrapRef} className="glarity--card__content glarity--nodrag">
                   <div className="glarity--card__content--head">
                     <button
                       className={classNames(
@@ -497,15 +518,26 @@ function PageSummary(props: Props) {
                     </>
                   )}
 
-                  {/* Chat */}
-                  <Chat userConfig={userConfigData} />
-
                   {question ? (
-                    <div className="glarity--container">
-                      <div className="glarity--chatgpt">
-                        <ChatGPTQuery question={question} onStatusChange={setStatus} />
+                    <>
+                      <div className="glarity--container">
+                        <div className="glarity--chatgpt">
+                          <ChatGPTQuery question={question} onStatusChange={setStatus} />
+                        </div>
                       </div>
-                    </div>
+
+                      {/* Chat */}
+                      {status === 'done' && allContent && (
+                        <>
+                          <Divider></Divider>
+                          <Chat
+                            userConfig={userConfigData}
+                            allContent={allContent}
+                            setIsScroll={setIsScroll}
+                          />
+                        </>
+                      )}
+                    </>
                   ) : (
                     <>{!supportSummary && 'Sorry, the summary of this page is not supported.'}</>
                   )}

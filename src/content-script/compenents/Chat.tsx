@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
 import { ConfigProvider, Input, Space, Button, Spin } from 'antd'
-import { textShort } from '@/content-script/utils'
+// import { textShort } from '@/content-script/utils'
 import { qaPrompt } from '@/content-script/prompt'
 import { OpenAI } from 'langchain/llms/openai'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
@@ -13,7 +13,9 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { UserConfig, getProviderConfigs, ProviderType, ProviderConfigs } from '@/config'
 
 interface Props {
-  userConfig: UserConfig
+  userConfig: UserConfig | undefined
+  allContent: string
+  setIsScroll: (isScroll: boolean) => void
 }
 interface ChatList {
   role: string
@@ -24,7 +26,7 @@ interface ChatList {
 let vectorStoreData: MemoryVectorStore
 
 function Chat(prop: Props) {
-  const { userConfig } = prop
+  const { userConfig, allContent, setIsScroll } = prop
   const [chatList, setChatList] = useState<ChatList[]>([])
   const [question, setQuestion] = useState<string>('')
   const [loading, setLoading] = useState(false)
@@ -49,7 +51,12 @@ function Chat(prop: Props) {
       callbacks: [
         {
           handleLLMNewToken(token: string) {
+            console.log('token', String(token))
             setAnswer((answer) => {
+              if (!token) {
+                setIsScroll(false)
+              }
+
               return answer + token
             })
           },
@@ -60,7 +67,7 @@ function Chat(prop: Props) {
     if (vectorStoreData) {
       const chain = new RetrievalQAChain({
         combineDocumentsChain: loadQAStuffChain(openAiModel, {
-          prompt: qaPrompt(userConfig.language),
+          prompt: qaPrompt(userConfig?.language || 'en'),
         }),
         retriever: vectorStoreData?.asRetriever(),
       })
@@ -69,12 +76,14 @@ function Chat(prop: Props) {
         query: question,
       })
 
-      return res.text || res.output_text || res.choices[0].text
+      return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
     }
 
     const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 })
 
-    const docs = await textSplitter.createDocuments([textShort])
+    console.log('allContent', allContent)
+
+    const docs = await textSplitter.createDocuments([allContent])
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
       new OpenAIEmbeddings({
@@ -85,15 +94,15 @@ function Chat(prop: Props) {
     vectorStoreData = vectorStore
 
     const chain = loadQAStuffChain(openAiModel, {
-      prompt: qaPrompt(userConfig.language),
+      prompt: qaPrompt(userConfig?.language || 'en'),
     })
     const res = await chain.call({
       input_documents: docs,
       question,
     })
 
-    return res.text || res.output_text || res.choices[0].text
-  }, [config?.configs, question, userConfig.language])
+    return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
+  }, [allContent, config?.configs, question, setIsScroll, userConfig?.language])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
@@ -112,19 +121,23 @@ function Chat(prop: Props) {
 
     await getChat()
     setLoading(false)
-  }, [getChat, question])
+    setIsScroll(true)
+  }, [getChat, question, setIsScroll])
 
   useEffect(() => {
     if (chatList.length <= 0) {
       return
     }
 
+    setIsScroll(false)
+
     setChatList((chatList) => {
       const newChatList = chatList
       newChatList[newChatIndex].content = answer
+      setIsScroll(true)
       return [...newChatList]
     })
-  }, [answer, chatList, newChatIndex])
+  }, [answer, chatList, newChatIndex, setIsScroll])
 
   useEffect(() => {
     async function getConfig() {
