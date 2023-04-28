@@ -365,6 +365,40 @@ $border-color: rgba(5, 5, 5, 0.06);
   }
 }
 
+// chat
+.glarity--chat {
+  padding-bottom: 10px;
+
+  .glarity--chat__item {
+    display: flex;
+    padding: 8px 15px;
+    word-break: break-word;
+    font-size: 14px;
+    justify-content: flex-start;
+
+    &.user {
+      justify-content: flex-end;
+
+      .glarity--chat__item--message {
+        color: #fff;
+        background-color: $primary-color;
+      }
+    }
+  }
+
+  .glarity--chat__item--message {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background-color: #f4f7fe;
+    color: #0e0d13;
+
+    pre {
+      white-space: pre-wrap;
+    }
+  }
+}
+
 /* blink */
 @keyframes glarity-blink {
   0% {
