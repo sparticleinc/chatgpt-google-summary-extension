@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
-import { ConfigProvider, Input, Space, Button } from 'antd'
+import { ConfigProvider, Input, Space, Button, Spin } from 'antd'
 import { textShort } from '@/content-script/utils'
 import { qaPrompt } from '@/content-script/prompt'
 import { OpenAI } from 'langchain/llms/openai'
@@ -10,13 +10,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { loadQAStuffChain } from 'langchain/chains'
 import { RetrievalQAChain } from 'langchain/chains'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import {
-  UserConfig,
-  getProviderConfigs,
-  ProviderType,
-  DEFAULT_MODEL,
-  DEFAULT_API_HOST,
-} from '@/config'
+import { UserConfig, getProviderConfigs, ProviderType, ProviderConfigs } from '@/config'
 
 interface Props {
   userConfig: UserConfig
@@ -27,15 +21,6 @@ interface ChatList {
   content: string
 }
 
-const config = await getProviderConfigs()
-const openAIApiKey = config.configs[ProviderType.GPT3]?.apiKey
-const openAiModel = new OpenAI({
-  openAIApiKey,
-  temperature: 0,
-  modelName: 'gpt-3.5-turbo',
-  streaming: true,
-})
-
 let vectorStoreData: MemoryVectorStore
 
 function Chat(prop: Props) {
@@ -44,6 +29,7 @@ function Chat(prop: Props) {
   const [question, setQuestion] = useState<string>('')
   const [loading, setLoading] = useState(false)
   const [answer, setAnswer] = useState('')
+  const [config, setConfig] = useState<ProviderConfigs>()
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuestion(e.target.value)
@@ -51,6 +37,23 @@ function Chat(prop: Props) {
 
   const getChat = useCallback(async () => {
     setLoading(true)
+    const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
+
+    const openAiModel = new OpenAI({
+      openAIApiKey,
+      temperature: 0,
+      modelName: 'gpt-3.5-turbo',
+      streaming: true,
+      callbacks: [
+        {
+          handleLLMNewToken(token: string) {
+            setAnswer((answer) => {
+              return answer + token
+            })
+          },
+        },
+      ],
+    })
 
     if (vectorStoreData) {
       const chain = new RetrievalQAChain({
@@ -64,11 +67,6 @@ function Chat(prop: Props) {
         query: question,
       })
 
-      res.onmessage = function (event) {
-        console.log('onmessage', event)
-        setAnswer(event.data)
-      }
-
       return res.text || res.output_text || res.choices[0].text
     }
 
@@ -78,7 +76,7 @@ function Chat(prop: Props) {
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
       new OpenAIEmbeddings({
-        openAIApiKey: openAIApiKey,
+        openAIApiKey,
       }),
     )
 
@@ -93,23 +91,46 @@ function Chat(prop: Props) {
     })
 
     return res.text || res.output_text || res.choices[0].text
-  }, [question, userConfig.language])
+  }, [config?.configs, question, userConfig.language])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
       return
     }
-    setChatList([...chatList, { role: 'user', id: '1', content: question }])
+    setChatList([
+      ...chatList,
+      { role: 'user', id: '1', content: question },
+      { role: 'robot', id: '1', content: '' },
+    ])
     setQuestion('')
     setLoading(true)
 
-    const res = await getChat()
-    console.log('res onSubmit', res)
-    setChatList((chatList) => {
-      return [...chatList, { role: 'robot', id: '1', content: res }]
-    })
+    await getChat()
+
+    // setChatList((chatList) => {
+    //   return [...chatList, { role: 'robot', id: '1', content: res }]
+    // })
     setLoading(false)
   }, [chatList, getChat, question])
+
+  useEffect(() => {
+    if (chatList.length <= 0) {
+      return
+    }
+    const nss = chatList
+    nss[nss.length - 1].content = answer
+
+    setChatList([...nss])
+  }, [answer, chatList])
+
+  useEffect(() => {
+    async function getConfig() {
+      const config = await getProviderConfigs()
+      setConfig(config)
+    }
+
+    getConfig()
+  }, [])
 
   return (
     <>
@@ -117,7 +138,6 @@ function Chat(prop: Props) {
         <div className="glarity--container">
           <div className="glarity--chatgpt glarity--nodrag">
             <div className="glarity--chat">
-              {answer}
               {chatList.map((item, index) => (
                 <div
                   className={classNames('glarity--chat__item', {
@@ -125,7 +145,9 @@ function Chat(prop: Props) {
                   })}
                   key={index}
                 >
-                  <div className="glarity--chat__item--message">{item.content}</div>
+                  <div className="glarity--chat__item--message">
+                    {item.content ? item.content : <Spin size="small" />}
+                  </div>
                 </div>
               ))}
             </div>
