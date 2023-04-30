@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'preact/hooks'
 import classNames from 'classnames'
 import { memo, useMemo } from 'react'
-import { Loading, Button } from '@geist-ui/core'
+import { Loading } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
@@ -11,6 +11,8 @@ import { debounce } from 'lodash-es'
 import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
 import { BASE_URL } from '@/config'
 import { isIOS, isSafari } from '@/utils/utils'
+import { getUserConfig } from '@/config'
+
 import '@/content-script/styles.scss'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
@@ -29,6 +31,7 @@ function ChatGPTQuery(props: Props) {
   const [retry, setRetry] = useState(0)
   const [done, setDone] = useState(false)
   const [showTip, setShowTip] = useState(false)
+  const [continueConversation, setContinueConversation] = useState(false)
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
 
@@ -106,6 +109,10 @@ function ChatGPTQuery(props: Props) {
   }, [])
 
   useEffect(() => {
+    getUserConfig().then((settings) => setContinueConversation(settings.continueConversation))
+  }, [])
+
+  useEffect(() => {
     const wrap: HTMLDivElement | null = wrapRef.current
     if (!wrap) {
       return
@@ -134,6 +141,14 @@ function ChatGPTQuery(props: Props) {
             {answer.text}
           </ReactMarkdown>
         </div>
+        {(continueConversation && answer.conversationId && done) && (
+          <div>
+            <a href={`https://chat.openai.com/c/${answer.conversationId}`} target="_blank">
+              Continue conversation
+            </a>
+          </div>
+        )}
+
         {/* {done && showTip && (
           <p className="glarity--italic glarity--mt-2">
             Enjoy this extension? Give us a 5-star rating at{' '}
