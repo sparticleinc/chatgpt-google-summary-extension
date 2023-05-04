@@ -121,15 +121,15 @@ async function build() {
     `./${packagesDir}`,
   )
 
-  await copyFiles(
-    [
-      {
-        src: `${outdir}/chromium`,
-        dst: `./chromium`,
-      },
-    ],
-    `./${packagesDir}`,
-  )
+  // await copyFiles(
+  //   [
+  //     {
+  //       src: `${outdir}/chromium`,
+  //       dst: `./chromium`,
+  //     },
+  //   ],
+  //   `./${packagesDir}`,
+  // )
 
   // firefox
   await copyFiles(
