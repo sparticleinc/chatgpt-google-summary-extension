@@ -2,15 +2,19 @@ import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
 import { ConfigProvider, Input, Space, Button, Spin } from 'antd'
-// import { textShort } from '@/content-script/utils'
 import { qaPrompt } from '@/content-script/prompt'
 import { OpenAI } from 'langchain/llms/openai'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
-import { loadQAStuffChain } from 'langchain/chains'
-import { RetrievalQAChain } from 'langchain/chains'
+import { RetrievalQAChain, loadQARefineChain } from 'langchain/chains'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import { UserConfig, getProviderConfigs, ProviderType, ProviderConfigs } from '@/config'
+import {
+  UserConfig,
+  getProviderConfigs,
+  ProviderType,
+  ProviderConfigs,
+  DEFAULT_API_HOST,
+} from '@/config'
 
 interface Props {
   userConfig: UserConfig | undefined
@@ -38,20 +42,70 @@ function Chat(prop: Props) {
     setQuestion(e.target.value)
   }, [])
 
+  const getAnswer = useCallback(
+    async (answerList: string[]) => {
+      const apiHost = config?.configs[ProviderType.GPT3]?.apiHost || DEFAULT_API_HOST
+      const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
+
+      const questionPrompt = `Answer list:  ${answerList.join('')}
+Query: ${question}
+Instructions: 根据上面答案列表，删除无用的信息，选出一个最匹配{Query}的答案，只需写出答案内容。
+`
+
+      const response = await fetch(`https://${apiHost}/v1/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${openAIApiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'text-davinci-003',
+          prompt: questionPrompt,
+          temperature: 0,
+          max_tokens: 800,
+          top_p: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0,
+        }),
+      })
+
+      const res = await response.json()
+
+      setLoading(false)
+
+      console.log('getAnswer res', res)
+
+      setAnswer(res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text))
+
+      console.log('questionPrompt', questionPrompt)
+    },
+    [config?.configs, question],
+  )
+
   const getChat = useCallback(async () => {
     setLoading(true)
     setAnswer('')
     const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
 
+    const answerList: string[] = []
+
     const openAiModel = new OpenAI({
       openAIApiKey,
-      temperature: 0,
-      modelName: 'gpt-3.5-turbo',
-      streaming: true,
+      temperature: 0.2,
+      // modelName: 'gpt-3.5-turbo',
+      // streaming: true,
+      maxTokens: 800,
+      topP: 1,
+      frequencyPenalty: 0,
+      presencePenalty: 0,
       callbacks: [
         {
-          handleLLMNewToken(token: string) {
+          handleChainEnd(outputs, runId, parentRunId) {
+            console.log('handleChainEnd', outputs, runId, parentRunId)
+          },
+          async handleLLMNewToken(token: string) {
             console.log('token', String(token))
+
             setAnswer((answer) => {
               if (!token) {
                 setIsScroll(false)
@@ -60,14 +114,24 @@ function Chat(prop: Props) {
               return answer + token
             })
           },
+          async handleLLMError(error: string) {
+            console.log('error', error)
+          },
+          async handleLLMEnd(res) {
+            console.log('end', res)
+            const text = res?.generations && res?.generations[0] && res?.generations[0][0]?.text
+
+            answerList.push(text)
+          },
         },
       ],
     })
 
     if (vectorStoreData) {
       const chain = new RetrievalQAChain({
-        combineDocumentsChain: loadQAStuffChain(openAiModel, {
-          prompt: qaPrompt(userConfig?.language || 'en'),
+        combineDocumentsChain: loadQARefineChain(openAiModel, {
+          questionPrompt: qaPrompt(userConfig?.language || 'en'),
+          refinePrompt: qaPrompt(userConfig?.language || 'en'),
         }),
         retriever: vectorStoreData?.asRetriever(),
       })
@@ -75,6 +139,8 @@ function Chat(prop: Props) {
       const res = await chain.call({
         query: question,
       })
+
+      await getAnswer(answerList)
 
       return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
     }
@@ -93,16 +159,23 @@ function Chat(prop: Props) {
 
     vectorStoreData = vectorStore
 
-    const chain = loadQAStuffChain(openAiModel, {
-      prompt: qaPrompt(userConfig?.language || 'en'),
-    })
-    const res = await chain.call({
-      input_documents: docs,
-      question,
+    const chain = new RetrievalQAChain({
+      combineDocumentsChain: loadQARefineChain(openAiModel, {
+        questionPrompt: qaPrompt(userConfig?.language || 'en'),
+        refinePrompt: qaPrompt(userConfig?.language || 'en'),
+      }),
+      // returnSourceDocuments: true,
+      retriever: vectorStore.asRetriever(),
     })
 
+    const res = await chain.call({
+      query: question,
+    })
+
+    await getAnswer(answerList)
+
     return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
-  }, [allContent, config?.configs, question, setIsScroll, userConfig?.language])
+  }, [allContent, config?.configs, getAnswer, question, setIsScroll, userConfig?.language])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
