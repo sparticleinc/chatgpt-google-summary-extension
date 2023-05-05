@@ -1,9 +1,6 @@
 import { ProviderConfigs } from '@/config'
 import { truncateTextByToken } from '@/utils/utils'
-import {
-  ChatPromptTemplate,
-  HumanMessagePromptTemplate,
-} from "langchain/prompts";
+
 
 export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderConfigs, isTruncate = true) {
 
@@ -46,17 +43,4 @@ export function textToBinaryString(str) {
     return String.fromCharCode(i)
   })
   return binstr
-}
-
-export const qaPrompt = (lang: string) => {
-  return ChatPromptTemplate.fromPromptMessages([
-    HumanMessagePromptTemplate.fromTemplate(
-      `Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
-
-{context}
-
-Question: {question}
-Write in "${lang}" language.
-Helpful Answer:`
-    )])
 }

@@ -186,8 +186,8 @@ function ChatGPTQuery(props: Props) {
             ref={wrapRef}
             style={{
               display: showContent ? 'block' : 'none',
-              height: boxHeight + 'px',
-              maxHeight: boxHeight + 'px',
+              minHeight: boxHeight + 'px',
+              // maxHeight: boxHeight + 'px',
             }}
           >
             <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>

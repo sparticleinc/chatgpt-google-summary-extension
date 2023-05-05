@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
 import { ConfigProvider, Input, Space, Button, Spin } from 'antd'
-import { qaPrompt } from '@/content-script/prompt'
+import { qaPrompt, qaSummaryPrompt } from '@/utils/prompt'
 import { OpenAI } from 'langchain/llms/openai'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
@@ -29,6 +29,14 @@ interface ChatList {
 
 let vectorStoreData: MemoryVectorStore
 
+const modelParams = {
+  temperature: 0.2,
+  max_tokens: 800,
+  top_p: 1,
+  frequency_penalty: 0,
+  presence_penalty: 0,
+}
+
 function Chat(prop: Props) {
   const { userConfig, allContent, setIsScroll } = prop
   const [chatList, setChatList] = useState<ChatList[]>([])
@@ -47,10 +55,11 @@ function Chat(prop: Props) {
       const apiHost = config?.configs[ProviderType.GPT3]?.apiHost || DEFAULT_API_HOST
       const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
 
-      const questionPrompt = `Answer list:  ${answerList.join('')}
-Query: ${question}
-Instructions: 根据上面答案列表，删除无用的信息，选出一个最匹配{Query}的答案，只需写出答案内容。
-`
+      const questionPrompt = qaSummaryPrompt({
+        question,
+        answerList: answerList.join(''),
+        language: userConfig?.language || 'en',
+      })
 
       const response = await fetch(`https://${apiHost}/v1/completions`, {
         method: 'POST',
@@ -59,15 +68,12 @@ Instructions: 根据上面答案列表，删除无用的信息，选出一个最
           Authorization: `Bearer ${openAIApiKey}`,
         },
         body: JSON.stringify({
-          model: 'text-davinci-003',
-          prompt: questionPrompt,
-          temperature: 0,
-          max_tokens: 800,
-          top_p: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0,
+          ...modelParams,
+          ...{ model: 'text-davinci-003', prompt: questionPrompt },
         }),
       })
+
+      modelParams
 
       const res = await response.json()
 
@@ -79,7 +85,7 @@ Instructions: 根据上面答案列表，删除无用的信息，选出一个最
 
       console.log('questionPrompt', questionPrompt)
     },
-    [config?.configs, question],
+    [config?.configs, question, userConfig?.language],
   )
 
   const getChat = useCallback(async () => {
@@ -90,41 +96,38 @@ Instructions: 根据上面答案列表，删除无用的信息，选出一个最
     const answerList: string[] = []
 
     const openAiModel = new OpenAI({
-      openAIApiKey,
-      temperature: 0.2,
-      // modelName: 'gpt-3.5-turbo',
-      // streaming: true,
-      maxTokens: 800,
-      topP: 1,
-      frequencyPenalty: 0,
-      presencePenalty: 0,
-      callbacks: [
-        {
-          handleChainEnd(outputs, runId, parentRunId) {
-            console.log('handleChainEnd', outputs, runId, parentRunId)
-          },
-          async handleLLMNewToken(token: string) {
-            console.log('token', String(token))
+      ...{ modelParams },
+      ...{
+        openAIApiKey,
+        // streaming: true,
+        callbacks: [
+          {
+            handleChainEnd(outputs, runId, parentRunId) {
+              console.log('handleChainEnd', outputs, runId, parentRunId)
+            },
+            async handleLLMNewToken(token: string) {
+              console.log('token', String(token))
 
-            setAnswer((answer) => {
-              if (!token) {
-                setIsScroll(false)
-              }
+              setAnswer((answer) => {
+                if (!token) {
+                  setIsScroll(false)
+                }
 
-              return answer + token
-            })
-          },
-          async handleLLMError(error: string) {
-            console.log('error', error)
-          },
-          async handleLLMEnd(res) {
-            console.log('end', res)
-            const text = res?.generations && res?.generations[0] && res?.generations[0][0]?.text
+                return answer + token
+              })
+            },
+            async handleLLMError(error: string) {
+              console.log('error', error)
+            },
+            async handleLLMEnd(res) {
+              console.log('end', res)
+              const text = res?.generations && res?.generations[0] && res?.generations[0][0]?.text
 
-            answerList.push(text)
+              answerList.push(text)
+            },
           },
-        },
-      ],
+        ],
+      },
     })
 
     if (vectorStoreData) {

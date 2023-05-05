@@ -1,3 +1,8 @@
+import {
+  ChatPromptTemplate,
+  HumanMessagePromptTemplate,
+} from "langchain/prompts";
+
 export const articlePromptHighlight = `Please use the above to summarize the highlights.`
 export const pagePromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`
 export const googlePatentsPromptHighlight = `Please summarize the highlights of the above article in easy-to-understand terms`
@@ -203,4 +208,25 @@ export const selectionSummaryPrompt = ({
 ${isTranslation ? '' : replylanguagePrompt(language)}
 Content: ${content}
 ${url ? `URL: ${url}` : ''}`
+}
+
+export const qaPrompt = (lang: string) => {
+  return ChatPromptTemplate.fromPromptMessages([
+    HumanMessagePromptTemplate.fromTemplate(
+      `Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+
+{context}
+
+Question: {question}
+Write in "${lang}" language.
+Helpful Answer:`
+    )])
+}
+
+export const qaSummaryPrompt = ({ question, answerList, language }: { question: string, answerList: string, language: string }) => {
+  return `Answer list:  ${answerList}
+Query: ${question}
+Instructions: Based on the {Answer list}, remove the useless information and select the one that best matches {Query} by simply writing the answer.
+${replylanguagePrompt(language)}
+`
 }
