@@ -47,6 +47,7 @@ const userConfigWithDefaultValue: {
   pageSummaryEnable: boolean
   pageSummaryWhitelist: string
   pageSummaryBlacklist: string
+  continueConversation: boolean
 } = {
   triggerMode: TriggerMode.Always,
   theme: Theme.Auto,
@@ -59,6 +60,7 @@ const userConfigWithDefaultValue: {
   pageSummaryEnable: true,
   pageSummaryWhitelist: '',
   pageSummaryBlacklist: '',
+  continueConversation: true
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
