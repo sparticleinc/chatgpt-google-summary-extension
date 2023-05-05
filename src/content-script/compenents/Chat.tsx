@@ -1,7 +1,8 @@
-import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
+import { useState, useCallback, useEffect } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
-import { ConfigProvider, Input, Space, Button, Spin } from 'antd'
+import { ConfigProvider, Input, Space, Button, Spin, Alert } from 'antd'
+import Browser from 'webextension-polyfill'
 import { qaPrompt, qaSummaryPrompt } from '@/utils/prompt'
 import { OpenAI } from 'langchain/llms/openai'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
@@ -26,10 +27,10 @@ interface ChatList {
   content: string
 }
 
-let vectorStoreData: MemoryVectorStore
+let vectorStoreData: MemoryVectorStore | null
 
 const modelParams = {
-  temperature: 0.2,
+  temperature: 0.4,
   max_tokens: 800,
   top_p: 1,
   frequency_penalty: 0,
@@ -44,6 +45,7 @@ function Chat(prop: Props) {
   const [answer, setAnswer] = useState('')
   const [config, setConfig] = useState<ProviderConfigs>()
   const [newChatIndex, setNewChatIndex] = useState(0)
+  const [openAIApiKey, setOpenAIApiKey] = useState('')
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuestion(e.target.value)
@@ -184,6 +186,16 @@ function Chat(prop: Props) {
     setLoading(false)
   }, [getChat, question])
 
+  const onKeyDown = useCallback(
+    (e) => {
+      console.log('onKeyDown e', e)
+      if (e.key === 'Enter') {
+        onSubmit()
+      }
+    },
+    [onSubmit],
+  )
+
   const scrollEle = () => {
     const ele = document.querySelector('div.glarity--card__content')
     console.log('ele', ele)
@@ -195,6 +207,10 @@ function Chat(prop: Props) {
       })
     }, 100)
   }
+
+  const openOptionsPage = useCallback(() => {
+    Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
+  }, [])
 
   useEffect(() => {
     if (chatList.length <= 0) {
@@ -212,6 +228,7 @@ function Chat(prop: Props) {
     async function getConfig() {
       const config = await getProviderConfigs()
       setConfig(config)
+      setOpenAIApiKey(config?.configs[ProviderType.GPT3]?.apiKey || '')
     }
 
     getConfig()
@@ -220,38 +237,86 @@ function Chat(prop: Props) {
   return (
     <>
       <ConfigProvider prefixCls="glarity-" iconPrefixCls="glarity--icon-">
-        <div className="glarity--container">
-          <div className="glarity--chatgpt glarity--nodrag">
-            <div className="glarity--chat">
-              {chatList.map((item, index) => (
-                <div
-                  className={classNames('glarity--chat__item', {
-                    'glarity--chat__item--user': item.role === 'user',
-                  })}
-                  key={index}
-                >
-                  <div className="glarity--chat__item--message">
-                    {item.content ? item.content : <Spin size="small" />}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Space.Compact style={{ width: '100%' }}>
-              <Input
-                placeholder="Please enter a question"
-                value={question}
-                onChange={onChange}
-                disabled={loading}
+        {openAIApiKey ? (
+          <div className="glarity--container">
+            <div className="glarity--chatgpt glarity--nodrag">
+              <Alert
+                message="Warning"
+                description="Using this feature will consume your API key."
+                type="warning"
+                showIcon
+                closable
+                action={
+                  <Button
+                    size="small"
+                    type="link"
+                    href="https://openai.com/pricing"
+                    target="_blank"
+                  >
+                    Pricing
+                  </Button>
+                }
               />
-              <Button
-                type="primary"
-                onClick={onSubmit}
-                loading={loading}
-                icon={<RocketIcon size={16} />}
-              ></Button>
-            </Space.Compact>
+              <div className="glarity--chat">
+                {chatList.map((item, index) => (
+                  <div
+                    className={classNames('glarity--chat__item', {
+                      'glarity--chat__item--user': item.role === 'user',
+                    })}
+                    key={index}
+                  >
+                    <div className="glarity--chat__item--message">
+                      {item.content ? (
+                        item.content
+                      ) : (
+                        // <span className={'glarity--cursor__blink'}>|</span>
+                        <Spin size="small" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Space.Compact style={{ width: '100%' }}>
+                <Input
+                  placeholder="Please enter a question"
+                  value={question}
+                  onChange={onChange}
+                  disabled={loading}
+                  onKeyDown={onKeyDown}
+                />
+                <Button
+                  type="primary"
+                  onClick={onSubmit}
+                  onKeyDown={onKeyDown}
+                  disabled={loading}
+                  // icon={loading ? <Spin size="small" /> : <RocketIcon size={16} />}
+                  icon={<RocketIcon size={16} />}
+                ></Button>
+              </Space.Compact>
+
+              <div className="glarity--footer__tips">
+                You can get a better experience with{' '}
+                <a href="https://gptbase.ai" target={'_blank'} rel="noreferrer">
+                  GPTBase
+                </a>
+                .
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (
+          <Alert
+            message="Warning"
+            description="To use the Q&A feature you need to go to extension options to configure the API key."
+            type="warning"
+            showIcon
+            closable
+            action={
+              <Button size="small" onClick={openOptionsPage}>
+                Options
+              </Button>
+            }
+          />
+        )}
       </ConfigProvider>
     </>
   )

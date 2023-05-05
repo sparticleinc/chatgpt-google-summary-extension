@@ -66,13 +66,12 @@ function PageSummary(props: Props) {
   const [showSelectionMenuPopover, setShowSelectionMenuPopover] = useState<boolean>(false)
   const [selectionText, setSelectionText] = useState<string>('')
   const [isSelection, setIsSelection] = useState<boolean>(false)
-  const [promptItem, setPromptItem] = useState<PromptItem>()
+  const [promptItem, setPromptItem] = useState<PromptItem | null>()
   const [isShowDisabledPageSelection, setShowIsDisabledPageSelection] = useState(false)
   const [pageSelectionEnable, setPageSelectionEnable] = useState(true)
   const [userConfigData, setUserConfigData] = useState<UserConfig>()
   const [allContent, setAllContent] = useState('')
   const scrollWrapRef = useRef<HTMLDivElement | null>(null)
-  const { isScroll, setIsScroll } = useContext(AppContext)
 
   const onSwitch = useCallback(() => {
     if (isPDF) {
@@ -339,26 +338,21 @@ function PageSummary(props: Props) {
   }, [])
 
   useEffect(() => {
-    console.log('isScroll  111111', isScroll)
+    let currentUrl = window.location.href.split('#')[0]
 
-    if (!isScroll) {
-      return
+    const intervalId = setInterval(() => {
+      const href = window.location.href.split('#')[0]
+      if (href !== currentUrl) {
+        setShowCard(false)
+        setPromptItem(null)
+        currentUrl = href
+      }
+    }, 500)
+
+    return () => {
+      clearInterval(intervalId)
     }
-
-    const wrap: HTMLDivElement | null = scrollWrapRef.current
-    if (!wrap) {
-      return
-    }
-
-    // wrap.scrollTo({
-    //   top: 10000,
-    //   behavior: 'smooth',
-    // })
-
-    // setTimeout(() => {
-    //   setIsScroll(false)
-    // }, 3000)
-  }, [isScroll, setIsScroll])
+  }, [setShowCard])
 
   return (
     <>
@@ -531,12 +525,12 @@ function PageSummary(props: Props) {
                       </div>
 
                       {/* Chat */}
-                      {/* {status === 'done' && allContent && ( */}
-                      <>
-                        <Divider></Divider>
-                        <Chat userConfig={userConfigData} allContent={allContent} />
-                      </>
-                      {/* // )} */}
+                      {status === 'done' && allContent && (
+                        <>
+                          <Divider></Divider>
+                          <Chat userConfig={userConfigData} allContent={allContent} />
+                        </>
+                      )}
                     </>
                   ) : (
                     <>{!supportSummary && 'Sorry, the summary of this page is not supported.'}</>

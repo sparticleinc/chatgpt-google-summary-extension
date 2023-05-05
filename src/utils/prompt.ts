@@ -226,8 +226,17 @@ Helpful Answer:`
 export const qaSummaryPrompt = ({ question, answerList, language }: { question: string, answerList: string, language: string }) => {
   return `Answer list:  ${answerList}
 Query: ${question}
-Instructions: Based on the {Answer list}, remove the useless information, summarise the answer that best fits the {query}.
+Instructions: Based on the {Answer list}, remove the useless information and summarise the answer that best matches the {Query}.
 Simply write the content of the answer.
+${replylanguagePrompt(language)}
+`
+}
+
+export const qaSummaryPrompt_bak = ({ question, answerList, language }: { question: string, answerList: string, language: string }) => {
+  return `Answer list:  ${answerList}
+Query: ${question}
+Instructions: Use the following portion of a long document to see if any of the text is relevant to answer the question. Return any relevant text verbatim.
+If there is relevant content, the relevant content should include the content before and after it.If no relevant text is found.
 ${replylanguagePrompt(language)}
 `
 }

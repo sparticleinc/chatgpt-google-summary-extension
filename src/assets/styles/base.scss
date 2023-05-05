@@ -70,6 +70,11 @@ $border-color: rgba(5, 5, 5, 0.06);
         border: none;
         padding: 0;
       }
+
+      .glarity--footer__tips {
+        font-size: 12px;
+        color: #666;
+      }
     }
     .glarity--card__content--head {
       display: flex;
@@ -364,6 +369,9 @@ $border-color: rgba(5, 5, 5, 0.06);
     padding: 15px;
   }
 }
+.glarity--alert {
+  padding: 10px !important;
+}
 
 // chat
 .glarity--chat {
@@ -415,6 +423,15 @@ $border-color: rgba(5, 5, 5, 0.06);
   animation: glarity-blink 1.2s linear infinite;
 }
 
+@keyframes glarity-cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.glarity--cursor__blink {
+  animation: glarity-cursor-blink 0.5s linear infinite;
+}
+
 // Dark
 @media (prefers-color-scheme: dark) {
   .glarity--card {
@@ -438,6 +455,12 @@ $border-color: rgba(5, 5, 5, 0.06);
       ul,
       li {
         color: #ccc !important;
+      }
+
+      .glarity--chat__item:not(.glarity--chat__item--user) {
+        .glarity--chat__item--message {
+          color: #444 !important;
+        }
       }
 
       .glarity--card__head--title {
