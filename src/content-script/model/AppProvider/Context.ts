@@ -8,6 +8,8 @@ interface AppContextInterface {
   setShowCard: (show: boolean) => void
   isScroll: boolean,
   setIsScroll: (isScroll: boolean) => void
+  conversationId: string
+  setConversationId: (conversationId: string) => void
 }
 
 export const AppContext = createContext<AppContextInterface>({
@@ -18,4 +20,6 @@ export const AppContext = createContext<AppContextInterface>({
 
   isScroll: false,
   setIsScroll: () => { },
+  conversationId: '',
+  setConversationId: () => { },
 })

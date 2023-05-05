@@ -7,6 +7,7 @@ export function AppProvider({ children }: PropsWithChildren<unknown>) {
   const [boxHeight, setBoxHeight] = useState<number>(BOX_HEIGHT)
   const [showCard, setShowCard] = useState(false)
   const [isScroll, setIsScroll] = useState(false)
+  const [conversationId, setConversationId] = useState('')
 
   return (
     <AppContext.Provider
@@ -17,6 +18,8 @@ export function AppProvider({ children }: PropsWithChildren<unknown>) {
         setShowCard,
         isScroll,
         setIsScroll,
+        conversationId,
+        setConversationId,
       }}
     >
       {children}

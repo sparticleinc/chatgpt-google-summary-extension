@@ -37,7 +37,7 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [showContent, setShowContent] = useState<boolean>(true)
-  const { boxHeight, setBoxHeight } = useContext(AppContext)
+  const { boxHeight, setBoxHeight, setConversationId } = useContext(AppContext)
 
   const stepValue = 50
 
@@ -162,8 +162,10 @@ function ChatGPTQuery(props: Props) {
         top: 10000,
         behavior: 'smooth',
       })
+
+      setConversationId(answer.conversationId)
     }
-  }, [answer])
+  }, [answer, setConversationId])
 
   if (answer) {
     return (
