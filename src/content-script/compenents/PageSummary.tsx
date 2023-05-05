@@ -350,14 +350,14 @@ function PageSummary(props: Props) {
       return
     }
 
-    wrap.scrollTo({
-      top: 10000,
-      behavior: 'smooth',
-    })
+    // wrap.scrollTo({
+    //   top: 10000,
+    //   behavior: 'smooth',
+    // })
 
-    setTimeout(() => {
-      setIsScroll(false)
-    }, 100)
+    // setTimeout(() => {
+    //   setIsScroll(false)
+    // }, 3000)
   }, [isScroll, setIsScroll])
 
   return (
@@ -531,12 +531,12 @@ function PageSummary(props: Props) {
                       </div>
 
                       {/* Chat */}
-                      {status === 'done' && allContent && (
-                        <>
-                          <Divider></Divider>
-                          <Chat userConfig={userConfigData} allContent={allContent} />
-                        </>
-                      )}
+                      {/* {status === 'done' && allContent && ( */}
+                      <>
+                        <Divider></Divider>
+                        <Chat userConfig={userConfigData} allContent={allContent} />
+                      </>
+                      {/* // )} */}
                     </>
                   ) : (
                     <>{!supportSummary && 'Sorry, the summary of this page is not supported.'}</>

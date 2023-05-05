@@ -15,7 +15,6 @@ import {
   ProviderConfigs,
   DEFAULT_API_HOST,
 } from '@/config'
-import { AppContext } from '@/content-script/model/AppProvider/Context'
 
 interface Props {
   userConfig: UserConfig | undefined
@@ -45,10 +44,10 @@ function Chat(prop: Props) {
   const [answer, setAnswer] = useState('')
   const [config, setConfig] = useState<ProviderConfigs>()
   const [newChatIndex, setNewChatIndex] = useState(0)
-  const { setIsScroll } = useContext(AppContext)
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuestion(e.target.value)
+    scrollEle()
   }, [])
 
   const getAnswer = useCallback(
@@ -77,10 +76,12 @@ function Chat(prop: Props) {
       const res = await response.json()
 
       setLoading(false)
-      setAnswer(res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text))
-      setIsScroll(true)
+      setAnswer(() => res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text))
+      console.log('setAnswer', answer)
+
+      scrollEle()
     },
-    [config?.configs, question, setIsScroll, userConfig?.language],
+    [config?.configs, userConfig?.language],
   )
 
   const getChat = useCallback(async () => {
@@ -98,22 +99,13 @@ function Chat(prop: Props) {
           {
             async handleLLMNewToken(token: string) {
               console.log('token', String(token))
-
-              // setAnswer((answer) => {
-              //   if (!token) {
-              //     setIsScroll(false)
-              //   }
-
-              //   return answer + token
-              // })
             },
             async handleLLMError(error: string) {
               console.log('error', error)
             },
             handleLLMEnd(res) {
-              console.log('end', res)
               const text = res?.generations && res?.generations[0] && res?.generations[0][0]?.text
-
+              console.log('end', text)
               answerList.push(text)
             },
           },
@@ -135,8 +127,6 @@ function Chat(prop: Props) {
       })
 
       await getAnswer(answerList)
-
-      // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
     }
 
     const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 })
@@ -169,7 +159,7 @@ function Chat(prop: Props) {
     await getAnswer(answerList)
 
     // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
-  }, [allContent, config?.configs, getAnswer, question, userConfig?.language])
+  }, [allContent, config?.configs, userConfig?.language])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
@@ -186,11 +176,24 @@ function Chat(prop: Props) {
     })
     setQuestion('')
     setLoading(true)
-    setIsScroll(true)
+
+    scrollEle()
 
     await getChat()
     setLoading(false)
-  }, [getChat, question, setIsScroll])
+  }, [getChat, question])
+
+  const scrollEle = () => {
+    const ele = document.querySelector('div.glarity--card__content')
+    console.log('ele', ele)
+
+    setTimeout(() => {
+      ele?.scrollTo({
+        top: 10000,
+        behavior: 'smooth',
+      })
+    }, 100)
+  }
 
   useEffect(() => {
     if (chatList.length <= 0) {
@@ -200,10 +203,9 @@ function Chat(prop: Props) {
     setChatList((chatList) => {
       const newChatList = chatList
       newChatList[newChatIndex].content = answer
-      // setIsScroll(true)
       return [...newChatList]
     })
-  }, [answer, chatList, newChatIndex, setIsScroll])
+  }, [answer, chatList, newChatIndex])
 
   useEffect(() => {
     async function getConfig() {
