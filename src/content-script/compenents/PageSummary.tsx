@@ -525,10 +525,14 @@ function PageSummary(props: Props) {
                       </div>
 
                       {/* Chat */}
-                      {status === 'done' && allContent && (
+                      {allContent && (
                         <>
                           <Divider></Divider>
-                          <Chat userConfig={userConfigData} allContent={allContent} />
+                          <Chat
+                            userConfig={userConfigData}
+                            allContent={allContent}
+                            status={status}
+                          />
                         </>
                       )}
                     </>

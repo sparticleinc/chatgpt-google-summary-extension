@@ -16,10 +16,12 @@ import {
   ProviderConfigs,
   DEFAULT_API_HOST,
 } from '@/config'
+import { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
 
 interface Props {
   userConfig: UserConfig | undefined
   allContent: string
+  status: QueryStatus
 }
 interface ChatList {
   role: string
@@ -38,7 +40,7 @@ const modelParams = {
 }
 
 function Chat(prop: Props) {
-  const { userConfig, allContent } = prop
+  const { userConfig, allContent, status } = prop
   const [chatList, setChatList] = useState<ChatList[]>([])
   const [question, setQuestion] = useState<string>('')
   const [loading, setLoading] = useState(false)
@@ -281,14 +283,14 @@ function Chat(prop: Props) {
                   placeholder="Please enter a question"
                   value={question}
                   onChange={onChange}
-                  disabled={loading}
+                  disabled={loading || status !== 'done'}
                   onKeyDown={onKeyDown}
                 />
                 <Button
                   type="primary"
                   onClick={onSubmit}
                   onKeyDown={onKeyDown}
-                  disabled={loading}
+                  disabled={loading || status !== 'done'}
                   // icon={loading ? <Spin size="small" /> : <RocketIcon size={16} />}
                   icon={<RocketIcon size={16} />}
                 ></Button>
