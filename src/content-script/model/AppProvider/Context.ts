@@ -6,11 +6,16 @@ interface AppContextInterface {
   setBoxHeight: (height: number) => void
   showCard: boolean
   setShowCard: (show: boolean) => void
+  isScroll: boolean,
+  setIsScroll: (isScroll: boolean) => void
 }
 
 export const AppContext = createContext<AppContextInterface>({
   boxHeight: BOX_HEIGHT,
-  setBoxHeight: () => {},
+  setBoxHeight: () => { },
   showCard: false,
-  setShowCard: () => {},
+  setShowCard: () => { },
+
+  isScroll: false,
+  setIsScroll: () => { },
 })

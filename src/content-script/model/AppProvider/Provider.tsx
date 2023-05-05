@@ -6,6 +6,7 @@ import { BOX_HEIGHT } from '@/config'
 export function AppProvider({ children }: PropsWithChildren<unknown>) {
   const [boxHeight, setBoxHeight] = useState<number>(BOX_HEIGHT)
   const [showCard, setShowCard] = useState(false)
+  const [isScroll, setIsScroll] = useState(false)
 
   return (
     <AppContext.Provider
@@ -14,6 +15,8 @@ export function AppProvider({ children }: PropsWithChildren<unknown>) {
         setBoxHeight,
         showCard,
         setShowCard,
+        isScroll,
+        setIsScroll,
       }}
     >
       {children}

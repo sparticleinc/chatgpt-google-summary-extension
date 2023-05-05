@@ -72,7 +72,7 @@ function PageSummary(props: Props) {
   const [userConfigData, setUserConfigData] = useState<UserConfig>()
   const [allContent, setAllContent] = useState('')
   const scrollWrapRef = useRef<HTMLDivElement | null>(null)
-  const [isScroll, setIsScroll] = useState(false)
+  const { isScroll, setIsScroll } = useContext(AppContext)
 
   const onSwitch = useCallback(() => {
     if (isPDF) {
@@ -339,7 +339,7 @@ function PageSummary(props: Props) {
   }, [])
 
   useEffect(() => {
-    console.log('isScroll', isScroll)
+    console.log('isScroll  111111', isScroll)
 
     if (!isScroll) {
       return
@@ -354,7 +354,11 @@ function PageSummary(props: Props) {
       top: 10000,
       behavior: 'smooth',
     })
-  }, [isScroll])
+
+    setTimeout(() => {
+      setIsScroll(false)
+    }, 100)
+  }, [isScroll, setIsScroll])
 
   return (
     <>
@@ -530,11 +534,7 @@ function PageSummary(props: Props) {
                       {status === 'done' && allContent && (
                         <>
                           <Divider></Divider>
-                          <Chat
-                            userConfig={userConfigData}
-                            allContent={allContent}
-                            setIsScroll={setIsScroll}
-                          />
+                          <Chat userConfig={userConfigData} allContent={allContent} />
                         </>
                       )}
                     </>

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'preact/hooks'
+import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
 import { ConfigProvider, Input, Space, Button, Spin } from 'antd'
@@ -15,11 +15,11 @@ import {
   ProviderConfigs,
   DEFAULT_API_HOST,
 } from '@/config'
+import { AppContext } from '@/content-script/model/AppProvider/Context'
 
 interface Props {
   userConfig: UserConfig | undefined
   allContent: string
-  setIsScroll: (isScroll: boolean) => void
 }
 interface ChatList {
   role: string
@@ -38,13 +38,14 @@ const modelParams = {
 }
 
 function Chat(prop: Props) {
-  const { userConfig, allContent, setIsScroll } = prop
+  const { userConfig, allContent } = prop
   const [chatList, setChatList] = useState<ChatList[]>([])
   const [question, setQuestion] = useState<string>('')
   const [loading, setLoading] = useState(false)
   const [answer, setAnswer] = useState('')
   const [config, setConfig] = useState<ProviderConfigs>()
   const [newChatIndex, setNewChatIndex] = useState(0)
+  const { setIsScroll } = useContext(AppContext)
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuestion(e.target.value)
@@ -73,26 +74,19 @@ function Chat(prop: Props) {
         }),
       })
 
-      modelParams
-
       const res = await response.json()
 
       setLoading(false)
-
-      console.log('getAnswer res', res)
-
       setAnswer(res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text))
-
-      console.log('questionPrompt', questionPrompt)
+      setIsScroll(true)
     },
-    [config?.configs, question, userConfig?.language],
+    [config?.configs, question, setIsScroll, userConfig?.language],
   )
 
   const getChat = useCallback(async () => {
     setLoading(true)
     setAnswer('')
     const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
-
     const answerList: string[] = []
 
     const openAiModel = new OpenAI({
@@ -102,24 +96,21 @@ function Chat(prop: Props) {
         // streaming: true,
         callbacks: [
           {
-            handleChainEnd(outputs, runId, parentRunId) {
-              console.log('handleChainEnd', outputs, runId, parentRunId)
-            },
             async handleLLMNewToken(token: string) {
               console.log('token', String(token))
 
-              setAnswer((answer) => {
-                if (!token) {
-                  setIsScroll(false)
-                }
+              // setAnswer((answer) => {
+              //   if (!token) {
+              //     setIsScroll(false)
+              //   }
 
-                return answer + token
-              })
+              //   return answer + token
+              // })
             },
             async handleLLMError(error: string) {
               console.log('error', error)
             },
-            async handleLLMEnd(res) {
+            handleLLMEnd(res) {
               console.log('end', res)
               const text = res?.generations && res?.generations[0] && res?.generations[0][0]?.text
 
@@ -139,13 +130,13 @@ function Chat(prop: Props) {
         retriever: vectorStoreData?.asRetriever(),
       })
 
-      const res = await chain.call({
+      await chain.call({
         query: question,
       })
 
       await getAnswer(answerList)
 
-      return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
+      // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
     }
 
     const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 })
@@ -171,19 +162,20 @@ function Chat(prop: Props) {
       retriever: vectorStore.asRetriever(),
     })
 
-    const res = await chain.call({
+    await chain.call({
       query: question,
     })
 
     await getAnswer(answerList)
 
-    return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
-  }, [allContent, config?.configs, getAnswer, question, setIsScroll, userConfig?.language])
+    // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
+  }, [allContent, config?.configs, getAnswer, question, userConfig?.language])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
       return
     }
+
     setChatList((chatList) => {
       setNewChatIndex(chatList.length + 1)
       return [
@@ -194,10 +186,10 @@ function Chat(prop: Props) {
     })
     setQuestion('')
     setLoading(true)
+    setIsScroll(true)
 
     await getChat()
     setLoading(false)
-    setIsScroll(true)
   }, [getChat, question, setIsScroll])
 
   useEffect(() => {
@@ -205,12 +197,10 @@ function Chat(prop: Props) {
       return
     }
 
-    setIsScroll(false)
-
     setChatList((chatList) => {
       const newChatList = chatList
       newChatList[newChatIndex].content = answer
-      setIsScroll(true)
+      // setIsScroll(true)
       return [...newChatList]
     })
   }, [answer, chatList, newChatIndex, setIsScroll])
