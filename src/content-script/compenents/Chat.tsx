@@ -81,7 +81,7 @@ function Chat(prop: Props) {
 
       scrollEle()
     },
-    [config?.configs, userConfig?.language],
+    [answer, config?.configs, question, userConfig?.language],
   )
 
   const getChat = useCallback(async () => {
@@ -127,6 +127,7 @@ function Chat(prop: Props) {
       })
 
       await getAnswer(answerList)
+      return
     }
 
     const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 })
@@ -159,7 +160,7 @@ function Chat(prop: Props) {
     await getAnswer(answerList)
 
     // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
-  }, [allContent, config?.configs, userConfig?.language])
+  }, [allContent, config?.configs, getAnswer, question, userConfig?.language])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
