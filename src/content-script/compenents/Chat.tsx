@@ -14,12 +14,14 @@ import { queryParam } from 'gb-url'
 import { getPDFText } from '@/utils/utils'
 import { getPageSummaryContent } from '@/content-script/utils'
 import { getSummaryPrompt } from '@/content-script/prompt'
+import { pageSummaryPrompt } from '@/utils/prompt'
 import {
   UserConfig,
   getProviderConfigs,
   ProviderType,
   ProviderConfigs,
   DEFAULT_API_HOST,
+  setSessionValue,
 } from '@/config'
 import getQuestion from './GetQuestion'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
@@ -57,6 +59,7 @@ function Chat(prop: Props) {
   const [newChatIndex, setNewChatIndex] = useState(0)
   const [openAIApiKey, setOpenAIApiKey] = useState('')
   const [continueConversation, setContinueConversation] = useState(false)
+  const [chatGPTPrompt, setChatGPTPrompt] = useState('')
   const { conversationId } = useContext(AppContext)
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -263,10 +266,35 @@ function Chat(prop: Props) {
       console.log('config getProviderConfigs', config)
       setConfig(config)
       setOpenAIApiKey(config?.configs[ProviderType.GPT3]?.apiKey || '')
+
+      const questionData = await getQuestion()
+
+      let chatGPTPrompt = ''
+      const pageUrl = location.href
+      const pdfUrl = queryParam('file', pageUrl)
+      if (
+        /^(chrome-extension:\/\/)(\s|\S)+\/pdf\/web\/viewer.html\?file=(\s|\S)+/.test(pageUrl) &&
+        pdfUrl
+      ) {
+        const pdfText = (await getPDFText(pdfUrl))?.replace(/(<[^>]+>|\{[^}]+\})/g, '')
+        chatGPTPrompt = getSummaryPrompt(pdfText, config) || ''
+      } else if (questionData?.allContent) {
+        chatGPTPrompt = getSummaryPrompt(questionData?.allContent, config) || ''
+      } else {
+        const pageContent = await getPageSummaryContent()
+        chatGPTPrompt = getSummaryPrompt(pageContent?.content, config) || ''
+      }
+
+      setChatGPTPrompt(
+        pageSummaryPrompt({
+          content: chatGPTPrompt,
+          language: userConfig?.language || 'en',
+        }),
+      )
     }
 
     getConfig()
-  }, [])
+  }, [userConfig?.language])
 
   useEffect(() => {
     if (userConfig) setContinueConversation(userConfig?.continueConversation)
@@ -345,6 +373,17 @@ function Chat(prop: Props) {
             </div>
           ) : (
             <>
+              <button
+                onClick={async () => {
+                  setSessionValue({ key: 'glarityChatGPTPrompt', value: chatGPTPrompt }).then(
+                    () => {
+                      window.open('https://chat.openai.com/chat?ref=glarity', '_blank')
+                    },
+                  )
+                }}
+              >
+                Continue
+              </button>
               {continueConversation && conversationId && status === 'done' && (
                 <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
                   <a

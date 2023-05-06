@@ -1,6 +1,6 @@
 import { render } from 'preact'
 import '@/assets/styles/base.scss'
-import { getUserConfig } from '@/config'
+import { getUserConfig, getSessionValue, setSessionValue } from '@/config'
 import ChatGPTTip from '@/content-script/compenents/ChatGPTTip'
 import { config } from '@/content-script/search-engine-configs'
 import Browser from 'webextension-polyfill'
@@ -8,7 +8,7 @@ import PageSummary from '@/content-script/compenents/PageSummary'
 import mount from '@/content-script/compenents/Mount'
 import getQuestion from './compenents/GetQuestion'
 import { AppProvider } from '@/content-script/model/AppProvider/Provider'
-import { siteConfig as sietConfigFn } from './utils'
+import { siteConfig as sietConfigFn, waitForElm } from './utils'
 import '@/content-script/styles.scss'
 
 const siteConfig = sietConfigFn()
@@ -73,4 +73,31 @@ Run()
 
 if (siteConfig?.watchRouteChange) {
   siteConfig.watchRouteChange(Run)
+}
+
+window.onload = async () => {
+  if (window.location.hostname === 'chat.openai.com') {
+    await waitForElm('textarea')
+
+    const textarea = document.querySelector('textarea')
+    const button = textarea?.nextElementSibling as HTMLButtonElement
+
+    debugger
+
+    const prompt = (await getSessionValue('glarityChatGPTPrompt')) as string
+
+    if (window.location.search === '?ref=glarity' && textarea && button) {
+      setTimeout(async () => {
+        if (prompt) {
+          textarea.value = prompt
+
+          textarea.focus()
+          button.disabled = false
+          button.click()
+
+          await setSessionValue({ key: 'glarityChatGPTPrompt', value: '' })
+        }
+      }, 1500)
+    }
+  }
 }

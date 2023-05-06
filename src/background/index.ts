@@ -127,7 +127,9 @@ Browser.runtime.onMessage.addListener(async (message) => {
         }
       })
     }
+  } else if (message.type === 'SET_PROMPT') {
 
+    prompt = message.prompt;
 
   }
 })
