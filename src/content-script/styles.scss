@@ -215,6 +215,12 @@ span.glarity--header__logo {
     border: none;
     background: none;
   }
+
+  .glarity--chat__item:not(.glarity--chat__item--user) {
+    .glarity--chat__item--message {
+      border: 1px solid #eee;
+    }
+  }
 }
 .glarity--main__header {
   position: relative;

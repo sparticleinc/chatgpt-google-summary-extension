@@ -2,9 +2,10 @@ import ExpiryMap from 'expiry-map'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchSSE } from '../fetch-sse'
 import { GenerateAnswerParams, Provider } from '../types'
-import { BASE_URL, CHAT_DEFAULT_MODEL } from '@/config'
+import { BASE_URL, CHAT_DEFAULT_MODEL, getUserConfig } from '@/config'
 import { truncateTextByToken } from '@/utils/utils'
 import Browser from 'webextension-polyfill'
+
 
 async function request(token: string, method: string, path: string, data?: unknown) {
   return fetch(`${BASE_URL}/backend-api${path}`, {
@@ -26,6 +27,8 @@ export async function setConversationProperty(
   conversationId: string,
   propertyObject: object,
 ) {
+
+
   await request(token, 'PATCH', `/conversation/${conversationId}`, propertyObject)
 }
 
@@ -83,12 +86,13 @@ export class ChatGPTProvider implements Provider {
   async generateAnswer(params: GenerateAnswerParams) {
     let conversationId: string | undefined
     const { taskId, prompt } = params
+    const userConfig = await getUserConfig()
 
     const messageId = uuidv4()
 
     const cleanup = () => {
       if (conversationId) {
-        setConversationProperty(this.token, conversationId, { is_visible: true })
+        setConversationProperty(this.token, conversationId, { is_visible: userConfig.continueConversation })
       }
     }
 

@@ -74,6 +74,7 @@ const userConfigWithDefaultValue: {
   pageSummaryBlacklist: string
   showChatGPTTip: boolean
   pageSelectionEnable: boolean
+  continueConversation: boolean
 } = {
   triggerMode: TriggerMode.Always,
   theme: Theme.Auto,
@@ -88,6 +89,7 @@ const userConfigWithDefaultValue: {
   pageSummaryBlacklist: DEFAULT_PAGE_SUMMARY_BLACKLIST,
   showChatGPTTip: true,
   pageSelectionEnable: true,
+  continueConversation: false
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue

@@ -38,11 +38,13 @@ interface ChatList {
 let vectorStoreData: MemoryVectorStore | null
 
 const modelParams = {
-  temperature: 0,
+  temperature: 0.2,
   max_tokens: 800,
-  top_p: 1,
+  top_p: 0.5,
   frequency_penalty: 0,
   presence_penalty: 0,
+  n: 2,
+  best_of: 2,
 }
 
 function Chat(prop: Props) {
@@ -54,6 +56,7 @@ function Chat(prop: Props) {
   const [config, setConfig] = useState<ProviderConfigs>()
   const [newChatIndex, setNewChatIndex] = useState(0)
   const [openAIApiKey, setOpenAIApiKey] = useState('')
+  const [continueConversation, setContinueConversation] = useState(false)
   const { conversationId } = useContext(AppContext)
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -265,6 +268,10 @@ function Chat(prop: Props) {
     getConfig()
   }, [])
 
+  useEffect(() => {
+    if (userConfig) setContinueConversation(userConfig?.continueConversation)
+  }, [userConfig])
+
   return (
     <>
       <ConfigProvider prefixCls="glarity-" iconPrefixCls="glarity--icon-">
@@ -338,7 +345,7 @@ function Chat(prop: Props) {
             </div>
           ) : (
             <>
-              {conversationId && status === 'done' && (
+              {continueConversation && conversationId && status === 'done' && (
                 <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
                   <a
                     href={`https://chat.openai.com/c/${conversationId}`}

@@ -41,6 +41,7 @@ import './styles.scss'
 function OptionsPage(
   props: {
     theme: Theme
+    continueConversation: boolean
     onThemeChange: (theme: Theme) => void
   } & PageSummaryProps &
     PageSelectionProps,
@@ -54,6 +55,7 @@ function OptionsPage(
     setPageSummaryBlacklist,
     pageSelectionEnable,
     setPageSelectionEnable,
+    continueConversation,
   } = props
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
@@ -83,6 +85,13 @@ function OptionsPage(
     [props, setToast],
   )
 
+  const onContinueChange = useCallback(
+    (continueConversation: boolean) => {
+      updateUserConfig({ continueConversation })
+      setToast({ text: 'Changes saved', type: 'success' })
+    },
+    [setToast],
+  )
   const onLanguageChange = useCallback(
     (language: Language) => {
       updateUserConfig({ language })
@@ -161,6 +170,27 @@ function OptionsPage(
               </Radio>
             )
           })}
+        </Radio.Group>
+
+        {/* Continue conversation */}
+        <Text h3 className="glarity--mt-5 glarity--mb-0">
+          ChatGPT continue conversation
+        </Text>
+        <Text className="glarity--my-1">Turning it on will add ChatGPT chat history.</Text>
+        <Radio.Group
+          value={continueConversation ? 1 : 0}
+          onChange={(val) => {
+            console.log(val)
+            onContinueChange(val > 0)
+          }}
+          useRow
+        >
+          <Radio key={1} value={1}>
+            Open
+          </Radio>
+          <Radio key={0} value={0}>
+            Close
+          </Radio>
         </Radio.Group>
 
         {/* Language */}
@@ -243,6 +273,7 @@ function OptionsPage(
 
 function App() {
   const [theme, setTheme] = useState(Theme.Auto)
+  const [continueConversation, setContinueConversation] = useState(true)
   const [pageSummaryEnable, setPageSummaryEnable] = useState(true)
   const [pageSummaryWhitelist, setPageSummaryWhitelist] = useState<string>('')
   const [pageSummaryBlacklist, setPageSummaryBlacklist] = useState<string>('')
@@ -258,6 +289,7 @@ function App() {
   useEffect(() => {
     getUserConfig().then((config) => {
       setTheme(config.theme)
+      setContinueConversation(config.continueConversation)
       setPageSummaryEnable(config.pageSummaryEnable)
       setPageSummaryWhitelist(config.pageSummaryWhitelist)
       setPageSummaryBlacklist(
@@ -272,6 +304,7 @@ function App() {
       <CssBaseline />
       <OptionsPage
         theme={theme}
+        continueConversation={continueConversation}
         onThemeChange={setTheme}
         setPageSummaryEnable={setPageSummaryEnable}
         pageSummaryEnable={pageSummaryEnable}
