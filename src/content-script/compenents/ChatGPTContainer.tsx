@@ -4,7 +4,7 @@ import { SearchIcon } from '@primer/octicons-react'
 import Browser from 'webextension-polyfill'
 // import useSWRImmutable from 'swr/immutable'
 import { SearchEngine } from '@/content-script/search-engine-configs'
-import { TriggerMode, Theme, getUserConfig, APP_TITLE } from '@/config'
+import { TriggerMode, Theme, getUserConfig, UserConfig, APP_TITLE } from '@/config'
 import ChatGPTCard from './ChatGPTCard'
 import { QueryStatus } from './ChatGPTQuery'
 import { copyTranscript, getConverTranscript } from '@/content-script/utils'
@@ -22,6 +22,7 @@ import { queryParam } from 'gb-url'
 import getQuestion from '@/content-script/compenents/GetQuestion'
 import logo from '@/assets/img/logo-48.png'
 import { AppProvider } from '@/content-script/model/AppProvider/Provider'
+import Chat from './Chat'
 
 interface Props {
   question: string | null
@@ -30,6 +31,7 @@ interface Props {
   siteConfig: SearchEngine
   langOptionsWithLink?: unknown
   currentTime?: number
+  allContent?: string
 }
 
 function ChatGPTContainer(props: Props) {
@@ -41,6 +43,7 @@ function ChatGPTContainer(props: Props) {
   const [theme, setTheme] = useState(Theme.Auto)
   const [questionProps, setQuestionProps] = useState<Props>({ ...props })
   const [currentTranscript, setCurrentTranscript] = useState(props.transcript)
+  const [userConfig, setUserConfig] = useState<UserConfig | undefined>()
 
   const { triggerMode } = props
 
@@ -138,7 +141,10 @@ function ChatGPTContainer(props: Props) {
   }, [queryStatus])
 
   useEffect(() => {
-    getUserConfig().then((config) => setTheme(config.theme))
+    getUserConfig().then((config) => {
+      setTheme(config.theme)
+      setUserConfig(config)
+    })
   }, [])
 
   const switchtranscriptShow = () => {
@@ -308,6 +314,10 @@ function ChatGPTContainer(props: Props) {
                   </div>
                 </div>
               )}
+            </div>
+
+            <div className="glarity--chat__box">
+              <Chat userConfig={userConfig} status={queryStatus} />
             </div>
           </>
         </AppProvider>

@@ -84,7 +84,10 @@ export default async function getQuestion() {
       language: userConfig.language === Language.Auto ? language : userConfig.language,
     })
 
-    return { question: queryText }
+    return {
+      question: queryText,
+      allContent: getSummaryPrompt(articleText, providerConfigs, false),
+    }
   }
 
   // Yahoo Japan News
@@ -110,7 +113,10 @@ export default async function getQuestion() {
       language: userConfig.language === Language.Auto ? language : userConfig.language,
     })
 
-    return { question: queryText }
+    return {
+      question: queryText,
+      allContent: getSummaryPrompt(articleText, providerConfigs, false),
+    }
   }
 
   // newspicks
@@ -137,7 +143,10 @@ export default async function getQuestion() {
       language: userConfig.language === Language.Auto ? language : userConfig.language,
     })
 
-    return { question: queryText }
+    return {
+      question: queryText,
+      allContent: getSummaryPrompt(articleText, providerConfigs, false),
+    }
   }
 
   // nikkei
@@ -164,7 +173,10 @@ export default async function getQuestion() {
       language: userConfig.language === Language.Auto ? language : userConfig.language,
     })
 
-    return { question: queryText }
+    return {
+      question: queryText,
+      allContent: getSummaryPrompt(articleText, providerConfigs, false),
+    }
   }
 
   // github
@@ -192,7 +204,10 @@ export default async function getQuestion() {
       language: userConfig.language === Language.Auto ? language : userConfig.language,
     })
 
-    return { question: queryText }
+    return {
+      question: queryText,
+      allContent: getSummaryPrompt(articleText, providerConfigs, false),
+    }
   }
 
   // Google Patents
@@ -229,7 +244,10 @@ export default async function getQuestion() {
       prompt: googlePatentsPromptHighlight,
     })
 
-    return { question: queryText }
+    return {
+      question: queryText,
+      allContent: getSummaryPrompt(articleText, providerConfigs, false),
+    }
   }
 
   // Youtube
@@ -267,6 +285,7 @@ export default async function getQuestion() {
       question: transcript.length > 0 ? queryText : '',
       transcript: transcriptList,
       langOptionsWithLink,
+      allContent: getSummaryPrompt(transcript, providerConfigs, false),
     }
   }
 
@@ -308,6 +327,7 @@ export default async function getQuestion() {
 
     return {
       question: content ? queryText : null,
+      allContent: getSummaryPrompt(content, providerConfigs, false),
     }
   }
 
@@ -368,6 +388,7 @@ export default async function getQuestion() {
 
     return {
       question: searchList ? queryText : searchValueWithLanguageOption,
+      allContent: getSummaryPrompt(searchList, providerConfigs, false),
     }
   }
 
@@ -432,6 +453,7 @@ export default async function getQuestion() {
 
     return {
       question: searchList ? queryText : searchValueWithLanguageOption,
+      allContent: getSummaryPrompt(searchList, providerConfigs, false),
     }
   }
 
@@ -505,6 +527,7 @@ export default async function getQuestion() {
 
     return {
       question: searchList ? queryText : searchValueWithLanguageOption,
+      allContent: getSummaryPrompt(searchList, providerConfigs, false),
     }
   }
 }

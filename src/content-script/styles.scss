@@ -54,6 +54,11 @@
     li {
       color: black;
     }
+
+    .glarity--footer__tips {
+      padding: 10px 0;
+      font-size: 12px;
+    }
   }
 
   &.sidebar--free {
@@ -394,6 +399,11 @@ span.glarity--header__logo {
     border: none;
     background-color: transparent;
   }
+}
+
+// glarity--chat__box
+.glarity--chat__box {
+  margin-top: 15px;
 }
 
 // newspicks

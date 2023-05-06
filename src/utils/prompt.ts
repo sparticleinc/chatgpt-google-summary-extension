@@ -226,8 +226,8 @@ Helpful Answer:`
 export const qaSummaryPrompt = ({ question, answerList, language }: { question: string, answerList: string, language: string }) => {
   return `Answer list:  ${answerList}
 Query: ${question}
-Instructions: Based on the {Answer list}, remove the useless information and summarise the answer that best matches the {Query}.
-Simply write the content of the answer.If there is no relevant content, please answer the {Query} question directly.
+Instructions: Based on the {List of Answers}, remove the useless information, select the answer that matches the {Query} and then summarise.
+Simply write the content of the answer.If there is no relevant content, please answer the {Query} question directly and output as per the following template: OpenAI: {answer}.
 ${replylanguagePrompt(language)}
 `
 }

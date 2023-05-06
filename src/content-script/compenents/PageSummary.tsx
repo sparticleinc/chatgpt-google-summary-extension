@@ -497,8 +497,6 @@ function PageSummary(props: Props) {
                     </button>
                   </div>
 
-                  <Divider></Divider>
-
                   {selectionText && isSelection && (
                     <>
                       <div className="glarity--card__content--body">
@@ -518,6 +516,7 @@ function PageSummary(props: Props) {
 
                   {question ? (
                     <>
+                      <Divider></Divider>
                       <div className="glarity--container">
                         <div className="glarity--chatgpt">
                           <ChatGPTQuery question={question} onStatusChange={setStatus} />
@@ -525,20 +524,15 @@ function PageSummary(props: Props) {
                       </div>
 
                       {/* Chat */}
-                      {allContent && (
-                        <>
-                          <Divider></Divider>
-                          <Chat
-                            userConfig={userConfigData}
-                            allContent={allContent}
-                            status={status}
-                          />
-                        </>
-                      )}
                     </>
                   ) : (
                     <>{!supportSummary && 'Sorry, the summary of this page is not supported.'}</>
                   )}
+
+                  <>
+                    <Divider></Divider>
+                    <Chat userConfig={userConfigData} allContent={allContent} status={status} />
+                  </>
                 </div>
               </div>
             ) : (

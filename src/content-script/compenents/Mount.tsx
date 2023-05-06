@@ -14,6 +14,7 @@ interface MountProps {
   question: string | null
   transcript?: unknown
   langOptionsWithLink?: unknown
+  allContent?: string
 }
 
 export default async function mount(props: MountProps) {

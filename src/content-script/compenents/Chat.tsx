@@ -10,6 +10,10 @@ import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { RetrievalQAChain, loadQARefineChain } from 'langchain/chains'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { queryParam } from 'gb-url'
+import { getPDFText } from '@/utils/utils'
+import { getPageSummaryContent } from '@/content-script/utils'
+import { getSummaryPrompt } from '@/content-script/prompt'
 import {
   UserConfig,
   getProviderConfigs,
@@ -17,11 +21,12 @@ import {
   ProviderConfigs,
   DEFAULT_API_HOST,
 } from '@/config'
+import getQuestion from './GetQuestion'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
 
 interface Props {
   userConfig: UserConfig | undefined
-  allContent: string
+  allContent?: string
   status: QueryStatus
 }
 interface ChatList {
@@ -93,8 +98,11 @@ function Chat(prop: Props) {
   const getChat = useCallback(async () => {
     setLoading(true)
     setAnswer('')
+
+    const providerConfigs = await getProviderConfigs()
     const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
     const answerList: string[] = []
+    let chainText = allContent
 
     const openAiModel = new OpenAI({
       ...{ modelParams },
@@ -138,9 +146,27 @@ function Chat(prop: Props) {
 
     const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 })
 
-    console.log('allContent', allContent)
+    const questionData = await getQuestion()
 
-    const docs = await textSplitter.createDocuments([allContent])
+    // PDF
+    const pageUrl = location.href
+    const pdfUrl = queryParam('file', pageUrl)
+    if (
+      /^(chrome-extension:\/\/)(\s|\S)+\/pdf\/web\/viewer.html\?file=(\s|\S)+/.test(pageUrl) &&
+      pdfUrl
+    ) {
+      const pdfText = (await getPDFText(pdfUrl))?.replace(/(<[^>]+>|\{[^}]+\})/g, '')
+      chainText = getSummaryPrompt(pdfText, providerConfigs, false)
+    } else if (questionData?.allContent) {
+      chainText = getSummaryPrompt(questionData?.allContent, providerConfigs, false) || ''
+    } else {
+      const pageContent = await getPageSummaryContent()
+      chainText = getSummaryPrompt(pageContent?.content, providerConfigs, false) || ''
+    }
+
+    console.log('chainText', chainText)
+
+    const docs = await textSplitter.createDocuments([chainText])
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
       new OpenAIEmbeddings({
@@ -246,7 +272,7 @@ function Chat(prop: Props) {
           config?.provider === 'gpt3' ? (
             <div className="glarity--container">
               <div className="glarity--chatgpt glarity--nodrag">
-                <Alert
+                {/* <Alert
                   message="Warning"
                   description="Using this feature will consume your API key."
                   type="warning"
@@ -262,7 +288,7 @@ function Chat(prop: Props) {
                       Pricing
                     </Button>
                   }
-                />
+                /> */}
                 <div className="glarity--chat">
                   {chatList.map((item, index) => (
                     <div
@@ -287,25 +313,26 @@ function Chat(prop: Props) {
                     placeholder="Please enter a question"
                     value={question}
                     onChange={onChange}
-                    disabled={loading || status !== 'done'}
+                    disabled={loading}
                     onKeyDown={onKeyDown}
                   />
                   <Button
                     type="primary"
                     onClick={onSubmit}
                     onKeyDown={onKeyDown}
-                    disabled={loading || status !== 'done'}
+                    disabled={loading}
                     // icon={loading ? <Spin size="small" /> : <RocketIcon size={16} />}
                     icon={<RocketIcon size={16} />}
                   ></Button>
                 </Space.Compact>
 
                 <div className="glarity--footer__tips">
-                  You can get a better experience with{' '}
+                  {/* You can get a better experience with{' '}
                   <a href="https://gptbase.ai" target={'_blank'} rel="noreferrer">
                     GPTBase
                   </a>
-                  .
+                  .  */}
+                  Note: The asking function will consume your key quota.
                 </div>
               </div>
             </div>
@@ -314,12 +341,11 @@ function Chat(prop: Props) {
               {conversationId && status === 'done' && (
                 <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
                   <a
-                    className={'glarity--btn glarity--btn__primary'}
                     href={`https://chat.openai.com/c/${conversationId}`}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Continue conversation
+                    Continue to ask questions in ChatGPT
                   </a>
                 </div>
               )}
