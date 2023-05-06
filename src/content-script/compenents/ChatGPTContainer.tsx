@@ -244,6 +244,10 @@ function ChatGPTContainer(props: Props) {
                 </div>
               </div>
 
+              <div className="glarity--main">
+                <Chat userConfig={userConfig} status={queryStatus} />
+              </div>
+
               {questionProps.question && currentTranscript && (
                 <div className="glarity--main">
                   <div className="glarity--main__header">
@@ -316,9 +320,7 @@ function ChatGPTContainer(props: Props) {
               )}
             </div>
 
-            <div className="glarity--chat__box">
-              <Chat userConfig={userConfig} status={queryStatus} />
-            </div>
+            {/* <div className="glarity--chat__box"></div> */}
           </>
         </AppProvider>
       </GeistProvider>

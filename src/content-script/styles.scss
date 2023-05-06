@@ -207,6 +207,14 @@ span.glarity--header__logo {
   margin-right: -10px;
   padding: 0 12px;
   border-top: 1px solid rgb(221, 221, 221);
+
+  .glarity--container,
+  .glarity--chatgpt {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+  }
 }
 .glarity--main__header {
   position: relative;

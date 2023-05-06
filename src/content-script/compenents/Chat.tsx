@@ -38,7 +38,7 @@ interface ChatList {
 let vectorStoreData: MemoryVectorStore | null
 
 const modelParams = {
-  temperature: 0.4,
+  temperature: 0,
   max_tokens: 800,
   top_p: 1,
   frequency_penalty: 0,
@@ -58,7 +58,7 @@ function Chat(prop: Props) {
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuestion(e.target.value)
-    scrollEle()
+    scrollToBottom()
   }, [])
 
   const getAnswer = useCallback(
@@ -90,7 +90,7 @@ function Chat(prop: Props) {
       setAnswer(() => res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text))
       console.log('setAnswer', answer)
 
-      scrollEle()
+      scrollToBottom()
     },
     [answer, config?.configs, question, userConfig?.language],
   )
@@ -210,7 +210,7 @@ function Chat(prop: Props) {
     setQuestion('')
     setLoading(true)
 
-    scrollEle()
+    scrollToBottom()
 
     await getChat()
     setLoading(false)
@@ -226,7 +226,7 @@ function Chat(prop: Props) {
     [onSubmit],
   )
 
-  const scrollEle = () => {
+  const scrollToBottom = () => {
     const ele = document.querySelector('div.glarity--card__content')
     console.log('ele', ele)
 
