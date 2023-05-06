@@ -227,7 +227,7 @@ export const qaSummaryPrompt = ({ question, answerList, language }: { question: 
   return `Answer list:  ${answerList}
 Query: ${question}
 Instructions: Based on the {Answer list}, remove the useless information and summarise the answer that best matches the {Query}.
-Simply write the content of the answer.
+Simply write the content of the answer.If there is no relevant content, please answer the {Query} question directly.
 ${replylanguagePrompt(language)}
 `
 }
