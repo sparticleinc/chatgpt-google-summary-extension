@@ -89,6 +89,8 @@ window.onload = async () => {
     if (window.location.search === '?ref=glarity' && textarea && button) {
       setTimeout(async () => {
         if (prompt) {
+          textarea.style.height = `${textarea.scrollHeight}px`
+
           textarea.value = prompt
 
           textarea.focus()

@@ -248,6 +248,12 @@ function Chat(prop: Props) {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
+  const gotoChatGPT = useCallback(async () => {
+    setSessionValue({ key: 'glarityChatGPTPrompt', value: chatGPTPrompt }).then(() => {
+      window.open('https://chat.openai.com/chat?ref=glarity', '_blank')
+    })
+  }, [chatGPTPrompt])
+
   useEffect(() => {
     if (chatList.length <= 0) {
       return
@@ -373,17 +379,14 @@ function Chat(prop: Props) {
             </div>
           ) : (
             <>
-              <button
-                onClick={async () => {
-                  setSessionValue({ key: 'glarityChatGPTPrompt', value: chatGPTPrompt }).then(
-                    () => {
-                      window.open('https://chat.openai.com/chat?ref=glarity', '_blank')
-                    },
-                  )
-                }}
-              >
-                Continue
-              </button>
+              {status === 'done' && (
+                <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
+                  <Button type="link" onClick={gotoChatGPT}>
+                    Continue to ask questions in ChatGPT
+                  </Button>
+                </div>
+              )}
+
               {continueConversation && conversationId && status === 'done' && (
                 <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
                   <a
