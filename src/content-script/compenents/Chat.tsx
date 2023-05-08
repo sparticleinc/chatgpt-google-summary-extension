@@ -42,11 +42,11 @@ let vectorStoreData: MemoryVectorStore | null
 const modelParams = {
   temperature: 0.2,
   max_tokens: 800,
-  top_p: 0.5,
-  frequency_penalty: 0,
-  presence_penalty: 0,
-  n: 2,
-  best_of: 2,
+  // top_p: 0.5,
+  // frequency_penalty: 0,
+  // presence_penalty: 0,
+  // n: 2,
+  // best_of: 2,
 }
 
 function Chat(prop: Props) {
@@ -136,8 +136,8 @@ function Chat(prop: Props) {
     if (vectorStoreData) {
       const chain = new RetrievalQAChain({
         combineDocumentsChain: loadQARefineChain(openAiModel, {
-          questionPrompt: qaPrompt(userConfig?.language || 'en'),
-          refinePrompt: qaPrompt(userConfig?.language || 'en'),
+          // questionPrompt: qaPrompt(userConfig?.language || 'en'),
+          // refinePrompt: qaPrompt(userConfig?.language || 'en'),
         }),
         retriever: vectorStoreData?.asRetriever(),
       })
@@ -184,8 +184,8 @@ function Chat(prop: Props) {
 
     const chain = new RetrievalQAChain({
       combineDocumentsChain: loadQARefineChain(openAiModel, {
-        questionPrompt: qaPrompt(userConfig?.language || 'en'),
-        refinePrompt: qaPrompt(userConfig?.language || 'en'),
+        // questionPrompt: qaPrompt(userConfig?.language || 'en'),
+        // refinePrompt: qaPrompt(userConfig?.language || 'en'),
       }),
       // returnSourceDocuments: true,
       retriever: vectorStore.asRetriever(),
@@ -373,7 +373,7 @@ function Chat(prop: Props) {
                     GPTBase
                   </a>
                   .  */}
-                  Note: The asking function will consume your key quota.
+                  Note: The asking feature will consume your key quota.
                 </div>
               </div>
             </div>

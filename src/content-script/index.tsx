@@ -82,8 +82,6 @@ window.onload = async () => {
     const textarea = document.querySelector('textarea')
     const button = textarea?.nextElementSibling as HTMLButtonElement
 
-    debugger
-
     const prompt = (await getSessionValue('glarityChatGPTPrompt')) as string
 
     if (window.location.search === '?ref=glarity' && textarea && button) {

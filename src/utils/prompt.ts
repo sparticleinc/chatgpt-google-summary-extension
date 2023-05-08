@@ -226,8 +226,8 @@ Helpful Answer:`
 export const qaSummaryPrompt = ({ question, answerList, language }: { question: string, answerList: string, language: string }) => {
   return `Answer list:  ${answerList}
 Query: ${question}
-Instructions: Use the {Answer list} content to first remove useless information. If there is an answer in {answer list} that closely matches {Query} return this answer directly, otherwise summarise the answer in as much detail as possible according to {query}.
-Remove the words "Answer:" or similar from the answers.
+Instructions: Using the {Answer list} content, first remove the useless information. In conjunction with the context, if there is an answer in {answer list} that best matches {Query}, return that answer directly, otherwise summarise the answer according to {Query}.
+Remove the words "Answer:" or similar from the answer.
 ${replylanguagePrompt(language)}
 `
 }
