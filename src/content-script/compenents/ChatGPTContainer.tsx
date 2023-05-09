@@ -180,32 +180,6 @@ function ChatGPTContainer(props: ContainerProps) {
           <div className="glarity--main__container">
             {questionProps.question ? (
               <>
-                {/* {triggerMode === TriggerMode.Manually && !loading ? (
-                        <span
-                          className="glarity--link"
-                          onClick={() => {
-                            onRefresh()
-                          }}
-                        >
-                          <a>
-                            <SearchIcon size="small" /> Ask ChatGPT to summarize
-                          </a>
-                        </span>
-                      ) : (
-                        <>
-                          {loading && (
-                            <div className="glarity--main__loading">
-                              <Loading />
-                            </div>
-                          )}
-                          <ChatGPTCard
-                            question={questionProps.question}
-                            triggerMode={questionProps.triggerMode}
-                            onStatusChange={setQueryStatus}
-                          />
-                        </>
-                      )} */}
-
                 <ChatGPTCard
                   question={questionProps.question}
                   triggerMode={questionProps.triggerMode}

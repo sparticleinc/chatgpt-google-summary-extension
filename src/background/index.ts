@@ -22,10 +22,6 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
 
   const taskId = uuidv4()
 
-  port.onDisconnect.addListener(() => {
-    provider.cancelTask(taskId)
-    cleanup?.()
-  })
 
   await setSessionValue({ key: 'taskId', value: taskId })
 
@@ -40,6 +36,12 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
       }
       port.postMessage(event.data)
     },
+  })
+
+
+  port.onDisconnect.addListener(() => {
+    provider.cancelTask(taskId)
+    cleanup?.()
   })
 }
 

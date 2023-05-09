@@ -1,3 +1,4 @@
+import { Language } from "@/config";
 import {
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
@@ -80,8 +81,9 @@ export const customizePromptKeyTakeaways = `What's key takeaways from the below?
 export const customizePromptExtractGist = `Extract the gist of the below.`
 
 export const replylanguagePrompt = (language: string) => {
-  return `
-Please write in ${language} language.`
+  return language === Language.Auto ? '' : `
+Please write in ${language} language.
+`
 }
 
 export const translatePrompt = (language: string) => {
@@ -106,9 +108,10 @@ export const articlePrompt = ({
   prompt?: string
 }) => {
   return `Instructions: ${prompt ? prompt : articlePromptHighlight}
+${replylanguagePrompt(language)}
+
 Title: ${title}
-Content:  ${content}
-${replylanguagePrompt(language)}`
+Content:  ${content}`
 }
 
 export const videoPrompt = ({
