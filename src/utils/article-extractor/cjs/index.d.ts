@@ -43,7 +43,7 @@ export interface ParserOptions {
 
 export interface ProxyConfig {
   target?: string;
-  headers?: string[];
+  headers?: Record<string, string>;
 }
 
 export interface FetchOptions {
@@ -51,7 +51,7 @@ export interface FetchOptions {
    * list of request headers
    * default: null
    */
-  headers?: string[];
+  headers?: Record<string, string>;
   /**
    * the values to configure proxy
    * default: null
