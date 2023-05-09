@@ -23,7 +23,7 @@
     "gpt3-tokenizer": "^1.1.5",
     "inter-ui": "^3.19.3",
     "jquery": "^3.6.3",
-    "langchain": "^0.0.64",
+    "langchain": "^0.0.72",
     "lodash-es": "^4.17.21",
     "pdfjs-dist": "^3.5.141",
     "preact": "^10.13.1",
