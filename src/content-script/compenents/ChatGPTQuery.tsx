@@ -35,7 +35,7 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [showContent, setShowContent] = useState<boolean>(true)
-  const { boxHeight, setBoxHeight, setConversationId, setTriggered } = useContext(AppContext)
+  const { boxHeight, setBoxHeight, conversationId, setConversationId } = useContext(AppContext)
 
   const stepValue = 50
 
@@ -78,13 +78,13 @@ function ChatGPTQuery(props: Props) {
         }
       }
       port.onMessage.addListener(listener)
-      port.postMessage({ question })
+      port.postMessage({ question, conversationId })
       return () => {
         port.onMessage.removeListener(listener)
         port.disconnect()
       }
     }, 1000)
-  }, [question])
+  }, [conversationId, question])
 
   const newTab = useCallback(() => {
     Browser.runtime.sendMessage({

@@ -2,18 +2,19 @@ import { Answer } from '../messaging'
 
 export type Event =
   | {
-      type: 'answer'
-      data: Answer
-    }
+    type: 'answer'
+    data: Answer
+  }
   | {
-      type: 'done'
-    }
+    type: 'done'
+  }
 
 export interface GenerateAnswerParams {
   prompt: string
   onEvent: (event: Event) => void
   signal?: AbortSignal
   taskId: string
+  conversationId?: string
 }
 
 export interface Provider {

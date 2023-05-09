@@ -7,7 +7,7 @@ import { isFirefox, tabSendMsg } from '@/utils/utils'
 import { v4 as uuidv4 } from 'uuid'
 
 let provider: Provider
-async function generateAnswers(port: Browser.Runtime.Port, question: string) {
+async function generateAnswers(port: Browser.Runtime.Port, question: string, conversationId: string) {
   const providerConfigs = await getProviderConfigs()
 
   if (providerConfigs.provider === ProviderType.ChatGPT) {
@@ -29,6 +29,7 @@ async function generateAnswers(port: Browser.Runtime.Port, question: string) {
     prompt: question,
     // signal: controller.signal,
     taskId,
+    conversationId,
     onEvent(event) {
       if (event.type === 'done') {
         port.postMessage({ event: 'DONE' })
@@ -84,7 +85,7 @@ Browser.runtime.onConnect.addListener(async (port) => {
   port.onMessage.addListener(async (msg) => {
     console.debug('received msg', msg)
     try {
-      await generateAnswers(port, msg.question)
+      await generateAnswers(port, msg.question, msg.conversationId)
     } catch (err: any) {
       // console.error(err)
       port.postMessage({ error: err.message })

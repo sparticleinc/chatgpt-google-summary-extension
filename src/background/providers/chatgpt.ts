@@ -93,7 +93,7 @@ export class ChatGPTProvider implements Provider {
     const cleanup = () => {
       if (conversationId) {
         // setConversationProperty(this.token, conversationId, { is_visible: userConfig.continueConversation })
-        setConversationProperty(this.token, conversationId, { is_visible: false })
+        setConversationProperty(this.token, conversationId, { is_visible: true })
       }
     }
 
@@ -117,6 +117,34 @@ export class ChatGPTProvider implements Provider {
       }
     }
 
+
+    let bodyJSON = {
+      action: 'next',
+      messages: [
+        {
+          id: messageId,
+          author: { role: "user" },
+          content: {
+            content_type: 'text',
+            parts: [truncatePrompt],
+          },
+        },
+      ],
+      model: modelName,
+      parent_message_id: uuidv4(),
+      history_and_training_disabled: false,
+      conversation_id: params.conversationId
+    }
+
+    if (params.conversationId) {
+      bodyJSON = {
+        ...bodyJSON, ...{ conversation_id: params.conversationId }
+      }
+    } else {
+      delete bodyJSON.conversation_id
+    }
+
+
     await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
       method: 'POST',
       signal: abortController.signal,
@@ -124,21 +152,7 @@ export class ChatGPTProvider implements Provider {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.token}`,
       },
-      body: JSON.stringify({
-        action: 'next',
-        messages: [
-          {
-            id: messageId,
-            role: 'user',
-            content: {
-              content_type: 'text',
-              parts: [truncatePrompt],
-            },
-          },
-        ],
-        model: modelName,
-        parent_message_id: uuidv4(),
-      }),
+      body: JSON.stringify(bodyJSON),
       onMessage(message: string) {
         console.debug('sse message', message)
         if (message === '[DONE]') {
