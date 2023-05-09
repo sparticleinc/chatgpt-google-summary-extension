@@ -198,7 +198,7 @@ function Chat(prop: Props) {
     await getAnswer(answerList)
 
     // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
-  }, [allContent, config?.configs, getAnswer, question, userConfig?.language])
+  }, [allContent, config?.configs, getAnswer, question])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
@@ -271,6 +271,10 @@ function Chat(prop: Props) {
       const config = await getProviderConfigs()
       console.log('config getProviderConfigs', config)
       setConfig(config)
+
+      if (config.provider === ProviderType.ChatGPT) {
+        return
+      }
       setOpenAIApiKey(config?.configs[ProviderType.GPT3]?.apiKey || '')
 
       const questionData = await getQuestion()

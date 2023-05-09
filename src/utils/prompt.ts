@@ -106,9 +106,9 @@ export const articlePrompt = ({
   prompt?: string
 }) => {
   return `Instructions: ${prompt ? prompt : articlePromptHighlight}
-${replylanguagePrompt(language)}
 Title: ${title}
-Content:  ${content}`
+Content:  ${content}
+${replylanguagePrompt(language)}`
 }
 
 export const videoPrompt = ({

@@ -86,13 +86,14 @@ export class ChatGPTProvider implements Provider {
   async generateAnswer(params: GenerateAnswerParams) {
     let conversationId: string | undefined
     const { taskId, prompt } = params
-    const userConfig = await getUserConfig()
+    // const userConfig = await getUserConfig()
 
     const messageId = uuidv4()
 
     const cleanup = () => {
       if (conversationId) {
-        setConversationProperty(this.token, conversationId, { is_visible: userConfig.continueConversation })
+        // setConversationProperty(this.token, conversationId, { is_visible: userConfig.continueConversation })
+        setConversationProperty(this.token, conversationId, { is_visible: false })
       }
     }
 

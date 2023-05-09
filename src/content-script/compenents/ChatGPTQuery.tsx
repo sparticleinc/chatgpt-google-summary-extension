@@ -21,13 +21,12 @@ export type QueryStatus = 'success' | 'error' | 'done' | undefined
 interface Props {
   question: string
   onStatusChange?: (status: QueryStatus) => void
-  currentTime?: number
   ignoreTranslation?: boolean
   setTranslationStatus?: (status: QueryStatus) => void
 }
 
 function ChatGPTQuery(props: Props) {
-  const { onStatusChange, currentTime, question, ignoreTranslation, setTranslationStatus } = props
+  const { onStatusChange, question, ignoreTranslation, setTranslationStatus } = props
 
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
@@ -37,7 +36,7 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [showContent, setShowContent] = useState<boolean>(true)
-  const { boxHeight, setBoxHeight, setConversationId } = useContext(AppContext)
+  const { boxHeight, setBoxHeight, setConversationId, setTriggered } = useContext(AppContext)
 
   const stepValue = 50
 
@@ -46,16 +45,17 @@ function ChatGPTQuery(props: Props) {
 
     return debounce(() => {
       setStatus(undefined)
+      // setTriggered(false)
       // setError('error')
       // setStatus('error')
       // return
 
-      // setDone(true)
-      // setStatus('done')
-      // setAnswer({
-      //   text: `Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.`,
-      // })
-      // return
+      setDone(true)
+      setStatus('done')
+      setAnswer({
+        text: `Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.Glarity Summary is a ChatGPT for YouTube/Google extension that can summarize YouTube videos and Google searches, also supports Yahoo! ニュース, PubMed, PMC, NewsPicks, Github, Nikkei, Bing, Google Patents and any page summary.`,
+      })
+      return
 
       const port = Browser.runtime.connect()
       const listener = (msg: any) => {
@@ -127,7 +127,7 @@ function ChatGPTQuery(props: Props) {
   useEffect(() => {
     setAnswer(null)
     requestGpt()
-  }, [question, retry, currentTime, requestGpt])
+  }, [retry, requestGpt])
 
   // retry error on focus
   useEffect(() => {
@@ -166,6 +166,10 @@ function ChatGPTQuery(props: Props) {
       setConversationId(answer.conversationId)
     }
   }, [answer, setConversationId])
+
+  useEffect(() => {
+    console.log('Query', question)
+  }, [])
 
   if (answer) {
     return (

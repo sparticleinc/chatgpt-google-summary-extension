@@ -1,7 +1,7 @@
 import { render } from 'preact'
 import { getUserConfig, Theme } from '@/config'
 import { config } from '@/content-script/search-engine-configs'
-import ChatGPTContainer from '@/content-script/compenents/ChatGPTContainer'
+import Main from '@/content-script/compenents/Main'
 import { detectSystemColorScheme } from '@/utils/utils'
 import { getPossibleElementByQuerySelector, waitForElm } from '@/content-script/utils'
 import {
@@ -208,7 +208,7 @@ export default async function mount(props: MountProps) {
   }
 
   render(
-    <ChatGPTContainer
+    <Main
       question={question}
       transcript={transcript}
       siteConfig={siteConfig}

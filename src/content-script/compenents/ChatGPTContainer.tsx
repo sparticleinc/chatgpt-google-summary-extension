@@ -1,6 +1,5 @@
-import { useState, useCallback, useEffect, useMemo } from 'react'
-import { Spinner, GeistProvider, Loading, Divider } from '@geist-ui/core'
-import { SearchIcon } from '@primer/octicons-react'
+import { useState, useCallback, useEffect, useMemo, useContext } from 'preact/hooks'
+import { Spinner } from '@geist-ui/core'
 import Browser from 'webextension-polyfill'
 // import useSWRImmutable from 'swr/immutable'
 import { SearchEngine } from '@/content-script/search-engine-configs'
@@ -21,10 +20,11 @@ import {
 import { queryParam } from 'gb-url'
 import getQuestion from '@/content-script/compenents/GetQuestion'
 import logo from '@/assets/img/logo-48.png'
-import { AppProvider } from '@/content-script/model/AppProvider/Provider'
-import Chat from './Chat'
 
-interface Props {
+import Chat from './Chat'
+import { AppContext } from '@/content-script/model/AppProvider/Context'
+
+export type ContainerProps = {
   question: string | null
   transcript?: unknown
   triggerMode: TriggerMode
@@ -34,25 +34,17 @@ interface Props {
   allContent?: string
 }
 
-function ChatGPTContainer(props: Props) {
+function ChatGPTContainer(props: ContainerProps) {
   const [queryStatus, setQueryStatus] = useState<QueryStatus>()
   const [copied, setCopied] = useState(false)
   const [transcriptShow, setTranscriptShow] = useState(false)
   const [selectedOption, setSelectedOption] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [theme, setTheme] = useState(Theme.Auto)
-  const [questionProps, setQuestionProps] = useState<Props>({ ...props })
+
+  const [questionProps, setQuestionProps] = useState<ContainerProps>({ ...props })
   const [currentTranscript, setCurrentTranscript] = useState(props.transcript)
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>()
-
-  const { triggerMode } = props
-
-  const themeType = useMemo(() => {
-    if (theme === Theme.Auto) {
-      return detectSystemColorScheme()
-    }
-    return theme
-  }, [theme])
+  const { setTriggered } = useContext(AppContext)
 
   const handleChange = async (event) => {
     const val = event.target.value || ''
@@ -90,20 +82,22 @@ function ChatGPTContainer(props: Props) {
       return
     }
 
+    setTriggered(false)
     setLoading(true)
 
-    let questionData = (await getQuestion()) as Props
+    const questionData = (await getQuestion()) as Props
 
     if (!questionData) {
       setLoading(false)
       return
     }
-    questionData = Object.assign(questionData, { currentTime: Date.now() })
+    // questionData = Object.assign(questionData, { currentTime: Date.now() })
 
     setQuestionProps({ ...props, ...questionData })
 
     setQueryStatus(undefined)
-  }, [props, loading])
+    setTriggered(true)
+  }, [loading, props, setTriggered])
 
   const onPlay = useCallback(async (starttime = 0) => {
     const videoElm = document.querySelector(
@@ -142,7 +136,6 @@ function ChatGPTContainer(props: Props) {
 
   useEffect(() => {
     getUserConfig().then((config) => {
-      setTheme(config.theme)
       setUserConfig(config)
     })
   }, [])
@@ -153,48 +146,41 @@ function ChatGPTContainer(props: Props) {
 
   return (
     <>
-      <GeistProvider themeType={themeType}>
-        <AppProvider>
-          <>
-            <div className="glarity--chatgpt">
-              <div className="glarity--header">
-                <div>
-                  <a
-                    href="https://glarity.app"
-                    rel="noreferrer"
-                    target="_blank"
-                    className="glarity--header__logo"
-                  >
-                    <img src={logo} alt={APP_TITLE} />
-                    {APP_TITLE}
-                  </a>
-                  <a
-                    href="javascript:;"
-                    className="glarity--header__logo"
-                    onClick={openOptionsPage}
-                  >
-                    <GearIcon size={14} />
-                  </a>
+      <div className="glarity--chatgpt">
+        <div className="glarity--header">
+          <div>
+            <a
+              href="https://glarity.app"
+              rel="noreferrer"
+              target="_blank"
+              className="glarity--header__logo"
+            >
+              <img src={logo} alt={APP_TITLE} />
+              {APP_TITLE}
+            </a>
+            <a href="javascript:;" className="glarity--header__logo" onClick={openOptionsPage}>
+              <GearIcon size={14} />
+            </a>
 
-                  {loading ? (
-                    <span className="glarity--header__logo">
-                      <Spinner className="glarity--icon--loading" />
-                    </span>
-                  ) : (
-                    <a href="javascript:;" className="glarity--header__logo" onClick={onRefresh}>
-                      <SyncIcon size={14} />
-                    </a>
-                  )}
-                </div>
+            {loading ? (
+              <span className="glarity--header__logo">
+                <Spinner className="glarity--icon--loading" />
+              </span>
+            ) : (
+              <a href="javascript:;" className="glarity--header__logo" onClick={onRefresh}>
+                <SyncIcon size={14} />
+              </a>
+            )}
+          </div>
 
-                <div className="glarity--chatgpt__action"></div>
-              </div>
+          <div className="glarity--chatgpt__action"></div>
+        </div>
 
-              <div className="glarity--main">
-                <div className="glarity--main__container">
-                  {questionProps.question ? (
-                    <>
-                      {triggerMode === TriggerMode.Manually && !questionProps.currentTime ? (
+        <div className="glarity--main">
+          <div className="glarity--main__container">
+            {questionProps.question ? (
+              <>
+                {/* {triggerMode === TriggerMode.Manually && !loading ? (
                         <span
                           className="glarity--link"
                           onClick={() => {
@@ -216,114 +202,110 @@ function ChatGPTContainer(props: Props) {
                             question={questionProps.question}
                             triggerMode={questionProps.triggerMode}
                             onStatusChange={setQueryStatus}
-                            currentTime={questionProps.currentTime}
                           />
                         </>
-                      )}
-                    </>
-                  ) : questionProps.siteConfig?.name === 'youtube' ? (
-                    <>
-                      <p>No Transcription Available... </p>
-                      <p>
-                        Try{' '}
-                        <a
-                          href="https://huggingface.co/spaces/jeffistyping/Youtube-Whisperer"
-                          rel="noreferrer"
-                          target="_blank"
-                        >
-                          Youtube Whisperer
-                        </a>{' '}
-                        to transcribe!
-                      </p>
-                    </>
-                  ) : (
-                    <p>
-                      <AlertIcon size={14} /> No results.
-                    </p>
-                  )}
-                </div>
-              </div>
+                      )} */}
 
-              <div className="glarity--main">
-                <Chat userConfig={userConfig} status={queryStatus} />
-              </div>
-
-              {questionProps.question && currentTranscript && (
-                <div className="glarity--main">
-                  <div className="glarity--main__header">
-                    <div className="glarity--main__header--title">
-                      Transcript
-                      {questionProps.langOptionsWithLink.length > 1 && (
-                        <>
-                          {' '}
-                          <select
-                            className="glarity--select"
-                            value={selectedOption}
-                            onChange={handleChange}
-                          >
-                            {questionProps.langOptionsWithLink
-                              ? Array.from(questionProps.langOptionsWithLink).map((v, i) => {
-                                  return (
-                                    <option key={i} value={i}>
-                                      {v.language}
-                                    </option>
-                                  )
-                                })
-                              : ''}
-                          </select>
-                        </>
-                      )}
-                    </div>
-                    <div className="glarity--main__header--action">
-                      <a href="javascript:;" onClick={copytSubtitle}>
-                        {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
-                      </a>
-
-                      <a href="javascript:;" onClick={switchtranscriptShow}>
-                        {transcriptShow ? (
-                          <ChevronUpIcon size={16} />
-                        ) : (
-                          <ChevronDownIcon size={16} />
-                        )}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div
-                    className="glarity--main__container glarity--main__container--subtitle"
-                    style={{
-                      display: transcriptShow ? 'block' : 'none',
-                    }}
+                <ChatGPTCard
+                  question={questionProps.question}
+                  triggerMode={questionProps.triggerMode}
+                  onStatusChange={setQueryStatus}
+                />
+              </>
+            ) : questionProps.siteConfig?.name === 'youtube' ? (
+              <>
+                <p>No Transcription Available... </p>
+                <p>
+                  Try{' '}
+                  <a
+                    href="https://huggingface.co/spaces/jeffistyping/Youtube-Whisperer"
+                    rel="noreferrer"
+                    target="_blank"
                   >
-                    {currentTranscript.map((v, i) => {
-                      const { time, text } = v
+                    Youtube Whisperer
+                  </a>{' '}
+                  to transcribe!
+                </p>
+              </>
+            ) : (
+              <p>
+                <AlertIcon size={14} /> No results.
+              </p>
+            )}
+          </div>
+        </div>
 
-                      return (
-                        <div className="glarity--subtitle" key={i}>
-                          <div
-                            className="subtitle--time"
-                            onClick={() => {
-                              onPlay(v.start || 0)
-                            }}
-                          >
-                            {time}
-                          </div>
-                          <div
-                            className="subtitle--text"
-                            dangerouslySetInnerHTML={{ __html: text }}
-                          ></div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
+        <div className="glarity--main">
+          <Chat userConfig={userConfig} status={queryStatus} />
+        </div>
+
+        {questionProps.question && currentTranscript && (
+          <div className="glarity--main">
+            <div className="glarity--main__header">
+              <div className="glarity--main__header--title">
+                Transcript
+                {questionProps.langOptionsWithLink.length > 1 && (
+                  <>
+                    {' '}
+                    <select
+                      className="glarity--select"
+                      value={selectedOption}
+                      onChange={handleChange}
+                    >
+                      {questionProps.langOptionsWithLink
+                        ? Array.from(questionProps.langOptionsWithLink).map((v, i) => {
+                            return (
+                              <option key={i} value={i}>
+                                {v.language}
+                              </option>
+                            )
+                          })
+                        : ''}
+                    </select>
+                  </>
+                )}
+              </div>
+              <div className="glarity--main__header--action">
+                <a href="javascript:;" onClick={copytSubtitle}>
+                  {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+                </a>
+
+                <a href="javascript:;" onClick={switchtranscriptShow}>
+                  {transcriptShow ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
+                </a>
+              </div>
             </div>
 
-            {/* <div className="glarity--chat__box"></div> */}
-          </>
-        </AppProvider>
-      </GeistProvider>
+            <div
+              className="glarity--main__container glarity--main__container--subtitle"
+              style={{
+                display: transcriptShow ? 'block' : 'none',
+              }}
+            >
+              {currentTranscript.map((v, i) => {
+                const { time, text } = v
+
+                return (
+                  <div className="glarity--subtitle" key={i}>
+                    <div
+                      className="subtitle--time"
+                      onClick={() => {
+                        onPlay(v.start || 0)
+                      }}
+                    >
+                      {time}
+                    </div>
+                    <div
+                      className="subtitle--text"
+                      dangerouslySetInnerHTML={{ __html: text }}
+                    ></div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+      </div>
     </>
   )
 }

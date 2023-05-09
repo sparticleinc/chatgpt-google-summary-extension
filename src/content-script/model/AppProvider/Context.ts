@@ -10,6 +10,8 @@ interface AppContextInterface {
   setIsScroll: (isScroll: boolean) => void
   conversationId: string
   setConversationId: (conversationId: string) => void
+  triggered: boolean
+  setTriggered: (triggered: boolean) => void
 }
 
 export const AppContext = createContext<AppContextInterface>({
@@ -22,4 +24,6 @@ export const AppContext = createContext<AppContextInterface>({
   setIsScroll: () => { },
   conversationId: '',
   setConversationId: () => { },
+  triggered: false,
+  setTriggered: () => { },
 })

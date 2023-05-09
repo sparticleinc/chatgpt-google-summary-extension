@@ -1,48 +1,31 @@
-import { LightBulbIcon, SearchIcon } from '@primer/octicons-react'
-import { useState } from 'preact/hooks'
+import { SearchIcon } from '@primer/octicons-react'
+import { useContext, useEffect } from 'preact/hooks'
+import { AppContext } from '@/content-script/model/AppProvider/Context'
 import { TriggerMode } from '@/config'
 import ChatGPTQuery, { QueryStatus } from './ChatGPTQuery'
-import { endsWithQuestionMark } from '@/content-script/utils'
 
 interface Props {
   question: string
   triggerMode: TriggerMode
   onStatusChange?: (status: QueryStatus) => void
-  currentTime?: number
 }
 
 function ChatGPTCard(props: Props) {
-  const { triggerMode, question, onStatusChange, currentTime: propCurrentTime } = props
+  const { triggerMode, question, onStatusChange } = props
+  const { triggered, setTriggered } = useContext(AppContext)
 
-  const [triggered, setTriggered] = useState(false)
+  useEffect(() => {
+    console.log('Card triggered', triggered)
+  }, [triggered])
 
-  if (triggerMode === TriggerMode.Always || propCurrentTime) {
-    return (
-      <ChatGPTQuery
-        currentTime={propCurrentTime}
-        question={question}
-        onStatusChange={onStatusChange}
-      />
-    )
+  if (triggerMode === TriggerMode.Always) {
+    return <ChatGPTQuery question={question} onStatusChange={onStatusChange} />
   }
-  if (triggerMode === TriggerMode.QuestionMark) {
-    if (endsWithQuestionMark(question.trim())) {
-      return <ChatGPTQuery question={question} onStatusChange={onStatusChange} />
-    }
-    return (
-      <p className="icon-and-text">
-        <LightBulbIcon size="small" /> Trigger ChatGPT by appending a question mark after your query
-      </p>
-    )
-  }
+
   if (triggered) {
     return (
       <>
-        <ChatGPTQuery
-          currentTime={propCurrentTime}
-          question={question}
-          onStatusChange={onStatusChange}
-        />
+        <ChatGPTQuery question={question} onStatusChange={onStatusChange} />
       </>
     )
   }
