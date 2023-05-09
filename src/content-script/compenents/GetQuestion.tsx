@@ -363,7 +363,7 @@ export default async function getQuestion() {
         let url = link?.href
 
         if (text && url && index <= 6) {
-          url = url.replace(/https?:/, '')
+          // url = url.replace(/https?:/, '')
           searchList =
             searchList +
             `
@@ -428,7 +428,7 @@ export default async function getQuestion() {
         let url = link?.href
 
         if (text && url && index <= 6) {
-          url = url.replace(/https?:/, '')
+          // url = url.replace(/https?:/, '')
           searchList =
             searchList +
             `
@@ -504,7 +504,7 @@ export default async function getQuestion() {
         }
 
         if (text && url && index <= 6) {
-          url = url.replace(/https?:/, '')
+          // url = url.replace(/https?:/, '')
           searchList =
             searchList +
             `

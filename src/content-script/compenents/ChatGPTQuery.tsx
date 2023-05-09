@@ -61,6 +61,11 @@ function ChatGPTQuery(props: Props) {
         if (msg.text) {
           let text = msg.text || ''
           text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
+          text = text.replace(/http(s)?:?\/\//g, function (match) {
+            return match.replace('//', '://')
+          })
+
+          console.log('listener text', text)
 
           setAnswer({ ...msg, ...{ text } })
           setStatus('success')
