@@ -1,16 +1,17 @@
-import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
+import { useState, useCallback, useEffect, useContext, useMemo } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
 import { ConfigProvider, Input, Space, Button, Spin, Alert } from 'antd'
 import Browser from 'webextension-polyfill'
 import { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
-import { qaPrompt, qaSummaryPrompt } from '@/utils/prompt'
+import { qaChatGPTPrompt, qaPrompt, qaSummaryPrompt } from '@/utils/prompt'
 import { OpenAI } from 'langchain/llms/openai'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { RetrievalQAChain, loadQARefineChain } from 'langchain/chains'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { queryParam } from 'gb-url'
+import { debounce } from 'lodash-es'
 import { getPDFText } from '@/utils/utils'
 import { getPageSummaryContent } from '@/content-script/utils'
 import { getSummaryPrompt } from '@/content-script/prompt'
@@ -60,7 +61,9 @@ function Chat(prop: Props) {
   const [openAIApiKey, setOpenAIApiKey] = useState('')
   const [continueConversation, setContinueConversation] = useState(false)
   const [chatGPTPrompt, setChatGPTPrompt] = useState('')
-  const { conversationId } = useContext(AppContext)
+  const [gptStatus, setGptStatus] = useState<QueryStatus>()
+  const [error, setError] = useState('')
+  const { setConversationId, setMessageId, conversationId, messageId } = useContext(AppContext)
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setQuestion(e.target.value)
@@ -102,9 +105,6 @@ function Chat(prop: Props) {
   )
 
   const getChat = useCallback(async () => {
-    setLoading(true)
-    setAnswer('')
-
     const providerConfigs = await getProviderConfigs()
     const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
     const answerList: string[] = []
@@ -200,6 +200,63 @@ function Chat(prop: Props) {
     // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
   }, [allContent, config?.configs, getAnswer, question])
 
+  const requestGptOK = useCallback(() => {
+    setLoading(true)
+    setAnswer('')
+
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        console.log('question', question)
+        setAnswer(Date.now().toString())
+        setLoading(false)
+        resolve()
+      }, 1000)
+    })
+  }, [question])
+
+  const getChatGPT = useCallback(async () => {
+    console.log('conversationId', conversationId)
+
+    const qaPrompt = qaChatGPTPrompt({
+      question: question,
+      content: conversationId ? '' : chatGPTPrompt,
+      language: userConfig?.language || 'en',
+    })
+
+    console.log('qaPrompt', qaPrompt)
+    // setConversationId('xxxxxxxxxxxxx')
+    // setLoading(false)
+    // return
+
+    const port = Browser.runtime.connect()
+    const listener = (msg: any) => {
+      if (msg.text) {
+        const text = msg.text
+        setAnswer(text)
+        setGptStatus('success')
+
+        setConversationId(msg.conversationId)
+        setMessageId(msg.messageId)
+      } else if (msg.error) {
+        setError(msg.error)
+        setLoading(false)
+        setGptStatus('error')
+
+        console.log('error', msg)
+      } else if (msg.event === 'DONE') {
+        console.log('done', msg)
+        setGptStatus('done')
+        setLoading(false)
+      }
+    }
+    port.onMessage.addListener(listener)
+    port.postMessage({ question: qaPrompt, conversationId, messageId })
+    return () => {
+      port.onMessage.removeListener(listener)
+      port.disconnect()
+    }
+  }, [question, chatGPTPrompt])
+
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
       return
@@ -214,17 +271,28 @@ function Chat(prop: Props) {
       ]
     })
     setQuestion('')
+    setAnswer('')
+    setError('')
     setLoading(true)
 
     scrollToBottom()
 
-    await getChat()
-    setLoading(false)
-  }, [getChat, question])
+    if (config?.provider === ProviderType.GPT3) {
+      await getChat()
+      setLoading(false)
+      return
+    }
+
+    try {
+      await getChatGPT()
+    } catch (error) {
+      console.log('error', error)
+      setLoading(false)
+    }
+  }, [question, config?.provider, getChat, getChatGPT])
 
   const onKeyDown = useCallback(
     (e) => {
-      console.log('onKeyDown e', e)
       if (e.key === 'Enter') {
         onSubmit()
       }
@@ -234,7 +302,6 @@ function Chat(prop: Props) {
 
   const scrollToBottom = () => {
     const ele = document.querySelector('div.glarity--card__content')
-    console.log('ele', ele)
 
     setTimeout(() => {
       ele?.scrollTo({
@@ -244,16 +311,6 @@ function Chat(prop: Props) {
     }, 100)
   }
 
-  const openOptionsPage = useCallback(() => {
-    Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
-  }, [])
-
-  const gotoChatGPT = useCallback(async () => {
-    setSessionValue({ key: 'glarityChatGPTPrompt', value: chatGPTPrompt }).then(() => {
-      window.open('https://chat.openai.com/chat?ref=glarity', '_blank')
-    })
-  }, [chatGPTPrompt])
-
   useEffect(() => {
     if (chatList.length <= 0) {
       return
@@ -261,10 +318,10 @@ function Chat(prop: Props) {
 
     setChatList((chatList) => {
       const newChatList = chatList
-      newChatList[newChatIndex].content = answer
+      newChatList[newChatIndex].content = answer || error
       return [...newChatList]
     })
-  }, [answer, chatList, newChatIndex])
+  }, [answer, chatList, error, newChatIndex])
 
   useEffect(() => {
     async function getConfig() {
@@ -272,9 +329,9 @@ function Chat(prop: Props) {
       console.log('config getProviderConfigs', config)
       setConfig(config)
 
-      if (config.provider === ProviderType.ChatGPT) {
-        return
-      }
+      // if (config.provider === ProviderType.ChatGPT) {
+      //   return
+      // }
       setOpenAIApiKey(config?.configs[ProviderType.GPT3]?.apiKey || '')
 
       const questionData = await getQuestion()
@@ -295,12 +352,7 @@ function Chat(prop: Props) {
         chatGPTPrompt = getSummaryPrompt(pageContent?.content, config) || ''
       }
 
-      setChatGPTPrompt(
-        pageSummaryPrompt({
-          content: chatGPTPrompt,
-          language: userConfig?.language || 'en',
-        }),
-      )
+      setChatGPTPrompt(chatGPTPrompt)
     }
 
     getConfig()
@@ -310,11 +362,17 @@ function Chat(prop: Props) {
     if (userConfig) setContinueConversation(userConfig?.continueConversation)
   }, [userConfig])
 
+  useEffect(() => {
+    if (answer) {
+      scrollToBottom()
+    }
+  }, [answer])
+
   return (
     <>
       <ConfigProvider prefixCls="glarity-" iconPrefixCls="glarity--icon-">
         {
-          config?.provider === 'gpt3' ? (
+          config?.provider !== ProviderType.GPT3 ? (
             <div className="glarity--container">
               <div className="glarity--chatgpt glarity--nodrag">
                 {/* <Alert
@@ -383,15 +441,15 @@ function Chat(prop: Props) {
             </div>
           ) : (
             <>
-              {status === 'done' && (
+              {/* {status === 'done' && (
                 <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
                   <Button type="link" onClick={gotoChatGPT}>
                     Continue to ask questions in ChatGPT
                   </Button>
                 </div>
-              )}
+              )} */}
 
-              {continueConversation && conversationId && status === 'done' && (
+              {/* {continueConversation && conversationId && status === 'done' && (
                 <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
                   <a
                     href={`https://chat.openai.com/c/${conversationId}`}
@@ -401,7 +459,7 @@ function Chat(prop: Props) {
                     Continue to ask questions in ChatGPT
                   </a>
                 </div>
-              )}
+              )} */}
             </>
           )
           // (

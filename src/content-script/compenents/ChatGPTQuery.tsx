@@ -66,8 +66,6 @@ function ChatGPTQuery(props: Props) {
             return match.replace('//', '://')
           })
 
-          console.log('listener msg', msg)
-
           setAnswer({ ...msg, ...{ text } })
           setStatus('success')
         } else if (msg.error) {

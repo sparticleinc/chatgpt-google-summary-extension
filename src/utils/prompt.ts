@@ -243,3 +243,15 @@ If there is relevant content, the relevant content should include the content be
 ${replylanguagePrompt(language)}
 `
 }
+
+export const qaChatGPTPrompt = ({ question, content, language }: { question: string, content: string, language: string }) => {
+
+
+  return content ? `Answer based on the following: ${question}.
+${replylanguagePrompt(language)}
+
+Content: ${content}.
+` :
+    `Answer in context: ${question}.
+${replylanguagePrompt(language)}`
+}
