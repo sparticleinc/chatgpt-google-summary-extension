@@ -25,6 +25,7 @@ import {
   setSessionValue,
 } from '@/config'
 import getQuestion from './GetQuestion'
+import Error from './Error'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
 
 interface Props {
@@ -36,6 +37,7 @@ interface ChatList {
   role: string
   id: string
   content: string
+  error: string
 }
 
 let vectorStoreData: MemoryVectorStore | null
@@ -63,6 +65,7 @@ function Chat(prop: Props) {
   const [chatGPTPrompt, setChatGPTPrompt] = useState('')
   const [gptStatus, setGptStatus] = useState<QueryStatus>()
   const [error, setError] = useState('')
+  const [retry, setRetry] = useState(0)
   const { setConversationId, setMessageId, conversationId, messageId } = useContext(AppContext)
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -200,20 +203,6 @@ function Chat(prop: Props) {
     // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
   }, [allContent, config?.configs, getAnswer, question])
 
-  const requestGptOK = useCallback(() => {
-    setLoading(true)
-    setAnswer('')
-
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        console.log('question', question)
-        setAnswer(Date.now().toString())
-        setLoading(false)
-        resolve()
-      }, 1000)
-    })
-  }, [question])
-
   const getChatGPT = useCallback(async () => {
     console.log('conversationId', conversationId)
 
@@ -224,9 +213,10 @@ function Chat(prop: Props) {
     })
 
     console.log('qaPrompt', qaPrompt)
-    // setConversationId('xxxxxxxxxxxxx')
-    // setLoading(false)
-    // return
+    setConversationId('xxxxxxxxxxxxx')
+    setLoading(false)
+    setError('CLOUDFLARE')
+    return
 
     const port = Browser.runtime.connect()
     const listener = (msg: any) => {
@@ -318,7 +308,8 @@ function Chat(prop: Props) {
 
     setChatList((chatList) => {
       const newChatList = chatList
-      newChatList[newChatIndex].content = answer || error
+      newChatList[newChatIndex].content = answer
+      newChatList[newChatIndex].error = error
       return [...newChatList]
     })
   }, [answer, chatList, error, newChatIndex])
@@ -368,14 +359,22 @@ function Chat(prop: Props) {
     }
   }, [answer])
 
+  useEffect(() => {
+    if (retry > 0) {
+      setAnswer('')
+      setError('')
+      setLoading(true)
+      getChatGPT()
+    }
+  }, [retry, getChatGPT])
+
   return (
     <>
       <ConfigProvider prefixCls="glarity-" iconPrefixCls="glarity--icon-">
-        {
-          config?.provider !== ProviderType.GPT3 ? (
-            <div className="glarity--container">
-              <div className="glarity--chatgpt glarity--nodrag">
-                {/* <Alert
+        <>
+          <div className="glarity--container">
+            <div className="glarity--chatgpt glarity--nodrag">
+              {/* <Alert
                   message="Warning"
                   description="Using this feature will consume your API key."
                   type="warning"
@@ -392,77 +391,62 @@ function Chat(prop: Props) {
                     </Button>
                   }
                 /> */}
-                <div className="glarity--chat">
-                  {chatList.map((item, index) => (
-                    <div
-                      className={classNames('glarity--chat__item', {
-                        'glarity--chat__item--user': item.role === 'user',
-                      })}
-                      key={index}
-                    >
-                      <div className="glarity--chat__item--message">
-                        {item.content ? (
-                          item.content
-                        ) : (
-                          // <span className={'glarity--cursor__blink'}>|</span>
-                          <Spin size="small" />
-                        )}
-                      </div>
+              <div className="glarity--chat">
+                {chatList.map((item, index) => (
+                  <div
+                    className={classNames('glarity--chat__item', {
+                      'glarity--chat__item--user': item.role === 'user',
+                    })}
+                    key={index}
+                  >
+                    <div className="glarity--chat__item--message">
+                      {item.error ? (
+                        <Error
+                          error={error}
+                          setError={setError}
+                          retry={retry}
+                          setRetry={setRetry}
+                        />
+                      ) : item.content ? (
+                        item.content
+                      ) : (
+                        <Spin size="small" />
+                      )}
                     </div>
-                  ))}
-                </div>
-                <Space.Compact style={{ width: '100%' }}>
-                  <Input
-                    placeholder="Please enter a question"
-                    value={question}
-                    onChange={onChange}
-                    disabled={loading}
-                    onKeyDown={onKeyDown}
-                  />
-                  <Button
-                    type="primary"
-                    onClick={onSubmit}
-                    onKeyDown={onKeyDown}
-                    disabled={loading}
-                    // icon={loading ? <Spin size="small" /> : <RocketIcon size={16} />}
-                    icon={<RocketIcon size={16} />}
-                  ></Button>
-                </Space.Compact>
+                  </div>
+                ))}
+              </div>
+              <Space.Compact style={{ width: '100%' }}>
+                <Input
+                  placeholder="Please enter a question"
+                  value={question}
+                  onChange={onChange}
+                  disabled={loading}
+                  onKeyDown={onKeyDown}
+                />
+                <Button
+                  type="primary"
+                  onClick={onSubmit}
+                  onKeyDown={onKeyDown}
+                  disabled={loading}
+                  // icon={loading ? <Spin size="small" /> : <RocketIcon size={16} />}
+                  icon={<RocketIcon size={16} />}
+                ></Button>
+              </Space.Compact>
 
-                <div className="glarity--footer__tips">
-                  {/* You can get a better experience with{' '}
+              <div className="glarity--footer__tips">
+                {/* You can get a better experience with{' '}
                   <a href="https://gptbase.ai" target={'_blank'} rel="noreferrer">
                     GPTBase
                   </a>
                   .  */}
-                  Note: The asking feature will consume your key quota.
-                </div>
+                {config?.provider === ProviderType.GPT3 &&
+                  `Note: The asking feature will consume your key quota.`}
               </div>
             </div>
-          ) : (
-            <>
-              {/* {status === 'done' && (
-                <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
-                  <Button type="link" onClick={gotoChatGPT}>
-                    Continue to ask questions in ChatGPT
-                  </Button>
-                </div>
-              )} */}
+          </div>
 
-              {/* {continueConversation && conversationId && status === 'done' && (
-                <div className="glarity--flex" style={{ 'justify-content': 'center' }}>
-                  <a
-                    href={`https://chat.openai.com/c/${conversationId}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Continue to ask questions in ChatGPT
-                  </a>
-                </div>
-              )} */}
-            </>
-          )
-          // (
+          {/*        
           //   <Alert
           //     message="Warning"
           //     description="To use the Q&A feature you need to go to extension options to configure the API key."
@@ -474,9 +458,8 @@ function Chat(prop: Props) {
           //         Options
           //       </Button>
           //     }
-          //   />
-          // )
-        }
+          //   /> */}
+        </>
       </ConfigProvider>
     </>
   )
