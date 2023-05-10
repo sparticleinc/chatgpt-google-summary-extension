@@ -65,7 +65,7 @@ function ChatGPTQuery(props: Props) {
             return match.replace('//', '://')
           })
 
-          console.log('listener text', text)
+          console.log('listener msg', msg)
 
           setAnswer({ ...msg, ...{ text } })
           setStatus('success')
@@ -78,13 +78,13 @@ function ChatGPTQuery(props: Props) {
         }
       }
       port.onMessage.addListener(listener)
-      port.postMessage({ question, conversationId })
+      port.postMessage({ question, conversationId: conversationId })
       return () => {
         port.onMessage.removeListener(listener)
         port.disconnect()
       }
     }, 1000)
-  }, [conversationId, question])
+  }, [question])
 
   const newTab = useCallback(() => {
     Browser.runtime.sendMessage({
