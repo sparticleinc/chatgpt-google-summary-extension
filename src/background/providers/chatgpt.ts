@@ -131,9 +131,10 @@ export class ChatGPTProvider implements Provider {
         },
       ],
       model: modelName,
-      parent_message_id: uuidv4(),
+      parent_message_id: params.messageId || uuidv4(),
       history_and_training_disabled: false,
-      conversation_id: params.conversationId
+      conversation_id: params.conversationId,
+      timezone_offset_min: new Date().getTimezoneOffset(),
     }
 
     if (params.conversationId) {
@@ -143,6 +144,10 @@ export class ChatGPTProvider implements Provider {
     } else {
       delete bodyJSON.conversation_id
     }
+
+    console.log('fetchSSE params', params)
+
+
 
 
     await fetchSSE(`${BASE_URL}/backend-api/conversation`, {

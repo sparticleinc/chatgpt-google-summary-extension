@@ -35,7 +35,8 @@ function ChatGPTQuery(props: Props) {
   const [status, setStatus] = useState<QueryStatus>()
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [showContent, setShowContent] = useState<boolean>(true)
-  const { boxHeight, setBoxHeight, conversationId, setConversationId } = useContext(AppContext)
+  const { boxHeight, setBoxHeight, conversationId, setConversationId, messageId, setMessageId } =
+    useContext(AppContext)
 
   const stepValue = 50
 
@@ -78,7 +79,7 @@ function ChatGPTQuery(props: Props) {
         }
       }
       port.onMessage.addListener(listener)
-      port.postMessage({ question, conversationId: conversationId })
+      port.postMessage({ question, conversationId: conversationId, messageId })
       return () => {
         port.onMessage.removeListener(listener)
         port.disconnect()
@@ -168,8 +169,9 @@ function ChatGPTQuery(props: Props) {
       })
 
       setConversationId(answer.conversationId)
+      setMessageId(answer.messageId)
     }
-  }, [answer, setConversationId])
+  }, [answer, setConversationId, setMessageId])
 
   // useEffect(() => {
   //   console.log('Query', question)

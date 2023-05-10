@@ -12,6 +12,8 @@ interface AppContextInterface {
   setConversationId: (conversationId: string) => void
   triggered: boolean
   setTriggered: (triggered: boolean) => void
+  messageId: string
+  setMessageId: (messageId: string) => void
 }
 
 export const AppContext = createContext<AppContextInterface>({
@@ -26,4 +28,6 @@ export const AppContext = createContext<AppContextInterface>({
   setConversationId: () => { },
   triggered: false,
   setTriggered: () => { },
+  messageId: '',
+  setMessageId: () => { },
 })

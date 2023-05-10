@@ -9,6 +9,7 @@ export function AppProvider({ children }: PropsWithChildren<unknown>) {
   const [isScroll, setIsScroll] = useState(false)
   const [conversationId, setConversationId] = useState('')
   const [triggered, setTriggered] = useState(false)
+  const [messageId, setMessageId] = useState('')
 
   return (
     <AppContext.Provider
@@ -23,6 +24,8 @@ export function AppProvider({ children }: PropsWithChildren<unknown>) {
         setConversationId,
         triggered,
         setTriggered,
+        messageId,
+        setMessageId,
       }}
     >
       {children}

@@ -15,6 +15,7 @@ export interface GenerateAnswerParams {
   signal?: AbortSignal
   taskId: string
   conversationId?: string
+  messageId?: string
 }
 
 export interface Provider {
