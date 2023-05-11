@@ -71,7 +71,7 @@ function Chat(prop: Props) {
     scrollToBottom()
   }, [])
 
-  const getAnswer = useCallback(
+  const getApiAnswer = useCallback(
     async (answerList: string[]) => {
       const apiHost = config?.configs[ProviderType.GPT3]?.apiHost || DEFAULT_API_HOST
       const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
@@ -147,7 +147,7 @@ function Chat(prop: Props) {
         query: question,
       })
 
-      await getAnswer(answerList)
+      await getApiAnswer(answerList)
       return
     }
 
@@ -196,10 +196,10 @@ function Chat(prop: Props) {
       query: question,
     })
 
-    await getAnswer(answerList)
+    await getApiAnswer(answerList)
 
     // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
-  }, [allContent, config?.configs, getAnswer, question])
+  }, [allContent, config?.configs, getApiAnswer, question])
 
   const getChatGPT = useCallback(async () => {
     const lastUserQuestion = getLastUserQuestion(chatList)?.content
@@ -251,6 +251,22 @@ function Chat(prop: Props) {
     }
   }, [question, chatGPTPrompt])
 
+  const getAnswer = useCallback(async () => {
+    if (config?.provider === ProviderType.GPT3) {
+      try {
+        await getChat()
+      } catch (error) {
+        console.log('getAnswer', error)
+        const errorMessage = (error?.message || '').includes('401') ? '401' : error?.message
+        setError(errorMessage)
+      }
+      setLoading(false)
+      return
+    }
+
+    await getChatGPT()
+  }, [config?.provider, getChat, getChatGPT])
+
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
       return
@@ -271,20 +287,8 @@ function Chat(prop: Props) {
 
     scrollToBottom()
 
-    if (config?.provider === ProviderType.GPT3) {
-      await getChat()
-      setLoading(false)
-      return
-    }
-
-    await getChatGPT()
-    // try {
-    //   await getChatGPT()
-    // } catch (error) {
-    //   console.log('error', error)
-    //   setLoading(false)
-    // }
-  }, [question, config?.provider, getChat, getChatGPT])
+    await getAnswer()
+  }, [question, getAnswer])
 
   const onKeyDown = useCallback(
     (e) => {
@@ -369,9 +373,9 @@ function Chat(prop: Props) {
       setAnswer('')
       setError('')
       setLoading(true)
-      getChatGPT()
+      getAnswer()
     }
-  }, [retry, getChatGPT])
+  }, [retry, getAnswer])
 
   return (
     <>
@@ -411,6 +415,7 @@ function Chat(prop: Props) {
                           setError={setError}
                           retry={retry}
                           setRetry={setRetry}
+                          type={config?.provider}
                         />
                       ) : item.content ? (
                         item.content
@@ -446,7 +451,7 @@ function Chat(prop: Props) {
                   </a>
                   .  */}
                 {config?.provider === ProviderType.GPT3 &&
-                  `Note: The asking feature will consume your key quota.`}
+                  `Note: The asking feature will consume more your key quota.`}
               </div>
             </div>
           </div>

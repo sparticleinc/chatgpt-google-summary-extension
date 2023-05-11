@@ -4,7 +4,7 @@ import { Button } from 'antd'
 import { isSafari, isIOS } from '@/utils/utils'
 import { isBraveBrowser } from '@/content-script/utils'
 import Browser from 'webextension-polyfill'
-import { BASE_URL } from '@/config'
+import { BASE_URL, ProviderType } from '@/config'
 
 interface ErrorProps {
   error: string
@@ -94,17 +94,34 @@ function Error(props: ErrorProps) {
   if (error) {
     return (
       <p className={'glarity--nodrag'}>
-        Failed to load response from ChatGPT:
-        <span className="glarity--break-all glarity--block">{error}</span>
-        <Button type="link" size="small" onClick={handleRetry}>
-          Retry
-        </Button>
-        <br />
-        If this keeps happening, change AI provider to OpenAI API in the
-        <Button type="link" size="small" onClick={openOptionsPage}>
-          extension options
-        </Button>
-        .
+        {type === ProviderType.GPT3 ? (
+          <>
+            {error === '401' ? (
+              <>Failed to load response, please check the API Key.</>
+            ) : (
+              <>Failed to load response: {error}</>
+            )}
+            <br />
+            <Button type="link" size="small" onClick={handleRetry}>
+              Retry
+            </Button>
+          </>
+        ) : (
+          <>
+            {' '}
+            Failed to load response from ChatGPT:
+            <span className="glarity--break-all glarity--block">{error}</span>
+            <Button type="link" size="small" onClick={handleRetry}>
+              Retry
+            </Button>
+            <br />
+            If this keeps happening, change AI provider to OpenAI API in the
+            <Button type="link" size="small" onClick={openOptionsPage}>
+              extension options
+            </Button>
+            .
+          </>
+        )}
       </p>
     )
   }
