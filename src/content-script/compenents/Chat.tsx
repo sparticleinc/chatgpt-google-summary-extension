@@ -431,14 +431,14 @@ function Chat(prop: Props) {
                   placeholder="Please enter a question"
                   value={question}
                   onChange={onChange}
-                  disabled={loading}
+                  disabled={loading || !!error}
                   onKeyDown={onKeyDown}
                 />
                 <Button
                   type="primary"
                   onClick={onSubmit}
                   onKeyDown={onKeyDown}
-                  disabled={loading}
+                  disabled={loading || !!error}
                   // icon={loading ? <Spin size="small" /> : <RocketIcon size={16} />}
                   icon={<RocketIcon size={16} />}
                 ></Button>
