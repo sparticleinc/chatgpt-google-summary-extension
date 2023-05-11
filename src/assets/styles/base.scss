@@ -69,6 +69,10 @@ $border-color: rgba(5, 5, 5, 0.06);
       .glarity--chatgpt {
         border: none;
         padding: 0;
+
+        .glarity--btn-sm {
+          padding: 0 !important;
+        }
       }
 
       .glarity--footer__tips {
@@ -377,10 +381,6 @@ $border-color: rgba(5, 5, 5, 0.06);
 // chat
 .glarity--chat {
   padding-bottom: 10px;
-
-  .glarity--btn-sm {
-    padding: 0 !important;
-  }
 
   .glarity--chat__item {
     display: flex;

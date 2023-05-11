@@ -9,11 +9,11 @@ import Browser from 'webextension-polyfill'
 import { Answer } from '@/messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
-import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
-import { BASE_URL, BOX_HEIGHT, getSessionValue, setSessionValue } from '@/config'
-import { isIOS, isSafari } from '@/utils/utils'
+import { shouldShowRatingTip } from '@/content-script/utils'
+import { getProviderConfigs, BOX_HEIGHT, getSessionValue, setSessionValue } from '@/config'
 import '@/content-script/styles.scss'
 import Translation from './Translation'
+import Error from './Error'
 import { AppContext } from '@/content-script/model/AppProvider/Context'
 
 export type QueryStatus = 'success' | 'error' | 'done' | undefined
@@ -27,6 +27,7 @@ interface Props {
 
 function ChatGPTQuery(props: Props) {
   const { onStatusChange, question, ignoreTranslation, setTranslationStatus } = props
+  const [config, setConfig] = useState<ProviderConfigs>()
   const [answer, setAnswer] = useState<Answer | null>(null)
   const [error, setError] = useState('')
   const [retry, setRetry] = useState(0)
@@ -84,19 +85,6 @@ function ChatGPTQuery(props: Props) {
       }
     }, 1000)
   }, [question])
-
-  const newTab = useCallback(() => {
-    Browser.runtime.sendMessage({
-      type: 'NEW_TAB',
-      data: {
-        url: `${BASE_URL}/chat`,
-      },
-    })
-  }, [])
-
-  const openOptionsPage = useCallback(() => {
-    Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
-  }, [])
 
   const onChangeBoxHeight = useCallback(async (type?: string) => {
     const wrap: HTMLDivElement | null = wrapRef.current
@@ -171,9 +159,14 @@ function ChatGPTQuery(props: Props) {
     }
   }, [answer, setConversationId, setMessageId])
 
-  // useEffect(() => {
-  //   console.log('Query', question)
-  // }, [])
+  useEffect(() => {
+    async function getConfig() {
+      const config = await getProviderConfigs()
+      setConfig(config)
+    }
+
+    getConfig()
+  }, [])
 
   if (answer) {
     return (
@@ -259,97 +252,17 @@ function ChatGPTQuery(props: Props) {
     )
   }
 
-  if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE') {
-    return (
-      <p className={'glarity--nodrag'}>
-        {isSafari ? (
-          <>
-            Please set OpenAI API Key in the{' '}
-            <button
-              className={classNames('glarity--btn', 'glarity--btn__primary', 'glarity--btn__small')}
-              onClick={openOptionsPage}
-            >
-              extension options
-            </button>
-            .
-          </>
-        ) : (
-          <>
-            {' '}
-            Please login and pass Cloudflare check at{' '}
-            <button
-              className={classNames('glarity--btn', 'glarity--btn__primary', 'glarity--btn__small')}
-              onClick={newTab}
-            >
-              chat.openai.com
-            </button>
-            .
-          </>
-        )}
-
-        {retry > 0 &&
-          !isIOS &&
-          (() => {
-            if (isBraveBrowser()) {
-              return (
-                <span className="glarity--block glarity--mt-2">
-                  Still not working? Follow{' '}
-                  <a href="https://github.com/sparticleinc/chatgpt-google-summary-extension#troubleshooting">
-                    Brave Troubleshooting
-                  </a>
-                </span>
-              )
-            } else {
-              return (
-                <span className="glarity--italic glarity--block glarity--mt-2 glarity--text-xs">
-                  OpenAI requires passing a security check every once in a while. If this keeps
-                  happening, change AI provider to OpenAI API in the{' '}
-                  <button
-                    className={classNames(
-                      'glarity--btn',
-                      'glarity--btn__primary',
-                      'glarity--btn__small',
-                    )}
-                    onClick={openOptionsPage}
-                  >
-                    extension options
-                  </button>
-                  .
-                </span>
-              )
-            }
-          })()}
-      </p>
-    )
-  }
-  if (error) {
-    return (
-      <p className={'glarity--nodrag'}>
-        Failed to load response from ChatGPT:
-        <span className="glarity--break-all glarity--block">{error}</span>
-        <a
-          href="javascript:void(0)"
-          onClick={() => {
-            setError('')
-            setRetry((r) => r + 1)
-          }}
-        >
-          Retry
-        </a>
-        <br />
-        If this keeps happening, change AI provider to OpenAI API in the{' '}
-        <button
-          className={classNames('glarity--btn', 'glarity--btn__primary', 'glarity--btn__small')}
-          onClick={openOptionsPage}
-        >
-          extension options
-        </button>
-        .
-      </p>
-    )
-  }
-
-  return <Loading />
+  return error ? (
+    <Error
+      error={error}
+      setError={setError}
+      retry={retry}
+      setRetry={setRetry}
+      type={config?.provider}
+    />
+  ) : (
+    <Loading />
+  )
 }
 
 export default memo(ChatGPTQuery)
