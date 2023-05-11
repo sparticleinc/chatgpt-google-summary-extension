@@ -211,8 +211,6 @@ function Chat(prop: Props) {
     })
 
     await getChainMergeAnswer(answerList)
-
-    // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
   }, [allContent, config, getChainMergeAnswer, getContentText, question])
 
   const getChatGPT = useCallback(async () => {

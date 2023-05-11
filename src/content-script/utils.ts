@@ -12,7 +12,7 @@ import {
   translatePrompt,
 } from '@/utils/prompt'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist'
+import { GlobalWorkerOptions } from 'pdfjs-dist'
 GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 export interface GetReviewsProps {
@@ -323,8 +323,20 @@ export const getPageContent = async () => {
     return
   }
 
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html') as Document
+
+  const glarityElement = doc.querySelector('section.glarity--summary');
+  glarityElement?.remove()
+
+  const newHtml = doc?.documentElement?.outerHTML
+
+  if (!newHtml) {
+    return
+  }
+
   try {
-    const article = await extractFromHtml(html, url)
+    const article = await extractFromHtml(newHtml, url)
     console.log('article', article)
     return article
   } catch (error) {

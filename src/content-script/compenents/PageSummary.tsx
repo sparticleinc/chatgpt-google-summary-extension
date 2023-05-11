@@ -4,7 +4,6 @@ import { XCircleFillIcon, GearIcon, CircleSlashIcon } from '@primer/octicons-rea
 import { ConfigProvider, Popover, Divider, Modal, Typography, Tooltip } from 'antd'
 import Browser from 'webextension-polyfill'
 import ChatGPTQuery, { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
-// import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
 import {
   getUserConfig,
   Language,
