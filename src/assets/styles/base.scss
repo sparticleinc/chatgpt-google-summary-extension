@@ -378,6 +378,10 @@ $border-color: rgba(5, 5, 5, 0.06);
 .glarity--chat {
   padding-bottom: 10px;
 
+  .glarity--btn-sm {
+    padding: 0 !important;
+  }
+
   .glarity--chat__item {
     display: flex;
     padding: 8px 15px;

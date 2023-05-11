@@ -213,10 +213,11 @@ function Chat(prop: Props) {
     })
 
     console.log('qaPrompt', qaPrompt)
-    setConversationId('xxxxxxxxxxxxx')
-    setLoading(false)
-    setError('CLOUDFLARE')
-    return
+
+    // setConversationId('xxxxxxxxxxxxx')
+    // setLoading(false)
+    // setError('error' || 'CLOUDFLARE')
+    // return
 
     const port = Browser.runtime.connect()
     const listener = (msg: any) => {

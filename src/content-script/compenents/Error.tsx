@@ -30,12 +30,17 @@ function Error(props: ErrorProps) {
     })
   }, [])
 
+  const handleRetry = useCallback(() => {
+    setError('')
+    setRetry((r) => r + 1)
+  }, [setError, setRetry])
+
   if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE') {
     return (
       <p className={'glarity--nodrag'}>
         {isSafari ? (
           <>
-            Please set OpenAI API Key in the
+            Please set OpenAI API Key in the{' '}
             <Button type="link" size="small" onClick={openOptionsPage}>
               extension options
             </Button>
@@ -48,7 +53,6 @@ function Error(props: ErrorProps) {
             </Button>
           </>
         )}
-
         {retry > 0 &&
           !isIOS &&
           (() => {
@@ -76,7 +80,12 @@ function Error(props: ErrorProps) {
                 </span>
               )
             }
-          })()}
+          })()}{' '}
+        and{' '}
+        <Button type="link" size="small" onClick={handleRetry}>
+          retry
+        </Button>
+        .
       </p>
     )
   }
@@ -86,20 +95,15 @@ function Error(props: ErrorProps) {
       <p className={'glarity--nodrag'}>
         Failed to load response from ChatGPT:
         <span className="glarity--break-all glarity--block">{error}</span>
-        <a
-          href="javascript:void(0)"
-          onClick={() => {
-            setError('')
-            setRetry((r) => r + 1)
-          }}
-        >
+        <Button type="link" size="small" onClick={handleRetry}>
           Retry
-        </a>
+        </Button>
         <br />
         If this keeps happening, change AI provider to OpenAI API in the
         <Button type="link" size="small" onClick={openOptionsPage}>
           extension options
         </Button>
+        .
       </p>
     )
   }
