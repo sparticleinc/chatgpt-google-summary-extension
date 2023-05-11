@@ -325,6 +325,7 @@ export const getPageContent = async () => {
 
   try {
     const article = await extractFromHtml(html, url)
+    console.log('article', article)
     return article
   } catch (error) {
     return

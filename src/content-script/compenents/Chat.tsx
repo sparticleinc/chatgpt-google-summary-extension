@@ -11,7 +11,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { RetrievalQAChain, loadQARefineChain } from 'langchain/chains'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { queryParam } from 'gb-url'
-import { getPDFText, getLastUserQuestion } from '@/utils/utils'
+import { getPDFText, getLastUserQuestion, isPdfViewer } from '@/utils/utils'
 import { getPageSummaryContent } from '@/content-script/utils'
 import { getSummaryPrompt } from '@/content-script/prompt'
 
@@ -59,7 +59,6 @@ function Chat(prop: Props) {
   const [config, setConfig] = useState<ProviderConfigs>()
   const [newChatIndex, setNewChatIndex] = useState(0)
   const [openAIApiKey, setOpenAIApiKey] = useState('')
-  const [continueConversation, setContinueConversation] = useState(false)
   const [chatGPTPrompt, setChatGPTPrompt] = useState('')
   const [gptStatus, setGptStatus] = useState<QueryStatus>()
   const [error, setError] = useState('')
@@ -71,7 +70,34 @@ function Chat(prop: Props) {
     scrollToBottom()
   }, [])
 
-  const getApiAnswer = useCallback(
+  const getContentText = useCallback(
+    async ({ isTruncate, config }: { isTruncate: boolean; config?: ProviderConfigs }) => {
+      const questionData = await getQuestion()
+      let text = ''
+
+      console.log('getContentText', questionData, isTruncate, config)
+
+      // PDF
+      const pageUrl = location.href
+      const pdfUrl = queryParam('file', pageUrl)
+      if (isPdfViewer(pageUrl) && pdfUrl) {
+        const pdfText = (await getPDFText(pdfUrl))?.replace(/(<[^>]+>|\{[^}]+\})/g, '')
+        text = getSummaryPrompt(pdfText, config, isTruncate)
+      } else if (questionData && questionData?.allContent) {
+        text = getSummaryPrompt(questionData?.allContent, config, isTruncate) || ''
+      } else {
+        const pageContent = await getPageSummaryContent()
+        text = getSummaryPrompt(pageContent?.content, config, isTruncate) || ''
+      }
+
+      return new Promise<string>((resolve) => {
+        resolve(text)
+      })
+    },
+    [],
+  )
+
+  const getChainMergeAnswer = useCallback(
     async (answerList: string[]) => {
       const apiHost = config?.configs[ProviderType.GPT3]?.apiHost || DEFAULT_API_HOST
       const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
@@ -105,11 +131,10 @@ function Chat(prop: Props) {
     [answer, config?.configs, question, userConfig?.language],
   )
 
-  const getChat = useCallback(async () => {
-    const providerConfigs = await getProviderConfigs()
+  const getChainAnswer = useCallback(async () => {
     const openAIApiKey = config?.configs[ProviderType.GPT3]?.apiKey
     const answerList: string[] = []
-    let chainText = allContent
+    // let chainText = allContent
 
     const openAiModel = new OpenAI({
       ...{ modelParams },
@@ -137,8 +162,8 @@ function Chat(prop: Props) {
     if (vectorStoreData) {
       const chain = new RetrievalQAChain({
         combineDocumentsChain: loadQARefineChain(openAiModel, {
-          // questionPrompt: qaPrompt(userConfig?.language || 'en'),
-          // refinePrompt: qaPrompt(userConfig?.language || 'en'),
+          // questionPrompt: qaPrompt(userConfig?.language),
+          // refinePrompt: qaPrompt(userConfig?.language),
         }),
         retriever: vectorStoreData?.asRetriever(),
       })
@@ -147,31 +172,20 @@ function Chat(prop: Props) {
         query: question,
       })
 
-      await getApiAnswer(answerList)
+      await getChainMergeAnswer(answerList)
       return
     }
 
     const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 })
 
-    const questionData = await getQuestion()
-
-    // PDF
-    const pageUrl = location.href
-    const pdfUrl = queryParam('file', pageUrl)
-    if (
-      /^(chrome-extension:\/\/)(\s|\S)+\/pdf\/web\/viewer.html\?file=(\s|\S)+/.test(pageUrl) &&
-      pdfUrl
-    ) {
-      const pdfText = (await getPDFText(pdfUrl))?.replace(/(<[^>]+>|\{[^}]+\})/g, '')
-      chainText = getSummaryPrompt(pdfText, providerConfigs, false)
-    } else if (questionData?.allContent) {
-      chainText = getSummaryPrompt(questionData?.allContent, providerConfigs, false) || ''
-    } else {
-      const pageContent = await getPageSummaryContent()
-      chainText = getSummaryPrompt(pageContent?.content, providerConfigs, false) || ''
-    }
+    const chainText = await getContentText({ isTruncate: false, config })
 
     console.log('chainText', chainText)
+    if (!chainText) {
+      setLoading(false)
+      setError('NOTSUPPORTED')
+      return
+    }
 
     const docs = await textSplitter.createDocuments([chainText])
     const vectorStore = await MemoryVectorStore.fromDocuments(
@@ -185,8 +199,8 @@ function Chat(prop: Props) {
 
     const chain = new RetrievalQAChain({
       combineDocumentsChain: loadQARefineChain(openAiModel, {
-        // questionPrompt: qaPrompt(userConfig?.language || 'en'),
-        // refinePrompt: qaPrompt(userConfig?.language || 'en'),
+        // questionPrompt: qaPrompt(userConfig?.language),
+        // refinePrompt: qaPrompt(userConfig?.language),
       }),
       // returnSourceDocuments: true,
       retriever: vectorStore.asRetriever(),
@@ -196,16 +210,18 @@ function Chat(prop: Props) {
       query: question,
     })
 
-    await getApiAnswer(answerList)
+    await getChainMergeAnswer(answerList)
 
     // return res?.text || res?.output_text || (res?.choices && res?.choices[0]?.text)
-  }, [allContent, config?.configs, getApiAnswer, question])
+  }, [allContent, config, getChainMergeAnswer, getContentText, question])
 
   const getChatGPT = useCallback(async () => {
     const lastUserQuestion = getLastUserQuestion(chatList)?.content
     const userQuestion = question || lastUserQuestion
 
     if (!userQuestion) {
+      setLoading(false)
+      setError('NOTSUPPORTED')
       return
     }
 
@@ -254,7 +270,7 @@ function Chat(prop: Props) {
   const getAnswer = useCallback(async () => {
     if (config?.provider === ProviderType.GPT3) {
       try {
-        await getChat()
+        await getChainAnswer()
       } catch (error) {
         console.log('getAnswer', error)
         const errorMessage = (error?.message || '').includes('401') ? '401' : error?.message
@@ -265,7 +281,7 @@ function Chat(prop: Props) {
     }
 
     await getChatGPT()
-  }, [config?.provider, getChat, getChatGPT])
+  }, [config?.provider, getChainAnswer, getChatGPT])
 
   const onSubmit = useCallback(async () => {
     if (question.trim() === '') {
@@ -276,8 +292,8 @@ function Chat(prop: Props) {
       setNewChatIndex(chatList.length + 1)
       return [
         ...chatList,
-        { role: 'user', id: '1', content: question },
-        { role: 'robot', id: '1', content: '' },
+        { role: 'user', id: '1', content: question, error: '' },
+        { role: 'robot', id: '1', content: '', error: '' },
       ]
     })
     setQuestion('')
@@ -328,39 +344,18 @@ function Chat(prop: Props) {
       const config = await getProviderConfigs()
       console.log('config getProviderConfigs', config)
       setConfig(config)
-
-      // if (config.provider === ProviderType.ChatGPT) {
-      //   return
-      // }
       setOpenAIApiKey(config?.configs[ProviderType.GPT3]?.apiKey || '')
 
-      const questionData = await getQuestion()
-
-      let chatGPTPrompt = ''
-      const pageUrl = location.href
-      const pdfUrl = queryParam('file', pageUrl)
-      if (
-        /^(chrome-extension:\/\/)(\s|\S)+\/pdf\/web\/viewer.html\?file=(\s|\S)+/.test(pageUrl) &&
-        pdfUrl
-      ) {
-        const pdfText = (await getPDFText(pdfUrl))?.replace(/(<[^>]+>|\{[^}]+\})/g, '')
-        chatGPTPrompt = getSummaryPrompt(pdfText, config) || ''
-      } else if (questionData?.allContent) {
-        chatGPTPrompt = getSummaryPrompt(questionData?.allContent, config) || ''
-      } else {
-        const pageContent = await getPageSummaryContent()
-        chatGPTPrompt = getSummaryPrompt(pageContent?.content, config) || ''
+      if (config.provider === ProviderType.GPT3) {
+        return
       }
 
+      const chatGPTPrompt = await getContentText({ isTruncate: true, config })
       setChatGPTPrompt(chatGPTPrompt)
     }
 
     getConfig()
-  }, [userConfig?.language])
-
-  useEffect(() => {
-    if (userConfig) setContinueConversation(userConfig?.continueConversation)
-  }, [userConfig])
+  }, [getContentText])
 
   useEffect(() => {
     if (answer) {

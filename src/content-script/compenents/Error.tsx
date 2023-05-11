@@ -37,6 +37,10 @@ function Error(props: ErrorProps) {
     })
   }, [setError, setRetry])
 
+  if (error === 'NOTSUPPORTED') {
+    return <p className={'glarity--nodrag'}>Sorry, this page is not supported.</p>
+  }
+
   if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE') {
     return (
       <p className={'glarity--nodrag'}>

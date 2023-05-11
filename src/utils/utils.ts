@@ -86,7 +86,7 @@ export function truncateTextByToken({
     PROMPT_MAX_TOKENS -
     50
 
-  console.log('truncateTextByToken:' + modelName, limit)
+  console.log('truncateTextByToken:' + model, limit)
 
   const tokenLimit = limit
 
@@ -150,3 +150,7 @@ export const getLastUserQuestion = (list) => {
   }, null);
 }
 
+
+export const isPdfViewer = (pageUrl: string) => {
+  return /^(chrome-extension:\/\/)(\s|\S)+\/pdf\/web\/viewer.html\?file=(\s|\S)+/.test(pageUrl)
+}
