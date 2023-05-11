@@ -103,7 +103,7 @@ function Error(props: ErrorProps) {
         {type === ProviderType.GPT3 ? (
           <>
             {error === '401' ? (
-              <>Failed to load response, please check the API Key.</>
+              <>Failed to load response, please check the API key.</>
             ) : (
               <>Failed to load response: {error}</>
             )}
