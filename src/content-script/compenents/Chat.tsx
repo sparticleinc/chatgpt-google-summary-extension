@@ -443,8 +443,9 @@ function Chat(prop: Props) {
                     GPTBase
                   </a>
                   .  */}
-                {config?.provider === ProviderType.GPT3 &&
-                  `Note: The asking feature will consume more your key quota.`}
+                {config?.provider === ProviderType.GPT3
+                  ? `Note: The asking feature will consume more your key quota.`
+                  : `Note: Using the API key pattern will give you more accurate answers.`}
               </div>
             </div>
           </div>
