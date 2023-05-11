@@ -139,3 +139,14 @@ const readPDFDoc = async (url: string) => {
 export const getPDFText = async (url: string) => {
   return await readPDFDoc(url)
 }
+
+
+export const getLastUserQuestion = (list) => {
+  return list.reduce((acc, curr) => {
+    if (curr.role === "user") {
+      return curr;
+    }
+    return acc;
+  }, null);
+}
+

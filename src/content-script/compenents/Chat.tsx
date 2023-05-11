@@ -1,28 +1,26 @@
-import { useState, useCallback, useEffect, useContext, useMemo } from 'preact/hooks'
+import { useState, useCallback, useEffect, useContext } from 'preact/hooks'
 import classNames from 'classnames'
 import { RocketIcon } from '@primer/octicons-react'
 import { ConfigProvider, Input, Space, Button, Spin, Alert } from 'antd'
 import Browser from 'webextension-polyfill'
 import { QueryStatus } from '@/content-script/compenents/ChatGPTQuery'
-import { qaChatGPTPrompt, qaPrompt, qaSummaryPrompt } from '@/utils/prompt'
+import { qaChatGPTPrompt, qaSummaryPrompt } from '@/utils/prompt'
 import { OpenAI } from 'langchain/llms/openai'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { RetrievalQAChain, loadQARefineChain } from 'langchain/chains'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { queryParam } from 'gb-url'
-import { debounce } from 'lodash-es'
-import { getPDFText } from '@/utils/utils'
+import { getPDFText, getLastUserQuestion } from '@/utils/utils'
 import { getPageSummaryContent } from '@/content-script/utils'
 import { getSummaryPrompt } from '@/content-script/prompt'
-import { pageSummaryPrompt } from '@/utils/prompt'
+
 import {
   UserConfig,
   getProviderConfigs,
   ProviderType,
   ProviderConfigs,
   DEFAULT_API_HOST,
-  setSessionValue,
 } from '@/config'
 import getQuestion from './GetQuestion'
 import Error from './Error'
@@ -204,12 +202,17 @@ function Chat(prop: Props) {
   }, [allContent, config?.configs, getAnswer, question])
 
   const getChatGPT = useCallback(async () => {
-    console.log('conversationId', conversationId)
+    const lastUserQuestion = getLastUserQuestion(chatList)?.content
+    const userQuestion = question || lastUserQuestion
+
+    if (!userQuestion) {
+      return
+    }
 
     const qaPrompt = qaChatGPTPrompt({
-      question: question,
+      question: userQuestion,
       content: conversationId ? '' : chatGPTPrompt,
-      language: userConfig?.language || 'en',
+      language: userConfig?.language,
     })
 
     console.log('qaPrompt', qaPrompt)
@@ -274,12 +277,13 @@ function Chat(prop: Props) {
       return
     }
 
-    try {
-      await getChatGPT()
-    } catch (error) {
-      console.log('error', error)
-      setLoading(false)
-    }
+    await getChatGPT()
+    // try {
+    //   await getChatGPT()
+    // } catch (error) {
+    //   console.log('error', error)
+    //   setLoading(false)
+    // }
   }, [question, config?.provider, getChat, getChatGPT])
 
   const onKeyDown = useCallback(
@@ -309,7 +313,7 @@ function Chat(prop: Props) {
 
     setChatList((chatList) => {
       const newChatList = chatList
-      newChatList[newChatIndex].content = answer
+      newChatList[newChatIndex].content = answer || error
       newChatList[newChatIndex].error = error
       return [...newChatList]
     })

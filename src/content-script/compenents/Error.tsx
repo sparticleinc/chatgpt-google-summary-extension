@@ -47,7 +47,7 @@ function Error(props: ErrorProps) {
           </>
         ) : (
           <>
-            Please login and pass Cloudflare check at
+            Please login and pass Cloudflare check at{' '}
             <Button type="link" size="small" onClick={newTab}>
               chat.openai.com
             </Button>
@@ -71,13 +71,14 @@ function Error(props: ErrorProps) {
               )
             } else {
               return (
-                <span className="glarity--italic glarity--block glarity--mt-2 glarity--text-xs">
+                <>
+                  .<br />
                   OpenAI requires passing a security check every once in a while. If this keeps
                   happening, change AI provider to OpenAI API in the
                   <Button type="link" size="small" onClick={openOptionsPage}>
                     extension options
                   </Button>
-                </span>
+                </>
               )
             }
           })()}{' '}
