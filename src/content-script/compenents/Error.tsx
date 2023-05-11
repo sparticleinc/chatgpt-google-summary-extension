@@ -11,7 +11,7 @@ interface ErrorProps {
   type?: string
   retry: number
   setError: (error: string) => void
-  setRetry: (retry: number) => void
+  setRetry: (retry: React.SetStateAction<number>) => void
 }
 
 function Error(props: ErrorProps) {
@@ -32,7 +32,9 @@ function Error(props: ErrorProps) {
 
   const handleRetry = useCallback(() => {
     setError('')
-    setRetry((r) => r + 1)
+    setRetry((r) => {
+      return r + 1
+    })
   }, [setError, setRetry])
 
   if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE') {

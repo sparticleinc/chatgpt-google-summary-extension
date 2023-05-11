@@ -80,9 +80,10 @@ export const customizePromptKeyTakeaways = `What's key takeaways from the below?
 
 export const customizePromptExtractGist = `Extract the gist of the below.`
 
-export const replylanguagePrompt = (language: string) => {
-  return language === Language.Auto ? '' : `
-Please write in ${language} language.
+export const replylanguagePrompt = (language?: string) => {
+  const writeLanguage = (!language || language === Language.Auto) ? navigator.language : language
+  return `
+Write in ${writeLanguage} language.
 `
 }
 
@@ -221,12 +222,12 @@ export const qaPrompt = (lang: string) => {
 {context}
 
 Question: {question}
-Write in "${lang}" language.
+${replylanguagePrompt(lang)}
 Helpful Answer:`
     )])
 }
 
-export const qaSummaryPrompt = ({ question, answerList, language }: { question: string, answerList: string, language: string }) => {
+export const qaSummaryPrompt = ({ question, answerList, language }: { question: string, answerList: string, language?: string }) => {
   return `Answer list:  ${answerList}
 Query: ${question}
 Instructions: Using the {Answer list} content, first remove the useless information. In conjunction with the context, if there is an answer in {answer list} that best matches {Query}, return that answer directly, otherwise summarise the answer according to {Query}.
@@ -244,7 +245,7 @@ ${replylanguagePrompt(language)}
 `
 }
 
-export const qaChatGPTPrompt = ({ question, content, language }: { question: string, content: string, language: string }) => {
+export const qaChatGPTPrompt = ({ question, content, language }: { question: string, content: string, language?: string }) => {
 
 
   return content ? `Answer based on the following: ${question}.

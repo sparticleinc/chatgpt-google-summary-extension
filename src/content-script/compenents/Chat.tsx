@@ -79,7 +79,7 @@ function Chat(prop: Props) {
       const questionPrompt = qaSummaryPrompt({
         question,
         answerList: answerList.join(''),
-        language: userConfig?.language || 'en',
+        language: userConfig?.language,
       })
 
       const response = await fetch(`https://${apiHost}/v1/completions`, {

@@ -10,7 +10,13 @@ import { Answer } from '@/messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
 import { debounce } from 'lodash-es'
 import { shouldShowRatingTip } from '@/content-script/utils'
-import { getProviderConfigs, BOX_HEIGHT, getSessionValue, setSessionValue } from '@/config'
+import {
+  getProviderConfigs,
+  ProviderConfigs,
+  BOX_HEIGHT,
+  getSessionValue,
+  setSessionValue,
+} from '@/config'
 import '@/content-script/styles.scss'
 import Translation from './Translation'
 import Error from './Error'

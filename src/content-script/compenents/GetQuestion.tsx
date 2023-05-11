@@ -81,7 +81,7 @@ export default async function getQuestion() {
     const queryText = articlePrompt({
       title: articleTitle,
       content: content,
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
     })
 
     return {
@@ -110,7 +110,7 @@ export default async function getQuestion() {
     const queryText = articlePrompt({
       title: articleTitle,
       content: content,
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
     })
 
     return {
@@ -140,7 +140,7 @@ export default async function getQuestion() {
     const queryText = articlePrompt({
       title: articleTitle,
       content: content,
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
     })
 
     return {
@@ -170,7 +170,7 @@ export default async function getQuestion() {
     const queryText = articlePrompt({
       title: articleTitle,
       content: content,
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
     })
 
     return {
@@ -201,7 +201,7 @@ export default async function getQuestion() {
       title: articleTitle,
       prompt: githubPromptHighlight,
       content: content,
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
     })
 
     return {
@@ -240,7 +240,7 @@ export default async function getQuestion() {
     const queryText = articlePrompt({
       title: articleTitle,
       content: content,
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
       prompt: googlePatentsPromptHighlight,
     })
 
@@ -277,7 +277,7 @@ export default async function getQuestion() {
     const queryText = videoPrompt({
       title: videoTitle,
       transcript: getSummaryPrompt(transcript, providerConfigs),
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
       prompt: Instructions,
     })
 
@@ -321,7 +321,7 @@ export default async function getQuestion() {
     const queryText = videoPrompt({
       title: videoTitle,
       transcript: getSummaryPrompt(content, providerConfigs),
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
       prompt: Instructions,
     })
 
@@ -382,7 +382,7 @@ export default async function getQuestion() {
     const queryText = searchPrompt({
       query: searchInput.value,
       results: getSummaryPrompt(searchList, providerConfigs),
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
       prompt: Instructions,
     })
 
@@ -447,7 +447,7 @@ export default async function getQuestion() {
     const queryText = searchPrompt({
       query: searchInput.value,
       results: getSummaryPrompt(searchList, providerConfigs),
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
       prompt: Instructions,
     })
 
@@ -521,7 +521,7 @@ export default async function getQuestion() {
     const queryText = searchPrompt({
       query: searchInput.value,
       results: getSummaryPrompt(searchList, providerConfigs),
-      language: userConfig.language === Language.Auto ? language : userConfig.language,
+      language: userConfig.language,
       prompt: Instructions,
     })
 
