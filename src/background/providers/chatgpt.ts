@@ -91,7 +91,7 @@ export class ChatGPTProvider implements Provider {
     const messageId = uuidv4()
 
     const cleanup = () => {
-      if (conversationId) {
+      if (conversationId && !params.messageId) {
         // setConversationProperty(this.token, conversationId, { is_visible: userConfig.continueConversation })
         setConversationProperty(this.token, conversationId, { is_visible: false })
       }
