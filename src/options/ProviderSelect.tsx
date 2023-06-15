@@ -140,7 +140,9 @@ function ProviderSelect() {
   const models = [
     'gpt-3.5-turbo',
     'gpt-3.5-turbo-0301',
-    'text-davinci-003',
+    'gpt-3.5-turbo-0613',
+    'gpt-3.5-turbo-16k',
+    'text-davinci-003'
     // 'text-curie-001',
     // 'text-babbage-001',
     // 'text-ada-001',
