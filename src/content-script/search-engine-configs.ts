@@ -81,7 +81,7 @@ export const config: Record<string, SearchEngine> = {
   },
   kagi: {
     inputQuery: ["input[name='q']"],
-    sidebarContainerQuery: ['.right-content-box._0_right_sidebar'],
+    sidebarContainerQuery: ['.right-content-box > ._0_right_sidebar'],
     appendContainerQuery: ['#_0_app_content'],
     contentContainerQuery: [],
     siteName: 'kagi',
