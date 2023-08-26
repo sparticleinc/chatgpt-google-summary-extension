@@ -15,6 +15,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
   const [tab, setTab] = useState<ProviderType>(isSafari ? ProviderType.GPT3 : config.provider)
   const { bindings: apiKeyBindings } = useInput(config.configs[ProviderType.GPT3]?.apiKey ?? '')
   const { bindings: apiHostBindings } = useInput(config.configs[ProviderType.GPT3]?.apiHost ?? '')
+  const { bindings: apiPathBindings } = useInput(config.configs[ProviderType.GPT3]?.apiPath ?? '')
   const [model, setModel] = useState(config.configs[ProviderType.GPT3]?.model ?? models[0])
   const { setToast } = useToasts()
 
@@ -34,15 +35,26 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
     let apiHost = apiHostBindings.value || ''
     apiHost = apiHost.replace(/^http(s)?:\/\//, '')
 
+    const apiPath = apiPathBindings.value || ''
+
     await saveProviderConfigs(tab, {
       [ProviderType.GPT3]: {
         model,
         apiKey: apiKeyBindings.value,
         apiHost: apiHost,
+        apiPath: apiPath,
       },
     })
     setToast({ text: 'Changes saved', type: 'success' })
-  }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab])
+  }, [
+    apiHostBindings.value,
+    apiKeyBindings.value,
+    apiPathBindings.value,
+    model,
+    models,
+    setToast,
+    tab,
+  ])
 
   useEffect(() => {
     console.log('config', config)
@@ -82,6 +94,14 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                       scale={2 / 3}
                       clearable
                       {...apiHostBindings}
+                    />
+                    <Input
+                      htmlType="text"
+                      placeholder="/v1/chat/completions"
+                      label="API Path"
+                      scale={2 / 3}
+                      clearable
+                      {...apiPathBindings}
                     />
                     <Aselect
                       defaultValue={model}
@@ -142,7 +162,7 @@ function ProviderSelect() {
     'gpt-3.5-turbo-0301',
     'gpt-3.5-turbo-0613',
     'gpt-3.5-turbo-16k',
-    'text-davinci-003'
+    'text-davinci-003',
     // 'text-curie-001',
     // 'text-babbage-001',
     // 'text-ada-001',

@@ -24,6 +24,7 @@ export class OpenAIProvider implements Provider {
 
     const gptModel = config.configs[ProviderType.GPT3]?.model ?? DEFAULT_MODEL
     const apiHost = config.configs[ProviderType.GPT3]?.apiHost || DEFAULT_API_HOST
+    const apiPath = config.configs[ProviderType.GPT3]?.apiPath
 
     let url = ''
     let reqParams = {
@@ -35,10 +36,10 @@ export class OpenAIProvider implements Provider {
       // temperature: 0.5,
     }
     if (gptModel === 'text-davinci-003') {
-      url = `https://${apiHost}/v1/completions`
+      url = `https://${apiHost}${apiPath || '/v1/completions'}`
       reqParams = { ...reqParams, ...{ prompt: this.buildPrompt(params.prompt) } }
     } else {
-      url = `https://${apiHost}/v1/chat/completions`
+      url = `https://${apiHost}${apiPath || '/v1/chat/completions'}`
       reqParams = { ...reqParams, ...{ messages: this.buildMessages(params.prompt) } }
     }
 
