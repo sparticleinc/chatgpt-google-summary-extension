@@ -60,7 +60,7 @@ const userConfigWithDefaultValue: {
   pageSummaryEnable: true,
   pageSummaryWhitelist: '',
   pageSummaryBlacklist: '',
-  continueConversation: true
+  continueConversation: true,
 }
 
 export type UserConfig = typeof userConfigWithDefaultValue
@@ -84,6 +84,7 @@ interface GPT3ProviderConfig {
   model: string
   apiKey: string
   apiHost: string
+  apiPath: string | undefined
 }
 
 export interface ProviderConfigs {
