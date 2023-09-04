@@ -121,8 +121,8 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 
 ### Packages
 
-- [Chromium](packages/Glarity-chromium.zip)
-- [Firefox](packages/Glarity-firefox.zip)
+- [Chromium](packages/Glarity-chromium-beta.zip)
+- [Firefox](packages/Glarity-firefox-beta.zip)
 
 ### Chrome
 
