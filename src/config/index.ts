@@ -138,6 +138,7 @@ https://www.peacocktv.com
 https://www.crunchyroll.com
 https://www.funimation.com
 https://www.viki.com
+https://map.baidu.com
 `
 export const APP_TITLE = `Glarity Summary`
 
