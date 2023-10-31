@@ -1,12 +1,7 @@
 # Glarity - Summary for Google/YouTube with ChatGPT
 
-Chrome extension to view ChatGPT summaries alongside Google search results and YouTube videos, also supports Yahoo! ニュース、PubMed、PMC、NewsPicks、Github、Nikkei、 Bing、Google Patents,and any page summary.
-
-## ⚠️ Tips:
-
-If you cannot choose the OpenAI API model, please delete the plugin and reinstall it.
-
-Or You can try downloading the experience package ([https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages](https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages)) and adding it manually ([https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome](https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome)).
+Glarity Summary: an open-source ChatGPT Summary extension for YouTube, Google, Twitter, and any webpage. It provides cross-language summaries to effortlessly summarize videos, searches, PDFs, emails, and webpages. It supports free side-by-side translations, email writing assistance, Web Content Q&A, and much more
+Download the experience package ([https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages](https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages)) and adding it manually ([https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome](https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome)).
 
 ## Supported Websites
 
@@ -22,17 +17,19 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 - Google Patents
 - Bilibili
 - Any website
+  (summary list:https://blog.glarity.app/getting-started/user-guide/summary-list)
 
 ## Installation
 
 [Add from Chrome Web Store](https://chrome.google.com/webstore/detail/summary-for-google-with-c/cmnlolelipjlhfkhpohphpedmkfbobjc)
-
 [Add from Mozilla Add-on Store](https://addons.mozilla.org/zh-CN/firefox/addon/glarity/)
 
 ## Features
 
+- Side-by-Side Translation (mirror translation, immersive translate)
+- Gmail quick reply
 - Supports Google search
-- Supports YouTube
+- Supports YouTube （YouTube videos transcript, summary, key moment)
 - Supports Github
 - Supports Bing
 - Supports Yahoo! JAPAN ニュース
@@ -42,6 +39,7 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 - Supports Nikkei
 - Supports Google Patents
 - Support bilibili
+- Support twitter summary
 - Support summary of any web page
 - Support for iOS Safari/ macOS Safari
 - Supports the official OpenAI API (GPT-3.5-turbo/text-davinci-003)
@@ -52,6 +50,7 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 - Provide feedback to improve ChatGPT
 - Copy to clipboard
 - Switch languages
+- Glarity AI model
 
 ## Screenshot
 
@@ -110,7 +109,6 @@ Or You can try downloading the experience package ([https://github.com/sparticle
 ### How to make it work in Brave
 
 ![Screenshot](screenshots/brave.png?raw=true)
-
 Disable "Prevent sites from fingerprinting me based on my language preferences" in `brave://settings/shields`
 
 ## Build from source
