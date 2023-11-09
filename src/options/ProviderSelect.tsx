@@ -163,6 +163,7 @@ function ProviderSelect() {
     'gpt-3.5-turbo-0613',
     'gpt-3.5-turbo-16k',
     'text-davinci-003',
+    'gpt-3.5-turbo-1106'
     // 'text-curie-001',
     // 'text-babbage-001',
     // 'text-ada-001',
