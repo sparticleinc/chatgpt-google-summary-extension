@@ -98,6 +98,10 @@ export async function getProviderConfigs(): Promise<ProviderConfigs> {
   const { provider = ProviderType.ChatGPT } = await Browser.storage.local.get('provider')
   const configKey = `provider:${ProviderType.GPT3}`
   const result = await Browser.storage.local.get(configKey)
+  const configKeys = result[configKey]?.apiKey?.split(',').map(v => v.trim()) ?? []
+  const randomIndex = configKeys.length > 0 ? Math.floor(Math.random() * configKeys.length) : 0;
+  const apiKey = configKeys[randomIndex] ?? ''
+  result[configKey].apiKey = apiKey
   return {
     provider,
     configs: {
