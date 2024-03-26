@@ -57,7 +57,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^13.1.0",
     "npm-force-resolutions": "^0.0.10",
-    "postcss": "^8.4.20",
+    "postcss": "^8.4.31",
     "postcss-scss": "^4.0.6",
     "prettier": "^2.8.0",
     "prettier-plugin-organize-imports": "^3.2.1",
