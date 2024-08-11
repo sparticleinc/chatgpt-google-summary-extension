@@ -3,6 +3,15 @@
 Glarity Summary: an open-source ChatGPT Summary extension for YouTube, Google, Twitter, and any webpage. It provides cross-language summaries to effortlessly summarize videos, searches, PDFs, emails, and webpages. It supports free side-by-side translations, email writing assistance, Web Content Q&A, and much more
 Download the experience package ([https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages](https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages)) and adding it manually ([https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome](https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome)).
 
+## Sponsors
+
+
+<p align="center">
+  <a target="_blank" href="https://felo.ai">
+  <img alt="Felo AI"" src="https://felo.ai/blog/img-blog/logo.svg?sanitize=true" width="40">  <br />Felo AI
+  </a>
+</p>
+
 ## Supported Websites
 
 - Google

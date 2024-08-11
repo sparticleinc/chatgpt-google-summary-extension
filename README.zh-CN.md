@@ -8,6 +8,16 @@ Chrome 浏览器扩展实现在 Google 搜索结果和 YouTube 视频旁边展�
 
 或者尝试下载最新体验包 ([https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages](https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/main/packages)) 然后手动安装 ([https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome](https://github.com/sparticleinc/chatgpt-google-summary-extension#chrome)).
 
+## Sponsors
+
+
+<p align="center">
+  <a target="_blank" href="https://felo.ai">
+  <img alt="Felo AI"" src="https://felo.ai/blog/img-blog/logo.svg?sanitize=true" width="40">  <br />Felo AI
+  </a>
+</p>
+
+
 ## 支持网站
 
 - Google
