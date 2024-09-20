@@ -172,6 +172,15 @@ function ProviderSelect() {
   if (query.isLoading) {
     return <Spinner />
   }
+  
+  if (query.error) {
+    return <div>Error loading provider configurations.</div>
+  }
+
+  if (!query.data || !query.data.config) {
+    return <div>No provider configurations found.</div>
+  }
+
   return <ConfigPanel config={query.data!.config} models={models} />
 }
 
