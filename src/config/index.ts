@@ -102,6 +102,11 @@ export async function getProviderConfigs(): Promise<ProviderConfigs> {
   const randomIndex = configKeys.length > 0 ? Math.floor(Math.random() * configKeys.length) : 0;
   const apiKey = configKeys[randomIndex] ?? ''
   result[configKey].apiKey = apiKey
+  if (!result[configKey]) {
+    result[configKey] = {}
+  }
+  result[configKey].apiKey = apiKey
+
   return {
     provider,
     configs: {
